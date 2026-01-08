@@ -86,9 +86,9 @@ pnpm build
 pnpm dev:site
 ```
 
-预览地址：http://localhost:8999/
-单组件预览地址：http://localhost:8999/components/cosmic/button
-单组件单个 Demo 预览地址：http://localhost:8999/components/cosmic/button/default?platform=mobile
+预览地址：http://localhost:5173/
+单组件预览地址：http://localhost:5173/components/cosmic/button
+单组件单个 Demo 预览地址：http://localhost:5173/components/cosmic/button/default?platform=mobile
 
 说明：
 - `default` 代表 `button` 组件的 Demo 名字，对应 `src/button/doc/default.md`。Demo 名字由组件开发者自己决定。

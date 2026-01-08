@@ -1,7 +1,7 @@
 {
-  "name": "cosmic",
+  "name": "cosui",
   "version": "1.2.0",
-  "description": "",
+  "description": "A frontend UI solution for the AI era. Includes UI protocols, rendering SDKs, and component libraries for Generative UI, AI Agents, and LLM-powered applications.",
   "scripts": {
     "clean": "pnpm -r clean",
     "lint": "lint-staged",

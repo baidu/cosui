@@ -19,6 +19,7 @@ export default defineConfig((config => {
     process.env = {...process.env, ...loadEnv(config.mode, __dirname)};
     return {
         root: './src',
+        base: process.env.NODE_ENV_TYPE === 'production' ? '/cosui/' : '/',
         define: {
             '__NAME__': JSON.stringify('Cosmic Design'),
             'process.env.ASSISTANT_HOST': JSON.stringify(process.env.VITE_ASSISTANT_HOST)
