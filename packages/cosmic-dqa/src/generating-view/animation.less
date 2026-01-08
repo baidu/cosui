@@ -1,0 +1,247 @@
+@import (reference) 'tokens.less';
+
+.cosd-generating-view {
+    // 默认 16:9 的变量定义
+    --cosd-generating-view-scale-x: 1.08;
+    --cosd-generating-view-scale-y: 0.96;
+    --cosd-generating-view-blob1-size: 138%;
+    --cosd-generating-view-blob1-top: -36%;
+    --cosd-generating-view-blob1-left: -36%;
+    --cosd-generating-view-blob2-size: 126%;
+    --cosd-generating-view-blob2-bottom: -42%;
+    --cosd-generating-view-blob2-left: -12%;
+    --cosd-generating-view-blob3-size: 132%;
+    --cosd-generating-view-blob3-top: -30%;
+    --cosd-generating-view-blob3-right: -34%;
+    --cosd-generating-view-blob4-size: 124%;
+    --cosd-generating-view-blob4-bottom: -30%;
+    --cosd-generating-view-blob4-right: -40%;
+    --cosd-generating-view-blob-blur: 72px;
+    --cosd-generating-view-blob-opacity: 0.69;
+    --cosd-generating-view-blob-blend: screen;
+
+    // 不同比例的动画变量
+    &-1-1 {
+        --cosd-generating-view-scale-x: 1;
+        --cosd-generating-view-scale-y: 1;
+        --cosd-generating-view-blob1-size: 130%;
+        --cosd-generating-view-blob1-top: -32%;
+        --cosd-generating-view-blob1-left: -30%;
+        --cosd-generating-view-blob2-size: 122%;
+        --cosd-generating-view-blob2-bottom: -36%;
+        --cosd-generating-view-blob2-left: -10%;
+        --cosd-generating-view-blob3-size: 126%;
+        --cosd-generating-view-blob3-top: -26%;
+        --cosd-generating-view-blob3-right: -30%;
+        --cosd-generating-view-blob4-size: 118%;
+        --cosd-generating-view-blob4-bottom: -24%;
+        --cosd-generating-view-blob4-right: -32%;
+    }
+
+    &-4-3 {
+        --cosd-generating-view-scale-x: 1.08;
+        --cosd-generating-view-scale-y: 0.92;
+        --cosd-generating-view-blob1-size: 134%;
+        --cosd-generating-view-blob1-top: -34%;
+        --cosd-generating-view-blob1-left: -34%;
+        --cosd-generating-view-blob2-size: 128%;
+        --cosd-generating-view-blob2-bottom: -38%;
+        --cosd-generating-view-blob2-left: -6%;
+        --cosd-generating-view-blob3-size: 130%;
+        --cosd-generating-view-blob3-top: -28%;
+        --cosd-generating-view-blob3-right: -32%;
+        --cosd-generating-view-blob4-size: 122%;
+        --cosd-generating-view-blob4-bottom: -26%;
+        --cosd-generating-view-blob4-right: -34%;
+    }
+
+    &-3-4 {
+        --cosd-generating-view-scale-x: 0.94;
+        --cosd-generating-view-scale-y: 1.2;
+        --cosd-generating-view-blob1-size: 132%;
+        --cosd-generating-view-blob1-top: -36%;
+        --cosd-generating-view-blob1-left: -26%;
+        --cosd-generating-view-blob2-size: 128%;
+        --cosd-generating-view-blob2-bottom: -42%;
+        --cosd-generating-view-blob2-left: -6%;
+        --cosd-generating-view-blob3-size: 128%;
+        --cosd-generating-view-blob3-top: -30%;
+        --cosd-generating-view-blob3-right: -44%;
+        --cosd-generating-view-blob4-size: 120%;
+        --cosd-generating-view-blob4-bottom: -40%;
+        --cosd-generating-view-blob4-right: -26%;
+        --cosd-generating-view-blob-blend: normal;
+        --cosd-generating-view-blob-opacity: 0.74;
+    }
+
+    &-9-16 {
+        --cosd-generating-view-scale-x: 0.92;
+        --cosd-generating-view-scale-y: 1.3;
+        --cosd-generating-view-blob1-size: 118%;
+        --cosd-generating-view-blob1-top: -22%;
+        --cosd-generating-view-blob1-left: -16%;
+        --cosd-generating-view-blob2-size: 116%;
+        --cosd-generating-view-blob2-bottom: 5%;
+        --cosd-generating-view-blob2-left: -50%;
+        --cosd-generating-view-blob3-size: 118%;
+        --cosd-generating-view-blob3-top: -9%;
+        --cosd-generating-view-blob3-right: -14%;
+        --cosd-generating-view-blob4-size: 114%;
+        --cosd-generating-view-blob4-bottom: -4%;
+        --cosd-generating-view-blob4-right: -20%;
+        --cosd-generating-view-blob-blur: 73px;
+        --cosd-generating-view-blob-blend: normal;
+        --cosd-generating-view-blob-opacity: 0.76;
+    }
+
+
+    &-animation {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        margin: -20%;
+        width: 140%;
+        height: 140%;
+        transform: scale(var(--cosd-generating-view-scale-x), var(--cosd-generating-view-scale-y));
+        transform-origin: center;
+        pointer-events: none;
+
+        &-blob {
+            position: absolute;
+            aspect-ratio: 1 / 1;
+            .cos-rounded-full();
+            opacity: var(--cosd-generating-view-blob-opacity);
+            filter: blur(var(--cosd-generating-view-blob-blur));
+            mix-blend-mode: var(--cosd-generating-view-blob-blend, screen);
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-timing-function: ease-in-out;
+            animation-fill-mode: both;
+
+            &-1 {
+                top: var(--cosd-generating-view-blob1-top);
+                left: var(--cosd-generating-view-blob1-left);
+                width: var(--cosd-generating-view-blob1-size);
+                background: radial-gradient(circle at 30% 30%, rgba(186, 178, 255, 0.8), rgba(142, 130, 255, 0.22));
+                animation-name: cosd-generating-view-blob-1;
+                animation-duration: 9s;
+                animation-delay: -2s;
+            }
+
+            &-2 {
+                bottom: var(--cosd-generating-view-blob2-bottom);
+                left: var(--cosd-generating-view-blob2-left);
+                width: var(--cosd-generating-view-blob2-size);
+                background: radial-gradient(circle at 55% 40%, rgba(255, 206, 255, 0.78), rgba(250, 186, 232, 0.2));
+                animation-name: cosd-generating-view-blob-2;
+                animation-duration: 11s;
+                animation-delay: -5s;
+            }
+
+            &-3 {
+                top: var(--cosd-generating-view-blob3-top);
+                right: var(--cosd-generating-view-blob3-right);
+                width: var(--cosd-generating-view-blob3-size);
+                background: radial-gradient(circle at 45% 35%, rgba(168, 222, 255, 0.78), rgba(132, 194, 255, 0.2));
+                animation-name: cosd-generating-view-blob-3;
+                animation-duration: 10s;
+                animation-delay: -6s;
+            }
+
+            &-4 {
+                right: var(--cosd-generating-view-blob4-right);
+                bottom: var(--cosd-generating-view-blob4-bottom);
+                width: var(--cosd-generating-view-blob4-size);
+                background: radial-gradient(circle at 55% 55%, rgba(170, 238, 255, 0.76), rgba(124, 222, 234, 0.18));
+                animation-name: cosd-generating-view-blob-4;
+                animation-duration: 8s;
+                animation-delay: -3s;
+            }
+    }
+    }
+}
+
+// 一共包含四个圆形球，定义运动轨迹和大小变化
+@keyframes cosd-generating-view-blob-1 {
+    0% {
+        transform: translate3d(-24%, -18%, 0) scale(0.8);
+    }
+    22% {
+        transform: translate3d(14%, -12%, 0) scale(1.05);
+    }
+    44% {
+        transform: translate3d(26%, 10%, 0) scale(0.93);
+    }
+    66% {
+        transform: translate3d(-8%, 24%, 0) scale(1.08);
+    }
+    88% {
+        transform: translate3d(-22%, 8%, 0) scale(0.9);
+    }
+    100% {
+        transform: translate3d(-20%, -10%, 0) scale(1.12);
+    }
+}
+
+@keyframes cosd-generating-view-blob-2 {
+    0% {
+        transform: translate3d(-12%, 24%, 0) scale(0.88);
+    }
+    20% {
+        transform: translate3d(16%, -18%, 0) scale(1.05);
+    }
+    42% {
+        transform: translate3d(28%, -4%, 0) scale(1.12);
+    }
+    64% {
+        transform: translate3d(-22%, -12%, 0) scale(0.86);
+    }
+    86% {
+        transform: translate3d(-8%, 14%, 0) scale(1.02);
+    }
+    100% {
+        transform: translate3d(-18%, 24%, 0) scale(0.94);
+    }
+}
+
+@keyframes cosd-generating-view-blob-3 {
+    0% {
+        transform: translate3d(20%, -22%, 0) scale(0.86);
+    }
+    24% {
+        transform: translate3d(-18%, 10%, 0) scale(1.08);
+    }
+    48% {
+        transform: translate3d(6%, 24%, 0) scale(0.9);
+    }
+    72% {
+        transform: translate3d(22%, -10%, 0) scale(1.08);
+    }
+    92% {
+        transform: translate3d(-20%, -6%, 0) scale(0.88);
+    }
+    100% {
+        transform: translate3d(18%, -16%, 0) scale(1.05);
+    }
+}
+
+@keyframes cosd-generating-view-blob-4 {
+    0% {
+        transform: translate3d(10%, 18%, 0) scale(0.86);
+    }
+    22% {
+        transform: translate3d(-22%, -16%, 0) scale(1.08);
+    }
+    46% {
+        transform: translate3d(24%, -12%, 0) scale(0.92);
+    }
+    70% {
+        transform: translate3d(12%, 22%, 0) scale(1.1);
+    }
+    92% {
+        transform: translate3d(-16%, 8%, 0) scale(0.9);
+    }
+    100% {
+        transform: translate3d(8%, 18%, 0) scale(1.06);
+    }
+}

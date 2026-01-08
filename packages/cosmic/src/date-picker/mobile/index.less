@@ -1,0 +1,206 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import (reference) 'tokens.less';
+@import 'variable.less';
+
+
+.@{prefix}-date-picker {
+    position: relative;
+
+    &-entry {
+        .cos-flex();
+        .cos-rounded-sm();
+        .cos-items-center();
+        .cos-justify-between();
+        .cos-space-pt-xs();
+        .cos-space-pb-xs();
+        .cos-space-pl-sm();
+        .cos-space-pr-xs();
+        .cos-color-text-minor();
+        box-sizing: border-box;
+        border: 1px solid var(--cos-color-text-slim);
+        width: 100%;
+        height: 36px;
+
+        &-disabled {
+            .cos-color-bg-dent-disabled();
+            .cos-color-border-disabled();
+            .cos-color-text-slim();
+            .cos-opacity-40();
+        }
+
+        &-text {
+            .cos-color-text();
+        }
+
+        &-placeholder {
+            font-family: 'BaiduNumberPlus';
+        }
+    }
+
+    &-panel {
+        .cos-flex();
+        .cos-flex-col();
+        .cos-drawer-bottom {
+            border-top-left-radius: var(--cos-rounded-md);
+            border-top-right-radius: var(--cos-rounded-md);
+        }
+        .cos-drawer-close {
+            top: 15px;
+            right: 17px;
+            .cos-icon-close {
+                font-size: var(--cos-leading-headline-sm);
+                .cos-color-text();
+            }
+        }
+    }
+
+    &-header {
+        .cos-flex();
+    }
+    &-drawer-title {
+        .cos-font-medium();
+        .cos-color-text();
+        .cos-text-center();
+    }
+
+    &-month-header {
+        .cos-flex();
+        .cos-items-center();
+        .cos-color-bg-dent();
+        .cos-text-headline-sm();
+        .cos-space-p-xs();
+        box-sizing: border-box;
+        width: 100%;
+        height: 36px;
+    }
+
+    &-content {
+        margin-bottom: 99px;
+        width: 100%;
+    }
+
+    &-footer {
+        .cos-flex();
+        .cos-items-center();
+        .cos-color-bg();
+        .cos-space-p-md();
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 99px;
+        box-sizing: border-box;
+
+        .cos-button {
+            .cos-flex-1();
+        }
+    }
+    &-rolling {
+        .@{prefix}-date-picker {
+            &-title {
+                position: relative;
+            }
+            &-lunar-switcher {
+                position: absolute;
+                top: 50%;
+                left: 18px;
+                transform: translateY(-50%);
+            }
+            &-content {
+                .cos-space-mb-none();
+            }
+            &-content-rolling {
+                position: relative;
+                width: 100%;
+                height: 186px;
+                box-sizing: border-box;
+                .cos-space-pb-3xs();
+                .cos-space-pt-3xs();
+                .cos-space-pl-lg();
+                .cos-space-pr-lg();
+                &-range {
+                    .cos-space-mb-sm();
+                    .cos-space-p-lg();
+                    height: 211px;
+                }
+                .cos-picker {
+                    z-index: 1;
+                }
+            }
+            &-selected-box {
+                position: absolute;
+                top: 50%;
+                right: 18px;
+                left: 18px;
+                transform: translateY(-50%);
+                height: 40px;
+                .cos-color-bg-dent();
+                .cos-rounded-xs();
+            }
+            &-range {
+                .cos-space-mt-sm();
+                .cos-space-mb-xl();
+                padding: var(--cos-space-none) var(--cos-space-lg);
+            }
+            &-range-start,
+            &-range-split,
+            &-range-end {
+                .cos-flex();
+                .cos-flex-1();
+                .cos-items-center();
+                .cos-justify-center();
+                .cos-space-pl-xs();
+                .cos-space-pr-xs();
+                .cos-space-pt-xs();
+                .cos-space-pb-xs();
+                .cos-text-headline-sm();
+                .cos-font-medium();
+                .cos-color-text-slim();
+                border-bottom: 1px solid var(--cos-color-border);
+            }
+            &-range-filled {
+                .cos-color-text();
+            }
+            &-range-active {
+                .cos-color-text-primary();
+                border-bottom: 1px solid var(--cos-color-border-primary);
+            }
+            &-range-split {
+                .cos-flex-initial();
+                .cos-text-subtitle();
+                .cos-color-text();
+                border: none;
+                min-width: 42px;
+            }
+            &-footer {
+                position: initial;
+                border-top: .5px solid var(--cos-color-border-tiny);
+                height: 76px;
+                &-reset {
+                    margin-right: 8px;
+                }
+            }
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .@{prefix}-date-picker-selected-box {
+        color-scheme: dark;
+        background-color: #333;
+    }
+}

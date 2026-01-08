@@ -1,0 +1,15 @@
+<% list.forEach(function(item){ %>
+const <%= item.compName %> = require('<%= item.classPath %>');
+const <%= item.compName %>SSR = require('<%= item.renderPath %>');
+<% }); %>
+
+module.exports = {
+    <% list.forEach(function(item){ %>
+    <%= item.compName %>,
+    <% }); %>
+    sanSSRRenders: {
+        <% list.forEach(function(item){ %>
+        <%= item.compName %>: <%= item.compName %>SSR.sanSSRRenders.default,
+        <% }); %>
+    }
+};

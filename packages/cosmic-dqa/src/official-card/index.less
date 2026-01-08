@@ -1,0 +1,350 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+@center-logo-mount-width: 196px;
+@center-logo-mount-height: 300px;
+@center-logo-size: 96px;
+
+.@{prefix}-official-card {
+    .cos-block();
+    &-multi {
+        position: relative;
+        overflow: hidden;
+        border: 0.33px solid var(--cos-image-color-border, rgba(220, 221, 224, 0.30));
+        width: 100%;
+        height: 214px;
+        .cos-flex();
+        .cos-items-center();
+        .cos-justify-center();
+        .cos-rounded-sm();
+        .cos-color-bg-page();
+        &-wrapper {
+            .cos-flex();
+            transform: rotate(-45deg);
+        }
+        &-box {
+            .cos-space-ml-xxs();
+            &:nth-child(1) {
+                margin-top: 98px;
+                .cos-space-ml-none();
+            }
+            &:nth-child(3) {
+                margin-top: 98px;
+            }
+        }
+        &-img {
+            .cos-space-mt-xxs();
+            border: 1px solid #fff;
+            width: 119px;
+            height: 202px;
+            .cos-rounded-md();
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 0px 6px 6px 0px rgba(0, 0, 0, 0.05);
+            &:nth-child(1) {
+                .cos-space-mt-none();
+            }
+        }
+    }
+
+    &-mask {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        .cos-flex();
+        .cos-flex-col();
+    }
+
+    &-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: var(--cos-space-md) var(--cos-space-sm) var(--cos-space-sm) var(--cos-space-sm);
+        width: 100%;
+        box-sizing: border-box;
+    }
+    &-content {
+        min-width: 0;
+        .cos-flex();
+    }
+
+    &-info {
+        min-width: 0;
+        .cos-color-text-inverse();
+        .cos-flex-1();
+        &-top {
+            .cos-flex();
+            .cos-items-center();
+            .cos-justify-between();
+        }
+        &-bottom {
+            .cos-flex();
+            .cos-items-center();
+            .cos-justify-between();
+            margin-top: 4.5px;
+            margin-bottom: -4px;
+        }
+        &-score {
+            .cos-text-subtitle();
+            .cos-space-mr-xxs();
+            .cos-font-number-medium();
+            .cos-shrink-0();
+            line-height: 25px;
+        }
+        &-title {
+            .cos-flex();
+            .cos-items-center();
+            margin-top: -4.5px;
+            &-text {
+                .cos-text-body-lg();
+                .cos-line-clamp-1();
+                .cos-font-medium();
+                .cos-space-ml-xxs();
+                .cos-color-text-on-primary();
+            }
+        }
+
+        &-website {
+            .cos-line-clamp-1();
+            .cos-text-body();
+            margin-bottom: -4.5px;
+        }
+
+        &-introduction {
+            .cos-flex();
+            .cos-items-center();
+            margin-top: 1px;
+            margin-bottom: -4.5px;
+        }
+
+        &-caption {
+            .cos-color-text-tiny-inverse();
+            .cos-text-caption();
+            .cos-line-clamp-1();
+        }
+    }
+    &-logo {
+        width: calc(57px * var(--font-size-scale, 1));
+        .cos-space-mr-xs();
+        .cos-shrink-0();
+    }
+    &-button {
+        width: 57px;
+        height: 30px;
+        .cos-shrink-0();
+        // 不能使用token，因为暗黑模式下需要不变色
+        color: #272933;
+        .cos-space-ml-sm();
+        background-color: #fff;
+        &:active {
+            .cos-opacity-20();
+        }
+    }
+    &-button-wrapper {
+        .cos-flex();
+        .cos-items-end();
+        .cos-flex-col();
+    }
+    &-settings {
+        .cos-flex();
+        .cos-items-center();
+        .cos-shrink-0();
+        .cos-space-ml-xs();
+        min-width: 69px;
+    }
+    &-setting {
+        .cos-color-text-tiny-inverse();
+        .cos-text-caption();
+        .cos-space-ml-xxs();
+        &:visited {
+            .cos-color-text-tiny-inverse();
+        }
+        &:nth-child(1) {
+            .cos-space-ml-none();
+        }
+    }
+    &-no-bg &-overlay {
+        position: relative;
+        .cos-color-bg-dent();
+        .cos-space-p-xs();
+        .cos-rounded-md();
+    }
+    &-no-bg &-overlay &-content {
+        .cos-items-center();
+    }
+    &-no-bg &-overlay &-info {
+        position: relative;
+        .cos-color-bg-dent();
+        .cos-space-p-none();
+        .cos-color-text-minor();
+        margin-top: 1px;
+        &-title {
+            .cos-space-mt-none();
+            &-text {
+                .cos-color-text();
+                .cos-space-ml-none();
+                font-size: var(--cos-text-body);
+                line-height: 16px;
+            }
+            &-tag {
+                .cos-space-mr-xxs();
+            }
+        }
+        &-score {
+            .cos-color-text-alive();
+            font-size: var(--cos-text-body);
+            line-height: 14px;
+        }
+        &-text {
+            line-height: 14px;
+        }
+        &-introduction {
+            .cos-space-mt-xxs();
+            .cos-space-mb-none();
+        }
+    }
+    &-no-bg &-overlay &-info-bottom {
+        .cos-space-mt-xs();
+    }
+    &-no-bg &-overlay &-button {
+        .cos-color-bg();
+        .cos-button-content {
+            .cos-color-text-tiny();
+        }
+    }
+
+    &-no-bg &-overlay &-info-caption {
+        .cos-color-text-minor();
+    }
+    &-no-bg &-overlay &-setting {
+        .cos-color-text-minor();
+    }
+    &:hover {
+        .cos-no-underline();
+    }
+    &-centered {
+        &-box {
+            .cos-image-content {
+                .cos-space-pl-xxl();
+                .cos-flex();
+                .cos-items-center();
+                .cos-justify-between();
+            }
+            &-content {
+                .cos-color-text();
+                overflow: hidden;
+                &-title {
+                    .cos-space-mt-xs();
+                    .cos-font-medium();
+                    .cos-line-clamp-2();
+                    line-height: var(--cos-leading-headline);
+                    font-size: var(--cos-text-headline);
+                    .cos-color-text()
+                }
+                &-introduction {
+                    .cos-space-mt-xxs();
+                    .cos-color-text-minor();
+                    .cos-font-regular();
+                    .cos-line-clamp-1();
+                    font-size: var(--cos-text-subtitle);
+                    line-height: var(--cos-text-subtitle);
+                }
+                &-tag {
+                    .cos-space-mt-sm();
+                    .cos-flex();
+                    .cos-flex-wrap();
+                    gap: var(--cos-space-3xs) var(--cos-space-xxs);
+                    .cos-tag {
+                        .cos-space-mr-none();
+                        .cos-space-pr-3xs();
+                        .cos-space-pl-3xs();
+                    }
+                }
+            }
+            &-logo {
+                align-self: flex-end;
+                &-mount {
+                    .cos-rounded-none();
+                    width: @center-logo-mount-width;
+                    height: @center-logo-mount-height;
+                    box-sizing: border-box;
+                    &::before {
+                        border: none;
+                    }
+                    img {
+                        width: @center-logo-mount-width;
+                        height: @center-logo-mount-height;
+                    }
+                    .cos-image-content {
+                        .cos-space-pl-none();
+                        .cos-flex();
+                        .cos-justify-center();
+                        .cos-items-end();
+                        padding-bottom: 59px;
+                    }
+                    &-img {
+                        width: @center-logo-size;
+                        height: @center-logo-size;
+                        img {
+                            width: @center-logo-size;
+                            height: @center-logo-size;
+                            .cos-rounded-lg();
+                            object-fit: contain;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@{dark-selectors} {
+    .@{prefix}-official-card-centered-box-content {
+        &-title {
+            /* cosmic-token-disable-next-line */
+            color: #000311;
+        }
+        &-introduction {
+            /* cosmic-token-disable-next-line */
+            color: #848691;
+        }
+    }
+}
+
+// android 夜间模式且屏蔽系统内核映射
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-official-card-centered-box-content {
+            &-title {
+                color-scheme: dark;
+
+                /* cosmic-token-disable-next-line */
+                color: #000311;
+            }
+            &-introduction {
+                color-scheme: dark;
+
+                /* cosmic-token-disable-next-line */
+                color: #848691;
+            }
+        }
+    }
+}

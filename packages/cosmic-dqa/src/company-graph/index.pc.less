@@ -1,0 +1,256 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import (reference) 'tokens.less';
+
+.@{prefix}-company-graph {
+    &-container {
+        .cos-flex();
+        .cos-flex-col();
+        .cos-items-center();
+        .cos-justify-center();
+        .cos-rounded-sm();
+        border: 0.5px solid var(--cos-color-border-minor);
+        height: 214px;
+        text-decoration: none;
+        color: inherit;
+        &:link, &:visited, &:hover, &:active {
+            text-decoration: none;
+            color: inherit;
+        }
+    }
+    &-main-node {
+        max-width: 100%;
+        &-box {
+            width: 100%;
+            box-sizing: border-box;
+            .cos-rounded-xs();
+            .cos-space-p-xs();
+            .cos-color-bg-primary();
+            .cos-inline-block();
+        }
+        &-name {
+            .cos-line-clamp-1();
+            .cos-text-caption();
+            .cos-color-text();
+            .cos-leading-none();
+            .cos-color-text-on-primary();
+        }
+    }
+    &-child {
+        position: relative;
+        .cos-flex();
+        .cos-flex-col();
+        .cos-items-center();
+        &-node-group {
+            .cos-flex();
+        }
+        &-vertical-line {
+            border: 0.5px solid var(--cos-color-border-primary-light);
+            width: 0;
+            height: 9px;
+        }
+        &-horizontal-line {
+            position: absolute;
+            border: 0.5px solid var(--cos-color-border-primary-light);
+            height: 0;
+        }
+    }
+    &-inbound-child {
+        .cosd-company-graph-child-node-group {
+            .cos-items-start();
+            .cosd-company-graph-child-node {
+                .cos-icon-caret-down {
+                    top: -10px;
+                }
+                &-relation {
+                    top: 6px;
+                }
+            }
+        }
+        .cosd-company-graph-child-horizontal-line {
+            bottom: 9px;
+        }
+    }
+    &-outbound-child {
+        .cosd-company-graph-child-node-group {
+            .cos-items-end();
+            .cosd-company-graph-child-node {
+                .cos-icon-caret-down {
+                    bottom: -10px;
+                }
+                &-relation {
+                    bottom: 6px;
+                }
+            }
+        }
+        .cosd-company-graph-child-horizontal-line {
+            top: 9px;
+        }
+    }
+    .cosd-company-graph-child-1.cosd-company-graph-inbound-child {
+        .cos-icon-caret-down {
+            top: -5px;
+        }
+        .cosd-company-graph-child-node-relation {
+            top: 10px;
+        }
+    }
+    .cosd-company-graph-child-1.cosd-company-graph-outbound-child {
+        .cos-icon-caret-down {
+            bottom: -5px;
+        }
+        .cosd-company-graph-child-node-relation {
+            bottom: 10px;
+        }
+    }
+}
+
+.@{prefix}-company-graph-child-node {
+    .cos-flex();
+    .cos-flex-col();
+    .cos-items-center();
+    &:not(:first-child) {
+        .cos-space-ml-3xs();
+    }
+    &-box {
+        .cos-flex();
+        .cos-flex-col();
+        .cos-items-center();
+        .cos-justify-center();
+        .cos-rounded-xs();
+        .cos-color-bg-primary-light();
+        box-sizing: border-box;
+        border: 0.5px solid var(--cos-color-border-primary-light);
+    }
+    &-name {
+        max-width: 100%;
+        .cos-text-caption();
+        .cos-color-text();
+        .cos-line-clamp-1();
+        .cos-leading-none();
+    }
+    &-caption {
+        max-width: 100%;
+        .cos-space-mt-xxs();
+        .cos-color-text-minor();
+        .cos-text-caption-sm();
+        .cos-line-clamp-1();
+        .cos-leading-none();
+    }
+    .cos-icon-caret-down {
+        position: absolute;
+        left: -21px;
+
+        /* cosmic-token-disable-next-line */
+        font-size: 42px;
+        .cos-leading-none();
+        .cos-color-text-primary();
+    }
+    &-relation {
+        position: absolute;
+        left: 9px;
+        white-space: nowrap;
+        .cos-text-caption();
+        .cos-leading-none();
+    }
+    &-vertical-line {
+        position: relative;
+        border: 0.5px solid var(--cos-color-border-primary-light);
+        width: 0;
+        height: 22px;
+    }
+}
+
+.@{prefix}-company-graph-md {
+    .cosd-company-graph-child {
+        &-1 {
+            .cosd-company-graph-child-node {
+                &-box {
+                    padding: var(--cos-space-xs);
+                    min-width: 180px;
+                }
+                &-vertical-line {
+                    height: 32px;
+                }
+            }
+        }
+        &-2 {
+            .cosd-company-graph-child-node {
+                &:not(:first-child) {
+                    .cos-space-ml-xxs();
+                }
+                &-box {
+                    padding: var(--cos-space-xs);
+                    width: 177px;
+                }
+            }
+            .cosd-company-graph-child-horizontal-line {
+                width: calc(100% - 177px);
+            }
+        }
+        &-3 {
+            .cosd-company-graph-child-node {
+                &:not(:first-child) {
+                    .cos-space-ml-3xs();
+                }
+                &-box {
+                    padding: var(--cos-space-xs) var(--cos-space-3xs);
+                    width: 118px;
+                }
+                &:nth-child(2) {
+                    .cosd-company-graph-child-node-vertical-line {
+                        height: 32px;
+                    }
+                }
+            }
+            .cosd-company-graph-child-horizontal-line {
+                width: calc(100% - 118px);
+            }
+        }
+    }
+}
+
+.@{prefix}-company-graph-sm {
+    .cosd-company-graph-child {
+        &-1 {
+            .cosd-company-graph-child-node {
+                .cosd-company-graph-child-node-vertical-line {
+                    height: 32px;
+                }
+            }
+        }
+        &-3 {
+            .cosd-company-graph-child-node:nth-child(2) {
+                .cosd-company-graph-child-node-vertical-line {
+                    height: 32px;
+                }
+            }
+        }
+    }
+    .cosd-company-graph-child-node {
+        &:not(:first-child) {
+            .cos-space-ml-sm();
+        }
+        &-box {
+            padding: var(--cos-space-xs) var(--cos-space-3xs);
+            width: 102px;
+        }
+    }
+    .cosd-company-graph-child-horizontal-line {
+        width: calc(100% - 102px);
+    }
+}

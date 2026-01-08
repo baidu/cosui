@@ -1,0 +1,28 @@
+@import (reference) 'tokens.less';
+
+.cos-tooltip {
+    width: fit-content;
+}
+
+.cos-tooltip-trigger {
+    
+    .cos-tooltip-link {
+        .cos-color-text-inverse();
+    }
+    .cos-tooltip-link-pc {
+        .cos-color-text();
+        span {
+            .cos-color-text-link();
+        }
+    }
+    .cos-icon {
+        .cos-inline-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        .cos-rounded-full();
+        width: 18px;
+        height: 18px;
+        line-height: var(--cos-text-subtitle-sm);
+        .cos-color-bg-inverse();
+    }
+}

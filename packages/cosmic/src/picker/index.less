@@ -1,0 +1,89 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import (reference) 'tokens.less';
+@import 'variable.less';
+
+.@{prefix}-picker {
+    position: relative;
+    height: 100%;
+    &:before, &:after {
+        content: '';
+        position: absolute;
+        right: 0;
+        left: 0;
+        z-index: 1;
+        height: 48px;
+        pointer-events: none;
+        // 开启GPU渲染，解决选项在蒙层上下渲染闪烁问题
+        transform: translateZ(0);
+    }
+
+    &:before {
+        top: 0;
+        background: linear-gradient(to bottom, var(--cos-color-bg), rgba(255, 255, 255, 0));
+    }
+
+    &:after {
+        bottom: 0;
+        background: linear-gradient(to top, var(--cos-color-bg), rgba(255, 255, 255, 0));
+    }
+    &-columns {
+        height: 100%;
+    }
+    &-column {
+        .cos-flex-1();
+        overflow: scroll;
+        height: 100%;
+        scrollbar-width: none;
+        scroll-snap-type: y mandatory;
+        &::-webkit-scrollbar {
+            .cos-hidden();
+        }
+        &-scroll {
+            padding: 70px var(--cos-space-none);
+        }
+        &-item {
+            .cos-flex();
+            .cos-items-center();
+            .cos-justify-center();
+            .cos-text-body-lg();
+            .cos-text-center();
+            .cos-color-text-slim();
+            scroll-snap-align: center;
+            scroll-snap-stop: normal;
+            box-sizing: border-box;
+            height: 38px;
+            white-space: nowrap;
+        }
+        &-item-active {
+            .cos-text-subtitle();
+            .cos-color-text();
+            .cos-font-medium();
+        }
+    }
+}
+@{dark-selectors} {
+    .@{prefix}-picker {
+        &:before {
+            background: linear-gradient(to bottom, var(--cos-color-bg), rgba(255, 255, 255, 0));
+        }
+        &:after {
+            background: linear-gradient(to top, var(--cos-color-bg), rgba(255, 255, 255, 0));
+        }
+    }
+}
+

@@ -1,0 +1,223 @@
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+@keyframes lineChange {
+    0%,
+    100% {
+        transform: scaleY(0.3);
+    }
+    25% {
+        transform: scaleY(0.7);
+    }
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+.tag-default-demo {
+    h4 {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+    }
+
+    .cos-icon {
+        .cos-space-mr-3xs();
+    }
+
+    > div {
+        .cos-space-mb-xxl();
+        .cos-flex();
+        gap: var(--cos-space-lg);
+    }
+
+    .new {
+        background-color: var(--cos-amber-0, #ffb111);
+    }
+
+    .hot {
+        background-color: var(--cos-orange-0);
+    }
+
+    .boil {
+        background-color: var(--cos-red-0);
+    }
+
+    .burst {
+        background-color: var(--cos-red-1);
+    }
+
+    .business {
+        background-color: var(--cos-blue-0);
+    }
+
+    .vip {
+        background-color: var(--cos-amber-0, #ffb111);
+    }
+}
+
+.tag-live-demo {
+    .cos-flex-wrap();
+    &-living {
+        position: relative;
+        .cos-flex();
+        .cos-items-center();
+        .cos-space-mr-3xs();
+        width: 12px;
+        // 为了让高度与右侧对齐字体高度一致，这里使用1em
+        height: 1em;
+
+        &-line {
+            position: absolute;
+            border-radius: 2px;
+            width: 2px;
+            height: calc(100% - 3px);
+            background-color: #fff;
+            animation: lineChange 680ms linear infinite;
+
+            &-first {
+                left: 1.5px;
+                animation-delay: -340ms;
+            }
+
+            &-second {
+                left: 5px;
+                animation-delay: -170ms;
+            }
+
+            &-third {
+                left: 8.5px;
+            }
+        }
+
+        &.red-line {
+            .tag-live-demo-living-line {
+                .cos-color-bg-error();
+            }
+        }
+    }
+
+    .tag-icon-only {
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        padding-right: 2px;
+        padding-left: 2px;
+        width: calc(16px * var(--font-size-scale, 1));
+        .tag-live-demo-living {
+            .cos-space-mr-none();
+        }
+    }
+}
+
+.tag-main-info,
+.tag-detail-info {
+    .cos-items-center();
+    .cos-space-pl-3xs();
+    .cos-space-pr-3xs();
+}
+
+.tag-main-info {
+    .cos-flex();
+    .cos-space-ml-none();
+    border-top-left-radius: var(--cos-rounded-xxs);
+    border-bottom-left-radius: var(--cos-rounded-xxs);
+}
+
+.tag-detail-info {
+    .cos-space-mr-none();
+    border-top-right-radius: var(--cos-rounded-xxs);
+    border-bottom-right-radius: var(--cos-rounded-xxs);
+}
+
+.tag-rank {
+    border-color: var(--cos-tan--5);
+    color: var(--cos-amber-2);
+    background-color: var(--cos-tan--5);
+
+    // 提高样式优先级，确保覆盖原有cos-tag的样式
+    &-pl-none {
+        .cos-space-pl-none();
+    }
+
+    &-icon {
+        width: calc(16px * var(--font-size-scale, 1));
+        .cos-space-mr-3xs();
+        .cos-color-bg-warning-light-active();
+        color: var(--cos-amber-2);
+
+        &-hot-fill {
+            font-size: var(--cos-text-caption);
+        }
+
+        &-top-list {
+            font-size: 13px;
+        }
+    }
+
+    a {
+        .cos-inline-flex();
+        .cos-items-center();
+        text-decoration: none;
+        color: var(--cos-amber-2);
+        &:hover,
+        &:focus,
+        &:active,
+        &:visited {
+            text-decoration: none;
+            color: var(--cos-amber-2);
+        }
+    }
+}
+
+// 结果页场景自行替换暗黑 class，如 .darkmode
+.cos-dark {
+    .tag-rank {
+        color: var(--cos-amber-1);
+        .cos-color-bg-warning-light();
+
+        &-icon {
+            color: var(--cos-amber-1);
+            .cos-color-bg-warning-light-active();
+        }
+
+        a {
+            color: var(--cos-amber-1);
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-tag {
+            // 红色动画条直播标签
+            .cos-color-bg-error-light.cos-color-text-on-error-light:has(.tag-live-demo-living.red-line) {
+                color-scheme: dark;
+                .cos-color-bg-error();
+            }
+
+            // 直播标签
+            .tag-live-demo-living:not(.red-line) .tag-live-demo-living-line {
+                color-scheme: dark;
+                background-color: #8f8f8f;
+            }
+        }
+
+        // 榜单标签
+        .tag-rank {
+            color-scheme: dark;
+            color: #69480b;
+            background-color: #371f09;
+
+            &-icon {
+                color: #69480b;
+                background-color: rgba(122, 61, 0, 0.2);
+            }
+
+            a {
+                color: #69480b;
+            }
+        }
+    }
+}

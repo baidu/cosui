@@ -1,0 +1,99 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-fold-switch {
+    position: relative;
+    .cos-flex();
+    .cos-justify-center();
+    .cos-items-center();
+
+    &-mask {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 80px;
+
+        // 渐变豁免，可以不使用 token
+        background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .93) 50%, var(--cos-color-bg) 70%);
+    }
+
+    &-context {
+        z-index: 1;
+        overflow: hidden;
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        width: 100%;
+        height: 40px;
+        box-sizing: border-box;
+        .cos-text-center();
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    &-text {
+        position: relative;
+        z-index: 1;
+        .cos-color-text();
+        .cos-text-body();
+    }
+
+    &-icon {
+        position: relative;
+        z-index: 1;
+        .cos-space-ml-3xs();
+        font-size: var(--cos-text-body-lg);
+        .cos-color-text();
+        vertical-align: middle;
+    }
+}
+
+@{dark-selectors} {
+    .@{prefix}-fold-switch {
+        &-mask {
+            background: linear-gradient(rgba(22, 22, 22, 0) 0%, rgba(22, 22, 22, .8) 50%, var(--cos-color-bg) 70%);
+        }
+    }
+}
+
+.cos-fresh {
+    @{dark-selectors} {
+        .@{prefix}-fold-switch-mask {
+            background: linear-gradient(rgba(8, 8, 8, 0) 0%, rgba(8, 8, 8, .8) 50%, var(--cos-color-bg) 70%);;
+        }
+    }
+}
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-fold-switch {
+            &-mask {
+                color-scheme: dark;
+                background: linear-gradient(rgba(25, 25, 25, 0) 0%, rgba(25, 25, 25, .8) 50%, rgba(25, 25, 25, 1) 70%);
+            }
+        }
+    }
+}
+
+@{dark-browser-selectors} .@{prefix}-fold-switch {
+    &-mask {
+        background: linear-gradient(rgba(25, 25, 25, 0) 0%, rgba(25, 25, 25, .8) 50%, rgba(25, 25, 25, 1) 70%) !important;
+    }
+}

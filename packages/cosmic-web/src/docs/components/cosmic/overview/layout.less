@@ -1,0 +1,67 @@
+@import (reference) 'tokens.less';
+
+.title {
+    font-size: 24px;
+}
+
+.group {
+    width: 100%;
+}
+
+.group-title {
+    .cos-text-headline();
+    .cos-color-text();
+    line-height: var(--cos-leading-caption-sm);
+    padding: var(--cos-space-md) var(--cos-space-none);
+    .cos-space-mt-xs()
+}
+
+.card-container {
+    align-items: flex-start;
+    width: 100%;
+    .cos-flex();
+    align-content: flex-start;
+    gap: 18px;
+    align-self: stretch;
+    flex-wrap: wrap;
+}
+
+.button-footer {
+    .cos-flex();
+    .cos-justify-between();
+    align-items: flex-start;
+    align-self: stretch;
+    margin-top: 40px;
+}
+
+.button-base {
+    .cos-flex();
+    border: 1px solid var(--cos-color-border-minor);
+    padding: 8px var(--cos-space-3xl, 27px);
+    width: 300px;
+    height: 60px;
+    .cos-items-center();
+    gap: var(--cos-space-xxs, 6px);
+    .cos-rounded-sm();
+    .cos-color-bg();
+    .cos-color-text-tiny();
+    .cos-text-center();
+    font-family: "PingFang SC";
+    .cos-text-subtitle-sm();
+    .cos-font-medium();
+    line-height: 14px;
+
+    &:hover {
+        cursor: pointer;
+        .cos-color-bg-hover();
+    }
+}
+
+.button-left {
+    .button-base();
+}
+
+.button-right {
+    .button-base();
+    justify-content: flex-end;
+}

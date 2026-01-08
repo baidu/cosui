@@ -1,0 +1,132 @@
+@import (reference) 'tokens.less';
+
+.head-switcher {
+    position: relative;
+    .cos-color-bg();
+    z-index: 800;
+    width: calc(100vw - 135px - var(--web-main-margin-right));
+
+    &-left {
+        font-size: var(--cos-text-subtitle-sm);
+        line-height: var(--cos-leading-headline-sm);
+    }
+
+    &-title {
+        font-weight: var(--cos-font-medium);
+    }
+
+    &-show svg{
+        cursor: pointer;
+        .cos-color-text-primary();
+    }
+
+    &-top {
+        font-size: var(--cos-text-subtitle-sm);
+        line-height: var(--cos-leading-headline-sm);
+        .cos-flex();
+        row-gap: 10px;
+        column-gap: 56px;
+        flex-wrap: wrap;
+        .switcher-item {
+            .cos-flex();
+            gap: var(--cos-space-md);
+            .cos-space-mt-xs();
+    
+            .title {
+                display: inline-block;
+                font-size: var(--cos-text-subtitle-sm);
+                line-height: 33px;
+                .cos-color-text-minor();
+            }
+            .cos-button {
+                cursor: pointer;
+                .cos-rounded-sm();
+                overflow: hidden;
+                border-width: 0;
+                padding: var(--cos-space-none) var(--cos-space-sm);
+                width: fit-content;
+                height: 33px;
+                .cos-font-medium();
+                .cos-color-bg-dent();
+                .cos-color-text();
+                font-weight: var(--cos-font-regular);
+            }
+
+            .cos-button.selected {
+                .cos-color-bg-primary-light();
+                .cos-color-text-primary();
+            }
+        }
+    
+    }
+
+
+    .head-switcher-bottom {
+        .cos-space-mt-sm();
+
+        .cos-checkbox {
+            height: 30px;
+            line-height: 30px;
+            .cos-space-pl-xxs();
+            .cos-space-pr-xxs();
+            .cos-rounded-xs();
+            .cos-items-center();
+            .cos-color-bg-dent();
+            .cos-checkbox-label {
+                font-size: var(--cos-text-body);
+            }
+        }
+    }
+
+}
+
+
+.outline-redirect {
+    .cos-space-mt-sm();
+    border-bottom: 1px solid var(--cos-color-border-minor);
+
+    .cos-tabs
+    .cos-tabs-header-container
+    .cos-tab {
+        .cos-text-headline-sm();
+        .cos-text-center();
+        flex-grow: 1;
+        .cos-block();
+        .cos-flex();
+        .cos-justify-center();
+        .cos-rounded-full();
+        .cos-font-regular();
+        .cos-space-pb-none();
+        
+
+    
+        &.cos-tab-active {
+            .cos-color-bg();
+            .cos-font-medium();
+            border: none;
+            div {
+                .cos-color-border-active();
+            }
+        }
+    
+        div {
+            width: 100%;
+            .cos-space-pb-sm();
+            .cos-space-pt-sm();
+            cursor: pointer;
+        }
+        
+    }
+    
+}
+
+.fixed-content {
+    // 吸顶固定层，防止定位发生变化导致大纲锚点跳转不准
+    width: calc(100vw - 135px - var(--web-main-margin-right));
+    min-height: 70px;
+}
+
+.switcher-fixed {
+    position: fixed;
+    top: 56px;
+}

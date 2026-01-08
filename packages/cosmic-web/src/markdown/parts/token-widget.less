@@ -1,0 +1,218 @@
+@import (reference) 'tokens.less';
+
+.md-token-widget-head-title {
+    .cos-color-bg-dent();
+    th {
+        height: 70px;
+        line-height: var(--cos-leading-caption);
+        font-size: var(--cos-leading-body-lg-higher);
+        font-weight: var(--cos-font-medium);
+    }
+}
+
+.platte-container {
+    .cos-flex();
+    .cos-flex-wrap();
+    .cos-justify-between();
+    .cos-space-pl-xxs();
+    .cos-space-pr-xxs();
+    .cos-space-mt-xxl();
+    gap: 30px;
+
+    .color-picker-card {
+        width: 22%;
+        min-width: 340px;
+
+        &-head {
+            .cos-space-pl-xl();
+            .cos-space-pr-xl();
+            .cos-space-pt-xs();
+            .cos-space-pb-xs();
+            .cos-color-text-inverse();
+
+            &-sample {
+                
+                .cos-flex();
+                .cos-justify-between();
+
+                span {
+                    height: 14px;
+                    font-size: var(--cos-text-subtitle-sm);
+                    line-height: 14px;
+                }
+            }
+
+        }
+
+        &-title {
+            font-size: var(--cos-text-headline-sm);
+            .cos-space-mb-xs();
+        }
+
+        &-item {
+            .cos-space-pl-xl();
+            .cos-space-pr-xl();
+            .cos-space-pb-md();
+            .cos-space-pt-md();
+            .cos-flex();
+            .cos-justify-between();
+            transition: transform .3s ease-out;
+            cursor: pointer;
+
+            span {
+                height: 14px;
+                font-size: var(--cos-text-subtitle-sm);
+                line-height: 14px;
+            }
+
+            &:hover {
+                transform: scale(1.04);
+            }
+        }
+        
+    }
+}
+
+
+
+.web-main-content-container-token {
+    max-width: unset !important;
+}
+
+.fit-width-container {
+    flex: 1;
+}
+
+.md-token-widget-table-wrapper {
+    overflow-x: auto;
+    table {
+        .cos-space-mt-none();
+    }
+}
+
+.md-token-widget-header-var {
+    text-align: center;
+}
+
+.md-token-widget-token-name {
+    display: inline-flex;
+    min-width: 70px;
+
+    .token-name {
+        display: inline-block;
+        line-height: var(--cos-leading-headline-sm);
+    }
+
+    &-container {
+        .cos-flex();
+        .cos-items-center();
+        min-width: 85px;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.md-token-widget-1st-td {
+    .cos-space-pl-lg();
+}
+
+.md-token-widget-color-semantic-name {
+    min-width: 325px;
+    max-width: 325px;
+}
+
+.md-token-widget-color-style {
+    min-width: 340px;
+    max-width: 340px;
+}
+
+.md-token-widget-color-var-name {
+    min-width: 310px;
+    max-width: 310px;
+}
+
+.md-token-widget-copy-icon {
+    width: 14px;
+    height: 14px;
+    background-image: url('../assets/copy.svg');
+    background-size: contain;
+}
+
+
+.md-token-widget-copy-content {
+    .cos-color-bg-dent();
+    .cos-rounded-xs();
+    .cos-space-p-3xs();
+    .cos-space-ml-xs();
+    min-width: 18px;
+    height: 18px;
+    .cos-flex();
+    .cos-justify-center();
+    .cos-items-center();
+}
+
+.md-token-widget-copy-status {
+    width: 70px;
+    .cos-flex();
+    .cos-justify-center();
+    .cos-items-center();
+
+    .cos-icon {
+        .cos-space-mr-xxs();
+    }
+}
+
+.md-token-widget-color-block {
+    display: inline-block;
+    margin-right: 10px;
+    border: 0.5px solid #333;
+    border-radius: var(--cos-rounded-xxs);
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+md-token-widget .md-token-widget-token-value {
+    display: inline-flex;
+}
+md-token-widget .md-token-widget-token-value-copy {
+    cursor: pointer;
+}
+
+md-token-widget[attr="text"] .md-token-widget-token-value {
+    display: inline-flex;
+    align-items: center;
+    white-space: pre-line;
+}
+
+md-token-widget[attr="lineclamp"] .md-token-widget-token-value {
+    display: inline-flex;
+    align-items: center;
+    white-space: pre-line;
+}
+
+md-token-widget[attr="text"] td {
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 22px;
+}
+md-token-widget[attr="lineclamp"] td {
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 22px;
+}
+
+.md-token-widget-head-column {
+    .cos-color-bg-dent();
+}
+
+md-token-widget {
+    width: calc(100vw - 135px - var(--web-main-margin-right));
+    .cos-block();
+}
+
+md-tab-list {
+    .cos-hidden();
+}

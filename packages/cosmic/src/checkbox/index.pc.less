@@ -1,0 +1,57 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+@import './index.mobile.less';
+
+.@{prefix}-checkbox-tag {
+    transition: background-color var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate),
+                color var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+    &:not(.@{prefix}-checkbox-disabled):not(.@{prefix}-checkbox-checked):hover {
+        .cos-color-text();
+        .cos-color-bg-primary-light();
+        transition: background-color var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate),
+                    color var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+    }
+    &.@{prefix}-checkbox-checked {
+        .cos-color-text-primary();
+        transition: color var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+    }
+}
+.@{prefix}-checkbox-mark {
+    .@{prefix}-checkbox-container-border {
+        transition: fill var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+    }
+    &:not(.@{prefix}-checkbox-disabled):not(.@{prefix}-checkbox-checked):hover {
+        .@{prefix}-checkbox-container-border {
+            fill: var(--cos-color-text-primary);
+            transition: fill var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+        }
+    }
+
+    .@{prefix}-checkbox-icon svg {
+        animation: change var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate) forwards;
+    }
+    @keyframes change {
+        0% {
+            .cos-opacity-0();
+        }
+        100% {
+            .cos-opacity-100();
+        }
+    }
+}

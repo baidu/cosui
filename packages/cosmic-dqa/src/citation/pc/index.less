@@ -1,0 +1,184 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-citation {
+    .cos-space-ml-3xs();
+    .cos-space-mr-3xs();
+    .cos-inline-flex();
+    line-height: 14px;
+    &-link {
+        cursor: pointer;
+        &-wrapper {
+            .cos-inline();
+        }
+        &-first {
+            text-wrap: nowrap;
+            .cos-color-text-link();
+        }
+        &:hover {
+            .cos-underline();
+            .cos-no-underline();
+            .@{prefix}-citation-link-text {
+                // 暂无对应 token 的hover 颜色
+                color: #315efb;
+            }
+        }
+        &-logo {
+            width: 100%;
+            height: 100%;
+
+            &-wrapper {
+                .cos-space-mr-3xs();
+                .cos-color-bg();
+                .cos-rounded-full();
+                position: relative;
+                .cos-inline-block();
+                overflow: hidden;
+                width: 16px;
+                height: 16px;
+                vertical-align: middle;
+                transform: translateY(-1px);
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 2;
+                    border: 1px solid #dcdde04d;
+                    box-sizing: border-box;
+                    width: 200%;
+                    height: 200%;
+                    pointer-events: none;
+                    transform: scale(.5) translate(-.25px, -.25px);
+                    transform-origin: 0 0;
+                    .cos-rounded-xl();
+                }
+            }
+        }
+        &-text {
+            .cos-color-text-link();
+        }
+        &-icon {
+            .cos-color-text-link();
+            .cos-space-mr-3xs();
+        }
+        &:active {
+            .cos-opacity-20();
+        }
+    }
+    &-citationId,
+    &-tag-citationId {
+        cursor: pointer;
+        position: relative;
+        .cos-inline-block();
+        .cos-rounded-full();
+        width: 14px;
+        height: 14px;
+        font-size: var(--cos-text-caption);
+        line-height: 14px;
+        vertical-align: text-bottom;
+        .cos-text-center();
+        white-space: nowrap;
+        .cos-color-text-tiny();
+        background: rgba(223, 223, 245, .4);
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            bottom: -8px;
+            left: -8px;
+        }
+    }
+    &-tag {
+        position: relative;
+        width: fit-content;
+        white-space: nowrap;
+        .cos-rounded-xxs();
+
+        &:hover {
+            .cos-opacity-60();
+        }
+
+        &-citationId {
+            padding: 1px var(--cos-space-3xs);
+            width: fit-content;
+            .cos-rounded-xxs();
+
+            // 下面有伪元素也需要设置传入色值，故无法使用行内样式注入，采用css变量方式注入
+
+            /*cosmic-token-disable-next-line*/
+            color: var(--cosd-citation-tag-color);
+
+            /*cosmic-token-disable-next-line*/
+            background-color: var(--cosd-citation-tag-bg-color);
+        }
+
+        &-text {
+            font-size: var(--cos-text-caption);
+            white-space: nowrap;
+
+            &::before {
+                content: '';
+                .cos-space-mr-3xs();
+                .cos-space-ml-3xs();
+                .cos-inline-block();
+                width: 1px;
+                height: 8px;
+
+                /*cosmic-token-disable-next-line*/
+                background-color: var(--cosd-citation-tag-color);
+                opacity: 0.12;
+            }
+
+        }
+    }
+    &-tooltip {
+        padding-top: 7.5px;
+        padding-bottom: 7.5px;
+        width: 100%;
+        .cos-text-left();
+        .cos-text-body-lg();
+        &-clickable {
+            cursor: pointer;
+        }
+    }
+    &-headline {
+        .cos-color-text-slim();
+    }
+    &-title {
+        .cos-font-medium();
+        .cos-color-text();
+        .cos-space-mt-3xs();
+        word-wrap: break-word;
+        text-decoration: none;
+        &:hover {
+            .cos-color-text();
+            text-decoration: underline;
+        }
+        &:visited {
+            .cos-color-text();
+        }
+    }
+    &-source {
+        position: relative;
+        bottom: -6px;
+    }
+}

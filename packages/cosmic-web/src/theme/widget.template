@@ -1,0 +1,42 @@
+import { Component } from 'san';
+import * as demo from '<%=componentRequest=%>';
+
+export default class Preview extends Component {
+    static trimWhitespace = 'all';
+    static components = {
+    }
+    static template = `
+        <section id="<%=id=%>">
+            <div s-ref="preview" ></div>
+        </section>
+    `;
+
+    static computed = {
+    }
+
+    initData() {
+        return {
+            code: `<%=code=%>`
+        }
+    }
+
+    initPreviewComponent(node, Demo) {
+        const rootNode = document.createElement('div');
+        const styleWrapper = document.createElement('div');
+        rootNode.appendChild(styleWrapper);
+        const demo = new Demo();
+        demo.attach(rootNode);
+        node.appendChild(rootNode);
+    }
+
+    attached() {
+        this.initPreviewComponent(
+            this.ref('preview'),
+            demo.default,
+        );
+    }
+
+    detached() {
+
+    }
+}

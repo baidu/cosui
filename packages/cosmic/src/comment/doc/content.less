@@ -1,0 +1,29 @@
+@import (reference) "tokens.less";
+
+.comment-content-demo-image {
+    .cos-comment-content {
+        .left-image,
+        .left-image:before {
+            border-top-right-radius: var(--cos-rounded-none);
+            border-bottom-right-radius: var(--cos-rounded-none);
+        }
+
+        .middle-image,
+        .middle-image:before {
+            .cos-rounded-none();
+        }
+
+        .right-image,
+        .right-image:before {
+            border-top-left-radius: var(--cos-rounded-none);
+            border-bottom-left-radius: var(--cos-rounded-none);
+        }
+
+        .image-group-icon {
+            position: absolute;
+            right: 9px;
+            bottom: 9px;
+            color: var(--cos-color-text-inverse);
+        }
+    }
+}

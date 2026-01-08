@@ -1,0 +1,27 @@
+@import (reference) 'tokens.less';
+
+.demo-controller {
+    .cos-space-mb-xs();
+
+    > * {
+        .cos-flex();
+        .cos-items-center();
+        .cos-space-mb-xs();
+
+        > label {
+            .cos-space-mr-xxs();
+            width: 60px;
+        }
+    }
+}
+
+.switcher-demo {
+    > .demo {
+        &-sm, &-md {
+            .cos-space-mt-xl();
+        }
+        h4 {
+            .cos-space-mb-xs();
+        }
+    }
+}

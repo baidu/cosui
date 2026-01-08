@@ -1,0 +1,49 @@
+
+@import (reference) "tokens.less";
+
+.left-image,
+.left-image:before {
+    border-top-right-radius: var(--cos-rounded-none);
+    border-bottom-right-radius: var(--cos-rounded-none);
+}
+
+.middle-image,
+.middle-image:before {
+    .cos-rounded-none();
+}
+
+.right-image,
+.right-image:before {
+    border-top-left-radius: var(--cos-rounded-none);
+    border-bottom-left-radius: var(--cos-rounded-none);
+}
+
+.right-top-image,
+.right-top-image:before {
+    .cos-rounded-none();
+    border-top-right-radius: var(--cos-rounded-sm);
+}
+
+.right-bottom-image,
+.right-bottom-image:before {
+    .cos-rounded-none();
+    border-bottom-right-radius: var(--cos-rounded-sm);
+}
+
+
+.image-ratio-7-9 {
+    overflow: hidden;
+    padding-bottom: 128.6%;
+    height: 0;
+}
+
+.image-ratio-9-14 {
+    overflow: hidden;
+    padding-bottom: calc(64.2% - 1px);
+    height: 0;
+}
+
+
+.cos-row-image-item {
+    margin-bottom: var(--cos-grid-gutter);
+}

@@ -1,0 +1,104 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+.cos-shop {
+    --cos-color-text-on-primary-light: #fa3264ff;
+    --cos-color-text-on-primary: #ffffffff;
+    --cos-color-text-primary: #fa3264ff;
+    --cos-color-border-primary: #fa32642e;
+    --cos-color-border-primary-light: #fa32641f;
+    --cos-color-bg-primary-light: #fa326417;
+    --cos-color-bg-primary: #fa3264ff;
+    --cos-color-text-primary-active: #fa3264ff;
+    --cos-color-text-on-primary-active: #ffffffff;
+    --cos-color-text-on-primary-light-active: #fa3264ff;
+    --cos-color-border-primary-active: #fa32644d;
+    --cos-color-border-primary-light-active: #fa326433;
+    --cos-color-bg-primary-active: #fa3264ff;
+    --cos-color-bg-primary-light-active: #fa326417;
+    --cos-color-text-active: #fa3264ff;
+    --cos-color-border-active: #fa32642e;
+    --cos-color-bg-dent-active: #fa326466;
+    --cos-color-text-primary-hover: #fa3264ff;
+    --cos-color-text-on-primary-hover: #ffffffff;
+    --cos-color-text-on-primary-light-hover: #fa3264ff;
+    --cos-color-border-primary-hover: #fa32642e;
+    --cos-color-border-primary-light-hover: #fa32641f;
+    --cos-color-bg-primary-hover: #fa3264ff;
+    --cos-color-bg-primary-light-hover: #fa326417;
+    --cos-color-text-hover: #fa3264ff;
+    --cos-color-border-hover: #fa32642e;
+    --cos-color-text-primary-disabled: #fa326466;
+    --cos-color-text-on-primary-disabled: #ffffff66;
+    --cos-color-text-on-primary-light-disabled: #fa326466;
+    --cos-color-border-primary-disabled: #fa326417;
+    --cos-color-border-primary-light-disabled: #fa32640d;
+    --cos-color-bg-primary-disabled: #fa326466;
+    --cos-color-bg-primary-light-disabled: #fa32640d;
+}
+
+.cosmic-dark-variables() {
+    .cos-shop {
+        --cos-color-text-on-primary-light: #fa3264ff;
+        --cos-color-text-on-primary: #ffffffff;
+        --cos-color-text-primary: #fa3264ff;
+        --cos-color-border-primary: #fa32642e;
+        --cos-color-border-primary-light: #fa32641f;
+        --cos-color-bg-primary-light: #fa326417;
+        --cos-color-bg-primary: #fa3264ff;
+        --cos-color-text-primary-active: #fa3264ff;
+        --cos-color-text-on-primary-active: #ffffffff;
+        --cos-color-text-on-primary-light-active: #fa3264ff;
+        --cos-color-border-primary-active: #fa32644d;
+        --cos-color-border-primary-light-active: #fa326433;
+        --cos-color-bg-primary-active: #fa3264ff;
+        --cos-color-bg-primary-light-active: #fa326417;
+        --cos-color-text-active: #fa3264ff;
+        --cos-color-border-active: #fa32642e;
+        --cos-color-bg-dent-active: #fa326466;
+        --cos-color-text-primary-hover: #fa3264ff;
+        --cos-color-text-on-primary-hover: #ffffffff;
+        --cos-color-text-on-primary-light-hover: #fa3264ff;
+        --cos-color-border-primary-hover: #fa32642e;
+        --cos-color-border-primary-light-hover: #fa32641f;
+        --cos-color-bg-primary-hover: #fa3264ff;
+        --cos-color-bg-primary-light-hover: #fa326417;
+        --cos-color-text-hover: #fa3264ff;
+        --cos-color-border-hover: #fa32642e;
+        --cos-color-text-primary-disabled: #fa326466;
+        --cos-color-text-on-primary-disabled: #ffffff66;
+        --cos-color-text-on-primary-light-disabled: #fa326466;
+        --cos-color-border-primary-disabled: #fa326417;
+        --cos-color-border-primary-light-disabled: #fa32640d;
+        --cos-color-bg-primary-disabled: #fa326466;
+        --cos-color-bg-primary-light-disabled: #fa32640d;
+    }
+}
+
+/* 兼容低端设备选择器切换暗黑 */
+.c-darkmode,
+.darkmode,
+.cos-dark {
+    .cosmic-dark-variables();
+}
+
+@media (prefers-color-scheme: dark) {
+    .cos-android.cos-baiduapp.cos-wise,
+    .c-darkmode,
+    .darkmode,
+    .cos-dark {
+        .cosmic-dark-variables();
+    }
+}

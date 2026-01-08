@@ -1,0 +1,43 @@
+{
+    "name": "@cosui/cosmic-dqa",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./dist/mobile/index.js",
+    "exports": {
+        ".": "./dist/mobile/index.js",
+        "./index.css": "./dist/mobile/index.css",
+        "./tokens.css": "./dist/mobile/tokens.css",
+        "./pc": "./dist/pc/index.js",
+        "./pc/index.css": "./dist/pc/index.css",
+        "./pc/tokens.css": "./dist/pc/tokens.css",
+        "./pc/*": "./dist/pc/*/index.js",
+        "./*": "./dist/mobile/*/index.js",
+        "./mobile/tokens": "./src/token/mobile/tokens.less",
+        "./pc/tokens": "./src/token/pc/tokens.less"
+    },
+    "files": [
+        "src",
+        "dist",
+        "package.json",
+        "README.md",
+        "types"
+    ],
+    "scripts": {
+        "clean": "rimraf dist",
+        "dev": "tsc --noEmit || true && cd ../../ && NODE_ENV=development node ./scripts/build.mjs -p cosmic-dqa -w",
+        "build": "tsc --noEmit || true && cd ../../ && NODE_ENV=production node ./scripts/build.mjs -p cosmic-dqa && tsx ./scripts/build-types.ts -p cosmic-dqa"
+    },
+    "license": "Apache-2.0",
+    "devDependencies": {
+        "@cosui/cosmic": "workspace:~",
+        "@cosui/cosmic-card": "workspace:~"
+    },
+    "peerDependencies": {
+        "@cosui/cosmic": "workspace:~",
+        "@cosui/cosmic-card": "workspace:~",
+        "echarts": "^5.5.0",
+        "marklang": "workspace:~",
+        "san": "^3.14.1"
+    },
+    "types": "distTypes"
+}

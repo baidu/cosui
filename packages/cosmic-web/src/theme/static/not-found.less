@@ -1,0 +1,39 @@
+
+@import (reference) "tokens.less";
+
+#page-404 {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-image: url('https://os.alipayobjects.com/rmsportal/NOAjOBbnYCrNzrW.jpg');
+  background-attachment: fixed;
+
+  section {
+    position: absolute;
+    top: 48%;
+    left: 55%;
+    margin: -103px var(--cos-space-none) var(--cos-space-none) -120px;
+.cos-text-center();
+  }
+
+  h1 {
+    font-size: 120px;
+    color: @primary-color;
+
+    .cos-font-medium();
+  }
+
+  p {
+
+    font-size: var(--cos-text-headline-sm);
+    color: @site-text-color;
+  }
+}

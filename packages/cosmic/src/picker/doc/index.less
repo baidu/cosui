@@ -1,0 +1,19 @@
+@import (reference) 'tokens.less';
+.picker {
+    position: relative;
+    border: 1px solid var(--cos-color-border-minor);
+    height: 180px;
+}
+.cos-picker {
+    z-index: 1;
+}
+.selected-box {
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    left: 18px;
+    transform: translateY(-50%);
+    height: 40px;
+    .cos-color-bg-dent();
+    .cos-rounded-xs();
+}

@@ -1,0 +1,64 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-tag-link {
+    .cos-line-clamp-1();
+    .cos-space-mb-xxs();
+    .cos-space-mt-3xs();
+    .cos-inline-block();
+    box-sizing: border-box;
+    max-width: 100%;
+    vertical-align: middle;
+    &-main {
+        .cos-flex();
+        .cos-items-center();
+        .cos-space-pl-xxs();
+        .cos-space-pr-xxs();
+        .cos-color-text();
+        .cos-text-body();
+        .cos-color-bg-dent();
+        .cos-rounded-xs();
+        box-sizing: border-box;
+        height: 24px;
+    }
+    &-logo {
+        .cos-rounded-full();
+        .cos-space-mr-xxs();
+        .cos-color-bg();
+        box-sizing: border-box;
+        border: 0.5px solid;
+        width: 14px;
+        height: 14px;
+        .cos-color-border-tiny();
+    }
+    &-icon {
+        .cos-space-mr-xxs();
+    }
+    .cos-divider-vertical-inverse {
+        height: 10px;
+        .cos-space-ml-xxs();
+        .cos-space-mr-xxs();
+    }
+}
+
+.font-size-3 {
+    .@{prefix}-tag-link-main {
+        height: 30px;
+    }
+}

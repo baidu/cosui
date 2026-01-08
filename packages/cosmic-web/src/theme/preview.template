@@ -1,0 +1,436 @@
+import { Component } from 'san';
+import Switcher from '@cosui/cosmic/switcher';
+import Loading from '@cosui/cosmic/loading';
+import * as demo from '<%=componentRequest=%>';
+import { qrcanvas } from 'qrcanvas';
+import Icon from '@cosui/cosmic/icon'
+// preview 容器里需要注入外部依赖 css
+import 'plyr/dist/plyr.css';
+
+const sourceList = <%=sourceList =%>;
+/* metadata start
+<%=metadata=%>
+metadata end */
+const info = <%=metadata =%>;
+/* query start
+<%=query=%>
+query end */
+const query = <%=query =%>;
+
+const locareNetOrigin = ''; // 局域网ip + port，应对本地起服务后，origin是localhost，导致手机扫码查看解析不到正确的ip的情况
+
+const makeLink = () => `${locareNetOrigin || location.origin}/wise/#/preview/${location.hash.replace('#/components/', '').toLowerCase()}`;
+
+
+export default class Preview extends Component {
+    shadowList = [];
+
+    static trimWhitespace = 'all';
+    static components = {
+        'cos-icon': Icon,
+        'cos-switcher': Switcher,
+        'cos-loading': Loading
+    }
+    static template = `
+        <section class="code-box {{isExpand?'expand':''}}" id="<%=id=%>">
+            <div class="code-preview-title">{{ caption | raw}}</div>
+            <section class="code-box-demo">
+                <section class="code-box-demo-board">
+                    <section s-if="showPcDemo && !isMobilePlatform" >
+                        <div class="cos-flex cos-justify-between">
+                            <div class = "demo-title-pc">PC 效果</div>
+                            <div s-if="hasPcSsr" class="cos-flex cos-items-center cos-space-mb-xs cos-color-text-minor">
+                                <span class="cos-space-mr-xxs">SSR:</span>
+                                <cos-switcher size="sm" checked="{=pcSsrChecked=}" />
+                            </div>
+                        </div>
+                        <div class="pc-demo">
+                            <div s-if="isPc">
+                                <cos-loading s-show="isPcLoading"></cos-loading>
+                                <div s-show="!isPcLoading">
+                                    <div s-ref="pcPreview" s-show="!pcSsrChecked"></div>
+                                    <div s-ref="pcSSRPreview" s-show="pcSsrChecked && !generateSSRHtmlError"></div>
+                                    <div s-if="pcSsrChecked && generateSSRHtmlError">SSR 渲染异常: {{generateSSRHtmlError}}</div>
+                                </div>
+                            </div>
+                            <div s-else class="cos-color-text-minor">没有对应的 PC 示例哦～</div>
+                        </div>
+                    </section>
+                    <section s-if="showMobileDemo">
+                        <div class="cos-flex cos-justify-between">
+                            <div class = "demo-title-wise">Mobile 效果</div>
+                            <div  s-if="hasMobileSsr" class="cos-flex cos-items-center cos-space-mb-xs cos-color-text-minor">
+                                <span class="cos-space-mr-xxs">SSR:</span>
+                                <cos-switcher size="sm" checked="{=mobileSsrChecked=}" />
+                            </div>
+                        </div>
+                        <div class="{{isMobilePlatform ? 'mobile-platrogm-wrapper' : ''}} mobile-demo">
+                            <div s-if="isMobile">
+                                <cos-loading s-show="isMobileLoading"></cos-loading>
+                                <div s-show="!isMobileLoading">
+                                    <div s-ref="mobilePreview" s-show="!mobileSsrChecked"></div>
+                                    <div s-ref="mobileSSRPreview" s-show="mobileSsrChecked && !generateSSRHtmlError"></div>
+                                    <div s-if="mobileSsrChecked && generateSSRHtmlError">SSR 渲染异常: {{generateSSRHtmlError}}</div>
+                                </div>
+                            </div>
+                            <div s-else class="cos-color-text-minor">没有对应的 Mobile 示例哦～</div>
+                        </div>
+                    </section>
+                </section>
+            </section>
+
+            <section s-if="!query || !query.platform" class="code-box-meta markdown">
+                <span class="code-expand-icon code-operate-icon" on-click="toggleExpand">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M9.50472 2.02124C9.65767 2.06212 9.78812 2.16206 9.86739 2.2991C9.94666 2.43614 9.96825 2.59905 9.92742 2.75201L6.76475 14.5573C6.72369 14.7104 6.6235 14.8408 6.48623 14.92C6.34896 14.9992 6.18586 15.0207 6.03279 14.9796C5.87973 14.9385 5.74925 14.8383 5.67005 14.7011C5.59085 14.5638 5.56943 14.4007 5.61049 14.2476L8.77396 2.44235C8.79428 2.3666 8.82932 2.2956 8.87708 2.2334C8.92485 2.1712 8.9844 2.11902 9.05234 2.07984C9.12027 2.04066 9.19526 2.01525 9.27302 2.00506C9.35078 1.99487 9.42978 2.0001 9.50552 2.02045M11.3062 4.45076C11.4121 4.33308 11.5604 4.26228 11.7184 4.25392C11.8765 4.24556 12.0315 4.30033 12.1492 4.40618L13.5319 5.65119C14.1186 6.17817 14.6042 6.61599 14.9385 7.01242C15.2888 7.43034 15.5387 7.87851 15.5387 8.43256C15.5387 8.9858 15.2896 9.43397 14.9385 9.8511C14.6042 10.2483 14.1186 10.6861 13.5319 11.2131L12.1492 12.4581C12.0315 12.5641 11.8765 12.619 11.7183 12.6107C11.5602 12.6024 11.4117 12.5317 11.3058 12.414C11.1998 12.2962 11.1449 12.1413 11.1532 11.9831C11.1615 11.8249 11.2322 11.6765 11.3499 11.5705L12.7008 10.355C13.3281 9.7906 13.7508 9.4077 14.0246 9.08292C14.2873 8.77008 14.3447 8.58778 14.3447 8.43176C14.3447 8.27574 14.2873 8.09424 14.0246 7.78139C13.7508 7.45581 13.3281 7.07292 12.7008 6.50932L11.3499 5.29377C11.2916 5.24132 11.2441 5.17788 11.2102 5.10707C11.1764 5.03627 11.1568 4.95948 11.1527 4.88111C11.1486 4.80274 11.1599 4.72432 11.1861 4.65034C11.2123 4.57636 11.2528 4.50827 11.3054 4.44996M4.18877 5.29377C4.30647 5.18778 4.37725 5.03938 4.38553 4.88121C4.39382 4.72305 4.33893 4.56806 4.23295 4.45036C4.12696 4.33266 3.97856 4.26188 3.82039 4.2536C3.66222 4.24531 3.50724 4.3002 3.38954 4.40618L2.00682 5.65119C1.42014 6.17817 0.934552 6.61599 0.600215 7.01242C0.249957 7.43034 0 7.87851 0 8.43256C0 8.9858 0.249161 9.43397 0.600215 9.8511C0.934552 10.2483 1.42014 10.6861 2.00682 11.2131L3.38954 12.4581C3.50724 12.5641 3.66222 12.619 3.82039 12.6107C3.97856 12.6024 4.12696 12.5317 4.23295 12.414C4.33893 12.2962 4.39382 12.1413 4.38553 11.9831C4.37725 11.8249 4.30647 11.6765 4.18877 11.5705L2.83788 10.355C2.2106 9.7906 1.78791 9.4077 1.51407 9.08292C1.25138 8.77008 1.19406 8.58778 1.19406 8.43176C1.19406 8.27574 1.25138 8.09424 1.51407 7.78139C1.78791 7.45581 2.2106 7.07292 2.83788 6.50932L4.18877 5.29377Z" fill="currentColor"/>
+                    </svg>
+                    {{isExpand? '收起代码' : '展开代码'}}
+                </span>
+                <span class="code-copy-icon code-operate-icon" on-click="toggleCopy">
+                    <cos-icon class="icon" s-if="!copyState" name="copy"/>
+                    <svg s-else t="1649669936717" class="success-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5462" width="16" height="16"><path d="M412.458667 603.626667l337.066666-335.466667a42.666667 42.666667 0 0 1 60.202667 0l31.104 30.954667a42.666667 42.666667 0 0 1 0 60.48L443.328 755.221333a42.858667 42.858667 0 0 1-6.677333 5.44 42.666667 42.666667 0 0 1-54.442667-4.821333l-199.04-198.101333a42.666667 42.666667 0 0 1 0-60.48l31.104-30.954667a42.666667 42.666667 0 0 1 60.202667 0l137.984 137.322667z" p-id="5463" fill="currentColor"></path></svg>
+                    复制代码
+                </span>
+                <div s-if="isMobile" class="code-qrcode-icon code-operate-icon" tabindex="-1" on-focus="showQr" on-blur="hideQr">
+                    <cos-icon class="icon" name="scan"/>
+                    <div class="qrcode" s-ref="qrcode" style="display: {{showQrcode ? 'block' : 'none'}};"></div>
+                    扫码查看
+                </div>
+            </section>
+            <section s-if="!query || !query.platform" class="highlight-wrapper {{isExpand?'highlight-wrapper-expand':''}}">
+                <div s-if="sourceList.length > 1" class="source-tab">
+                    <div
+                        s-for="source, index in sourceList"
+                        class="source-tab-item {{activeSource.filename === source.filename ? 'active-source-tab-item' : ''}}"
+                        on-click="changeFile(source)"
+                    > {{source.filename}} </div>
+                </div>
+                <div class="highlight">
+                    <pre>
+                        <code class="language-{{activeSource.type || 'san'}}" s-ref="sourceCode" s-html="activeSource.code">
+                        </code>
+                    </pre>
+                </div>
+            </section>
+        </section>
+    `;
+
+    static computed = {
+        isPc() {
+            const info = this.data.get('info');
+            return /pc/.test((info.platform || 'pc/mobile').toLowerCase());
+        },
+        isMobile() {
+            const info = this.data.get('info');
+            return /mobile/.test((info.platform || 'pc/mobile').toLowerCase());
+        },
+        showPcDemo() {
+            const query = this.data.get('query');
+            return !query.platform || query.platform === 'pc';
+        },
+        showMobileDemo() {
+            const query = this.data.get('query');
+            return !query.platform || query.platform === 'mobile';
+        },
+        usePCShadowDom() {
+            // 如果通过 URL 参数指定了平台（说明是用于 e2e 的），则不使用 shadowdom
+            const query = this.data.get('query');
+            if (query.platform) {
+                return false;
+            }
+
+            const info = this.data.get('info');
+            return /pc/.test((info.shadow || 'pc/mobile').toLowerCase());
+        },
+        useMobileShadowDom() {
+            // 如果通过 URL 参数指定了平台（说明是用于 e2e 的），则不使用 shadowdom
+            const query = this.data.get('query');
+            if (query.platform) {
+                return false;
+            }
+
+            const info = this.data.get('info');
+            return /mobile/.test((info.shadow || 'pc/mobile').toLowerCase());
+        }
+    }
+
+    initData() {
+        return {
+            isExpand: false,
+            code: `<%=code=%>`,
+            caption: `<%=caption=%>`,
+            copyState: false,
+            sourceList,
+            info,
+            query,
+            container: false,
+            activeSource: sourceList[0],
+            shadowRoot: null,
+            isMobilePlatform: false,
+            pcSsrChecked: false,
+            mobileSsrChecked: false,
+            generateSSRHtmlError: '',
+            hasPcSsr: false,
+            hasMobileSsr: false,
+            isPcLoading: false,
+            isMobileLoading: false
+        }
+    }
+
+    initPreviewComponent(node, Demo, styles, data, useShadowDom, demoHTML = '', isSSRRenter = false) {
+        // 已经加载过了
+        if (node?.shadowRoot) {
+            return;
+        }
+
+        let shadowHost;
+        if (useShadowDom) {
+            // 设置为 open 才能保证从 event.composedPath() 中拿到真正的 target
+            shadowHost = node.attachShadow({mode: 'open'});
+        } else {
+            shadowHost = node;
+        }
+
+        const rootNode = document.createElement('div');
+        const contentNode = document.createElement('div');
+        contentNode.id = 'content-node';
+        const styleWrapper = document.createElement('div');
+        contentNode.appendChild(styleWrapper);
+
+        rootNode.appendChild(contentNode);
+
+        data.shadowRoot = rootNode;
+        if (styles) {
+            const styleNode = document.createElement('style');
+            styleNode.textContent = styles;
+            styleWrapper.appendChild(styleNode);
+        }
+
+        const demoHandler = () => {
+            const fixStyle = (styleNode) => {
+                const stylePlatform = styleNode.getAttribute('data-scp') || '';
+                if ((/pc/i.test(stylePlatform) || !stylePlatform) && data.isPc) {
+                    // 给 PC 同步动态插入的样式标签
+                    styleWrapper.appendChild(styleNode.cloneNode(true));
+                }
+                if ((/wise/i.test(stylePlatform) || !stylePlatform) && data.isMobile) {
+                    // 给 Mobile 同步动态插入的样式标签
+                    styleWrapper.appendChild(styleNode.cloneNode(true));
+                }
+            }
+            const rootApp = document.getElementById('app');
+
+            // 初始化默认样式
+            rootNode.className = data.isPc ? 'pc cos-pc' : 'mobile cos-wise';
+
+
+            const listener = (e) => {
+                e.detail && fixStyle(e.detail);
+            };
+            if (window.moduleStyleList && window.moduleStyleList.length) {
+                window.moduleStyleList.forEach(styleNode => fixStyle(styleNode));
+            }
+
+            const themeClass = document.body.className;
+            // 初始化适配当前日间/暗黑主题
+            if (themeClass.indexOf('c-light') !== -1
+                || themeClass.indexOf('c-dark') !== -1
+                || themeClass.indexOf('cos-dark') !== -1
+            ) {
+                const bodyClass = document.body.className;
+                rootNode.className = bodyClass;
+            }
+            if (rootApp.className !== '') {
+                contentNode.className = rootApp.className;
+            }
+
+            // 在document增加监听事件，响应暗黑
+            document.addEventListener('theme-change', (e) => {
+                const theme = e.detail.theme;
+                let newClassName = data.isPc ? theme.pcDay : theme.day;
+                if (e.detail.isNightMode) {
+                    // 适配 wise c-dark
+                    newClassName = `cos-wise ${theme.dark}`;
+                }
+                else {
+                    // 增加 wise 适配 c-light 的特殊处理
+                    newClassName = data.isPc ? theme.pcDay : theme.day;
+                }
+                contentNode.className = theme.token;
+                rootNode.className = newClassName;
+            })
+
+            // 监听style动态插入并同步到shadowDom
+            document.addEventListener('insertstyle', listener);
+            this.shadowList.push({
+                shadowHost,
+                isShadow: useShadowDom,
+                listener
+            });
+        };
+
+        if (isSSRRenter && demoHTML) {
+            // ssr commonjs 生产的 html
+            const ssrHTMLDom = document.createElement('div');
+            ssrHTMLDom.innerHTML = demoHTML;
+
+            if (ssrHTMLDom?.firstChild) {
+                ssrHTMLDom.firstChild.id = 'ssr-html-dom';
+            }
+            contentNode.appendChild(ssrHTMLDom);
+            shadowHost.appendChild(rootNode);
+
+            // csr 产物实例，需要将渲染好的 DOM 元素作为 el 参数
+            const el = (useShadowDom ? shadowHost : document).getElementById('ssr-html-dom');
+            this.nextTick(() => {
+                try {
+                    const csrDom = new Demo({data, el});
+                    csrDom.attach(contentNode);
+                }
+                catch (e) {
+                    console.error('[SAN HYDRATE ERROR]: ', e);
+                }
+                demoHandler();
+            });
+            return;
+        }
+        const csrDom = new Demo({data});
+        csrDom.attach(contentNode);
+        shadowHost.appendChild(rootNode);
+
+        demoHandler();
+    }
+
+    toggleExpand() {
+        this.data.set('isExpand', !this.data.get('isExpand'));
+    }
+
+    toggleCopy() {
+        const code = this.ref('sourceCode').innerText;
+        navigator.clipboard.writeText(code).then(() => this.copySeccuss()).catch(err => console.error(err));
+    }
+
+    copySeccuss() {
+        this.data.set('copyState', true);
+        setTimeout(() => this.data.set('copyState', false), 1000);
+    }
+
+    changeFile(source) {
+        this.data.set('activeSource', source);
+        this.highlight();
+    }
+
+    highlight() {
+        const highlightEvent = new CustomEvent('highlight', { detail: this.ref('sourceCode'), bubbles: true });
+        this.nextTick(() => (this.el && this.el.dispatchEvent(highlightEvent)));
+    }
+
+    showQr() {
+        this.data.set('showQrcode', true);
+    }
+
+    hideQr() {
+        this.data.set('showQrcode', false);
+    }
+
+    initProps(...args) {
+        args.forEach(arg => {
+            const nodes = Array.from(document.querySelectorAll(`[data-${arg}]`));
+            const dataNode = nodes.filter(node => node.querySelector('.code-box') === this.el)[0]
+            if (dataNode) {
+                this.data.set(arg, dataNode.getAttribute(`data-${arg}`));
+            }
+        });
+    }
+
+    judgePlatform() {
+        const isMobile = document.querySelector('[data-platform="mobile"]');
+        this.data.set('isMobilePlatform', !!isMobile);
+    }
+
+    getStyle(selector) {
+        const styleNode = document.querySelector(selector);
+        const style = ((styleNode || {}).textContent || '') + (demo.__styles || '');
+        window[selector.replace(/(#|-)/g, '')] = style;
+        return style;
+    }
+
+    attached() {
+
+        this.highlight();
+        this.initProps('container');
+        this.judgePlatform();
+        const {
+            isPc,
+            isMobile,
+            showPcDemo,
+            showMobileDemo,
+            isMobilePlatform,
+            pcSsrChecked,
+            mobileSsrChecked
+        } = this.data.get();
+
+        this.data.set('hasPcSsr', !!demo.__pcRenderHtml || demo.__ssrError);
+        this.data.set('hasMobileSsr', !!demo.__mobileRenderHtml || demo.__ssrError);
+
+        const initPreview = (isFirst = false, isSSR = false) => {
+            if (isSSR && demo.__ssrError) {
+                this.data.set('generateSSRHtmlError', demo.__ssrError);
+            }
+            else if (showPcDemo && isPc && !isMobilePlatform) {
+                this.initPreviewComponent(
+                    isSSR ? this.ref('pcSSRPreview') : this.ref('pcPreview'),
+                    demo.PcPreviewDemo,
+                    this.getStyle('#pc-style'),
+                    { isPc },
+                    this.data.get('usePCShadowDom'),
+                    isSSR ? demo.__pcRenderHtml : '',
+                    isSSR
+                );
+            }
+
+            if (isSSR && demo.__ssrError) {
+                this.data.set('generateSSRHtmlError', demo.__ssrError);
+            }
+            else if (showMobileDemo && isMobile) {
+                this.initPreviewComponent(
+                    isSSR ? this.ref('mobileSSRPreview') : this.ref('mobilePreview'),
+                    demo.MobilePreviewDemo,
+                    this.getStyle('#mobile-style'),
+                    { isMobile },
+                    this.data.get('useMobileShadowDom'),
+                    isSSR ? demo.__mobileRenderHtml : '',
+                    isSSR
+                );
+            }
+            setTimeout(() => {
+                this.data.set('isPcLoading', false);
+                this.data.set('isMobileLoading', false);
+            }, 100);
+        };
+        initPreview(true);
+
+        this.nextTick(() => {
+            if (this.ref('qrcode')) {
+                this.ref('qrcode').appendChild(qrcanvas({
+                    data: location.href,
+                    height: 90,
+                    width: 90 }));
+            }
+        });
+
+        this.watch('pcSsrChecked', value => {
+            this.data.set('isPcLoading', true);
+            initPreview(false, value);
+        });
+        this.watch('mobileSsrChecked', value => {
+            this.data.set('isMobileLoading', true);
+            initPreview(false, value);
+        });
+    }
+
+    detached() {
+        this.shadowList.forEach(shadow => {
+            document.removeEventListener('insertstyle', shadow.listener);
+        });
+    }
+}

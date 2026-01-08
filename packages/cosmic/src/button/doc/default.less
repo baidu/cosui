@@ -1,0 +1,24 @@
+@import (reference) 'tokens.less';
+
+.button-demo {
+    .cos-flex();
+    .cos-flex-wrap();
+    gap: var(--cos-space-xxl);
+    .cos-flex-col();
+
+    h4 {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+    }
+
+    &-plain {
+        .cos-color-bg-dent()
+    }
+}
+
+// New PC 下无暗黑 Token，避免文档换肤展示效果异常，额外设置该 token
+.cos-dark .cos-ai .button-demo-plain {
+    --cos-color-bg-dent: #222f;
+}

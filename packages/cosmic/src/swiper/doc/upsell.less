@@ -1,0 +1,56 @@
+@import (reference) 'tokens.less';
+
+.demo-item {
+    .cos-flex();
+    .cos-flex-col();
+    .cos-items-center();
+    .item-image {
+        .cos-space-mb-3xs();
+        width: 40px;
+        height: 40px;
+    }
+    .item-text {
+        .cos-space-m-none();
+        .cos-color-text-tiny();
+        .cos-line-clamp-1();
+        max-width: 100%;
+        font-size: var(--cos-text-body);
+    }
+
+    &.horizontal {
+        .cos-flex-row();
+        .item-image {
+            .cos-space-mr-xs();
+            .cos-space-mb-none();
+        }
+    }
+}
+
+.mobile-scrollbar {
+    .cos-swiper-scrollbar {
+        .cos-space-mt-xs();
+    }
+}
+
+.pc {
+    .mobile-only {
+        .cos-hidden();
+    }
+}
+
+.mobile {
+    .pc-only {
+        .cos-hidden();
+    }
+    .cos-swiper-list {
+        .cos-space-pl-none();
+        .cos-space-pr-none();
+    }
+}
+
+h4 {
+    .cos-color-text-minor();
+    .cos-space-mt-none();
+    .cos-space-mb-xs();
+    .cos-font-regular();
+}

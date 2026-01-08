@@ -1,0 +1,37 @@
+@import (reference) 'tokens.less';
+
+.operation-tabs {
+    .cos-tab-pane {
+        .cos-space-mt-md();
+    }
+    .cos-color-text();
+
+    .cos-tab {
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+    }
+
+    &-head {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+        .cos-flex();
+        .cos-justify-between()
+    }
+
+    &-toolbar {
+        width: 112px;
+        font-size: var(--cos-text-caption);
+        .cos-color-text-primary();
+        .cos-flex();
+        .cos-justify-between();
+        
+        span {
+            cursor: pointer;
+        }
+
+    }
+
+}

@@ -1,0 +1,28 @@
+
+@import (reference) "tokens.less";
+
+.prev-next-nav {
+  margin-right: 64px;
+  margin-left: 64px;
+  border-top: 1px solid @site-border-color-split;
+
+  font-size: var(--cos-text-subtitle-sm);
+
+  > .prev-page,
+  > .next-page {
+    float: left;
+    width: 50%;
+    height: 72px;
+    text-decoration: none;
+    line-height: 72px;
+  }
+
+  > .next-page {
+    .cos-text-right();
+    float: right;
+  }
+
+  .chinese {
+    margin-left: 0.5em;
+  }
+}

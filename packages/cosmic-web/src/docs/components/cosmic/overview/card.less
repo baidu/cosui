@@ -1,0 +1,62 @@
+@import (reference) 'tokens.less';
+
+.card {
+    border: 1px solid var(--cos-color-border-minor);
+    width: 224px;
+    height: 160px;
+    .cos-flex();
+    .cos-flex-col();
+    .cos-items-center();
+    .cos-rounded-sm();
+    .cos-color-bg();
+
+    &:hover {
+        cursor: pointer;
+        border: 1px solid var(--cos-color-border-minor);
+        box-shadow: 0 8px 10px -4px rgba(30, 31, 36, 0.30);
+    }
+}
+
+.name-container {
+    box-sizing: border-box;
+    .cos-flex();
+    align-items: flex-end;
+    .cos-space-p-sm();
+    gap: 8px;
+    align-self: stretch;
+    width: 100%;
+    .cos-color-text();
+
+    .eng {
+        .cos-text-body-lg();
+        line-height: 16px;
+    }
+
+    .chin {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        .cos-text-body-lg();
+        line-height: 16px;
+        flex: 0 1 calc(2 * (100% / 3));
+    }
+}
+
+.image {
+    width: 184px;
+    height: 100px;
+    .cos-flex();
+    .cos-flex-col();
+    .cos-justify-center();
+    .cos-items-center();
+    gap: 10px;
+    .cos-rounded-xs();
+    background: var(--cos-color-text-on-primary);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: scale-down;
+    }
+}

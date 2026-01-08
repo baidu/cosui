@@ -1,0 +1,46 @@
+@import (reference) 'tokens.less';
+
+.demo {
+    [class^=cos-col] {
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        margin: var(--cos-space-xs) var(--cos-space-none);
+        .cos-rounded-none();
+        padding: var(--cos-space-xxs) var(--cos-space-none);
+        min-height: 30px;
+        .cos-color-text-on-em();
+    }
+
+    [class^=cos-col]:nth-child(2n) {
+        background-color: var(--cos-color-bg-primary-disabled);
+    }
+
+    [class^=cos-col]:nth-child(2n + 1) {
+        background-color: var(--cos-color-bg-primary);
+
+    }
+
+    p {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+    }
+}
+
+.height100 {
+    height: 100px;
+}
+
+.height50 {
+    height: 50px;
+}
+
+.height80 {
+    height: 80px;
+}
+
+.height60 {
+    height: 60px;
+}

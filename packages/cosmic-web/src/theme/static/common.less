@@ -1,0 +1,165 @@
+
+@import (reference) "tokens.less";
+@primary-color: #1890ff;
+@border-radius-sm: 2px;
+@font-size-base: 14px;
+
+html,
+body {
+    height: auto;
+}
+
+body {
+    overflow-x: hidden;
+    .cos-text-subtitle-sm();
+    font-family: PingFang SC;
+    line-height: 1.5;
+    color: @site-text-color;
+    .cos-color-bg();
+    transition: background 1s cubic-bezier(.075, .82, .165, 1);
+}
+
+// a 标签的默认样式
+a {
+    .cos-color-text-primary();
+    text-decoration: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    transition: color .3s ease;
+    -webkit-text-decoration-skip: objects;
+    // &:focus {
+    //     text-decoration: underline;
+    //     text-decoration-skip: ink;
+    // }
+    &:hover {
+        .cos-color-text-primary-hover();
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    .cos-color-text();
+}
+
+.main-wrapper {
+    position: relative;
+    padding: 40px 20px var(--cos-space-none);
+    .cos-color-bg();
+    .san-affix {
+        width: 100%;
+    }
+}
+
+.main-container {
+    position: relative;
+    overflow: hidden;
+    margin-left: -1px;
+    border-left: 1px solid @site-border-color-split;
+    padding: var(--cos-space-none) 170px 144px 64px;
+    min-height: 500px;
+    .cos-color-bg();
+}
+
+.main-menu {
+    z-index: 1;
+}
+
+.main-menu-inner {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    max-height: 100vh;
+}
+
+.main-menu:hover .main-menu-inner {
+    overflow-y: auto;
+}
+
+.aside-container {
+    padding-bottom: 50px;
+
+    &.ant-menu-inline .ant-menu-submenu-title h4,
+    &.ant-menu-inline > .ant-menu-item,
+    &.ant-menu-inline .ant-menu-item a {
+        overflow: hidden;
+        .cos-text-subtitle-sm();
+        text-overflow: ellipsis;
+    }
+
+    &.ant-menu-inline .ant-menu-item-group-title {
+        padding-left: 56px;
+    }
+
+    a[disabled] {
+        color: #ccc;
+    }
+
+    .menu-item-link-outside {
+        position: relative;
+        .anticon {
+            position: absolute;
+            top: 16px;
+            right: -10px;
+            .cos-text-caption();
+            color: @primary-color;
+            .cos-opacity-0();
+            transition: all .3s;
+        }
+        &:hover .anticon {
+            .cos-opacity-100();
+        }
+    }
+}
+
+.aside-container .chinese {
+    .cos-space-ml-xxs();
+    .cos-text-caption();
+    font-weight: normal;
+    opacity: .67;
+}
+
+.outside-link {
+    .cos-inline-block();
+}
+
+.outside-link:after {
+    .cos-space-ml-xxs();
+    content: '\e691';
+    .cos-text-caption();
+    font-family: 'anticon';
+    color: #aaa;
+}
+
+.outside-link.internal {
+    .cos-hidden();
+}
+
+// reset menu text color
+.menu-site .ant-menu-item > a {
+    color: @site-text-color;
+}
+
+.menu-site .ant-menu-item-selected > a,
+.menu-site .ant-menu-item > a:hover {
+    color: @primary-color;
+}
+
+#react-content {
+    transition: transform .3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+}
+
+.page-wrapper {
+    overflow: hidden;
+    .cos-space-p-none();
+    width: 100%;
+    a {
+        text-decoration: none;
+    }
+}
+
+.drawer-content {
+    padding: 40px var(--cos-space-none);
+}
+
+.drawer {
+    z-index: 1029;
+}

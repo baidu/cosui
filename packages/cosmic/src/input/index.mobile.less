@@ -1,0 +1,99 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-input {
+    border: 1px solid var(--cos-color-border-tiny);
+    padding: var(--cos-space-none) var(--cos-space-sm);
+    .cos-rounded-sm();
+    .cos-items-center();
+    box-sizing: border-box;
+
+
+    &-space {
+        padding-right: 5px;
+    }
+
+    &.@{prefix} {
+        &-sm {
+            height: 30px;
+        }
+
+        &-md {
+            height: 36px;
+        }
+
+        &-lg {
+            height: 40px;
+        }
+    }
+
+    &.@{prefix}-disabled {
+        .cos-opacity-40();
+    }
+
+    &-filled {
+        .cos-rounded-full();
+        .cos-color-bg-dent();
+        border: none;
+    }
+
+    &-box {
+        .cos-text-body();
+        .cos-color-text();
+        border: none;
+        .cos-space-p-none();
+        width: 100%;
+        background-color: transparent;
+        outline: none;
+        word-break: normal;
+        word-wrap: normal;
+    }
+
+    &-box::placeholder,
+    &-box::-webkit-input-placeholder,
+    &-box::-moz-placeholder,
+    &-box::-ms-input-placeholder {
+        .cos-color-text-minor();
+    }
+    &-box:placeholder-shown {
+        text-overflow: ellipsis;
+    }
+
+    &-clear {
+        .cos-shrink-0();
+
+        .@{prefix}-icon {
+            font-size: 15px;
+            cursor: pointer;
+        }
+    }
+
+    &-err {
+        .cos-text-body();
+        .cos-color-text-error();
+        .cos-space-pt-xs();
+        margin-top: calc((var(--cos-text-body) - var(--cos-leading-body)) / 2);
+    }
+
+    &-count,
+    &-title-slot,
+    &-button-slot {
+        .cos-shrink-0();
+    }
+}

@@ -1,0 +1,30 @@
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.loading-icon {
+    width: 24px;
+    height: 24px;
+    .cos-space-mb-3xs();
+}
+
+.final-image {
+    transition:
+        opacity 0.6s ease,
+        filter 0.6s ease,
+        background-color 0.6s ease;
+}
+
+/* 加载中状态 */
+.image-loading {
+    background-color: rgba(0, 98, 255, 0.1);
+    background-blend-mode: multiply;
+    .cos-opacity-50();
+    filter: blur(12px);
+}
+
+/* 加载完成状态 */
+.image-visible {
+    background-color: transparent;
+    .cos-opacity-100();
+    filter: blur(0px);
+}

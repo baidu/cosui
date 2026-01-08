@@ -1,0 +1,206 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.image-ratio(@width, @height) {
+    overflow: hidden;
+    padding-bottom: (@height / @width) * 100%;
+    height: 0;
+}
+
+.img-object-fit(@fit) {
+    .@{prefix}-image-body {
+        object-fit: @fit;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+    }
+}
+
+.img-object-position(@position) {
+    .@{prefix}-image-body {
+        object-position: @position;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+    }
+}
+
+.@{prefix}-image {
+    position: relative;
+    overflow: hidden;
+    .cos-rounded-sm();
+    // 解决 div 和 img 标签有间隙的问题
+    .cos-leading-0();
+    cursor: pointer;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        // FIXME: 待 token 更新后可替换为 var(--cos-color-border-tiny);
+        border: 1px solid var(--cos-color-border-media);
+        .cos-rounded-xl();
+        width: 200%;
+        height: 200%;
+        transform-origin: 0 0;
+        // 缩放后微调边框位置
+        transform: scale(.5) translate(-.25px, -.25px);
+        box-sizing: border-box;
+        pointer-events:none;
+    }
+
+    &-placeholder,
+    &-content {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    &-content {
+        z-index: 1;
+        .cos-leading-none();
+    }
+
+    &-placeholder {
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        .cos-image-color-bg-placeholder();
+        .cos-icon-baidu {
+            font-size: 29px;
+            color: #ddd;
+        }
+    }
+
+    &-body {
+        position: relative;
+        width: 100%;
+    }
+
+    &-1-1 {
+        .image-ratio(1, 1);
+    }
+
+    &-3-1 {
+        .image-ratio(3, 1);
+    }
+
+    &-3-2 {
+        .image-ratio(3, 2);
+    }
+
+    &-3-4 {
+        .image-ratio(3, 4);
+    }
+
+    &-4-3 {
+        .image-ratio(4, 3);
+    }
+
+    &-5-1 {
+        .image-ratio(5, 1);
+    }
+
+    &-5-2 {
+        .image-ratio(5, 2);
+    }
+
+    &-16-9  {
+        .image-ratio(16, 9);
+    }
+
+    // 屏效统一，图片外层容器设置 7:3
+    &-7-3 {
+        .image-ratio(7, 3);
+    }
+
+    // 外层 7:3，栅格 4n:4n:4n，每张图 7:9
+    &-7-9 {
+        .image-ratio(7, 9);
+    }
+
+    // 外层 7:3，栅格 8n:4n，每张图 14:9
+    &-14-9 {
+        .image-ratio(14, 9);
+    }
+
+    &-fit-fill {
+        .img-object-fit(fill);
+    }
+
+    &-fit-contain {
+        .img-object-fit(contain);
+    }
+
+    &-fit-cover {
+        .img-object-fit(cover);
+    }
+
+    &-position-center {
+        .img-object-position(center);
+    }
+
+    &-position-top {
+        .img-object-position(top center);
+    }
+
+    &-position-right {
+        .img-object-position(center right);
+    }
+
+    &-position-bottom {
+        .img-object-position(bottom center);
+    }
+
+    &-position-left {
+        .img-object-position(center left);
+    }
+}
+
+// iOS 暗黑
+@{dark-selectors} {
+    .@{prefix}-image {
+        &::before {
+            border: 0.3px solid #fff3;
+        }
+    }
+}
+
+// android 夜间模式且屏蔽系统内核映射
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-image {
+            &::before {
+                color-scheme: dark;
+                border: 0.3px solid #6663;
+            }
+
+            &-placeholder {
+                color-scheme: dark;
+                background-color: #1f1f1f;
+            }
+        }
+    }
+}

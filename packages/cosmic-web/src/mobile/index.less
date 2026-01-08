@@ -1,0 +1,124 @@
+@import "./src/mobile.less";
+
+html, body, p {
+    margin: 0;
+    border: none;
+    font-size: 14px;
+}
+
+:root {
+    font-size: 100px;
+}
+
+.homepage-title {
+    font-size: 18px;
+    text-align: center;
+    line-height: 60px;
+}
+
+.component-category {
+    .category-title {
+        font-size: 18px;
+        line-height: 30px;
+        box-sizing: border-box;
+    }
+}
+.component-group {
+    .icon {
+        position: relative;
+        right: 0;
+        // top: 2px;
+        fill: #515151;
+    }
+    .group-title,
+    .group-list-item {
+        box-sizing: border-box;
+        padding: 0 12px;
+    }
+    .group-title {
+        font-size: 14px;
+        color: rgb(153, 153, 153);
+        background: #eee;
+        line-height: 30px;
+    }
+    .group-list-item {
+        font-size: 16px;
+        color: #515151;
+        line-height: 40px;
+        .component-item {
+            position: relative;
+            border-bottom: 1px solid #ddd;
+            padding: 0 20px;
+            box-sizing: border-box;
+            .icon {
+                position: absolute;
+                top: 12px;
+                right: 0;
+                fill: #515151;
+            }
+            
+        }
+        &:last-child {
+            .component-item {
+                border-bottom: none;
+            }
+        }
+    }
+}
+
+
+em {
+    font-style: normal;
+    color: #f73131;
+}
+
+.mobile-preview {
+    position: relative;
+    overflow: hidden;
+    background-color: #f5f5f5;
+}
+
+.code-preview-title {
+    border-bottom: 1px solid #eaeaea;
+    width: 100%;
+    height: 44px;
+    font-size: 16px;
+    text-align: center;
+    background-color: #fdfdfd;
+    line-height: 44px;
+}
+
+.preview-head {
+    position: relative;
+    padding: 0 12px;
+    font-size: 18px;
+    text-align: center;
+    background: #fff;
+    line-height: 40px;
+    box-sizing: border-box;
+    .icon {
+        position: absolute;
+        top: 11px;
+        left: 12px;
+        transform: rotate(180deg);
+    }
+}
+
+.code-preview-tip-warning,
+.code-box-meta,
+.highlight-wrapper {
+    display: none;
+}
+
+.mobile-platrogm-wrapper {
+    margin: 0.08rem;
+    border: 0;
+    border-radius: 0.12rem;
+    padding: 0.21rem 0.13rem 0.135rem;
+    width: auto;
+    color: #1e1f24;
+    background-color: #fff;
+    word-break: break-word;
+    word-wrap: break-word;
+    font: 14px/23px Arial, sans-serif 
+}

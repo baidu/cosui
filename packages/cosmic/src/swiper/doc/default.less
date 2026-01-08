@@ -1,0 +1,30 @@
+@import (reference) 'tokens.less';
+
+.demo-item {
+    .item-image {
+        position: relative;
+        height: 150px;
+        .cos-rounded-xs();
+        .cos-space-mb-xs();
+        .cos-color-text-on-em();
+        .cos-text-headline();
+        & span {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+        }
+    }
+    .item-text {
+        width: 100%;
+        .cos-text-center();
+    }
+}
+
+.cos-swiper-control-next,.cos-swiper-control-prev {
+    top: 75px;
+}

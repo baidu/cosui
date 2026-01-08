@@ -1,0 +1,74 @@
+
+@import (reference) "tokens.less";
+ul.anticons-list {
+  overflow: hidden;
+  margin: 40px var(--cos-space-none);
+  list-style: none;
+  li {
+    position: relative;
+    float: left;
+    overflow: hidden;
+    margin: var(--cos-space-3xs) var(--cos-space-none);
+    border-radius: 4px;
+    padding: 10px var(--cos-space-none) var(--cos-space-none);
+    width: 16.66%;
+    height: 100px;
+    color: #555;
+    list-style: none;
+    transition: all .3s;
+    cursor: pointer;
+    .cos-text-center();
+
+
+    .cos-color-bg-raised();
+
+    .anticon {
+      margin: var(--cos-space-sm) var(--cos-space-none) 16px;
+      font-size: 24px;
+      transition: all .3s;
+    }
+
+    .anticon-class {
+      .cos-block();
+      .cos-text-center();
+      transform: scale(0.83);
+      font-family: "Lucida Console", Consolas;
+      white-space: nowrap;
+    }
+
+    &:hover {
+      background-color: @primary-color;
+
+
+      .cos-color-text-inverse();
+      .anticon {
+        transform: scale(1.4);
+      }
+    }
+
+    &.copied:hover {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    &:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      content: "Copied!";
+      line-height: 110px;
+      .cos-text-center();
+
+
+      .cos-color-text-inverse();
+      .cos-opacity-0();
+    }
+
+    &.copied:after {
+      .cos-opacity-100();
+      top: -10px;
+    }
+  }
+}

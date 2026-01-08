@@ -1,0 +1,110 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+@import '../base.less';
+@import '../option.less';
+
+.@{prefix}-select {
+    &-panel {
+        .@{prefix}-search-input {
+            .cos-space-mb-lg();
+        }
+        &-list {
+            .cos-color-text();
+            &-divider {
+                .cos-space-mb-md();
+            }
+
+            &-tag {
+                .cos-space-pl-lg();
+                .cos-space-pr-sm();
+            }
+
+            &-mark .@{prefix}-select-option-group {
+                width: unset;
+            }
+
+            &-tag .@{prefix}-select-option-group {
+                .cos-space-mb-sm();
+            }
+
+            .@{prefix}-select-option-tag {
+                -webkit-tap-highlight-color: transparent;
+                .@{prefix}-checkbox {
+                    padding: var(--cos-space-3xs) var(--cos-space-sm)
+                }
+                .@{prefix}-radio {
+                    padding: var(--cos-space-3xs) var(--cos-space-sm)
+                }
+            }
+
+            &-empty {
+                .cos-text-subtitle();
+                .cos-color-text-minor();
+                .cos-text-center();
+                .cos-space-pt-md();
+            }
+        }
+
+        &-search {
+            min-height: 450px;
+        }
+
+        &-footer {
+            .cos-flex();
+            .cos-flex-col();
+            position: fixed;
+            bottom: var(--bottom-height-offset, 0);
+            left: 0;
+            border-top: 1px solid var(--cos-color-bg-dent);
+            width: 100%;
+            .cos-color-bg();
+            .cos-space-pt-md();
+            .cos-space-pb-md();
+
+            &-text {
+                .cos-space-mb-md();
+                .cos-space-ml-lg();
+                .cos-space-mr-lg();
+                .cos-color-text-minor();
+                .cos-flex();
+                .cos-flex-wrap();
+                .cos-items-center();
+                gap: var(--cos-space-xxs);
+
+                &-label {
+                    line-height: 30px;
+                    padding: var(--cos-space-none) var(--cos-space-xs);
+                    .cos-rounded-sm();
+                    .cos-color-bg-dent();
+                    .cos-color-text-on-primary-light();
+                }
+            }
+
+            &-buttons {
+                .cos-space-pr-md();
+                .cos-space-pl-md();
+                .cos-flex();
+            }
+
+            &-buttons > button:first-child {
+                .cos-space-mr-md();
+            }
+        }
+    }
+}

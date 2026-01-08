@@ -1,0 +1,162 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-city-selector-initial {
+    .cos-flex();
+    .cos-flex-1();
+    overflow: auto;
+    height: 100%;
+    .cos-space-ml-xl();
+    &-cities-wrap {
+        position: relative;
+        overflow: auto;
+        width: 100%;
+        // iOS 低端设备可能会受到视口高度（vh）计算的影响,误计算 height: 100%,导致子元素的高度与父元素不同。使用 min-height: 100% 来修正。
+        min-height: 100%;
+    }
+    &-virtual {
+        position: absolute;
+        top: 0;
+        right: 38px;
+        width: 100%;
+    }
+    &-list {
+        position: absolute;
+        right: 0;
+        z-index: 1;
+        .cos-text-center();
+        margin: var(--cos-space-none) var(--cos-space-xs) var(--cos-space-none);
+        .cos-space-p-none();
+        width: 14px;
+        font-size: calc(var(--cos-text-caption) / var(--font-size-scale, 1));
+        line-height: calc(14px / var(--font-size-scale, 1));
+        list-style: none;
+        .cos-color-text-minor();
+        li {
+            padding-bottom: 2px;
+            box-sizing: border-box;
+        }
+
+        &-active {
+            width: 14px;
+            .cos-inline-block();
+            .cos-rounded-full();
+            .cos-color-text-inverse();
+            .cos-color-bg-primary();
+        }
+
+        &-bubble {
+            position: absolute;
+            right: 18px;
+            z-index: 1;
+            width: 61px;
+            height: 51px;
+        }
+    }
+
+    &-cities {
+        .cos-flex-1();
+        overflow-y: auto;
+        padding-right: 38px;
+        scrollbar-color: transparent transparent;
+        scrollbar-width: thin;
+    }
+
+    &-hot {
+        .cos-text-body();
+        &-title {
+            box-sizing: border-box;
+            padding: var(--cos-space-xs) var(--cos-space-none);
+            .cos-color-text-minor();
+        }
+
+        &-cities {
+            position: relative;
+            .cos-flex();
+            .cos-flex-wrap();
+            margin: var(--cos-space-none) -4px;
+        }
+        &-city {
+            box-sizing: border-box;
+            padding: var(--cos-space-none) 4px;
+            flex: 0 0 auto;
+            width: 25%;
+        }
+        &-label {
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+            .cos-text-body();
+            line-height: 14px;
+            padding: var(--cos-space-xs) var(--cos-space-xxs);
+            .cos-color-text();
+            .cos-rounded-sm();
+            .cos-color-bg-dent();
+        }
+    }
+
+
+
+    &-city {
+        position: relative;
+        .cos-flex();
+        .cos-items-center();
+        padding-left: 22px;
+        &-initial {
+            position: absolute;
+            left: 0;
+            .cos-text-subtitle-sm();
+            .cos-font-medium();
+            .cos-color-text();
+            .cos-space-mr-sm();
+        }
+        &-wrap {
+            .cos-flex-1();
+            .cos-color-text();
+            .cos-text-body();
+            width: 100%;
+        }
+        &-label {
+            .cos-flex();
+            .cos-items-center();
+            height: 45px;
+        }
+    }
+
+    &-menu {
+        .cos-flex-col();
+        align-items: flex-start;
+        &-city {
+            margin: var(--cos-space-xxs) var(--cos-space-none);
+            &-label {
+                line-height: var(--cos-leading-caption-sm);
+                span {
+                    .cos-space-ml-xs();
+                    .cos-color-text-minor();
+                }
+            }
+        }
+    }
+
+    &-menu &-city-initial {
+        position: relative;
+        padding: var(--cos-space-xxs) var(--cos-space-none);
+        box-sizing: border-box;
+    }
+}

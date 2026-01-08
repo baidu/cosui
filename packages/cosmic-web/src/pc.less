@@ -1,0 +1,47 @@
+@import '@cosui/icon/dist/cos-icon.css';
+
+
+@import '@cosui/cosmic/pc/tokens.css';
+
+@import '@cosui/cosmic-dqa/pc/tokens.css';
+@import '@cosui/cosmic-shop/pc/tokens.css';
+
+@import '@cosui/cosmic-education/pc/tokens.css';
+@import '@cosui/cosmic-medical/pc/tokens.css';
+
+@import '@cosui/cosmic/pc/index.css';
+@import '@cosui/cosmic-dqa/pc/index.css';
+@import '@cosui/cosmic-card/pc/index.css';
+
+img {
+    max-width: unset;
+}
+
+
+em {
+    color: #f73131;
+    font-style: normal;
+}
+
+a {
+    text-decoration: none;
+    color: #2440b3;
+    &:hover {
+        text-decoration: underline;
+        color: #315efb;
+    }
+    &:active {
+        text-decoration: none;
+        color: #f73131;
+    }
+}
+
+.agent-ui-item {
+    .agent-ui {
+        margin-top: var(--cos-space-lg);
+    }
+
+    &:first-child .agent-ui {
+        margin-top: var(--cos-space-none);
+    }
+}

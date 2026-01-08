@@ -1,0 +1,62 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import '../mobile/index.less';
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+// 小三角的高度或者宽度 / 2 加上 2 px 的间距
+@cos-tooltip-arrow: 8px;
+
+.@{prefix}-tooltip {
+    &-trigger &-content {
+        max-width: 344px;
+        .cos-color-text();
+        .cos-color-bg();
+        box-shadow: 0px 6px 21px 0px #1e1f2433;
+    }
+
+    &-top {
+        padding-bottom: @cos-tooltip-arrow;
+        .@{prefix}-tooltip-arrow {
+            border-top-color: var(--cos-color-bg);
+        }
+    }
+
+    &-bottom {
+        padding-top: @cos-tooltip-arrow;
+        .@{prefix}-tooltip-arrow {
+            top: -4px;
+            border-bottom-color: var(--cos-color-bg);
+        }
+    }
+
+    &-left {
+        padding-right: @cos-tooltip-arrow;
+        .@{prefix}-tooltip-arrow {
+            right: -4px;
+            border-left-color: var(--cos-color-bg);
+        }
+    }
+
+    &-right {
+        padding-left: @cos-tooltip-arrow;
+        .@{prefix}-tooltip-arrow {
+            left: -4px;
+            border-right-color: var(--cos-color-bg);
+        }
+    }
+}

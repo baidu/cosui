@@ -1,0 +1,161 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@{parent-prefix} {
+    .hljs-comment,
+    .hljs-quote {
+        color: #848691;
+        font-style: italic;
+    }
+
+    .hljs-doctag,
+    .hljs-formula,
+    .hljs-keyword {
+        color: #a30fa8;
+    }
+
+    .hljs-deletion,
+    .hljs-name,
+    .hljs-section,
+    .hljs-selector-tag,
+    .hljs-subst {
+        color: #fd503e;
+    }
+
+    .hljs-literal {
+        color: #31caf5;
+    }
+
+    .hljs-addition,
+    .hljs-attribute,
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+        color: #30a138;
+    }
+
+    .hljs-attr,
+    .hljs-number,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-pseudo,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable {
+        color: #c99612;
+    }
+
+    .hljs-bullet,
+    .hljs-link,
+    .hljs-meta,
+    .hljs-selector-id,
+    .hljs-symbol,
+    .hljs-title {
+        color: #4e6ef2;
+    }
+
+    .hljs-built_in,
+    .hljs-class .hljs-title,
+    .hljs-title.class_ {
+        color: #c99612;
+    }
+
+    .hljs-emphasis {
+        font-style: italic
+    }
+
+    .hljs-strong {
+        font-weight: 700
+    }
+
+    .hljs-link {
+        text-decoration: underline
+    }
+
+    code {
+        margin: 0 4px;
+        border-radius: 6px;
+        padding: 1px 4px;
+        background: #edeef0;
+    }
+    // 代码块部分代码
+    pre code {
+        display: block;
+        overflow-x: auto;
+        padding: 1em;
+        padding: 0;
+        white-space: pre;
+        background: none;
+        border-bottom-left-radius: 9px;
+        border-bottom-right-radius: 9px;
+    }
+
+    pre {
+        margin: 12px 0;
+        background: rgba(245, 246, 249, 0.5);
+        line-height: 24px;
+    }
+
+    pre {
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 11px 11px 0px 0px;
+            padding: 8.5px 12px;
+            font-size: 14px;
+            background: #f5f6f9;
+
+            .chat-lang {
+                &::before {
+                    content: attr(data-chat-lang);
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
+
+    .code-wrapper {
+        display: flex;
+        padding: 12px 9px 4px;
+
+        .code-left {
+            margin-bottom: 8px;
+            border-right: 1px solid #edeef0;
+            padding-right: 9px;
+
+            .code-number {
+                &::before {
+                    content: attr(data-line-number);
+                }
+            }
+        }
+        .code-right {
+            overflow-x: scroll;
+            overflow-wrap: normal;
+            padding-left: 9px;
+
+            &::-webkit-scrollbar {
+                height: 4px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: 4px;
+                background: rgba(102, 51, 255, .1);
+            }
+        }
+    }
+}

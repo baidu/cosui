@@ -1,0 +1,91 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import '../typography.less';
+
+.cos-pc, :root {
+    --cos-text-headline-xl: 30px;
+    --cos-leading-headline-xl: 36px;
+    --cos-text-headline: 20px;
+    --cos-leading-headline: 26px;
+    --cos-text-headline-sm: 18px;
+    --cos-leading-headline-sm: 24px;
+    --cos-text-subtitle: 16px;
+    --cos-leading-subtitle: 22px;
+    --cos-text-subtitle-sm: 14px;
+    --cos-leading-subtitle-sm: 20px;
+    --cos-text-body-lg-higher: 16px;
+    --cos-leading-body-lg-higher: 28px;
+    --cos-text-body-lg: 14px;
+    --cos-leading-body-lg: 23px;
+    --cos-text-body: 13px;
+    --cos-leading-body: 22px;
+    --cos-text-caption: 12px;
+    --cos-leading-caption: 21px;
+    --cos-text-caption-sm: 12px;
+    --cos-leading-caption-sm: 21px;
+}
+
+.cos-text-headline-xl {
+    .cos-font-medium();
+    font-size: var(--cos-text-headline-xl);
+    line-height: var(--cos-leading-headline-xl);
+}
+.cos-text-headline {
+    .cos-font-medium();
+    font-size: var(--cos-text-headline);
+    line-height: var(--cos-leading-headline);
+}
+.cos-text-headline-sm {
+    .cos-font-regular();
+    font-size: var(--cos-text-headline-sm);
+    line-height: var(--cos-leading-headline-sm);
+}
+.cos-text-subtitle {
+    .cos-font-regular();
+    font-size: var(--cos-text-subtitle);
+    line-height: var(--cos-leading-subtitle);
+}
+.cos-text-subtitle-sm {
+    .cos-font-regular();
+    font-size: var(--cos-text-subtitle-sm);
+    line-height: var(--cos-leading-subtitle-sm);
+}
+.cos-text-body-lg-higher {
+    .cos-font-regular();
+    font-size: var(--cos-text-body-lg-higher);
+    line-height: var(--cos-leading-body-lg-higher);
+}
+.cos-text-body-lg {
+    .cos-font-regular();
+    font-size: var(--cos-text-body-lg);
+    line-height: var(--cos-leading-body-lg);
+}
+.cos-text-body {
+    .cos-font-regular();
+    font-size: var(--cos-text-body);
+    line-height: var(--cos-leading-body);
+}
+.cos-text-caption {
+    .cos-font-regular();
+    font-size: var(--cos-text-caption);
+    line-height: var(--cos-leading-caption);
+}
+.cos-text-caption-sm {
+    .cos-font-regular();
+    font-size: var(--cos-text-caption-sm);
+    line-height: var(--cos-leading-caption-sm);
+}

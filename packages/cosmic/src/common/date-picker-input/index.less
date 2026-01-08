@@ -1,0 +1,85 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+.@{prefix}-date-picker-input {
+    box-sizing: border-box;
+    .cos-flex();
+    .cos-items-center();
+    .cos-rounded-sm();
+    .cos-space-pr-3xs();
+    z-index: 1;
+    height: 36px;
+
+    .cos-input {
+        .cos-space-pr-xxs();
+        .cos-space-pl-xxs();
+        border: none;
+        width: 100%;
+        pointer-events: none;
+
+        .cos-input-box {
+            font-size: var(--cos-text-subtitle-sm);
+        }
+    }
+
+    &:hover {
+        outline: 1px solid var(--cos-color-border);
+    }
+
+    .@{prefix}-input-box {
+        .cos-font-medium();
+        &::placeholder {
+            .cos-font-regular();
+        }
+    }
+
+    &-icon {
+        width: 21px;
+        height: 30px;
+        flex: 1 0 21px;
+        cursor: pointer;
+        .cos-rounded-xs();
+        .cos-flex();
+        .cos-color-text();
+        .cos-justify-center();
+        .cos-items-center();
+        transition: background-color var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+        &:hover {
+            .cos-color-bg-dent();
+            transition: background-color var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+        }
+        &:active {
+            .cos-opacity-50();
+            transition: opacity var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+        }
+    }
+
+    &-icon-disabled {
+        pointer-events: none;
+        .cos-color-text-minor();
+    }
+
+    &.@{prefix}-date-picker-input-active {
+        outline: 1px solid var(--cos-color-border-primary);
+    }
+    &.@{prefix}-date-picker-input-disabled {
+        pointer-events: none;
+        .@{prefix}-date-picker-input-icon {
+            .cos-color-text-minor();
+        }
+    }
+}

@@ -1,0 +1,138 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-dialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: var(--bottom-height-offset, 0);
+    left: 0;
+    z-index: 901;
+    &-mask {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, .4);
+    }
+    &-container {
+        position: relative;
+        .cos-flex();
+        .cos-flex-col();
+        top: 50%;
+        margin: auto;
+        width: 80%;
+        max-height: 70%;
+        transform: translateY(-50%);
+        .cos-color-bg();
+        .cos-rounded-xxl();
+    }
+    &-header {
+        .cos-text-center();
+        .cos-text-headline-sm();
+        .cos-space-pt-3xl();
+        .cos-space-pb-md();
+        .cos-font-medium();
+        .cos-color-text();
+    }
+    &-body {
+        flex: 1;
+        .cos-text-center();
+        overflow-x: hidden;
+        .cos-color-text-tiny();
+        .cos-text-body-lg();
+        .cos-font-regular();
+        .cos-space-pr-3xl();
+        .cos-space-pl-3xl();
+    }
+     &-footer {
+        .cos-space-pt-3xl();
+    }
+    &-operate-button {
+        .cos-flex();
+        .cos-items-center();
+        overflow: hidden;
+        height: 48px;
+        .cos-rounded-xxl();
+        button {
+            flex: 1;
+            border: none;
+            line-height: 48px;
+            font-size: var(--cos-text-headline-sm);
+            .cos-font-regular();
+            .cos-color-text();
+            .cos-color-bg();
+        }
+        .@{prefix}-dialog-ok {
+            .cos-color-text-primary();
+            .cos-font-medium();
+        }
+    }
+    &-close {
+        position: absolute;
+        right: 0;
+        bottom: -52px;
+        left: 0;
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        margin: var(--cos-space-none) auto;
+        .cos-rounded-full();
+        border: 1px solid var(--cos-color-text-tiny-inverse);
+        width: 16px;
+        height: 16px;
+        font-size: var(--cos-leading-headline-sm);
+        .cos-leading-none();
+        cursor: pointer;
+        .cos-space-p-xs();
+        .cos-color-text-inverse();
+    }
+    &-headless {
+        .@{prefix}-dialog-body {
+            .cos-space-pr-none();
+            .cos-space-pl-none();
+        }
+    }
+    &-align-vertical {
+        .@{prefix}-dialog-operate-button {
+            .cos-flex-col();
+            align-items: normal;
+            height: 100%;
+        }
+        .@{prefix}-dialog-cancel {
+            .cos-color-text-primary();
+            .cos-font-medium();
+        }
+        .@{prefix}-dialog-ok {
+            .cos-color-text();
+            .cos-font-regular();
+        }
+    }
+}
+
+
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-dialog-close {
+            color-scheme: dark;
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+    }
+}

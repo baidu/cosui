@@ -1,0 +1,116 @@
+@import (reference) 'tokens.less';
+
+
+.web-outline {
+    position: fixed;
+    top: var(--web-header-height);
+    right: 0;
+    box-sizing: border-box;
+    .cos-space-pt-md();
+    .cos-space-pl-md();
+    .cos-text-subtitle-sm();
+    .cos-color-bg();
+    .cos-color-text-minor();
+    z-index: 99;
+    overflow-y: auto;
+    // 只在当前容器滚动不影响父级
+    overscroll-behavior: contain;
+    height: calc(100% - var(--web-header-height));
+
+    &-on {
+        .web-outline-button {
+            .cos-rounded-full();
+            background: 
+                url('./assets/headerline-on.svg') center/auto no-repeat,
+                var(--cos-color-bg-dent);
+        }
+        
+        .web-outline-button:hover {
+            background: 
+                url('./assets/headerline-on-hover.svg') center/auto no-repeat,
+                var(--cos-color-bg-dent-hover);
+        }
+    }
+
+    &-off {
+        height: 66px;
+        background: none;
+        .web-outline-button {
+            border-radius: var(--cos-rounded-lg) 0 0 var(--cos-rounded-lg);
+            background: 
+            url('./assets/headerline-off.svg') center/auto no-repeat,
+            var(--cos-color-bg-dent);
+            &:hover {
+                background: 
+                url('./assets/headerline-off-hover.svg') center/auto no-repeat,
+                var(--cos-color-bg-dent-hover);
+            }
+            
+        }
+        .web-outline-list {
+            display: none;
+        }
+    }
+
+    &-button {
+        .cos-space-mb-md();
+        width: 36px;
+        height: 36px;
+        background: none;
+        background-size: contain;
+        cursor: pointer;
+    }
+
+    &-list {
+        overflow: hidden;
+        width: 154px;
+    }
+
+    &-item {
+        position: relative;
+        overflow: hidden;
+        .cos-space-mb-md();
+        .cos-space-pr-md();
+        .cos-color-text-tiny();
+
+        height: 20px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+
+        &:hover {
+            .cos-font-medium();
+            .cos-color-text();
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                border-radius: 100px;
+                width: 4px;
+                height: 20px;
+                background-color: var(--cos-color-text);
+            }
+        }
+
+        &-2 {
+            padding-left: 20px;
+        }
+        &-3 {
+            padding-left: 36px;
+        }
+        &-4 {
+            padding-left: 52px;
+        }
+        // &-5 {
+        //     padding-left: 64px;
+        // }
+    }
+}
+
+// 当视口高度小于或等于 654px，调整间距
+@media (max-height: 654px) {
+    .web-outline-item {
+        .cos-space-mb-xs();
+    }
+}

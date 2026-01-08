@@ -1,0 +1,145 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-tag {
+    .cos-inline-flex();
+    .cos-justify-center();
+    .cos-items-center();
+    overflow: hidden;
+    white-space: nowrap;
+    box-sizing: border-box;
+    .cos-space-pl-3xs();
+    .cos-space-pr-3xs();
+    .cos-text-caption();
+    .cos-rounded-xxs();
+    .cos-font-medium();
+    .cos-shrink-0();
+    .cos-text-center();
+
+    &.@{prefix}-sm {
+        min-width: 16px;
+        line-height: 16px;
+        height: fit-content;
+
+        &.@{prefix}-tag-single-text {
+            padding-right: 2px;
+            padding-left: 2px;
+        }
+    }
+
+    &.@{prefix}-md {
+        min-width: 18px;
+        line-height: 18px;
+        height: fit-content;
+    }
+
+    // 规范已不再支持内瞄边样式，但线上存在仍使用瞄边样式的情况；
+    // 自适应高度，内瞄边要通过增加一个伪元素实现；这样与之前业务直接给 tag 设置 border 颜色不兼容；
+    // 这里与线上保持一致不做改动，推动业务不再使用 outline 标签后把该标签下掉
+    &-outline {
+        border-style: solid;
+        border-width: 1px;
+        font-size: var(--cos-text-caption-sm);
+
+        &.@{prefix}-sm {
+            height: 16px;
+        }
+        &.@{prefix}-md {
+            height: 18px;
+        }
+    }
+
+    // tag 规范升级，把线上使用灰色标签的背景色也调整为 cos-tag-color-bg
+    &.cos-color-bg-dent.cos-color-text-tiny {
+        .cos-tag-color-bg();
+    }
+}
+
+// 小尺寸 + 单文本标签，展现应为正方形
+.font-size-0 {
+    .@{prefix}-tag.@{prefix}-sm.@{prefix}-tag-single-text {
+        min-height: 16px;
+    }
+}
+
+// 适配安卓夜间模式，实现较有限，未涵盖不在 class 内应用 token 的场景
+// 未涵盖如 .tags {color: var(--cos-color-text-on-primary-light);}
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-tag {
+            // 正版强面型标签
+            &.cos-color-bg-primary-light.cos-color-text-on-primary {
+                color-scheme: dark;
+                color: #808080;
+                background-color: #263678;
+            }
+
+            // 风险强面型标签
+            &.cos-color-bg-alive.cos-color-text-on-primary {
+                color-scheme: dark;
+                color: #808080;
+                background-color: #7b1818;
+            }
+
+            // 弱面型警示标签
+            &.cos-color-bg-warning-light.cos-color-text-on-warning-light {
+                color-scheme: dark;
+                color: #743a00;
+                background-color: #e874001a;
+            }
+
+            // 弱面型风险标签
+            &.cos-color-bg-error-light.cos-color-text-on-error-light {
+                color-scheme: dark;
+                color: #7b1818;
+                background-color: #f731311a;
+            }
+
+            // 弱面型成功标签
+            &.cos-color-bg-success-light.cos-color-text-on-success-light {
+                color-scheme: dark;
+                color: #1c5930;
+                background-color: #39b3621a;
+            }
+
+            // 新弱面型灰色标签
+            &.cos-tag-color-bg.cos-color-text-tiny,
+            &.cos-color-bg-dent.cos-color-text-tiny,
+            &.cos-tag-color-bg.cos-color-text-tiny-active {
+                color-scheme: dark;
+                color: #808080;
+                background-color: #2f2f2fff;
+            }
+
+            // 弱面型品牌色标签
+            &.cos-color-bg-primary-light.cos-color-text-on-primary-light {
+                color-scheme: dark;
+                color: #263678;
+                background-color: #4e6ef21a;
+            }
+
+            // 弱面型优惠标签
+            &.cos-color-bg-alive-light.cos-color-text-on-alive-light {
+                color-scheme: dark;
+                color: #7e271e;
+                background-color: #fd503e1a;
+            }
+        }
+    }
+}

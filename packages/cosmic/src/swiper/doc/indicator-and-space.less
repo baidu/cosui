@@ -1,0 +1,50 @@
+@import (reference) 'tokens.less';
+
+.demo-controller {
+    .cos-space-mb-xs();
+
+    > * {
+        .cos-flex();
+        .cos-items-center();
+        .cos-space-mb-xs();
+
+        > label {
+            .cos-space-mr-xxs();
+            min-width: 220px;
+        }
+        .cos-input,
+        .cos-select {
+            min-width: 160px;
+            flex-basis: 0;
+            flex-grow: 1;
+        }
+        .cos-select-entry {
+            .cos-color-border();
+            height: 36px;
+        }
+    }
+}
+
+.demo-item {
+    .item-image {
+        position: relative;
+        padding-top: 56.25%;
+        .cos-rounded-xs();
+        .cos-color-text-on-em();
+        .cos-text-headline();
+        & span {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+        }
+    }
+}
+
+.remove-spacing {
+    margin: var(--cos-space-none) -13px var(--cos-space-none) -13px;
+}

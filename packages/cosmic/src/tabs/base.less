@@ -1,0 +1,301 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-tabs {
+    .cos-flex();
+    .cos-flex-col();
+    box-sizing: border-box;
+
+    &-header-container {
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    &-header {
+        .cos-flex();
+        .cos-items-center();
+        overflow: auto hidden;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+
+        &:hover {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        // 以下隐藏滚动条
+        // Firefox
+        scrollbar-width: none;
+        // Internet Explorer 10+
+        -ms-overflow-style: none;
+
+        &::-webkit-scrollbar {
+            // Safari and Chrome
+            .cos-hidden();
+        }
+    }
+    &-left-arrow,
+    &-right-arrow {
+        .cos-rounded-full();
+        position: absolute;
+        top: 50%;
+        z-index: 2;
+        border: .5px solid var(--cos-color-border-minor);
+        width: 30px;
+        height: 30px;
+        box-sizing: border-box;
+        .cos-text-center();
+        background-color: rgba(255, 255, 255, .8);
+        cursor: pointer;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            .cos-rounded-full();
+            width: 100%;
+            height: 100%;
+        }
+
+        &:hover::before {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+        }
+
+        &:hover {
+            .cos-color-bg();
+            .@{prefix}-tabs-icon {
+                .cos-color-text-primary();
+            }
+        }
+    }
+
+    &-left-arrow {
+        left: 0;
+        transform: translate(-50%, -50%);
+    }
+    &-right-arrow {
+        right: 0;
+        transform: translate(50%, -50%);
+    }
+    &-icon {
+        font-size: var(--cos-text-subtitle-sm);
+        font-weight: bolder;
+        .cos-color-text-minor();
+        line-height: 30px;
+        -webkit-text-stroke: .8px;
+    }
+
+    .@{prefix}-tab {
+        .cos-flex();
+        .cos-flex-expand();
+        .cos-justify-center();
+        .cos-items-center();
+        .cos-space-pt-xs();
+        .cos-space-pb-xs();
+        .cos-space-pl-sm();
+        .cos-space-pr-sm();
+        box-sizing: border-box;
+        height: max-content;
+        min-height: 31px;
+        .cos-text-body();
+        .cos-leading-none();
+
+        &.@{prefix}-tab-active {
+            .cos-color-text-primary();
+            .cos-font-medium();
+        }
+    }
+
+    /* bar appearance */
+    &.@{prefix}-tabs-bar {
+        .@{prefix}-tabs-header {
+            .cos-color-bg-dent();
+            .cos-rounded-md();
+            padding: 2px;
+        }
+
+        .@{prefix}-tab {
+            .cos-rounded-sm();
+
+            &:not(:first-child) {
+                margin-left: 4px;
+            }
+
+            &.@{prefix}-tab-active {
+                .cos-color-bg-raised();
+            }
+        }
+    }
+
+    /* pill appearance */
+    &.@{prefix}-tabs-pill {
+        max-width: 660px;
+        .@{prefix}-tabs-header {
+            .cos-rounded-md();
+            padding: 2px;
+        }
+
+        .@{prefix}-tab {
+            .cos-rounded-sm();
+
+            &:not(:first-child) {
+                margin-left: 4px;
+            }
+
+            &.@{prefix}-tab-active {
+                .cos-color-bg-dent();
+            }
+        }
+    }
+
+    /* pill-filled appearance */
+    &.@{prefix}-tabs-pill-filled {
+
+        .@{prefix}-tabs-header {
+            .cos-rounded-none();
+            .cos-color-bg();
+            padding: var(--cos-space-none) 2px;
+            height: 30px;
+        }
+
+        .@{prefix}-tab {
+            .cos-rounded-sm();
+            .cos-flex-none();
+            .cos-color-bg-dent();
+            height: 30px;
+
+            &:not(:first-child) {
+                .cos-space-ml-3xs();
+            }
+
+            &.@{prefix}-tab-active {
+                .cos-color-bg-dent();
+                .cos-color-text-primary();
+            }
+        }
+    }
+
+    /* card appearance */
+    &.@{prefix}-tabs-card {
+        .@{prefix}-tabs-header {
+            .cos-color-bg-dent();
+            border-top-left-radius: var(--cos-rounded-xl);
+            border-top-right-radius: var(--cos-rounded-xl);
+        }
+
+        .@{prefix}-tab {
+            border-top-left-radius: var(--cos-rounded-xl);
+            border-top-right-radius: var(--cos-rounded-xl);
+
+            &.@{prefix}-tab-active {
+                .cos-color-bg();
+            }
+        }
+    }
+
+    /* outline appearance */
+    &.@{prefix}-tabs-outline {
+        .@{prefix}-tabs-header {
+            .cos-rounded-none();
+            height: unset;
+        }
+
+        .@{prefix}-tab {
+            .cos-flex();
+            .cos-flex-none();
+            .cos-flex-col();
+            .cos-rounded-sm();
+            border: 1px solid;
+            .cos-space-pt-xxs();
+            .cos-space-pl-xxs();
+            .cos-space-pr-xxs();
+            .cos-space-pb-xs();
+            .cos-color-border-transparent();
+            height: unset;
+            .cos-color-bg-dent();
+            font-size: var(--cos-text-caption);
+
+            &:not(:first-child) {
+                margin-left: 4px;
+            }
+
+            &.@{prefix}-tab-active {
+                .cos-color-bg-dent();
+                border: 1px solid;
+                border-color: #4e6ef280;
+                .cos-color-text-primary();
+            }
+        }
+
+        .cos-img {
+            width: 56px;
+            height: 56px;
+            .cos-space-mb-xxs();
+        }
+
+        p {
+            .cos-leading-none();
+        }
+    }
+
+
+    &-content {
+        .cos-flex();
+        .cos-items-center();
+    }
+}
+
+// 适配 android 夜间模式下被内核映射的颜色
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-tabs {
+            &.@{prefix}-tabs-bar,
+            &.@{prefix}-tabs-card {
+                .@{prefix}-tab-active {
+                    background-color: #fff;
+                }
+            }
+            &.@{prefix}-tabs-pill {
+                .@{prefix}-tab .@{prefix}-tab-active {
+                    background-color: #f5f6f9;
+                }
+            }
+        }
+    }
+}
+
+@{dark-browser-selectors} .@{prefix}-tabs {
+    .@{prefix}-tab {
+        &.@{prefix}-tab-active {
+            .cos-color-text-primary() !important;
+            .cos-font-medium() !important;
+        }
+    }
+
+    .@{prefix}-tabs-header-container {
+        .@{prefix}-tab-active{
+            .cos-color-bg-raised() !important;
+        }
+    }
+
+    .@{prefix}-tabs-header {
+        .cos-color-bg-dent() !important;
+    }
+}

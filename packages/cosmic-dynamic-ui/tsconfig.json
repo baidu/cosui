@@ -1,0 +1,18 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "sourceMap": true,
+        "baseUrl": ".",
+        "noImplicitAny": true,
+        "noEmitOnError": true,
+        "target": "es6",
+        "module": "esnext",
+        "moduleResolution": "node"
+    },
+    "include": [
+        "./src/**/*.ts",
+    ],
+    "exclude": [
+        "tests/**/*.ts"
+    ]
+}

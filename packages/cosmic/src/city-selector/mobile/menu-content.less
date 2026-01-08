@@ -1,0 +1,120 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-city-selector-content {
+    .cos-flex();
+    .cos-flex-1();
+    overflow-y: auto;
+    &-menu {
+        overflow-y: auto;
+        width: 80px;
+        .cos-shrink-0();
+        .cos-text-subtitle-sm();
+        .cos-color-bg-dent();
+        scrollbar-color: transparent transparent;
+        scrollbar-width: thin;
+        &::-webkit-scrollbar {
+            // Safari and Chrome
+            .cos-hidden();
+        }
+        &-item {
+            .cos-flex();
+            .cos-items-center();
+            .cos-justify-center();
+            padding: var(--cos-space-sm) var(--cos-space-none);
+        }
+        &-active {
+            .cos-font-medium();
+            .cos-color-bg-raised();
+            .cos-color-text-primary();
+        }
+    }
+
+    &-countries {
+        .cos-flex();
+        .cos-flex-col();
+        overflow-y: auto;
+        padding: var(--cos-space-sm) var(--cos-space-md) var(--cos-space-md) var(--cos-space-md);
+        width: 100%;
+        scrollbar-color: transparent transparent;
+        scrollbar-width: thin;
+    }
+    &-initial {
+        .cos-text-body();
+        .cos-color-text-minor();
+        .cos-space-mb-xs();
+    }
+    &-cities {
+        .cos-flex();
+        .cos-items-center();
+        .cos-flex-wrap();
+        .cos-color-text();
+        margin: var(--cos-space-none) -6px;
+    }
+    &-city {
+        flex: 0 0 auto;
+        .cos-rounded-sm();
+        .cos-space-mb-sm();
+        padding: var(--cos-space-none) var(--cos-space-xxs);
+        width: 33.33%;
+        box-sizing: border-box;
+        &-label,
+        &-more {
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+            .cos-text-body();
+            line-height: 14px;
+            padding: var(--cos-space-xs) var(--cos-space-xxs);
+            .cos-color-text();
+            .cos-rounded-sm();
+            .cos-color-bg-dent();
+        }
+        &-label {
+            &-small {
+                font-size: var(--cos-text-caption-sm);
+            }
+        }
+        &-same {
+            padding: var(--cos-space-3xs) var(--cos-space-xxs);
+            font-size: var(--cos-text-caption-sm);
+            .cos-flex();
+            .cos-flex-col();
+            .cos-justify-center();
+            span {
+                line-height: 13px;
+                width: 100%;
+                .cos-text-center();
+            }
+            &-desc {
+                .cos-color-text-minor();
+            }
+        }
+        &-more {
+            .@{prefix}-icon {
+                .cos-color-text-on-primary-light();
+                .cos-space-ml-3xs();
+            }
+        }
+    }
+
+    .@{prefix}-city-selector-content {
+        .cos-space-ml-md();
+    }
+}

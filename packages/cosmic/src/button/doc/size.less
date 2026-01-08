@@ -1,0 +1,27 @@
+@import (reference) 'tokens.less';
+
+.button-demo {
+    .cos-flex();
+    .cos-flex-wrap();
+    gap: var(--cos-space-xxl);
+    .cos-flex-col();
+
+    h4 {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+    }
+}
+
+.pc {
+    .custom-wise-button {
+        .cos-hidden();
+    }
+}
+
+.mobile {
+    .custom-pc-button {
+        .cos-hidden();
+    }
+}

@@ -1,0 +1,155 @@
+
+@import (reference) "tokens.less";
+
+/**
+* prism.js default theme for JavaScript, CSS and HTML
+* Based on dabblet (http://dabblet.com)
+*/
+
+pre code {
+ .cos-block();
+ border: 1px solid #e9e9e9;
+ border-radius: @border-radius-sm;
+ padding: 16px 32px;
+ font-size: @font-size-base;
+ font-family: "Lucida Console", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+ white-space: pre;
+ color: @site-text-color;
+ background: white;
+ line-height: 2;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  font-family: "Lucida Console", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  white-space: pre;
+  color: black;
+  background: none;
+  direction: ltr;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+  .cos-text-left();
+}
+
+pre[class*="language-"]::-moz-selection,
+pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection,
+code[class*="language-"] ::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+pre[class*="language-"]::selection,
+pre[class*="language-"] ::selection,
+code[class*="language-"]::selection,
+code[class*="language-"] ::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+@media print {
+  code[class*="language-"],
+  pre[class*="language-"] {
+      text-shadow: none;
+  }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  overflow: auto;
+  margin: 16px var(--cos-space-none);
+  padding: var(--cos-space-sm) 20px;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background: #f2f4f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  border-radius: .3em;
+  padding: .1em;
+  white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: slategray;
+}
+
+.token.punctuation {
+  color: #999;
+}
+
+.namespace {
+  .cos-opacity-70();
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #f81d22;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #0b8235;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #0b8235;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #008dff;
+}
+
+.token.function {
+  color: #f81d22;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #e90;
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}

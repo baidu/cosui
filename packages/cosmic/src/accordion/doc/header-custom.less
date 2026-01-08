@@ -1,0 +1,29 @@
+@import (reference) 'tokens.less';
+
+.accordion-demo {
+
+    @keyframes rotation {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    h4 {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+    }
+
+    .cos-accordion-panel-content {
+        .cos-space-pb-sm();
+    }
+
+    .cos-icon-loading {
+        .cos-inline-block();
+        animation: rotation 1s infinite linear;
+    }
+}

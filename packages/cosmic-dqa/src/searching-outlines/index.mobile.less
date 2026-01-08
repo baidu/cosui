@@ -1,0 +1,170 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-searching-outlines {
+
+    // 因为行高问题，下方边距需要向上收紧
+    margin-bottom: calc(var(--cos-space-xxs) * -1);
+
+    // 下划线实现使用图片的原因是dashed不能控制虚线的密度，且下划线不能实现圆角，所以采用该方案
+    &-underline {
+        padding-bottom: 1.5px;
+        background-image: url('https://gips0.baidu.com/it/u=4114430329,3218253131&fm=3028&app=3028&f=PNG&fmt=auto&q=90&size=f19_3');
+        background-position: left bottom;
+        background-repeat: repeat-x;
+        background-size: 6px 1px;
+    }
+
+    &-link {
+        .cos-color-text();
+
+        // 消除点击态的黑框
+        -webkit-tap-highlight-color: transparent;
+
+        &:visited {
+            .cos-color-text();
+        }
+        &:active {
+            .cos-opacity-20();
+        }
+    }
+
+    &-title {
+        .cos-flex();
+        .cos-space-mb-xs();
+        .cos-items-center();
+
+        &-image {
+            .cos-space-mr-xxs();
+            .cos-flex();
+            .cos-items-center();
+            width: 21px;
+        }
+
+        &-icon {
+            .cos-space-mr-xxs();
+            .cos-text-headline();
+        }
+
+        &-emoji {
+            .cos-space-mr-3xs();
+            .cos-text-headline-sm();
+        }
+
+        &-text {
+            .cos-color-text();
+            .cos-text-headline-sm();
+        }
+    }
+
+    &-item {
+
+        &-title {
+            .cos-flex();
+            .cos-text-headline-sm();
+            .cos-space-mt-xxs();
+            line-height: var(--cos-text-headline-xl);
+        }
+
+        &-sublist {
+            .cos-text-body-lg();
+            .cos-color-text();
+            .cos-space-pl-none();
+            .cos-space-m-none();
+            line-height: var(--cos-leading-body-lg-higher);
+
+            // 消除列表自带的marker序号
+            list-style: none;
+
+            &-item {
+                .cos-space-mt-xxs();
+            }
+
+            // 这里列表实现和markdown结构化数据保持一致，所以单独书写，安卓夜间颜色映射，在下方单独适配
+            &-item::before {
+                position: relative;
+                top: -2px;
+                .cos-inline-block();
+                margin: var(--cos-space-none) 11px var(--cos-space-none) 1px;
+                border-radius: 50%;
+                width: 6px;
+                height: 6px;
+                background-color: var(--cos-color-text);
+                content: '';
+                vertical-align: middle;
+            }
+        }
+    }
+}
+
+// 因为下划线使用背景图片实现，因此暗黑模式需要对ios,安卓夜间做适配
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-searching-outlines {
+            &-underline {
+                background-image: url('https://gips0.baidu.com/it/u=3425432413,170020957&fm=3028&app=3028&f=PNG&fmt=auto&q=90&size=f19_3');
+            }
+            &-item {
+                &-sublist {
+
+                    // 安卓暗黑模式下，列表的无需序号颜色被映射，因此在这里单独写，和安卓正文一致
+                    &-item::before {
+                        color-scheme: dark;
+                        background-color: rgba(255, 255, 255, .2);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 兼容ios情况下，下划线的图片
+@{dark-selectors} {
+    .@{prefix}-searching-outlines {
+        &-underline {
+            background-image: url('https://gips0.baidu.com/it/u=3425432413,170020957&fm=3028&app=3028&f=PNG&fmt=auto&q=90&size=f19_3');
+        }
+    }
+}
+
+/** regular appearance **/
+.@{prefix}-searching-outlines-regular {
+    .@{prefix}-searching-outlines-item {
+        &-title {
+            .cos-text-body-lg-higher();
+            // 一级标题字体使用 regular 覆盖了 medium，但是 medium 中的 stroke 仍然存在，导致安卓上文字被加粗
+            -webkit-text-stroke: 0;
+        }
+    }
+
+    .@{prefix}-searching-outlines-link {
+        .cos-color-text-link();
+
+        &-icon {
+            .cos-inline-block();
+            vertical-align: top;
+            font-size: 9px;
+            line-height: 19px;
+        }
+    }
+
+    .@{prefix}-searching-outlines-underline {
+        background: none;
+    }
+}

@@ -1,0 +1,36 @@
+@import (reference) "tokens.less";
+
+.image-special {
+
+    // 去掉模糊效果
+    .image-special-medical-show {
+        .cos-image-body {
+            filter: none;
+        }
+
+        .image-content {
+            .cos-hidden();
+        }
+    }
+    
+    // 医疗图片增加模糊效果
+    .cos-image-body {
+        filter: blur(4px);
+    }
+
+    .image-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        line-height: var(--cos-leading-subtitle);
+    }
+
+    .image-icon {
+        .cos-block();
+        width: 22px;   
+        height: 22px;
+        background: url('./assets/eye-closed.png') no-repeat;
+        background-size: 100%;
+    }
+}

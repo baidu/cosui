@@ -1,0 +1,157 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-toast {
+    .cos-flex();
+    .cos-justify-center();
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 902;
+    width: 100%;
+    box-sizing: border-box;
+
+    &.@{prefix}-toast-top {
+        top: 32px;
+        bottom: unset;
+        transform: translate(-50%, 0);
+    }
+
+    &.@{prefix}-toast-middle {
+        top: 50%;
+        bottom: unset;
+        transform: translate(-50%, -50%);
+    }
+
+    &.@{prefix}-toast-bottom {
+        top: unset;
+        bottom: 32px;
+        transform: translate(-50%, calc(-1 * var(--bottom-height-offset, 0px)));
+    }
+
+    &-content {
+        .cos-flex();
+        .cos-items-center();
+        pointer-events: auto;
+    }
+
+    &-md-icon {
+        .cos-inline-flex();
+        .cos-space-mr-xxs();
+        .cos-items-center();
+        .cos-leading-none();
+        padding: 2px var(--cos-space-none);
+        font-size: var(--cos-text-headline-sm);
+    }
+
+    &-md-icon,
+    &-lg-icon {
+        animation: toast-icon-rotating 0s linear infinite;
+    }
+
+    &-message {
+        .cos-shrink-0();
+        .cos-text-center();
+        max-width: 224px;
+    }
+
+    &-button {
+        .cos-space-ml-sm();
+        max-width: 94px;
+
+        &.@{prefix}-button {
+            .cos-space-pl-md();
+            .cos-space-pr-md();
+        }
+    }
+
+    &-link {
+        .cos-inline-flex();
+        .cos-space-ml-sm();
+        .cos-items-center();
+        padding: 5px var(--cos-space-none);
+        cursor: pointer;
+
+        &-divider {
+            width: 1px;
+            height: 14px;
+            background: rgba(255, 255, 255, .3);
+        }
+
+        &-text {
+            .cos-inline-flex();
+            .cos-items-center();
+            .cos-shrink-0();
+            .cos-space-ml-sm();
+            .cos-space-mr-xxs();
+            .cos-text-body-lg();
+            .cos-leading-none();
+            white-space: nowrap;
+        }
+
+        & .@{prefix}-icon {
+            .cos-inline-flex();
+            color: var(--cos-color-border-minor);
+
+            &::before {
+                .cos-inline-flex();
+                .cos-rounded-xxl();
+                .cos-items-center();
+
+                /* 标注此处未覆盖 token，原因是没有符合设计标注的 icon */
+                padding: 2px;
+                width: 12px;
+                height: 12px;
+                font-size: var(--cos-text-caption);
+                background: #3d3f44;
+            }
+        }
+    }
+}
+
+.@{prefix}-toast-container {
+    .cos-text-center();
+    .cos-color-text-inverse();
+    .cos-rounded-md();
+    .cos-color-bg-bubble();
+    padding: 11px var(--cos-space-lg);
+    box-shadow: 0px 8px 10px -4px rgba(30, 31, 36, .3);
+    pointer-events: none;
+
+    &.@{prefix}-toast-lg {
+        .cos-flex();
+        .cos-flex-col();
+        gap: var(--cos-space-md);
+        padding: var(--cos-space-xxl) var(--cos-space-sm);
+
+        .@{prefix}-icon {
+            line-height: normal;
+            font-size: 41px;
+        }
+    }
+}
+
+@keyframes toast-icon-rotating {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,154 @@
+@import (reference) 'tokens.less';
+
+
+
+.custom-drawer {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    z-index: 1001;
+    padding: var(--cos-space-lg) var(--cos-space-xxl);
+    width: 426px;
+    height: 100%;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    transition: right 0.5s ease;
+    .cos-flex();
+    .cos-flex-col();
+    .cos-items-start();
+    .cos-color-bg();
+}
+
+.custom-drawer.visible {
+    right: 0;
+}
+
+.custom-drawer-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    width: 100%;
+    height: 100%;
+    .cos-color-bg-mask()
+}
+
+.custom-drawer.visible ~ .custom-drawer-backdrop {
+    display: block;
+}
+
+.custom-drawer-content {
+    position: relative;
+    overflow: auto;
+    height: 100%;
+    .cos-flex();
+    .cos-flex-col();
+}
+
+.custom-drawer-header {
+    .cos-justify-between();
+    .cos-items-center();
+    align-self: stretch;
+    width: 376px;
+    .cos-flex();
+    .cos-color-text-minor();
+    .cos-text-subtitle();
+    .cos-space-pt-sm();
+
+    .drawer-title {
+        .cos-space-m-none();
+        .cos-color-text();
+        .cos-font-medium()
+    }
+
+    .image-wrapper {
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+    
+        &:hover {
+            .cos-color-bg-hover();
+        }
+    }
+}
+
+.custom-drawer-body {
+    .cos-flex();
+    .cos-space-mt-xxl();
+    .cos-flex-col();
+    .cos-items-start();
+    width: 390px;
+    gap: 22px;
+}
+
+.image-group {
+    .cos-space-mb-xl();
+}
+
+.image-group-title {
+    align-self: stretch;
+    .cos-text-subtitle-sm();
+    .cos-color-text()
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+    width: calc(50% - 12px);
+    box-sizing: border-box;
+    cursor: pointer;
+    .cos-space-mr-sm();
+    .cos-space-mb-xxs();
+}
+
+.drawer-image {
+    width: 183px;
+    height: 100px;
+    -webkit-user-drag: none;
+    .cos-flex();
+    .cos-items-start();
+    .cos-rounded-xs();
+    &:hover {
+        border: 2px solid var(--cos-color-border-tiny-hover);
+    }
+}
+
+.drawer-image.selected {
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    transition: border-color 0.1s ease;
+    .cos-color-border-active()
+}
+
+.image-caption {
+    position: absolute;
+    bottom: 0;
+    .cos-space-p-xxs();
+    width: 183px;
+    height: 24px;
+    .cos-flex();
+    .cos-items-center();
+    .cos-text-caption();
+    .cos-color-bg-mask();
+    .cos-color-text-inverse();
+    border-bottom-left-radius: var(--cos-rounded-xs);
+    border-bottom-right-radius: var(--cos-rounded-xs);
+}
+
+.image-caption.selected {
+    .cos-color-bg-dent-active();
+}
+
+// 教育暂未覆盖切换主题使用的 token，导致切换主题色不明显，这里暂做特配
+.cos-education {
+    .image-caption.selected {
+        .cos-color-bg-primary-light-active();
+        .cos-color-text-on-primary-light-active();
+    }
+    .drawer-image.selected {
+        .cos-color-border-primary-active();
+    }
+}

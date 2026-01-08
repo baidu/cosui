@@ -1,0 +1,143 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import (reference) 'tokens.less';
+@import 'variable.less';
+
+.createAnimation(@name, @x: 0, @y: 0) {
+    @keyframes @name {
+      0% {
+        transform: translate(@x, @y);
+        .cos-invisible();
+      }
+      100% {
+        transform: translate(0, 0);
+        .cos-visible();
+      }
+    }
+    animation: @name 320ms cubic-bezier(0.41, 0.05, 0.10, 1.00);
+}
+
+.@{prefix}-drawer {
+    position: fixed;
+    top: -1px;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    transform: translate3d(0, 0, 0);
+    // 不跟随单条结果移动, z-index：900~1000
+    z-index: 901;
+
+    &-mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        .cos-color-bg-mask();
+        animation: maskFadeIn var(--cos-transition-duration-short) linear;
+    }
+    &-mask-none {
+        .cos-opacity-0();
+        animation: none;
+    }
+    @keyframes maskFadeIn {
+        0% {
+            .cos-opacity-0();
+        }
+
+        100% {
+            .cos-opacity-100();
+        }
+    }
+    &-container {
+        position: absolute;
+        .cos-flex();
+        .cos-flex-col();
+        .cos-color-bg();
+        // 创建新的层叠上下文
+        z-index: 0;
+    }
+    &-title {
+        .cos-space-pt-xl();
+        .cos-space-pb-md();
+        height: 24px;
+        .cos-text-headline-sm();
+        .cos-font-medium();
+        .cos-text-center();
+        .cos-color-text();
+    }
+    &-close {
+        position: absolute;
+        top: var(--cos-space-xl);
+        right: var(--cos-space-lg);
+        box-sizing: border-box;
+        .cos-color-text();
+        -webkit-tap-highlight-color: transparent;
+
+        .@{prefix}-icon {
+            .cos-text-headline-sm();
+        }
+    }
+    &-content {
+        .cos-flex-1();
+        overflow: auto;
+    }
+
+    &-bottom,
+    &-top {
+        left: 0;
+        width: 100%;
+        min-height: 25%;
+        max-height: 90%;
+    }
+    &-bottom {
+        bottom: var(--bottom-height-offset, 0);
+        border-top-left-radius: var(--cos-rounded-xxl);
+        border-top-right-radius: var(--cos-rounded-xxl);
+        .createAnimation(bottomFadeIn, 0, 100%);
+    }
+
+    &-top {
+        top: 0;
+        border-bottom-left-radius: var(--cos-rounded-xxl);
+        border-bottom-right-radius: var(--cos-rounded-xxl);
+        .createAnimation(topFadeIn, 0, -100%);
+    }
+
+    &-left,
+    &-right {
+        top: 0;
+        bottom: var(--bottom-height-offset, 0);
+        min-width: 60%;
+        max-width: 90%;
+        height: 100%;
+    }
+
+    &-left {
+        left: 0;
+        border-bottom-right-radius: var(--cos-rounded-xxl);
+        border-top-right-radius: var(--cos-rounded-xxl);
+        .createAnimation(leftFadeIn, -100%, 0);
+    }
+
+    &-right {
+        right: 0;
+        border-bottom-left-radius: var(--cos-rounded-xxl);
+        border-top-left-radius: var(--cos-rounded-xxl);
+        .createAnimation(rightFadeIn, 100%, 0);
+    }
+}

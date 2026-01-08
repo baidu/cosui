@@ -1,0 +1,40 @@
+@import (reference) 'tokens.less';
+
+.custom-border {
+    /* 据暴露的 Parts 修改单元格截断，例如所有列设置截断 1 行 */
+    .cos-table-td-content,
+    .cos-table-th-content {
+        .cos-line-clamp-1();
+        line-height: var(--cos-leading-caption-sm);
+    }
+
+    /* 据暴露的 Parts 修改单元格截断，例如第一、三列设置截断 2 行 */
+    .cos-table-td:first-child,
+    .cos-table-td:nth-child(3) {
+        .cos-table-td-content {
+            .cos-line-clamp-2();
+        }
+    }
+
+    &-head {
+        /* 如不需要表内容下边框，可以根据暴露的 Parts 自定义覆盖 */
+        .cos-table-td > .cos-table-border-row {
+            .cos-hidden();
+        }
+    }
+
+    &-body {
+        box-sizing: border-box;
+        margin: var(--cos-space-none) var(--cos-space-md);
+
+        .cos-table-td,
+        .cos-table-th {
+            padding: var(--cos-space-md) var(--cos-space-none);
+        }
+
+        /* 如不需要表头下边框，可以根据暴露的 Parts 自定义覆盖 */
+        .cos-table-th > .cos-table-border-row {
+            .cos-hidden();
+        }
+    }
+}

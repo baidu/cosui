@@ -1,0 +1,278 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import (reference) 'tokens.less';
+@import 'variable.less';
+@import '../base.less';
+@import '../../common/search-input/index.less';
+
+
+.@{prefix}-cascader {
+
+    &-tabs {
+        .cos-flex();
+        .cos-items-center();
+        box-sizing: border-box;
+        border-bottom: 1px solid var(--cos-color-border-minor);
+        padding: var(--cos-space-none) var(--cos-space-lg);
+        width: 100%;
+        height: 48px;
+
+        &-item {
+            .cos-flex();
+            .cos-items-center();
+
+            &-icon {
+                .cos-space-mr-xxs();
+                .cos-space-ml-xxs();
+            }
+
+            &-label {
+                position: relative;
+                font-size: var(--cos-text-subtitle-sm);
+                line-height: 48px;
+                .cos-font-medium();
+                .cos-line-clamp-1();
+            }
+
+            &-line {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                margin-left: -9px;
+                width: 18px;
+                height: 4px;
+                .cos-rounded-xxs();
+                .cos-color-bg-primary();
+            }
+        }
+    }
+
+    .@{prefix}-drawer-content {
+        .cos-flex();
+        .cos-flex-col();
+    }
+
+    &-panel-horizontal .@{prefix}-drawer-content {
+        .cos-flex-col();
+    }
+
+    &-search-list {
+        min-height: 450px;
+        &-empty {
+            .cos-text-subtitle();
+            .cos-color-text-minor();
+            .cos-text-center();
+            .cos-space-pt-md();
+        }
+    }
+
+    &-list {
+        .cos-flex();
+        .cos-flex-1();
+        max-height: 80vh;
+    }
+
+    &-options {
+        .cos-flex-1();
+        overflow: auto;
+        .cos-color-text();
+
+        &:first-child {
+            .cos-color-bg-dent();
+        }
+
+        &:nth-child(2) {
+            // 无 token，ue 确认不应用 token
+            background-color: #f5f6facc;
+        }
+
+        &:last-child {
+            .cos-color-bg();
+        }
+    }
+
+    &-option {
+        .cos-flex();
+        .cos-items-center();
+        .cos-text-body-lg();
+        position: relative;
+        padding: var(--cos-space-md) var(--cos-space-lg);
+
+        &-mark {
+            .@{prefix}-checkbox-mark {
+                .cos-space-p-none();
+                order: 1;
+
+                .@{prefix}-checkbox-label {
+                    .cos-space-m-none();
+                    .cos-line-clamp-1();
+                    flex-shrink: 10;
+                }
+            }
+        }
+
+        &-icon {
+            .cos-space-mr-xs();
+        }
+
+        &-multi {
+            .cos-flex();
+            .cos-items-center();
+            .cos-justify-between();
+            width: 100%;
+        }
+
+        &-text {
+            .cos-line-clamp-1();
+        }
+
+        &-check {
+            margin-left: auto;
+            .cos-color-text-primary();
+        }
+
+        &-line {
+            position: absolute;
+            left: 0;
+            width: 3px;
+            height: 14px;
+            .cos-color-bg-primary();
+        }
+
+        &-circle {
+            position: absolute;
+            left: 5px;
+            .cos-rounded-full();
+            width: 6px;
+            height: 6px;
+            .cos-color-bg-primary();
+        }
+
+        &-hide {
+            .@{prefix}-checkbox-mark {
+                .@{prefix}-checkbox-icon {
+                    .cos-hidden();
+                }
+            }
+        }
+
+        &-checked {
+            .cos-color-bg();
+        }
+
+        &-checked,&-allChecked {
+            .@{prefix}-cascader-option-text {
+                .cos-color-text-primary();
+                .cos-font-medium();
+            }
+        }
+
+        &-disabled {
+            .@{prefix}-cascader-option-text {
+                .cos-color-text-disabled();
+            }
+        }
+    }
+
+    &-option-all {
+        padding: var(--cos-space-md) var(--cos-space-lg);
+        .cos-text-body-lg();
+
+        .@{prefix}-checkbox-mark {
+            .cos-justify-between();
+            .cos-space-p-none();
+            width: 100%;
+            .@{prefix}-checkbox-icon {
+                order: 1;
+            }
+            .@{prefix}-checkbox-label {
+                .cos-space-m-none();
+                .cos-line-clamp-1();
+                flex-shrink: 10;
+            }
+        }
+    }
+
+    &-horizontal {
+
+        .@{prefix}-cascader-list-options {
+            overflow: auto;
+        }
+
+        .@{prefix}-cascader-option {
+            .cos-flex();
+            .cos-justify-between();
+            padding: var(--cos-space-md) var(--cos-space-lg);
+            font-size: var(--cos-text-subtitle);
+
+            &-disabled {
+                .cos-opacity-40();
+            }
+
+            &-icon {
+                font-size: var(--cos-text-headline-sm);
+            }
+
+            &-selected {
+                .cos-color-text-primary();
+            }
+        }
+    }
+
+    &-footer {
+        .cos-flex();
+        .cos-flex-col();
+        position: fixed;
+        bottom: var(--bottom-height-offset, 0);
+        left: 0;
+        border-top: 1px solid var(--cos-color-bg-dent);
+        width: 100%;
+        .cos-color-bg();
+        .cos-space-pt-md();
+        .cos-space-pb-md();
+
+        &-buttons {
+            .cos-space-pr-md();
+            .cos-space-pl-md();
+            .cos-flex();
+        }
+
+        &-buttons > button:first-child {
+            .cos-space-mr-md();
+        }
+    }
+}
+
+@{dark-selectors} {
+    .@{prefix}-cascader-options {
+        &:nth-child(2) {
+            // 无 token，ue 确认不应用 token
+            background-color: #222c;
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-cascader-options {
+            &:nth-child(2) {
+                // 无 token，ue 确认不应用 token
+                background-color: #191919cc;
+            }
+        }
+    }
+}

@@ -1,0 +1,68 @@
+@import (reference) 'tokens.less';
+
+md-tabs {
+    .cos-block();
+    .cos-space-mt-sm();
+
+    md-tab-pane {
+        h2, h3, h4 {
+            .cos-space-mt-sm();
+            .cos-space-mb-sm();
+        }
+    }
+
+    table {
+        .cos-space-mt-none();
+    }
+}
+
+md-tab-list {
+    border-bottom: 1px solid var(--cos-color-border-minor);
+    .cos-block();
+    .cos-flex();
+    .cos-items-center();
+    .cos-justify-between();
+    .cos-color-text();
+}
+
+md-tab {
+    .cos-text-headline-sm();
+    height: 48px;
+    line-height: 48px;
+    .cos-text-center();
+    flex-grow: 1;
+    .cos-block();
+    .cos-flex();
+    .cos-justify-center();
+    .cos-rounded-full();
+    .cos-font-regular();
+
+    &.co-active {
+        .cos-color-bg();
+        .cos-font-medium();
+        div {
+            .cos-color-border-active();
+        }
+    }
+    &:not(.co-active) {
+        .cos-opacity-70();
+    }
+    &:not(.co-active):hover {
+        .cos-opacity-100();
+    }
+
+    
+
+    div {
+        border-bottom: 4px solid transparent;
+        cursor: pointer;
+    }
+}
+
+md-tab-pane {
+    
+    .cos-hidden();
+    &.co-active {
+        .cos-block();
+    }
+}

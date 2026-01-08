@@ -1,0 +1,212 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+@import '../base.less';
+
+.@{prefix}-tabs {
+    /* line appearance */
+    &.@{prefix}-tabs-line {
+        max-width: 660px;
+
+        // 作用范围仅限于直接子元素，以避免对嵌套在 line 外观内部的其他 tabs 外观产生影响。
+        > .@{prefix}-tabs-header-container {
+            .cos-flex();
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                z-index: 1;
+                width: 100%;
+                height: 1.5px;
+                background-color: var(--cos-color-border-minor);
+            }
+
+            .@{prefix}-tabs-header {
+                position: relative;
+
+                .@{prefix}-tab {
+                    position: relative;
+                    z-index: 1;
+                    .cos-space-mr-sm();
+                    .cos-flex-none();
+                    .cos-space-pt-xxs();
+                    .cos-space-pb-sm();
+                    .cos-space-pl-xs();
+                    .cos-space-pr-xs();
+                    min-height: 33px;
+
+                    &.@{prefix}-tab-active {
+                        background-color: transparent;
+                        transition: color 240ms var(--cos-transition-easing-decelerate);
+                    }
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        bottom: 7px;
+                        left: 0;
+                        .cos-color-bg-dent();
+                        .cos-rounded-xs();
+                        .cos-opacity-0();
+                        z-index: -1;
+                        transition: opacity 160ms var(--cos-transition-easing-accelerate);
+                    }
+
+                    &:hover::before {
+                        z-index: -1;
+                        .cos-opacity-100();
+                        transition: opacity 240ms var(--cos-transition-easing-decelerate);
+                    }
+
+                    &:active {
+                        .cos-opacity-50();
+                        transition: opacity 240ms var(--cos-transition-easing-decelerate);
+                    }
+
+                    &:active::before {
+                        .cos-opacity-50();
+                        transition: opacity 240ms var(--cos-transition-easing-decelerate);
+                    }
+                }
+
+                .@{prefix}-tab-indicator {
+                    .cos-rounded-full();
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    z-index: 2;
+                    .cos-block();
+                    width: 14px;
+                    height: 1.5px;
+                    .cos-color-bg-primary();
+                    transition: transform 0.24s var(--cos-transition-easing-decelerate), width 0.3s;
+                    box-sizing: border-box;
+                }
+
+                &:not(:has(.@{prefix}-tab.@{prefix}-tab-active)) {
+                    .@{prefix}-tab-indicator {
+                        .cos-hidden();
+                    }
+                }
+            }
+        }
+
+        &.@{prefix}-tabs-arrow-right {
+            .cos-tabs {
+                &-header-container {
+                    padding-right:  90px;
+                }
+
+                &-left-arrow,
+                &-right-arrow {
+                    top: auto;
+                    bottom: 0;
+                    // 按钮和 line 主题底部的滑道距离是 4px，又因为滑道是 container 伪元素画的 1.5px，所以加起来是 5.5px
+                    margin-bottom: 5.5px;
+                    width: 32px;
+                    height: 32px;
+                    .cos-color-bg();
+
+                    &:hover::before {
+                        box-shadow: none;
+                    }
+
+                    &:hover {
+                        .cos-color-bg-dent();
+                        .@{prefix}-tabs-icon {
+                            .cos-color-text-minor();
+                        }
+                    }
+                }
+
+                &-left-arrow {
+                    // left 恢复到默认值，避免 right 被覆盖
+                    right: 0;
+                    left: auto;
+                    transform: translateX(-100%);
+                    margin-right: 16px;
+                }
+                &-right-arrow {
+                    right: 0;
+                    transform: none;
+                }
+                &-icon {
+                    font-weight: normal;
+                    .cos-color-text-minor();
+                    line-height: 32px;
+                    -webkit-text-stroke: 0px;
+                }
+            }
+        }
+    }
+
+    /* pill-filled、pill appearance arrow="right" style */
+    &.@{prefix}-tabs-pill,
+    &.@{prefix}-tabs-pill-filled {
+        &.@{prefix}-tabs-arrow-right {
+            .cos-tabs {
+                &-header-container {
+                    padding-right:  70px;
+                }
+
+                &-left-arrow,
+                &-right-arrow {
+                    .cos-rounded-none();
+                    top: 50%;
+                    border: none;
+                    width: 24px;
+                    height: 24px;
+                    .cos-color-bg();
+
+                    &:hover::before {
+                        box-shadow: none;
+                    }
+
+                    &:hover {
+                        .cos-color-bg-dent-inverse();
+                        .@{prefix}-tabs-icon {
+                            .cos-color-text-tiny();
+                        }
+                    }
+                }
+
+                &-left-arrow {
+                    // left 恢复到默认值，避免 right 被覆盖
+                    right: 0;
+                    left: auto;
+                    transform: translate(-100%, -50%);
+                    .cos-space-mr-xxs();
+                }
+                &-right-arrow {
+                    right: 0;
+                    transform: translate(0%, -50%);
+                }
+                &-icon {
+                    font-size: var(--cos-text-caption-sm);
+                    font-weight: normal;
+                    line-height: var(--cos-leading-headline-sm);
+                    -webkit-text-stroke: 0px;
+                }
+            }
+        }
+    }
+}

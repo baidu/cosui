@@ -1,0 +1,92 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import './index.mobile.less';
+
+.@{prefix}-title,
+.@{prefix}-title-a {
+    .cos-font-medium();
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-fontsmoothing: grayscale;
+}
+a.@{prefix}-title-a {
+    .@{prefix}-title-slot {
+        text-decoration: underline;
+        .cos-font-medium();
+        // 飘红 em 的下划线颜色需要和文字颜色一致
+        em {
+            text-decoration: underline;
+            text-decoration-color: var(--cos-red-0);
+        }
+
+        // 防止外部取消默认下划线后，hover 时无下划线
+        &:hover {
+            text-decoration: underline;
+
+            em {
+                text-decoration: underline;
+                text-decoration-color: var(--cos-red-0);
+            }
+        }
+        &, & em,
+        &:hover, &:hover em {
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+        }
+        &:hover em,
+        & em {
+            text-decoration-color: var(--cos-red-0);
+        }
+    }
+
+    // 针对18号以下字号，去掉下划线，hover保留下划线
+    &.@{prefix}-title-xs,
+    &.@{prefix}-title-sm {
+        .@{prefix}-title-slot  {
+            &, & em {
+                text-decoration: none;
+            }
+            &:hover,
+            &:hover em {
+                text-decoration: underline;
+                text-decoration-thickness: 1px;
+                text-underline-offset: 3px;
+            }
+        }
+    }
+
+    // icon 和 tag 的 hover 态没有下划线
+    &:hover {
+        text-decoration: none;
+    }
+}
+.@{prefix}-title-a .@{prefix}-title-slot {
+    a:hover, a:hover em {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+    }
+}
+.@{prefix}-title-a:not(.@{prefix}-title-xs):not(.@{prefix}-title-sm) {
+    .@{prefix}-title-slot a {
+        &, & em {
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+        }
+    }
+}

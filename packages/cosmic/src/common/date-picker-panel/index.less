@@ -1,0 +1,86 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.@{prefix}-date-picker {
+    &-header {
+        .cos-flex();
+        border-bottom: 1px solid var(--cos-color-border-minor);
+        width: 100%;
+
+        &-item {
+            .cos-flex();
+            .cos-items-center();
+            .cos-space-pt-xxs();
+            .cos-space-pb-xxs();
+            .cos-space-pl-sm();
+            .cos-space-pr-sm();
+            .cos-text-subtitle-sm();
+            .cos-color-text();
+            position: relative;
+            width: 100%;
+
+            &-text {
+                .cos-flex-1();
+                .cos-font-medium();
+                .cos-flex();
+                .cos-items-center();
+                .cos-justify-center();
+                .cos-space-mr-xxs();
+            }
+
+            &-icon {
+                width: 21px;
+                height: 30px;
+                cursor: pointer;
+                .cos-flex();
+                .cos-items-center();
+                .cos-justify-center();
+                .cos-rounded-xs();
+                .cos-space-mr-xxs();
+                transition: background-color var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+                &:hover {
+                    .cos-color-bg-dent();
+                    transition: background-color var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+                }
+                &:active {
+                    .cos-opacity-50();
+                    transition: opacity var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+                }
+                &:last-child {
+                    .cos-space-mr-none();
+                }
+                &-disabled {
+                    cursor: not-allowed;
+                    .cos-color-text-minor();
+                    &:hover {
+                        background: none;
+                    }
+                    &:active {
+                        .cos-opacity-100();
+                        transition: none;
+                    }
+                }
+            }
+        }
+    }
+
+    &-content {
+        .cos-flex();
+        border-bottom: 1px solid var(--cos-color-border-minor);
+        width: 100%;
+        .cos-leading-none();
+    }
+}

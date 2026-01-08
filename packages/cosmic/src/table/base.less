@@ -1,0 +1,229 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+@alignments: left, right, center;
+each(@alignments, {
+    .@{prefix}-table-th-align-@{value},
+    .@{prefix}-table-td-align-@{value} {
+        text-align: @value;
+    }
+});
+
+.cell-bg(@linearColor, @transitionColor: rgba(255, 255, 255, 0)) {
+    .@{prefix}-table-td {
+        background-image: linear-gradient(90deg, @linearColor 0%, @linearColor 100%);
+    }
+
+    .@{prefix}-table-td:first-child {
+        background-image: linear-gradient(90deg, @transitionColor 0%, @linearColor 30%);
+    }
+
+    .@{prefix}-table-td:last-child {
+        background-image: linear-gradient(90deg, @linearColor 70%, @transitionColor 100%);
+    }
+}
+
+.@{prefix}-table {
+    position: relative;
+    z-index: 0;
+    overflow: auto;
+    overscroll-behavior-x: none;
+    width: 100%;
+    scroll-behavior: smooth;
+
+    &-main {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: collapse;
+        .cos-text-left();
+        .cos-color-text();
+    }
+
+    &-th {
+        box-sizing: border-box;
+        padding: var(--cos-space-md) var(--cos-space-md) var(--cos-space-sm);
+        .cos-color-text-minor();
+        .cos-font-regular();
+    }
+
+    &-td {
+        box-sizing: border-box;
+        .cos-space-p-md();
+    }
+
+    &-th,
+    &-td {
+        position: relative;
+        // 容器不做安卓夜间映射屏蔽，不用 token，容器自动映射
+        background: #fff;
+        .cos-text-body();
+        line-height: var(--cos-text-body);
+
+        // 0.5px 边框
+        .@{prefix}-table-border-row {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            transform: scaleY(.5);
+            transform-origin: 0 0;
+            background: var(--cos-color-border-minor);
+        }
+
+        // 0.5px 边框
+        .@{prefix}-table-border-col {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 100%;
+            transform: scaleX(.5);
+            transform-origin: 0 0;
+            background: var(--cos-color-border-minor);
+        }
+    }
+
+    &-column-left-shadow,
+    &-column-right-shadow {
+        &::before {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            content: '';
+            pointer-events: none;
+        }
+    }
+
+    &-column-left-shadow {
+        &::before{
+            right: 0;
+            box-shadow: inset 3px 0 7px -7px var(--cos-color-bg-mask);
+            transform: translateX(100%);
+        }
+    }
+
+    &-column-right-shadow {
+        &::before {
+            left: 0;
+            box-shadow: inset -3px 0 7px -7px var(--cos-color-bg-mask);
+            transform: translateX(-100%);
+        }
+    }
+
+    &-striped {
+        .@{prefix}-table-body tr:nth-of-type(odd) {
+            // 斑马线背景色无 token，需单独适配暗黑
+            .cell-bg(#f5f6f966);
+        }
+    }
+
+    &-border-none {
+        .@{prefix}-table-th,
+        .@{prefix}-table-td {
+            border: none;
+        }
+    }
+
+    &-border {
+        // 0.5px 外边框
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            border: 1px solid var(--cos-color-border-minor);
+            .cos-rounded-xl();
+            width: 200%;
+            height: 200%;
+            transform: scale(.5);
+            transform-origin: 0 0;
+            box-sizing: border-box;
+
+            // 点击穿透
+            pointer-events: none;
+        }
+    }
+}
+
+@{dark-selectors} {
+    .@{prefix}-table {
+        &-th,
+        &-td {
+            // 容器不做安卓夜间映射屏蔽，ios 暗黑需要兼容
+            .cos-color-bg();
+        }
+
+        &-striped {
+            .@{prefix}-table-body tr:nth-of-type(odd) {
+                // 斑马线背景色无 token，需单独适配暗黑
+                .cell-bg(#22222266, rgba(0, 0, 0, 0));
+            }
+        }
+    }
+}
+
+// 避免该颜色在暗黑模式下被内核再映射
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-table {
+            &-striped {
+                .@{prefix}-table-body tr:nth-of-type(odd) {
+                    // 斑马线背景色无 token，需单独适配暗黑
+                    .cell-bg(#222222, rgba(0, 0, 0, 0));
+                }
+            }
+
+            &-border {
+                // 0.5px 外边框
+                &::after {
+                    color-scheme: dark;
+                    border: 1px solid #303030;
+                }
+            }
+
+            &-th,
+            &-td {
+                // 0.5px 边框
+                .@{prefix}-table-border-row {
+                    color-scheme: dark;
+                    background: #303030;
+                }
+
+                // 0.5px 边框
+                .@{prefix}-table-border-col {
+                    color-scheme: dark;
+                    background: #303030;
+                }
+            }
+        }
+    }
+}
+@{dark-browser-selectors} .@{prefix}-table {
+    &-striped {
+        .@{prefix}-table-body tr:nth-of-type(odd) {
+            // 斑马线背景色无 token，需单独适配暗黑
+            .cell-bg(#22222266, rgba(0, 0, 0, 0)) !important;
+        }
+    }
+}

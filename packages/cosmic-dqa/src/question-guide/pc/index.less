@@ -1,0 +1,102 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import (reference) "tokens.less";
+@import '../mobile/index.less';
+
+.@{prefix}-question-guide {
+    position: relative;
+
+    &-items-content {
+        transition: all .3s;
+    }
+
+    &-title-img {
+        height: 14px;
+    }
+
+    &-item {
+        .cos-space-pl-none();
+    }
+
+    &-option-content {
+        &:hover {
+            background-color: #e9eaed;
+        }
+
+        &:active {
+            .cos-opacity-20();
+        }
+    }
+
+    // pc 横滑控件
+    .cos-swiper-control {
+        .cos-block();
+
+        &-prev,
+        &-next {
+            .cos-color-bg();
+            .cos-rounded-full();
+            position: absolute;
+            top: 50%;
+            z-index: 2;
+            width: 24px;
+            height: 24px;
+            .cos-text-center();
+            .cos-opacity-80();
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+
+            &:hover {
+                .cos-opacity-100();
+
+                .@{prefix}-swiper-control-icon {
+                    .cos-color-text-primary();
+                }
+            }
+        }
+
+        &-prev {
+            left: 0;
+            transform: translate(calc(-50% - 5.5px), -50%);
+        }
+
+        &-next {
+            right: 0;
+            transform: translate(calc(50% + 5.5px), -50%);
+        }
+
+        &-icon {
+            .cos-color-text;
+            font-size: var(--cos-text-caption);
+            line-height: var(--cos-leading-headline-sm);
+            font-weight: bolder;
+            -webkit-text-stroke: .8px;
+        }
+    }
+
+    // 横滑
+    &-scrollable {
+        .@{prefix}-question-guide-items-container {
+            position: relative;
+        }
+    }
+
+    // TODO: cos-swiper-item 为临时兼容A页场景增加 后续会删除
+    .cos-swiper-item:not(:last-child) {
+        .cos-space-mr-none();
+    }
+}

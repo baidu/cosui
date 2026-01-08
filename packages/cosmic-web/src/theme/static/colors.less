@@ -1,0 +1,112 @@
+@import (reference) "tokens.less";
+.color-palettes {
+    margin: var(--cos-space-none) 1%;
+}
+.color-palette {
+    .cos-inline-block();
+    margin: 45px 1%;
+    width: 31%;
+    &-pick {
+        margin-bottom: 8px;
+        font-size: 20px;
+        .cos-text-center();
+    }
+    &-picker {
+        margin: var(--cos-space-sm) var(--cos-space-none) var(--cos-space-xxl);
+        &-value {
+            font-size: 13px;
+            font-family: Consolas;
+        }
+    }
+}
+
+.color-title {
+    margin: var(--cos-space-none) var(--cos-space-none) var(--cos-space-xxl);
+    font-size: 22px;
+    .cos-font-medium();
+    .cos-text-center();
+    color: #5c6b77;
+    text-transform: capitalize;
+}
+
+.color-description {
+    .cos-block();
+    font-size: var(--cos-text-subtitle-sm);
+    font-weight: lighter;
+    color: #777;
+}
+
+.main-color:hover {
+    .main-color-value {
+        left: 0;
+        .cos-opacity-70();
+    }
+}
+
+.color-palette-horizontal {
+    width: 100%;
+    .main-color {
+        .cos-flex();
+        &-item {
+            position: relative;
+            .cos-space-mr-none();
+            .cos-rounded-none();
+            .cos-space-p-none();
+            padding-top: 37px;
+            height: 86px;
+            .cos-text-center();
+            flex: 1;
+            line-height: normal;
+            .main-color-text {
+                float: none;
+            }
+            &:hover {
+                margin-top: -10px;
+                border-radius: 4px 4px var(--cos-rounded-none) var(--cos-rounded-none);
+                height: 96px;
+            }
+        }
+
+        &-value {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            float: none;
+            width: 100%;
+            .cos-text-center();
+            transform-origin: unset;
+        }
+
+        &:hover {
+            .main-color-item {
+                padding-top: 8px;
+            }
+
+            .main-color-value {
+                bottom: 8px;
+                .cos-opacity-70();
+            }
+        }
+    }
+}
+
+.make-palatte(@color, @index: 1) when (@index <= 10) {
+    .palatte-@{color}-@{index} {
+        @background: "@{color}-@{index}";
+        background: @@background;
+    }
+    .make-palatte(@color, (@index + 1));    // next iteration
+}
+
+@grey-1: #fff;
+@grey-2: #fafafa;
+@grey-3: #f5f5f5;
+@grey-4: #e8e8e8;
+@grey-5: #d9d9d9;
+@grey-6: #bfbfbf;
+@grey-7: #8c8c8c;
+@grey-8: #595959;
+@grey-9: #262626;
+@grey-10: #000;
+
+@border-color: rgba(229, 231, 235, 100);

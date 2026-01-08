@@ -1,0 +1,177 @@
+import AccordionImg from './assets/components/cosmic/accordion.png';
+import AudioPlayerImg from './assets/components/cosmic/audio-player.png';
+import AvatarGroupImg from './assets/components/cosmic/avatar-group.png';
+import AvatarImg from './assets/components/cosmic/avatar.png';
+import BadgeImg from './assets/components/cosmic/badge.png';
+import ButtonImg from './assets/components/cosmic/button.png';
+import CalendarImg from './assets/components/cosmic/calendar.png';
+import CascaderImg from './assets/components/cosmic/cascader.png';
+import CompanyCardImg from './assets/components/cosmic-dqa/company-card.png';
+import CheckboxGroupImg from './assets/components/cosmic/checkbox-group.png';
+import CheckboxImg from './assets/components/cosmic/checkbox.png';
+import CitySelectorImg from './assets/components/cosmic/city-selector.png';
+import CommentImg from './assets/components/cosmic/comment.png';
+import CompanyGraphImg from './assets/components/cosmic-dqa/company-graph.png';
+import DatePickerImg from './assets/components/cosmic/date-picker.png';
+import DateTimePickerImg from './assets/components/cosmic/date-time-picker.png';
+import DialogImg from './assets/components/cosmic/dialog.png';
+import DividerImg from './assets/components/cosmic/divider.png';
+import DrawerImg from './assets/components/cosmic/drawer.png';
+import EmptyImg from './assets/components/cosmic/empty.png';
+import FoldSwitchImg from './assets/components/cosmic/fold-switch.png';
+import FoldImg from './assets/components/cosmic/fold.png';
+import GridImg from './assets/components/cosmic/grid.png';
+import HighlightImg from './assets/components/cosmic/highlight.png';
+import IconImg from './assets/components/cosmic/icon.png';
+import ImageImg from './assets/components/cosmic/image.png';
+import InputImg from './assets/components/cosmic/input.png';
+import LinkImg from './assets/components/cosmic/link.png';
+import LoadingImg from './assets/components/cosmic/loading.png';
+import MapImg from './assets/components/cosmic/map.png';
+import MoreLinkImg from './assets/components/cosmic/more-link.png';
+import PaginationImg from './assets/components/cosmic/pagination.png';
+import ParagraphImg from './assets/components/cosmic/paragraph.png';
+import PickerImg from './assets/components/cosmic/picker.png';
+import PopoverImg from './assets/components/cosmic/popover.png';
+import PriceImg from './assets/components/cosmic/price.png';
+import RadioGroupImg from './assets/components/cosmic/radio-group.png';
+import RadioImg from './assets/components/cosmic/radio.png';
+import RankImg from './assets/components/cosmic/rank.png';
+import ScoreImg from './assets/components/cosmic/score.png';
+import SearchLinkImg from './assets/components/cosmic/search-link.png';
+import SelectImg from './assets/components/cosmic/select.png';
+import SliderImg from './assets/components/cosmic/slider.png';
+import SwiperImg from './assets/components/cosmic/swiper.png';
+import SwitcherImg from './assets/components/cosmic/switcher.png';
+import TableImg from './assets/components/cosmic/table.png';
+import TabsImg from './assets/components/cosmic/tabs.png';
+import TagImg from './assets/components/cosmic/tag.png';
+import TextareaImg from './assets/components/cosmic/textarea.png';
+import TimePickerImg from './assets/components/cosmic/time-picker.png';
+import TimelineImg from './assets/components/cosmic/timeline.png';
+import ToastImg from './assets/components/cosmic/toast.png';
+import TooltipImg from './assets/components/cosmic/tooltip.png';
+import VoteImg from './assets/components/cosmic/vote.png';
+import AvatarBadgeImg from './assets/components/cosmic-card/avatar-badge.png';
+import BubbleScoreImg from './assets/components/cosmic-card/bubble-score.png';
+import CardLoadingImg from './assets/components/cosmic-card/card-loading.png';
+import ImageGroupImg from './assets/components/cosmic-card/image-group.png';
+import ImageWithTagsImg from './assets/components/cosmic-card/image-with-tags.png';
+import TitleImg from './assets/components/cosmic-card/title.png';
+import AgentCardImg from './assets/components/cosmic-dqa/agent-card.png';
+import AuthorCardImg from './assets/components/cosmic-dqa/author-card.png';
+import ChartImg from './assets/components/cosmic-dqa/chart.png';
+import CitationImg from './assets/components/cosmic-dqa/citation.png';
+import ComparisonImg from './assets/components/cosmic-dqa/comparison.png';
+import CopyableTextImg from './assets/components/cosmic-dqa/copyable-text.png';
+import DocumentScrollImg from './assets/components/cosmic-dqa/document-scroll.png';
+import GeneratingViewImg from './assets/components/cosmic-dqa/generating-view.png';
+import LocationCardImg from './assets/components/cosmic-dqa/location-card.png';
+import LocationListImg from './assets/components/cosmic-dqa/location-list.png';
+import MarkdownImg from './assets/components/cosmic-dqa/markdown.png';
+import MicroContentScrollImg from './assets/components/cosmic-dqa/micro-content-scroll.png';
+import MusicPlayerImg from './assets/components/cosmic-dqa/music-player.png';
+import OfficialCardImg from './assets/components/cosmic-dqa/official-card.png';
+import PoiImg from './assets/components/cosmic-dqa/poi.png';
+import QuestionGuideImg from './assets/components/cosmic-dqa/question-guide.png';
+import RelationshipImg from './assets/components/cosmic-dqa/relationship.png';
+import RoutePlannerImg from './assets/components/cosmic-dqa/route-planner.png';
+import SearchHeaderImg from './assets/components/cosmic-dqa/search-header.png';
+import SearchingOutlinesImg from './assets/components/cosmic-dqa/searching-outlines.png';
+import SearchingStepsImg from './assets/components/cosmic-dqa/searching-steps.png';
+import ShopAddressImg from './assets/components/cosmic-dqa/shop-address.png';
+import CarScrollImg from './assets/components/cosmic-dqa/car-scroll.png';
+import SiteVcardImg from './assets/components/cosmic-dqa/site-vcard.png';
+import TagLinkImg from './assets/components/cosmic-dqa/tag-link.png';
+import TransportTicketListImg from './assets/components/cosmic-dqa/transport-ticket-list.png';
+import TransportTicketImg from './assets/components/cosmic-dqa/transport-ticket.png';
+
+export default [
+    {name: '/components/cosmic/accordion', src: AccordionImg},
+    {name: '/components/cosmic/audio-player', src: AudioPlayerImg},
+    {name: '/components/cosmic/avatar-group', src: AvatarGroupImg},
+    {name: '/components/cosmic/avatar', src: AvatarImg},
+    {name: '/components/cosmic/badge', src: BadgeImg},
+    {name: '/components/cosmic/button', src: ButtonImg},
+    {name: '/components/cosmic/calendar', src: CalendarImg},
+    {name: '/components/cosmic/cascader', src: CascaderImg},
+    {name: '/components/cosmic/checkbox-group', src: CheckboxGroupImg},
+    {name: '/components/cosmic/checkbox', src: CheckboxImg},
+    {name: '/components/cosmic/city-selector', src: CitySelectorImg},
+    {name: '/components/cosmic/comment', src: CommentImg},
+    {name: '/components/cosmic/date-picker', src: DatePickerImg},
+    {name: '/components/cosmic/date-time-picker', src: DateTimePickerImg},
+    {name: '/components/cosmic/dialog', src: DialogImg},
+    {name: '/components/cosmic/divider', src: DividerImg},
+    {name: '/components/cosmic/drawer', src: DrawerImg},
+    {name: '/components/cosmic/empty', src: EmptyImg},
+    {name: '/components/cosmic/fold-switch', src: FoldSwitchImg},
+    {name: '/components/cosmic/fold', src: FoldImg},
+    {name: '/components/cosmic/grid', src: GridImg},
+    {name: '/components/cosmic/highlight', src: HighlightImg},
+    {name: '/components/cosmic/icon', src: IconImg},
+    {name: '/components/cosmic/image', src: ImageImg},
+    {name: '/components/cosmic/input', src: InputImg},
+    {name: '/components/cosmic/link', src: LinkImg},
+    {name: '/components/cosmic/loading', src: LoadingImg},
+    {name: '/components/cosmic/map', src: MapImg},
+    {name: '/components/cosmic/more-link', src: MoreLinkImg},
+    {name: '/components/cosmic/pagination', src: PaginationImg},
+    {name: '/components/cosmic/paragraph', src: ParagraphImg},
+    {name: '/components/cosmic/picker', src: PickerImg},
+    {name: '/components/cosmic/popover', src: PopoverImg},
+    {name: '/components/cosmic/price', src: PriceImg},
+    {name: '/components/cosmic/radio-group', src: RadioGroupImg},
+    {name: '/components/cosmic/radio', src: RadioImg},
+    {name: '/components/cosmic/rank', src: RankImg},
+    {name: '/components/cosmic/score', src: ScoreImg},
+    {name: '/components/cosmic/search-link', src: SearchLinkImg},
+    {name: '/components/cosmic/select', src: SelectImg},
+    {name: '/components/cosmic/slider', src: SliderImg},
+    {name: '/components/cosmic/swiper', src: SwiperImg},
+    {name: '/components/cosmic/switcher', src: SwitcherImg},
+    {name: '/components/cosmic/table', src: TableImg},
+    {name: '/components/cosmic/tabs', src: TabsImg},
+    {name: '/components/cosmic/tag', src: TagImg},
+    {name: '/components/cosmic/textarea', src: TextareaImg},
+    {name: '/components/cosmic/time-picker', src: TimePickerImg},
+    {name: '/components/cosmic/timeline', src: TimelineImg},
+    {name: '/components/cosmic/toast', src: ToastImg},
+    {name: '/components/cosmic/tooltip', src: TooltipImg},
+    {name: '/components/cosmic/vote', src: VoteImg},
+    {name: '/components/cosmic-card/avatar-badge', src: AvatarBadgeImg},
+    {name: '/components/cosmic-card/bubble-score', src: BubbleScoreImg},
+    {name: '/components/cosmic-card/card-loading', src: CardLoadingImg},
+    {name: '/components/cosmic-card/image-group', src: ImageGroupImg},
+    {name: '/components/cosmic-card/image-with-tags', src: ImageWithTagsImg},
+    {name: '/components/cosmic-card/title', src: TitleImg},
+    {name: '/components/cosmic-dqa/agent-card', src: AgentCardImg},
+    {name: '/components/cosmic-dqa/author-card', src: AuthorCardImg},
+    {name: '/components/cosmic-dqa/company-card', src: CompanyCardImg},
+    {name: '/components/cosmic-dqa/chart', src: ChartImg},
+    {name: '/components/cosmic-dqa/citation', src: CitationImg},
+    {name: '/components/cosmic-dqa/comparison', src: ComparisonImg},
+    {name: '/components/cosmic-dqa/copyable-text', src: CopyableTextImg},
+    {name: '/components/cosmic-dqa/company-graph', src: CompanyGraphImg},
+    {name: '/components/cosmic-dqa/document-scroll', src: DocumentScrollImg},
+    {name: '/components/cosmic-dqa/generating-view', src: GeneratingViewImg},
+    {name: '/components/cosmic-dqa/location-card', src: LocationCardImg},
+    {name: '/components/cosmic-dqa/location-list', src: LocationListImg},
+    {name: '/components/cosmic-dqa/markdown', src: MarkdownImg},
+    {name: '/components/cosmic-dqa/micro-content-scroll', src: MicroContentScrollImg},
+    {name: '/components/cosmic-dqa/music-player', src: MusicPlayerImg},
+    {name: '/components/cosmic-dqa/official-card', src: OfficialCardImg},
+    {name: '/components/cosmic-dqa/poi', src: PoiImg},
+    {name: '/components/cosmic-dqa/question-guide', src: QuestionGuideImg},
+    {name: '/components/cosmic-dqa/relationship', src: RelationshipImg},
+    {name: '/components/cosmic-dqa/route-planner', src: RoutePlannerImg},
+    {name: '/components/cosmic-dqa/search-header', src: SearchHeaderImg},
+    {name: '/components/cosmic-dqa/searching-outlines', src: SearchingOutlinesImg},
+    {name: '/components/cosmic-dqa/searching-steps', src: SearchingStepsImg},
+    {name: '/components/cosmic-dqa/shop-address', src: ShopAddressImg},
+    {name: '/components/cosmic-dqa/car-scroll', src: CarScrollImg},
+    {name: '/components/cosmic-dqa/site-vcard', src: SiteVcardImg},
+    {name: '/components/cosmic-dqa/tag-link', src: TagLinkImg},
+    {name: '/components/cosmic-dqa/transport-ticket-list', src: TransportTicketListImg},
+    {name: '/components/cosmic-dqa/transport-ticket', src: TransportTicketImg}
+];

@@ -1,0 +1,28 @@
+@import (reference) 'tokens.less';
+
+.demo-item {
+    .item-image {
+        position: relative;
+        padding-top: 56.25%;
+        .cos-rounded-xs();
+        .cos-color-text-on-em();
+        .cos-text-headline();
+        & span {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+        }
+    }
+}
+
+h4 {
+    .cos-color-text-minor();
+    .cos-space-mt-none();
+    .cos-space-mb-xs();
+    .cos-font-regular();
+}

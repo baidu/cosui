@@ -1,0 +1,114 @@
+@import 'tokens.less';
+@import "./components/icon/svg/icon.less";
+
+@import './markdown/markdown.less';
+
+html {
+    font-size: 100px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overscroll-behavior: none;
+    --web-header-height: 64px;
+    --web-footer-height: 260px;
+    --web-main-margin-right: 0px;
+}
+
+.web-wrapper {
+    width: 100%;
+    height: 100%;
+    &-normal {
+        .cos-color-bg();
+    }
+}
+
+.web-main {
+    width: 100%;
+
+    .web-navigation-wrapper {
+        .cos-color-bg();
+        z-index: 99;
+        display: flex;
+
+
+        .web-navigation-fixed {
+            position: fixed;
+            left: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            border-right: 1px solid var(--cos-color-border-minor);
+            min-width: 10vw;
+            max-width: 16vw;
+        }
+
+
+        .cos-web-navigation-menu > ul {
+            padding-right: 9px;
+            padding-left: 9px;
+        }
+    }
+
+    .web-content-wrapper {
+        position: relative;
+        overflow: auto;
+        height: 100%;
+
+        .doc-tabs {
+            margin: 0 30px;
+            margin-bottom: 10px;
+            border: 2px solid var(--cos-color-bg-dent);
+            .cos-rounded-full();
+            .cos-color-text();
+            .cos-color-bg-dent();
+
+            .cos-tabs-header {
+                .cos-rounded-full() !important;
+                .cos-color-bg-dent() !important;
+            }
+        }
+
+        .doc-tab {
+            flex: 1;
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+            cursor: pointer;
+            .cos-rounded-full() !important;
+            .cos-color-bg-dent();
+            .cos-font-regular();
+            .cos-text-headline-sm();
+
+            &.cos-tab-active {
+                .cos-color-bg();
+                .cos-font-medium();
+                color: var(--cos-color-text) !important;
+            }
+
+            &:not(.cos-tab-active) {
+                .cos-opacity-70();
+            }
+
+            &:not(.cos-tab-active):hover {
+                .cos-opacity-100();
+            }
+        }
+    }
+
+    .web-doc-container {
+        overflow-x: hidden;
+        margin-right: var(--web-main-margin-right);
+        padding-right: 30px;
+        padding-bottom: 48px;
+        padding-left: 30px;
+        min-width: 863px;
+        min-height: calc(100vh - var(--web-header-height) - var(--web-footer-height));
+        border-bottom-left-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+
+    .token-content .web-doc-container{
+        .cos-space-pt-none();
+    }
+}

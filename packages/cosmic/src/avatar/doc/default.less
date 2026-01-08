@@ -1,0 +1,20 @@
+@import (reference) 'tokens.less';
+
+.avatar-demo {
+    .cos-flex();
+    .cos-flex-wrap();
+    gap: var(--cos-space-xxl);
+    .cos-flex-col();
+
+    h4 {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+    }
+
+    &-icon {
+        .cos-color-bg-dent();
+        .cos-color-text();
+    }
+}

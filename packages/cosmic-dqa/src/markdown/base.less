@@ -1,0 +1,595 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @file 覆盖 marklang 的样式;存放 pc/wise 的公共样式
+ */
+
+@import (reference) 'tokens.less';
+@import 'variable.less';
+@import 'marklang/lib/style.css';
+@import './code.less';
+
+@markdownsdk: .marklang;
+
+@keyframes mdTypingLoadingAnimation {
+    0% {
+        .cos-opacity-50();
+    }
+
+    50% {
+        .cos-opacity-0();
+    }
+
+    100% {
+        .cos-opacity-50();
+    }
+}
+
+@keyframes mdTypingCursorAnimation {
+    0% {
+        .cos-opacity-100();
+    }
+
+    50% {
+        .cos-opacity-0();
+    }
+
+    100% {
+        .cos-opacity-100();
+    }
+}
+@keyframes markdownMask {
+    0% {
+        .cos-opacity-100();
+    }
+
+    100% {
+        .cos-opacity-0();
+    }
+}
+
+@keyframes sentenceFadeText {
+    0% {
+        .cos-opacity-0();
+    }
+
+    100% {
+        .cos-opacity-100();
+    }
+}
+
+.@{prefix}-markdown {
+    position: relative;
+    .cos-flex();
+
+    &-clone {
+        position: absolute;
+        top: -12px;
+        z-index: -1;
+        width: 100%;
+        .cos-opacity-0();
+    }
+    &-content {
+        margin-top: -12px;
+        margin-bottom: -12px;
+        flex: auto;
+        min-width: 0;
+        transition: height 320ms ease;
+        &-typingall {
+            overflow: hidden;
+        }
+
+        .sentence-animation {
+            animation: sentenceFadeText var(--sentence-animation-duration, 400ms) linear 0ms 1 forwards;
+            transition: height 320ms ease;
+        }
+        
+        .sentence-pending {
+            .cos-hidden();
+        }
+    }
+    &-mask {
+        position: absolute;
+        bottom: -12px;
+        width: 100%;
+        background: linear-gradient(to bottom right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+        transition: height 320ms ease;
+    }
+
+    .cos-color-text-link {
+        .cos-color-text-link();
+    }
+
+    &-cursor {
+        .cos-inline-block();
+        width: 11px;
+        .cos-space-ml-xs();
+        height: 11px;
+        background: #201452;
+        .cos-rounded-full();
+        animation: mdTypingCursorAnimation 1.2s infinite;
+    }
+
+    &-loading {
+        .cos-inline-block();
+        width: 11px;
+        .cos-space-ml-xs();
+        height: 11px;
+        background: #201452;
+        .cos-rounded-full();
+        .cos-opacity-0();
+        animation: mdTypingLoadingAnimation 1.2s infinite;
+        animation-delay: 300ms;
+    }
+
+    // 插件样式
+    &-code-copy {
+        cursor: pointer;
+    }
+
+    &-research,
+    &-search-more {
+        &:active {
+            .cos-opacity-20();
+        }
+        &-icon {
+            position: relative;
+            .cos-inline-block();
+            vertical-align: text-top;
+            font-size: 9px;
+            .cos-leading-none();
+            .cos-space-mt-3xs();
+        }
+    }
+    &-icon-wrapper {
+        cursor: pointer;
+        margin: var(--cos-space-none) 2px 1px;
+        width: 20px;
+        height: 18px;
+        font-size: var(--cos-text-subtitle-sm);
+        box-sizing: border-box;
+        vertical-align: middle;
+        .cos-rounded-xs();
+        .cos-inline-flex();
+        .cos-items-center();
+        .cos-justify-center();
+        .cos-color-bg-dent();
+        .cos-space-p-3xs();
+
+        .cos-audio-player-play {
+            fill: var(--cos-color-text-primary);
+        }
+        .cos-audio-player-pause {
+            fill: var(--cos-color-text-primary);
+        }
+        .cos-audio-player {
+            svg {
+                height: 14px;
+            }
+            &-icon {
+                height: 14px;
+            }
+        }
+        .cos-icon-copy {
+            &:active {
+                .cos-opacity-20();
+            }
+        }
+    }
+
+    &-video-wrapper,
+    &-audio-wrapper {
+        .cos-block();
+        margin: 11px var(--cos-space-none) var(--cos-space-lg) var(--cos-space-none);
+    }
+    &-citation-text.cosd-citation-citationId {
+        .cos-font-medium();
+        .cos-rounded-md();
+        z-index: 0;
+        .cos-inline();
+        margin: var(--cos-space-none) 7px;
+        background: none;
+        &::after {
+            .cos-rounded-md();
+            content: '';
+            position: absolute;
+            top: 49%;
+            right: 0;
+            bottom: 0;
+            left: 50%;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            width: 32px;
+            height: 17px;
+            background: rgba(223, 223, 245, 0.4);
+        }
+    }
+
+    // 划词插件样式
+    &-search-more {
+        cursor: pointer;
+        background-image: url(https://gips2.baidu.com/it/u=3512824157,3601592008&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f18_4);
+        background-position: 0 100%;
+        background-repeat: repeat-x;
+        background-size: 6px 1.2px;
+    }
+
+    @{markdownsdk} {
+        .cos-text-body-lg();
+        .cos-color-text();
+        line-height: var(--cos-leading-body-lg-higher);
+        em {
+            color: inherit;
+        }
+        strong,
+        h1,
+        h2,
+        h3 {
+            .cos-font-medium();
+        }
+
+        h1,
+        h2,
+        h3 {
+            .cos-space-mt-xxs();
+            .cos-space-mb-xxs();
+        }
+
+        h1,
+        h2 {
+            .cos-text-headline();
+            line-height: 33px;
+        }
+
+        h3 {
+            .cos-text-headline-sm();
+            line-height: 30px;
+        }
+        h2 mark{
+            padding-bottom: -1px;
+        }
+        mark {
+            padding-bottom: 1px;
+            .cos-color-text();
+            background: linear-gradient( to right, rgba(111, 75, 250, .12), rgba(111, 75, 250, .12)) no-repeat center bottom;
+            background-size: 100% 12px;
+
+            mark {
+                .cos-font-medium();
+                background: none;
+            }
+        }
+        .marklang-paragraph {
+            .cos-text-body-lg();
+            .cos-color-text();
+            line-height: var(--cos-leading-body-lg-higher);
+            .cos-space-mt-xxs();
+            .cos-space-mb-xxs();
+        }
+
+        li {
+            .cos-space-pl-xl();
+
+            .font-size-2 & {
+                padding-left: 28px;
+            }
+
+            .font-size-3 & {
+                padding-left: 30px;
+            }
+        }
+
+        &>ul>li, &>ol>li {
+            .cos-space-pl-none();
+
+            .font-size-2 & {
+                .cos-space-pl-none()
+            }
+
+            .font-size-3 & {
+                .cos-space-pl-none()
+            }
+        }
+        ol>li>ul {
+            .cos-space-ml-none();
+        }
+
+        ul>li>ol {
+            .cos-space-ml-none();
+        }
+
+        ul>li::before {
+            content: '';
+            position: relative;
+            top: 10px;
+            .cos-inline-block();
+            float: left;
+            margin: var(--cos-space-none) 10px var(--cos-space-none) 1px;
+            border-radius: 50%;
+            width: 6px;
+            height: 6px;
+            background-color: var(--cos-color-text);
+            vertical-align: middle;
+        }
+
+        ol>li::before {
+            position: static;
+            float: left;
+            .cos-space-mr-3xs();
+            font-family: "BaiduNumberPlus", PingFang;
+        }
+        .katex-display {
+            .cos-space-mt-xs();
+            .cos-space-mb-xs();
+            .cos-space-pt-3xs();
+            .cos-space-pb-3xs();
+        }
+
+        // 无ai标的智能体头像大小默认为16px
+        .marklang-link[type="img"] {
+            position: relative;
+            &::before {
+                content: "";
+                .cos-inline-block();
+                .cos-space-mr-3xs();
+                border: 1px solid var(--cos-color-border-minor);
+                border-radius: 100%;
+                width: 16px;
+                height: 16px;
+                background-image: var(--marklang-link-img);
+                background-repeat: no-repeat;
+                background-size: contain;
+                transform: translateY(3px);
+                box-sizing: border-box;
+                background-clip: padding-box;
+            }
+        }
+        .marklang-link {
+            .cos-space-mr-3xs();
+            .cos-space-ml-3xs();
+            .cos-color-text-link();
+            &::before {
+                margin: var(--cos-space-none) var(--cos-space-3xs);
+                font-family: "cos-icon" !important;
+                font-style: normal;
+            }
+            &[type="text"] {
+                &::before {
+                    content: "\e732";
+                }
+            }
+            &[type="authority"] {
+                &::before {
+                    content: "\e7cb";
+                }
+            }
+            &[type="video"] {
+                &::before {
+                    content: "\e76b";
+                }
+            }
+            &[type="note"] {
+                &::before {
+                    content: "\e7bd";
+                }
+            }
+            &[type="agent"] {
+                position: relative;
+                .cos-inline-block();
+                height: 31px;
+                // 有ai标的智能体头像大小默认为24px
+                &::before {
+                    content: "";
+                    .cos-inline-block();
+                    .cos-space-mr-3xs();
+                    border: 1px solid var(--cos-color-border-minor);
+                    border-radius: 100%;
+                    width: var(--cos-space-xxl);
+                    height: var(--cos-space-xxl);
+                    background-image: var(--marklang-link-img);
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    transform: translateY(var(--cos-space-xxs));
+                    box-sizing: border-box;
+                    background-clip: padding-box;
+                }
+            }
+        }
+
+        hr:after {
+            background-color: var(--cos-color-border-minor);
+        }
+        .marklang-img {
+            .cos-space-mt-sm();
+            .cos-space-mb-sm();
+            max-width: 100%;
+        }
+        .marklang-img[position="left"] {
+            float: left;
+            margin-right: 3%;
+            border: 1px solid rgba(0, 0, 0, .06);
+            width: 32%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            .cos-space-mt-xxs();
+            .cos-space-mb-3xs();
+            .cos-rounded-sm();
+        }
+
+        table {
+            thead {
+                tr th {
+                    .cos-font-regular();
+                    .cos-color-bg-dent();
+                    .cos-color-border-minor();
+                }
+            }
+
+            tbody {
+                tr:last-child {
+                    td:first-of-type {
+                        border-bottom-left-radius: var(--cos-rounded-sm);
+                    }
+                    td:last-of-type {
+                        border-bottom-right-radius: var(--cos-rounded-sm);
+                    }
+                }
+                tr td {
+                    .cos-color-bg();
+                    .cos-color-border-minor();
+                }
+            }
+        }
+        blockquote {
+            .cos-space-pl-sm();
+            margin: var(--cos-space-sm) var(--cos-space-none);
+            border-left: 3px solid var(--cos-color-text-slim);
+            .cos-color-text-minor();
+            >p.marklang-paragraph {
+                .cos-space-m-none();
+            }
+        }
+
+        ml-brief {
+            .cos-block();
+            .marklang-paragraph {
+                overflow: hidden;
+            }
+
+            .marklang-img {
+                float: left;
+                .cos-space-mt-xxs();
+                .cos-space-mb-xxs();
+                margin-right: 3%;
+                border: 1px solid rgba(0, 0, 0, .06);
+                width: 32%;
+                aspect-ratio: 1 / 1;
+                object-fit: cover;
+                .cos-rounded-sm();
+            }
+        }
+
+        ml-paragraph[line-clamp="1"] {
+
+            li,
+            .marklang-paragraph {
+                .cos-line-clamp-1();
+            }
+        }
+
+        ml-paragraph[line-clamp="2"] {
+
+            li,
+            .marklang-paragraph {
+                .cos-line-clamp-2();
+            }
+        }
+
+        ml-paragraph[line-clamp="3"] {
+
+            li,
+            .marklang-paragraph {
+                .cos-line-clamp-3();
+            }
+        }
+
+        ml-paragraph[line-clamp="4"] {
+
+            li,
+            .marklang-paragraph {
+                .cos-line-clamp-4();
+            }
+        }
+
+        ml-paragraph[line-clamp="5"] {
+
+            li,
+            .marklang-paragraph {
+                .cos-line-clamp-5();
+            }
+        }
+
+        // 灰色文本行内样式
+        ml-text[type="label"] {
+            .cos-color-text-minor();
+        }
+
+        // 飘红文本行内样式
+        ml-text[type="highlight"] {
+            .cos-color-text-em()
+        }
+    }
+}
+
+@{dark-selectors} {
+    .@{prefix}-markdown {
+        &-search-more {
+            background-image: url(https://gips1.baidu.com/it/u=3625973829,440351408&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f18_4);
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    /**
+    * 由于安卓夜间模式下token设置的#303030颜色被内核修改了
+    * 导致分割线颜色偏黑，无法辨识，因此需要这里覆盖深色模式下的颜色
+    */
+    @{t7-kernel-selectors} {
+        .@{prefix}-markdown {
+            &-mask {
+                .cos-hidden();
+            }
+            @{markdownsdk} {
+                hr:after {
+                    color-scheme: dark;
+                    background-color: #303030;
+                }
+                ul>li::before {
+                    color-scheme: dark;
+                    background-color: rgba(255, 255, 255, .8);
+                }
+            }
+
+            &-search-more {
+                color-scheme: dark;
+                color: #666;
+                background-image: url(https://gips1.baidu.com/it/u=3625973829,440351408&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f18_4);
+            }
+        }
+        // 兼容夜间模式下不显示的问题
+        .@{prefix}-markdown .marklang .marklang-link[type=agent]:after {
+            color-scheme: dark;
+            box-shadow: inset 0 0 0 1px #fff6;
+        }
+    }
+}
+
+.@{prefix}-markdown .marklang .marklang-link[type=agent]:after {
+    .font-size-0 & {
+        --size-scale: 0.86;
+    }
+    .font-size-1 & {
+        --size-scale: 1;
+    }
+    .font-size-2 & {
+        --size-scale: 1.06;
+    }
+    .font-size-3 & {
+        --size-scale: 1.21;
+    }
+    .font-size-4 & {
+        --size-scale: 1.21;
+    }
+}

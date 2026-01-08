@@ -1,0 +1,82 @@
+@import (reference) 'tokens.less';
+
+.basic-tabs {
+    .cos-color-text();
+
+    .cos-tab-pane {
+        .cos-space-mt-md();
+    }
+
+    h4 {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+    }
+
+    // 自定义带箭头指引tab
+    .custom-arrow-tabs{
+        .cos-tabs {
+            position: relative;
+        }
+
+        .custom-arrow-tab-right {
+            position: absolute;
+            right: 0px;
+            width: 30px;
+            height: 100%;
+            .cos-rounded-sm();
+            border-top-left-radius: var(--cos-rounded-none);
+            border-bottom-left-radius: var(--cos-rounded-none);
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+            .cos-color-text();
+            .cos-color-bg-dent();
+        }
+        
+    }
+
+    // 多级tab
+    .custom-multi-tabs {
+        .cos-tabs {
+            width: 100%;
+
+            .cos-wise & {
+                &.cos-tabs-pill-filled .cos-tabs-header {
+                    margin-right: -17px;
+                }
+            }
+
+            /* 如果想控制横滑时两侧负边距，请给 .cos-tabs-header-left/right-margin 类名设置 margin-left/right 属性 */
+            .cos-tabs-pill-filled .cos-tabs-header-left-margin{
+                margin-left: -16px;
+            }
+            .cos-tabs-pill-filled .cos-tabs-header-right-margin{
+                margin-right: -16px;
+            }
+        }
+        .cos-tab-pane {
+            .cos-space-mt-xs();
+            width: 100%;
+        }
+    }
+
+    // 图文tab
+    .custom-img-tabs {
+        .cos-tabs {
+            width: 100%;
+        }
+        .cos-tab-pane {
+            width: 100%;
+        }
+        
+        /* 如果想控制横滑时两侧负边距，请给 .cos-tabs-header-left/right-margin 类名设置 margin-left/right 属性 */
+        &.cos-tabs-outline .cos-tabs-header-left-margin{
+            margin-left: -16px;
+        }
+        &.cos-tabs-outline .cos-tabs-header-right-margin{
+            margin-right: -16px;
+        }
+    }
+}

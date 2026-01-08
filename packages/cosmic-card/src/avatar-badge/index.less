@@ -1,0 +1,234 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+@scale-0: 0.86;
+@scale-2: 1.06;
+@scale-3: 1.21;
+
+.vip-color(@borderColor, @background, @color) {
+    border: 1px solid @borderColor;
+    background: @background;
+    .cos-icon {
+        color: @color;
+    }
+}
+
+.avatarOuter(@name, @startScale: 0, @endScale: 0) {
+    @keyframes @name {
+        0% {
+            transform: scale(@startScale);
+            .cos-opacity-0();
+        }
+        50% {
+            .cos-opacity-80();
+        }
+        100% {
+            transform: scale(@endScale);
+            .cos-opacity-0();
+        }
+    }
+    animation: 1.4s ease-in-out @name infinite;
+}
+
+.avatarImg(@name, @scale: 0) {
+    @keyframes @name {
+        0% {
+            transform: scale(@scale);
+        }
+        50% {
+            transform: scale(1.01);
+        }
+        100% {
+            transform: scale(@scale);
+        }
+    }
+    animation: 1.4s @name ease-in-out infinite;
+}
+
+// 以下图标色是固定颜色，不存在夜间模式下转换颜色等情况，因此不使用token值，直接使用颜色
+
+.@{prefix}-avatar-badge {
+    position: relative;
+    .cos-inline-block();
+
+    &-vip {
+        position: absolute;
+        right: -1px;
+        bottom: -1px;
+        // 保证VIP徽章的层级高于头像边框
+        z-index: 1; 
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        .cos-rounded-full();
+        transform-origin: 100% 100%;
+        .cos-leading-none();
+        .cos-icon {
+            font-size: var(--cos-text-subtitle);
+        }
+    }
+
+    &-vip-1 {
+        img {
+            width: calc(18px * var(--font-size-scale, 1));
+            height: calc(18px * var(--font-size-scale, 1));
+        }
+    }
+    &-vip-2 {
+        .vip-color(#fff, #fff, #3897f0);
+    }
+    &-vip-3 {
+        .vip-color(#fff, #fff, #ffbb20);
+    }
+    &-vip-4 {
+        .vip-color(#fff, #fff, #ff0000);
+    }
+
+    &-text > div:first-child {
+        position: relative;
+        .cos-rounded-full();
+        width: fit-content;
+    }
+
+    &-live {
+        div > :first-child {
+            transform-origin: center;
+        }
+    }
+
+    .cos-badge-value {
+        position: relative;
+        left: 50%;
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        //确保文字框的层级在头像之上
+        z-index: 1;
+        border: 1px solid #fff;
+        width: fit-content;
+        transform: translate(-50%, -11px);
+        .cos-font-medium();
+        font-size: 11px;
+        background-color: #f33;
+    }
+
+    &-border-inner,
+    &-border-outer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        .cos-rounded-full();
+        width: 100%;
+        height: 100%;
+        transform-origin: center;
+        box-sizing: border-box;
+    }
+
+    &-md &-border-inner {
+        border: 1.67px solid #f33;
+    }
+    &-md &-border-outer {
+        border: 0.33px solid var(--cos-color-border-error-light)
+    }
+    &-xs &-vip {
+        transform: scale(.56);
+    }
+
+    &-sm &-vip {
+        transform: scale(.67);
+    }
+
+    &-md, &-lg /* 为了兼容之前设置 size 为 lg 的业务，所以保留并收敛到 md */ {
+        .cos-badge-value {
+            .cos-rounded-xxs();
+            padding: 2px 2px 1px 2px;
+        }
+        .@{prefix}-avatar-badge-live > div > :first-child {
+            .avatarImg(avatarImgMD, 0.95);
+        }
+        .@{prefix}-avatar-badge-border-inner {
+            transform: scale(1.13); // (40 + 1*2 + 1.67*2)px / 40px
+            // animation: 1.4s ease-in-out avatarInner infinite;
+        }
+        .@{prefix}-avatar-badge-border-outer {
+            transform: scale(1.4); // 56px / 40px
+            .avatarOuter(avatarOuterMD, 1.13, 1.4);
+        }
+        .@{prefix}-avatar-badge-vip {
+            transform: scale(.78);
+        }
+    }
+
+    &-xs {
+        .@{prefix}-avatar-badge-live > div > :first-child {
+            .avatarImg(avatarImgXS, 0.95);
+        }
+        .@{prefix}-avatar-badge-border-inner {
+            border: 1px solid #f33;
+            transform: scale(1.25); // (16 + 1*2 + 1*2) / 16
+            // animation: 1.4s ease-in-out avatarInner infinite;
+        }
+        .@{prefix}-avatar-badge-border-outer {
+            border: 0.5px solid var(--cos-color-border-error-light);
+            transform: scale(1.69); // 27px / 16px
+            .avatarOuter(avatarOuterXS, 1.25, 1.69);
+        }
+    }
+
+    &-sm {
+        .@{prefix}-avatar-badge-live > div > :first-child {
+            .avatarImg(avatarImgSM, 0.95);
+        }
+        .@{prefix}-avatar-badge-border-inner {
+            border: 1.2px solid #f33;
+            transform: scale(1.183); // (24 + 1*2 + 1.2*2) / 24 = 28.4 / 24
+        }
+        .@{prefix}-avatar-badge-border-outer {
+            border: 0.5px solid var(--cos-color-border-error-light);
+            transform: scale(1.475); // 35.4px / 24px
+            .avatarOuter(avatarOuterSM, 1.183, 1.475);
+        }
+    }
+    @keyframes avatarInner {
+        0% {
+            .cos-opacity-100();
+        }
+        50% {
+            .cos-opacity-50();
+        }
+        100% {
+            .cos-opacity-100();
+        }
+    }
+}
+
+// 图标固定色，不使用 token
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .cos-badge-value {
+            border: 1px solid #080808;
+        }
+    }
+}
+
+@{dark-selectors} {
+    .cos-badge-value {
+        border: 1px solid #080808;
+    }
+}

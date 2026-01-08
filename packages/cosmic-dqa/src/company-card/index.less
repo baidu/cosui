@@ -1,0 +1,170 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+@label-width: 66px;
+@label-height: 16px;
+@logo-mount-width: 166px;
+@logo-mount-height: 168px;
+@logo-size: 96px;
+
+.@{prefix}-company-card {
+    &-box {
+        position: relative;
+        .cos-image-content {
+            .cos-space-pl-sm();
+            .cos-flex();
+            .cos-items-center();
+            .cos-justify-between();
+            padding-right: var(--cos-space-md);
+            gap: var(--cos-space-sm);
+        }
+        &-content {
+            overflow: hidden;
+            height: calc(100% - 24px);
+            .cos-flex();
+            .cos-flex-col();
+            .cos-items-start();
+            .cos-justify-center();
+            .cos-color-text();
+            &-label {
+                width: @label-width;
+                height: @label-height;
+                .cos-font-medium();
+                .cos-rounded-xxs();
+            }
+            &-name {
+                .cos-space-mt-xxs();
+                .cos-font-medium();
+                .cos-line-clamp-2();
+                line-height: var(--cos-leading-headline);
+                font-size: calc(var(--cos-text-headline) / var(--font-size-scale, 1));
+                color: var(--cos-color-text);
+                &-long {
+                    font-size: calc(var(--cos-text-subtitle) / var(--font-size-scale, 1));
+                    line-height: var(--cos-leading-subtitle);
+                }
+            }
+            &-legal-person {
+                width: 100%;
+                font-size: calc(var(--cos-text-subtitle-sm) / var(--font-size-scale, 1));
+                .cos-space-mt-lg();
+                .cos-line-clamp-1();
+            }
+            &-registered-capital {
+                width: 100%;
+                font-size: calc(var(--cos-text-subtitle-sm) / var(--font-size-scale, 1));
+                .cos-space-mt-xs();
+                .cos-line-clamp-1();
+            }
+            &-tags {
+                .cos-space-mt-xs();
+                .cos-space-mt-sm();
+                .cos-flex();
+                .cos-flex-wrap();
+                gap: var(--cos-space-xxs);
+                .cos-tag {
+                    padding-right: var(--cos-space-3xs);
+                    padding-left: var(--cos-space-3xs);
+                    font-size: calc(var(--cos-text-subtitle-sm) / var(--font-size-scale, 1));
+                }
+                &-item {
+                    .cos-color-text-on-primary-light();
+                    .cos-color-bg-primary-light();
+                }
+                &-premium {
+                    color: var(--cos-amber-4);
+                    background-color: var(--cos-tan--4)
+                }
+            }
+        }
+        &-logo {
+            align-self: flex-end;
+            &-mount {
+                border-radius: var(--cos-rounded-none);
+                width: @logo-mount-width;
+                height: @logo-mount-height;
+                &::before {
+                    border: none;
+                }
+                img {
+                    width: @logo-mount-width;
+                    height: @logo-mount-height;
+                }
+                .cos-image-content {
+                    padding-top: var(--cos-space-sm);
+                    .cos-justify-center();
+                    .cos-items-start();
+                }
+                &-img {
+                    width: @logo-size;
+                    height: @logo-size;
+                    img {
+                        width: @logo-size;
+                        height: @logo-size;
+                        .cos-rounded-lg();
+                        object-fit: contain;
+                    }
+                }
+                &-logoword {
+                    width: @logo-size;
+                    height: @logo-size;
+                    box-sizing: border-box;
+                    .cos-color-text-on-primary();
+                    .cos-flex();
+                    .cos-items-center();
+                    .cos-justify-between();
+                    .cos-font-medium();
+                    .cos-rounded-lg();
+                    .cos-space-pb-md();
+                    .cos-space-pt-md();
+                    .cos-space-pl-lg();
+                    .cos-space-pr-lg();
+                    &-text {
+                        width: 100%;
+                        font-size: calc(var(--cos-text-headline-xl) / var(--font-size-scale, 1));
+                        .cos-text-center();
+                    }
+                }
+            }
+        }
+    }
+}
+
+@{dark-selectors} {
+    .@{prefix}-company-card-box-content {
+        &-name, &-legal-person, &-registered-capital {
+            /* cosmic-token-disable-next-line */
+            color: #000311;
+        }
+    }
+}
+
+// android 夜间模式且屏蔽系统内核映射
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-company-card-box-content {
+            &-name, &-legal-person, &-registered-capital {
+                color-scheme: dark;
+
+                /* cosmic-token-disable-next-line */
+                color: #000311;
+            }
+        }
+    }
+}

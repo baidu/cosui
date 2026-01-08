@@ -1,0 +1,128 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+@color-2: #ff6600;
+@color-3: #faa90e;
+// 定义基础大小、尺寸与位数的增幅
+@base-size: 16px;
+@size-increment: 2px;
+@digital-increment: 6px;
+
+// 根据尺寸和位数调整宽高
+.font-size-mixin(@increment, @scale, @digit) {
+    @width: @base-size + (@increment * @size-increment) + ((@digit - 2) * @digital-increment);
+    @height: @base-size + (@increment * @size-increment);
+    width: calc(@width * @scale);
+    height: calc(@height * @scale);
+    line-height: calc(@height * @scale);
+}
+
+// 生成具体类，递减到2位数
+.generate-size-classes(@digit, @scale) when (@digit > 1) {
+    .generate-size-classes(@digit - 1, @scale);
+
+    &.@{prefix}-sm-@{digit} {
+        .font-size-mixin(0, @scale, @digit);
+    }
+    &.@{prefix}-md-@{digit} {
+        .font-size-mixin(1, @scale, @digit);
+    }
+    &.@{prefix}-lg-@{digit} {
+        .font-size-mixin(2, @scale, @digit);
+    }
+}
+
+
+.@{prefix}-rank {
+    .cos-inline-flex();
+    .cos-justify-center();
+    .cos-items-center();
+    .cos-text-center();
+    .cos-text-caption();
+    .cos-font-medium();
+    max-width: 34px;
+    word-break: initial;
+    .generate-size-classes(4, var(--font-size-scale, 1));
+
+    &-filled-leaf,
+    &-filled {
+        .cos-color-bg-dent();
+        .cos-color-text();
+        .cos-rounded-xxs();
+
+        &-1 {
+            .cos-color-text-inverse();
+            background-color: var(--cos-color-text-em);
+        }
+
+        &-2 {
+            .cos-color-text-inverse();
+            // 色板未升级，暂时使用默认色
+            background-color: @color-2;
+        }
+
+        &-3 {
+            .cos-color-text-inverse();
+            // 色板未升级，暂时使用默认色
+            background-color: @color-3;
+        }
+    }
+
+    &-filled-leaf {
+        border-radius: var(--cos-rounded-sm) var(--cos-rounded-none);
+    }
+
+    &-subtle {
+        .cos-color-text-minor();
+
+        &-1 {
+            .cos-color-text-alive();
+        }
+
+        &-2 {
+            // 色板未升级，暂时使用默认色
+            color: @color-2;
+        }
+
+        &-3 {
+            // 色板未升级，暂时使用默认色
+            color: @color-3;
+        }
+    }
+}
+
+@{dark-browser-selectors} .@{prefix}-rank {
+    &-filled {
+        &-1 {
+            .cos-color-text-inverse();
+            .cos-color-bg-em() !important;
+        }
+
+        &-2 {
+            .cos-color-text-inverse();
+            // 色板未升级，暂时使用默认色
+            background-color: @color-2 !important;
+        }
+
+        &-3 {
+            .cos-color-text-inverse();
+            // 色板未升级，暂时使用默认色
+            background-color: @color-3 !important;
+        }
+    }
+}

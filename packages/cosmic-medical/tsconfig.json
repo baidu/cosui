@@ -1,0 +1,35 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "sourceMap": true,
+        "baseUrl": ".",
+        "noImplicitAny": true,
+        "noEmitOnError": true,
+        "target": "es6",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "paths": {
+            "/@/*": ["src/*"],
+            "@e2e/*": ["../../e2e/*"],
+            "san": ["node_modules/san"],
+            "san/*": ["node_modules/san/*"],
+            "@cosui/cosmic/*": [
+                "../cosmic/src/*",
+                "../cosmic/src/*/mobile",
+                "../cosmic/src/*/pc"
+            ],
+            "@cosui/cosmic-medical/*": [
+                "src/*",
+                "src/*/mobile",
+                "src/*/pc"
+            ]
+        }
+    },
+    "include": [
+        "./src/**/*.ts",
+        "../../global.d.ts"
+    ],
+    "exclude": [
+        "**/__tests__/**/*.ts"
+    ]
+}

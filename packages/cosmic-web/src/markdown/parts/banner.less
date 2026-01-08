@@ -1,0 +1,36 @@
+@import (reference) 'tokens.less';
+
+.co-md-widget-banner {
+    border-radius: 0.24rem;
+    height: 4rem;
+    .cos-color-bg();
+    .cos-color-text();
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    &:hover .co-md-widget-banner-example{
+        .cos-opacity-100();
+    }
+}
+.co-md-widget-banner-title {
+    .cos-text-headline-xl();
+    .cos-font-medium();
+    .cos-leading-none();
+    margin-top: 1.12rem;
+}
+.co-md-widget-banner-desc{
+    .cos-text-body();
+    .cos-leading-loose();
+    .cos-color-text-tiny-inverse();
+    margin-top: 30px;
+    max-width: 480px;
+}
+.co-md-widget-banner-example {
+    width: 4.2rem;
+    height: 100.3%;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    .cos-opacity-90();
+    transition: opacity 0.3s;
+}

@@ -1,0 +1,74 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.icon-size(@sizeW, @sizeH) {
+    // img 类型
+    img.@{prefix}-empty-icon {
+        width: @sizeW;
+        height: @sizeH;
+    }
+
+    // 图标类型
+    .@{prefix}-empty-icon.cos-icon {
+        font-size: @sizeH;
+        .cos-leading-none();
+    }
+}
+
+.@{prefix}-empty {
+    .cos-flex();
+    .cos-flex-col();
+    .cos-justify-center();
+    .cos-items-center();
+
+    &-icon {
+        .cos-block();
+    }
+
+    &-title {
+        .cos-color-text-minor();
+        .cos-leading-none();
+        .cos-font-regular();
+    }
+
+    &-description {
+        .cos-space-mt-xs();
+        .cos-color-text-minor();
+        .cos-leading-none();
+        font-size: var(--cos-text-caption);
+    }
+}
+
+.@{prefix}-empty-sm {
+    .icon-size(60px, 60px);
+
+    .@{prefix}-empty-title {
+        .cos-space-mt-xs();
+        font-size: var(--cos-text-subtitle-sm);
+    }
+}
+
+.@{prefix}-empty-md {
+    .icon-size(120px, 90px);
+
+    .@{prefix}-empty-title {
+        .cos-space-mt-lg();
+        font-size: var(--cos-text-subtitle);
+    }
+}

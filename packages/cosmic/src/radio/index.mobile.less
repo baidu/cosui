@@ -1,0 +1,131 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-radio {
+    .cos-inline-flex();
+    .cos-items-center();
+    .cos-justify-center();
+    padding: var(--cos-space-xs) var(--cos-space-sm);
+    font-size: var(--cos-text-subtitle-sm);
+    .cos-font-regular();
+    .cos-color-text();
+    .cos-color-bg-dent();
+    .cos-rounded-sm();
+    cursor: pointer;
+
+    &-checked {
+        .cos-font-medium();
+        .cos-color-text-primary();
+        .cos-color-bg-primary-light();
+    }
+
+    &-disabled {
+        .cos-opacity-40();
+        cursor: no-drop;
+    }
+
+    &-icon {
+        width: 0;
+        height: 0;
+        .cos-opacity-0();
+    }
+}
+
+.@{prefix}-radio-mark {
+    .cos-space-p-none();
+    background: none;
+
+    .@{prefix}-radio-icon {
+        box-sizing: border-box;
+        position: relative;
+        .cos-inline-block();
+        .cos-space-mr-xs();
+        width: var(--cos-text-subtitle);
+        height: var(--cos-text-subtitle);
+        .cos-opacity-100();
+        outline: none;
+        cursor: pointer;
+    }
+
+    .@{prefix}-radio-icon-inner {
+        box-sizing: border-box;
+        .cos-block();
+        position: relative;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        border: 1px solid var(--cos-color-border);
+        .cos-rounded-full();
+        width: 16px;
+        height: 16px;
+        .cos-color-bg();
+        transition: all .2s;
+        &::after {
+            box-sizing: border-box;
+            .cos-block();
+            position: absolute;
+            inset-block-start: 50%;
+            inset-inline-start: 50%;
+            border-radius: 16px;
+            width: 16px;
+            height: 16px;
+            margin-block-start: -8px;
+            margin-inline-start: -8px;
+            .cos-color-bg();
+            border-block-start: 0;
+            border-inline-start: 0;
+            transform: scale(0);
+            .cos-opacity-0();
+            content: "";
+        }
+    }
+}
+
+.@{prefix}-radio-mark.@{prefix}-radio-checked {
+    .cos-font-regular();
+    .cos-color-text-primary();
+    .@{prefix}-radio-icon::after {
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        border: 1px solid var(--cos-color-border-active);
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        .cos-invisible();
+        content: "";
+    }
+    .@{prefix}-radio-icon-inner {
+        .cos-color-bg-primary();
+        .cos-color-border-primary();
+        &::after {
+            transform: scale(.375);
+            .cos-opacity-100();
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-radio:not(.@{prefix}-radio-mark).@{prefix}-radio-checked {
+            color-scheme: dark;
+            color: #263678;
+            background-color: #4e6ef21a;
+        }
+    }
+}

@@ -1,0 +1,179 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-music-player {
+    .cos-rounded-lg();
+    .cos-color-bg();
+    position: relative;
+    border: 0.5px solid var(--cos-color-border-minor);
+
+    &-panel {
+        display: flex;
+        height: 207px;
+    }
+
+    &-type {
+        display: flex;
+        align-items: center;
+        .cos-color-text();
+
+        &-icon {
+            font-size: var(--cos-text-body-lg);
+            line-height: var(--cos-text-body-lg);
+        }
+
+        &-title {
+            .cos-font-medium();
+            .cos-space-ml-xxs();
+            font-size: var(--cos-text-subtitle-sm);
+            line-height: var(--cos-text-body-lg);
+        }
+    }
+
+    &-poster {
+        position: absolute;
+        top: 0;
+        z-index: 2;
+
+        &-box {
+            position: relative;
+            display: inline-block;
+        }
+
+        &-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        &-icon {
+            position: absolute;
+            .cos-color-text-tiny-inverse-active();
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            -webkit-tap-highlight-color: transparent;
+        }
+    }
+
+    &-vinyl {
+        position: absolute;
+        z-index: 1;
+
+        &-poster {
+            .cos-rounded-full();
+            position: absolute;
+            z-index: 1;
+        }
+    }
+
+    &-content {
+        display: flex;
+        .cos-font-family();
+        flex-direction: column;
+        min-height: 0;
+
+        &-title {
+            flex: 0 0 auto;
+            .cos-color-text();
+            .cos-font-medium();
+            .cos-line-clamp-2();
+            font-size: var(--cos-text-subtitle);
+        }
+
+        &-lyrics {
+            .cos-text-subtitle-sm();
+            overflow: hidden;
+            word-break: break-word;
+            white-space: normal;
+            scroll-behavior: smooth;
+        }
+
+        &-lyric {
+            display: block;
+
+            &:not(:last-child) {
+                .cos-space-pb-xxs();
+            }
+
+            &-active {
+                .cos-color-text-tiny();
+                .cos-font-medium();
+            }
+
+            &-inactive {
+                .cos-color-text-slim();
+                .cos-opacity-60();
+            }
+        }
+    }
+
+    &-progress {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+
+
+        &-bar {
+            .cos-color-bg-primary-light();
+
+            &-loading {
+                .cos-color-bg-primary-light-disabled();
+            }
+        }
+
+        &-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            .cos-color-bg-primary();
+            transition: width 0.3s linear;
+        }
+
+        &-loading {
+            background: linear-gradient(90deg, rgba(162, 136, 247, 0.00) 0%, rgba(162, 136, 247, 0.50) 50%, rgba(162, 136, 247, 0.00) 100%);
+            animation: progress-animation 2s linear infinite;
+        }
+
+        @keyframes progress-animation {
+            0% {
+                transform: translateX(-100%);
+            }
+            75% {
+                transform: translateX(133%);
+            }
+            100% {
+                transform: translateX(210%);
+            }
+        }
+    }
+
+    &-tag {
+        .cos-opacity-50();
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: block;
+        height: 12px;
+    }
+}

@@ -1,0 +1,94 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import (reference) 'tokens.less';
+@import 'variable.less';
+
+.@{prefix}-pagination {
+    .cos-flex();
+
+    &-prev,
+    &-next,
+    &-pager-item {
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        height: 24px;
+        .cos-rounded-xs();
+        .cos-color-bg-dent();
+        .cos-text-caption();
+        .cos-color-text-primary();
+        cursor: pointer;
+        user-select: none;
+    }
+
+    &-prev,
+    &-next {
+        .cos-shrink-0();
+        width: 56px;
+
+        &:not(.@{prefix}-pagination-in-first-page):not(.@{prefix}-pagination-in-last-page):hover {
+            .cos-color-bg-dent-hover();
+            .cos-color-text-primary-hover();
+        }
+    }
+
+    &-prev {
+        .cos-space-mr-md();
+    }
+
+    &-next {
+        .cos-space-ml-md();
+    }
+
+    &-pager {
+        .cos-flex();
+
+        &-item {
+            .cos-shrink-0();
+            .cos-space-ml-xs();
+            min-width: 24px;
+
+            &:first-child {
+                .cos-space-ml-none();
+            }
+
+            &-current {
+                .cos-color-bg-primary();
+                .cos-color-text-on-primary();
+            }
+
+            &-ellipsis {
+                width: 12px;
+                min-width: 12px;
+                background: none;
+                cursor: auto;
+            }
+
+            &:not(.@{prefix}-pagination-pager-item-current):not(.@{prefix}-pagination-pager-item-ellipsis):hover {
+                .cos-color-bg-dent-hover();
+                .cos-color-text-primary-hover();
+            }
+        }
+    }
+
+    &-in-first-page,
+    &-in-last-page {
+        .cos-color-bg-dent-disabled();
+        .cos-color-text-primary-disabled();
+        cursor: not-allowed;
+    }
+}

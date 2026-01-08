@@ -1,0 +1,149 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-route-planner {
+    &-overview {
+        .cos-flex();
+        .cos-items-start();
+        .cos-justify-between();
+        gap: var(--cos-space-sm);
+        .cos-space-mb-md();
+    }
+
+    &-path {
+        .cos-flex();
+        .cos-flex-wrap();
+        gap: 5px var(--cos-space-md);
+        overflow: hidden;
+    }
+
+    &-path-item-tag {
+        .cos-space-pt-xxs();
+        .cos-space-pb-xxs();
+        .cos-space-pr-xs();
+        .cos-space-pl-xxs();
+        .cos-text-caption();
+        .cos-color-text();
+        .cos-leading-none();
+        .cos-font-medium();
+        .cos-rounded-full();
+        .cos-color-bg-dent();
+    }
+
+    &-path-item-divider {
+        position: relative;
+        top: -50%;
+        left: calc(0px - var(--cos-space-sm));
+        width: var(--cos-space-xs);
+        background: var(--cos-color-border);
+    }
+
+    &-path-item-tag-icon {
+        .cos-space-pr-3xs();
+    }
+
+    &-switch {
+        .cos-fold-switch-context {
+            height: var(--cos-leading-body);
+
+            .cos-fold-switch-icon, .cos-fold-switch-text {
+                .cos-color-text();
+            }
+        }
+    }
+
+    &-image-list {
+        // 去掉cos-swiper默认的左侧padding
+        .cos-swiper-list {
+            .cos-space-pl-none();
+        }
+        .cos-image-content {
+            height: 100%;
+        }
+    }
+
+    &-image-item-label {
+        height: 100%;
+    }
+
+    &-image-item-label-text {
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - 18px);
+        height: 30px;
+        line-height: var(--cos-leading-headline);
+        .cos-space-pl-xs();
+        .cos-space-pr-xs();
+        background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .4) 100%);
+        .cos-line-clamp-1();
+        .cos-color-text-inverse();
+    }
+
+    &-location-list {
+        .cos-flex();
+        .cos-flex-col();
+        gap: var(--cos-space-md);
+    }
+
+    &-location-item {
+        cursor: pointer;
+
+        .cosd-location-card {
+            pointer-events: none;
+            .cos-space-pt-none();
+            .cos-space-pb-none();
+        }
+    }
+
+    &-location-route {
+        .cos-flex();
+        gap: var(--cos-space-xs);
+        .cos-space-mt-md();
+        .cos-space-pt-xs();
+        .cos-space-pb-xs();
+        .cos-space-pr-sm();
+        .cos-space-pl-sm();
+        .cos-color-text-minor();
+        .cos-text-body();
+        .cos-leading-none();
+        .cos-color-bg-dent();
+        .cos-rounded-sm();
+    }
+
+    &-location-route-distance {
+        .cos-shrink-0();
+    }
+
+    &-location-route-divider {
+        .cos-color-text-slim();
+    }
+
+    &-location-route-option-item {
+        &:not(:last-child) {
+            .cos-shrink-0();
+        }
+        &:last-child {
+            .cos-line-clamp-1();
+        }
+    }
+
+    &-location-route-option-item-icon {
+        .cos-space-mr-3xs();
+    }
+}

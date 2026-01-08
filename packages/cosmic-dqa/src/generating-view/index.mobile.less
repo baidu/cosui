@@ -1,0 +1,137 @@
+@import 'variable.less';
+@import (reference) 'tokens.less';
+@import './animation.less';
+
+.loading-ratio(@width, @height) {
+    aspect-ratio: @width / @height;
+
+    // safari 14 及以下不支持 aspect-ratio 属性
+    @supports not (aspect-ratio: 1 / 1) {
+        overflow: hidden;
+        padding-bottom: (@height / @width) * 100%;
+        height: 0;
+    }
+}
+
+.cosd-generating-view {
+    position: relative;
+    .cos-rounded-lg();
+    overflow: hidden;
+    // 设置默认宽高比为 16:9
+    .loading-ratio(16, 9);
+
+    &-content {
+        box-sizing: border-box;
+    }
+
+    // filled 样式
+    &-filled {
+        .cosd-generating-view-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            .cos-flex();
+            .cos-flex-col();
+            .cos-justify-start();
+            .cos-items-center();
+
+            &-icon {
+                .cos-space-mb-xxs();
+                .cos-space-p-3xs();
+                .cos-color-text-inverse();
+                font-size: var(--cos-text-headline-sm);
+            }
+
+            &-info {
+                // filled 样式下无title，需隐藏
+                &-title {
+                    display: none;
+                }
+
+                &-caption {
+                    max-width: 100px;
+                    .cos-color-text-inverse();
+                    .cos-font-family();
+                    font-size: var(--cos-text-subtitle-sm);
+                    .cos-leading-none();
+                    .cos-line-clamp-1();
+                }
+            }
+        }
+    }
+
+    // card 样式
+    &-card {
+        .cosd-generating-view-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            .cos-space-p-sm();
+            padding-top: 48px;
+            width: 100%;
+
+            .cos-flex();
+            .cos-justify-start();
+            .cos-items-center();
+
+            background: linear-gradient(#fff0, #ffffffb3);
+
+            &-icon {
+                width: calc(var(--font-size-scale, 1) * 40px);
+                height: calc(var(--font-size-scale, 1) * 40px);
+                .cos-space-mr-xs();
+            }
+
+            &-info {
+                .cos-flex();
+                .cos-flex-col();
+                .cos-shrink-0();
+                .cos-font-family();
+                font-size: var(--cos-text-subtitle-sm);
+
+                &-title {
+                    .cos-font-medium();
+                    .cos-space-pb-xs();
+                    .cos-leading-none();
+                    .cos-line-clamp-1();
+                }
+
+                &-caption {
+                    .cos-color-text-minor();
+                    .cos-leading-none();
+                    .cos-line-clamp-1();
+                }
+            }
+        }
+    }
+
+    &-1-1 {
+        .loading-ratio(1, 1);
+    }
+
+    &-4-3 {
+        .loading-ratio(4, 3);
+    }
+
+    &-16-9 {
+        .loading-ratio(16, 9);
+    }
+
+    &-3-4 {
+        .loading-ratio(3, 4);
+    }
+
+    &-9-16 {
+        .loading-ratio(9, 16);
+    }
+}
+
+@{dark-selectors} {
+    .cosd-generating-view-card {
+        .cosd-generating-view-content {
+            background: linear-gradient(#0000, #0006);
+        }
+    }
+}

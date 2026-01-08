@@ -1,0 +1,26 @@
+@import (reference) 'tokens.less';
+
+.default-demo {
+    h4 {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+    }
+
+    .demo-controller {
+        margin-bottom: 10px;
+
+        > * {
+            .cos-flex();
+            .cos-items-center();
+            .cos-space-mb-xs();
+            height: 30px;
+
+            > label {
+                .cos-space-mr-xxs();
+                width: 50px;
+            }
+        }
+    }
+}

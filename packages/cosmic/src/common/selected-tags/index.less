@@ -1,0 +1,85 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.@{prefix}-selected-tags {
+    .cos-flex-1();
+    overflow: hidden;
+    &-box {
+        position: relative;
+        display: flex;
+        gap: 3px;
+        width: 100%;
+    }
+    &-item {
+        overflow: hidden;
+        flex: 0 0 auto;
+        border: 1px solid var(--cos-color-border-tiny);
+        border-radius: 4px;
+        padding: 5px 4px;
+        max-width: 100%;
+        box-sizing: border-box;
+        .cos-flex();
+        .cos-items-center();
+        .cos-space-pl-xxs();
+        .cos-space-pr-xxs();
+        .cos-color-bg-dent();
+        .cos-text-caption();
+        .cos-leading-none();
+        .cos-icon {
+            .cos-rounded-xxs();
+            .cos-space-ml-3xs();
+            .cos-color-text-minor();
+            transition: background-color var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+        }
+        transition: all var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+        &:hover {
+            background-color: #edeef0;
+            .cos-color-border-minor();
+            .cos-icon {
+                .cos-color-bg-raised();
+                transition: background-color var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+            }
+            transition: all var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+        }
+        &-hidden {
+            visibility: hidden;
+        }
+        &-label {
+            .cos-flex-1();
+            overflow: hidden;
+            user-select: none;
+            span {
+                flex: 1;
+                .cos-line-clamp-1();
+            }
+        }
+    }
+    &-hidden {
+        position: absolute;
+        top: 50%;
+        right: 6px;
+        transform: translateY(-50%);
+        border: 1px solid var(--cos-color-border-minor);
+        border-radius: 4px;
+        width: 22px;
+        text-align: center;
+        line-height: var(--cos-leading-subtitle);
+        .cos-color-bg-dent();
+        &:hover {
+            .cos-color-bg-dent-hover();
+        }
+    }
+}

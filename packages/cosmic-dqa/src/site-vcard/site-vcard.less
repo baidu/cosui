@@ -1,0 +1,338 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+@root: ~"@{prefix}-site-vcard";
+@font-size-scale: var(--font-size-scale, 1);
+
+
+@size-lg: 57px;
+.avatar-size(@size) {
+    width: @size;
+    height: @size;
+}
+
+
+.@{root} {
+
+    a {
+        -webkit-tap-highlight-color:rgba(0,0,0,0);
+    }
+
+    &-logo {
+        .cos-block();
+        .cos-space-mb-sm() ;
+        width: calc(43px * @font-size-scale);
+    }
+
+    &-content-wrapper {
+        .cos-flex();
+    }
+
+    &-filled {
+        .cos-rounded-sm();
+        .cos-color-bg-page();
+        .cos-color-bg-dent();
+        .cos-space-p-xs();
+
+        .@{root}-button {
+            .cos-color-bg();
+            .cos-color-text-primary();
+            background-image: none;
+        }
+    }
+    &-main {
+        .cos-items-center();
+        .cos-justify-between();
+        &-introduction {
+            &-top-divider {
+                .cos-space-mt-xxs();
+                .cos-space-mb-sm();
+            }
+            &-bottom-divider {
+                .cos-space-mt-xs();
+                .cos-space-mb-xxs();
+            }
+            .cos-color-text();
+            margin-bottom: -2px;
+
+            &-top-text, &-bottom-text {
+                position: relative;
+                .cos-line-clamp-2();
+                quotes: '“' '”';
+                &::before {
+                    content: open-quote;
+                }
+                &::after {
+                    content: close-quote;
+                }
+                &.truncate::after{
+                    content: close-quote;
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                }
+            }
+
+            &-top-text {
+                margin-top: -4px;
+                margin-bottom: -1px;
+            }
+
+            &-bottom-text {
+                margin-top: -1px;
+                margin-bottom: -3px;
+            }
+        }
+    }
+
+    &-info {
+        .cos-flex();
+        .cos-items-center();
+        flex-grow: 1;
+        min-width: 0;
+    }
+
+    &-bar {
+        .cos-items-center();
+        .cos-justify-between();
+        .cos-rounded-sm();
+        .cos-color-bg-dent();
+        .cos-space-p-xs();
+
+        .@{root}-button {
+            .cos-color-bg();
+            .cos-color-text-primary();
+            background-image: none;
+        }
+
+        .cos-avatar::before {
+            border: none;
+        }
+
+        .cos-avatar-img {
+            .cos-rounded-xs();
+        }
+    }
+
+    &-thumbnail-large {
+        position: relative;
+        top: -2px;
+        .cos-shrink-0();
+        .cos-space-mr-sm();
+        .cos-avatar-md {
+            .avatar-size(calc(@size-lg * @font-size-scale));
+
+        }
+        .cos-avatar-img {
+            .cos-rounded-sm();
+        }
+    }
+
+    &-thumbnail {
+        .cos-shrink-0();
+        .cos-space-mr-xs();
+        position: relative;
+    }
+
+    &-content {
+        .cos-flex();
+        .cos-flex-col();
+        .cos-flex-1();
+        .cos-justify-center();
+        .cos-items-start();
+        overflow: hidden;
+
+        // 解决行高和字号相同，部分文字被截断的问题（如g, y等字母）
+        .cos-space-pt-3xs();
+        .cos-space-pb-3xs();
+        margin-top: calc(var(--cos-space-3xs) * -1);
+        margin-bottom: calc(var(--cos-space-3xs) * -1);
+    }
+
+    &-title {
+        .cos-flex();
+        .cos-flex-row();
+        .cos-items-center();
+        width: 100%;
+        line-height: var(--cos-text-subtitle-sm);
+
+        &-text {
+            .cos-text-body();
+            .cos-font-medium();
+            .cos-color-text();
+            line-height: var(--cos-text-subtitle-sm);
+
+            // 解决行高和字号相同，部分文字被截断的问题（如g, y等字母）
+            .cos-space-pt-3xs();
+            .cos-space-pb-3xs();
+            margin-top: calc(var(--cos-space-3xs) * -1);
+            margin-bottom: calc(var(--cos-space-3xs) * -1);
+
+            &-large {
+                font-size: var(--cos-text-subtitle);
+                .cos-leading-none();
+            }
+        }
+
+        &-tags {
+            .cos-shrink-0();
+            height: var(--cos-text-subtitle);
+        }
+
+        &-head-tags {
+            .cos-space-mr-xxs();
+        }
+
+        &-tail-tags {
+            margin-left: 4px;
+        }
+    }
+
+    &-under-title-introduction {
+        .cos-line-clamp-2();
+        margin-top: 2px;
+        margin-bottom: -5px;
+        .cos-color-text();
+        word-break: break-all;
+    }
+
+    &-caption {
+        .cos-flex();
+        .cos-flex-row();
+        .cos-justify-start();
+        .cos-items-center();
+        .cos-space-pt-xxs();
+        .cos-space-pb-3xs();
+        margin-bottom: calc(var(--cos-space-3xs) * -1);
+        width: 100%;
+
+        // 解决行高和字号相同，部分文字被截断的问题（如g, y等字母）
+        .line-height-fix() {
+            .cos-space-pt-3xs();
+            .cos-space-pb-3xs();
+            line-height: var(--cos-text-subtitle-sm);
+            margin-top: calc(var(--cos-space-3xs) * -1);
+            margin-bottom: calc(var(--cos-space-3xs) * -1);
+        }
+
+        &-score {
+            .cos-score-count,
+            .cos-score-unit {
+                .cos-text-body();
+                .cos-font-medium();
+                .line-height-fix();
+            }
+            .cos-score-text {
+                .cos-hidden();
+            }
+        }
+
+        &-visits-icon {
+            margin-right: 4px;
+        }
+
+        &-divider {
+            .cos-inline-block();
+            .cos-space-mr-xxs();
+            .cos-space-ml-xxs();
+            position: relative;
+            top: -1px;
+            width: 3px;
+            height: var(--cos-text-caption);
+        }
+
+        &-text {
+            .cos-text-body();
+            .line-height-fix();
+            .cos-color-text-on-page();
+            .cos-line-clamp-1();
+        }
+
+        &-badge {
+            .cos-shrink-0();
+            .cos-color-text-primary();
+            .line-height-fix();
+            .cos-space-ml-3xs();
+        }
+    }
+
+    &-button {
+        .cos-space-pl-xs();
+        .cos-space-pr-xs();
+        width: auto;
+        min-width: 57px;
+        font-size: 13px;
+
+        &-wrapper {
+            .cos-space-ml-xs();
+        }
+    }
+
+    &-introduction {
+        .cos-color-text();
+        .cos-color-bg-dent();
+        .cos-space-p-xs();
+        .cos-space-mt-xxs();
+        .cos-rounded-sm();
+        position: relative;
+        display: block;
+
+        &-arrow {
+            position: absolute;
+            top: -12px;
+            left: 14px;
+            border: 6px solid #0000;
+            border-bottom-color: var(--cos-color-bg-dent);
+            width: 0;
+            height: 0;
+        }
+    }
+
+    &-shortcut-divider {
+        .cos-space-mt-xs();
+        .cos-space-mb-xs();
+    }
+
+    &-shortcut-area {
+        .cos-flex();
+        .cos-items-center();
+
+        &-logo {
+            .cos-space-mr-xxs();
+            .cos-avatar-img {
+                .cos-rounded-xxs();
+            }
+        }
+
+        &-name{
+            .cos-line-clamp-1();
+            .cos-font-medium();
+            .cos-color-text();
+            line-height: var(--cos-text-subtitle-sm);
+        }
+        &-caption {
+            .cos-flex-1();
+            min-width: calc(129px * var(--font-size-scale, 1));
+            .cos-space-ml-xxs();
+            .cos-line-clamp-1();
+            .cos-color-text-minor();
+            line-height: var(--cos-text-subtitle-sm);
+        }
+    }
+}

@@ -1,0 +1,64 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.cosd-agent-card {
+    width: 100%;
+    .cos-flex();
+    .cos-flex-col();
+    .cos-justify-between();
+    &:active {
+        .cos-opacity-20();
+    }
+
+    &-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &-action-text {
+        position: absolute;
+        top: 163px;
+        left: 50%;
+        transform: translateX(-50%);
+        .cos-rounded-full();
+        border: 0.3px solid var(--cos-color-bg-dent-inverse-hover);
+        padding: 8px var(--cos-space-sm);
+        max-width: 100%;
+        background-color: rgba(80, 82, 92, .8);
+        backdrop-filter: blur(var(--cos-space-3xs));
+        .cos-color-text-on-primary();
+        .cos-line-clamp-1();
+    }
+
+    &-title {
+        .cos-line-clamp-1();
+        .cos-text-subtitle-sm();
+        .cos-font-medium();
+        .cos-color-text();
+        margin: var(--cos-space-xs) var(--cos-space-none) var(--cos-space-xxs);
+    }
+
+    &-caption {
+        .cos-line-clamp-1();
+        .cos-text-subtitle-sm();
+        .cos-font-regular();
+        .cos-color-text-minor();
+    }
+}

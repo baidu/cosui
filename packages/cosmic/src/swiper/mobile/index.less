@@ -1,0 +1,190 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import (reference) 'tokens.less';
+@import 'variable.less';
+
+.@{prefix}-swiper {
+    position: relative;
+
+    &-sentinel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        .cos-invisible();
+    }
+
+    &-content {
+        overflow: hidden;
+        transition: height var(--cos-transition-duration-extralong) ease-out;
+    }
+
+    &-list {
+        .cos-flex();
+        overflow-x: auto;
+        margin-top: -30px;
+        padding: var(--cos-space-none) 13px 30px;
+        transform: translateY(30px);
+        transition: all var(--cos-transition-duration-extralong) ease-out;
+    }
+
+    // 高度自适应 SSR 场景: 初始化阶段隐藏所有 item，只显示第一个 item，用于撑开高度
+    &-auto-height-init {
+        .@{prefix}-swiper-item {
+            .cos-hidden();
+
+            &:first-child {
+                .cos-block();
+            }
+        }
+    }
+
+    &-snap {
+        scroll-snap-type: x mandatory;
+        scroll-padding: 13px;
+    }
+
+    &-list-indicator {
+        padding: var(--cos-space-none) var(--cos-space-none) 30px;
+        scroll-padding: var(--cos-space-none);
+
+        .cos-swiper-overscroll {
+            .cos-space-pr-sm();
+        }
+    }
+
+    &-scrollbar {
+        .cos-space-mt-md();
+        .cos-space-mb-md();
+        .cos-rounded-lg();
+        position: relative;
+        margin: auto;
+        width: calc(var(--cos-space-md) * 2);
+        height: var(--cos-space-3xs);
+        background-color: var(--cos-color-border-tiny);
+    }
+
+    &-slide {
+        .cos-color-bg-primary();
+        .cos-rounded-lg();
+        width: var(--cos-space-md);
+        height: var(--cos-space-3xs);
+    }
+
+    &-outer {
+        .cos-space-pb-lg();
+    }
+
+    &-indicator {
+        .cos-flex();
+        position: absolute;
+        bottom: var(--cos-space-md);
+        z-index: 5;
+        .cos-space-m-none();
+        border-radius: 4px;
+
+        &-center {
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        &-left {
+            .cos-space-ml-xxl();
+        }
+
+        &-right {
+            .cos-space-mr-xxl();
+            right: var(--cos-space-xs);
+        }
+
+        &-outer {
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        &-default {
+            // 用于扩大可点击范围，修改此处记得修改 &-indicator 的 bottom 属性
+            padding: var(--cos-space-3xs) 1.5px;
+
+            span {
+                .cos-rounded-full();
+                .cos-block();
+                border-top: 4px solid var(--cos-color-border-tiny);
+                width: 4px;
+                height: 4px;
+                transition: all .2s ease-in-out;
+                box-sizing: border-box;
+            }
+        }
+
+        &-active {
+            span {
+                .cos-color-border-primary();
+                width: var(--cos-space-md);
+            }
+        }
+    }
+
+    &-overscroll {
+        .cos-flex();
+        .cos-space-pl-3xs();
+        .cos-space-pr-3xs();
+        .cos-justify-center();
+        .cos-items-center();
+
+        &:active {
+            .cos-opacity-20();
+        }
+
+        &-text {
+            -webkit-writing-mode: vertical-rl;
+            writing-mode: vertical-rl;
+            word-wrap: break-word;
+            word-break: break-all;
+            .cos-color-text();
+            // 竖排文字的 letter-spacing 相当于行高，行高应设 16px，文字应设 14px
+            line-height: var(--cos-text-subtitle-sm);
+            letter-spacing: 2px;
+        }
+
+        &-icon {
+            // 为避免 icon rotate 时影响 scrollWidth，icon 实现为一个圆形
+            .cos-inline-flex();
+            .cos-items-center();
+            .cos-justify-center();
+            overflow: hidden;
+            // icon 原应设置 font-size，但此处比较特殊，需要修改为圆形包裹 icon，故设置宽高
+            width: var(--cos-text-subtitle);
+            height: var(--cos-text-subtitle);
+            .cos-rounded-full();
+            .cos-color-text();
+        }
+    }
+
+}
+
+// 适配 android 夜间模式下被内核映射的颜色
+@{dark-browser-selectors} .@{prefix}-swiper {
+    .@{prefix}-swiper-content {
+        .@{prefix}-swiper-list {
+            background: transparent !important;
+        }
+    }
+}

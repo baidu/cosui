@@ -1,0 +1,123 @@
+{
+  "name": "cosmic",
+  "version": "1.2.0",
+  "description": "",
+  "scripts": {
+    "clean": "pnpm -r clean",
+    "lint": "lint-staged",
+    "prepare": "husky install",
+    "predev": "pnpm build",
+    "dev": "pnpm -r --parallel dev",
+    "dev:site": "pnpm --filter cosmic-web dev",
+    "build": "pnpm -r --filter '!cosmic-web' --workspace-concurrency=2 build",
+    "build:site": "pnpm --filter cosmic-web build",
+    "e2e:dev": "pnpm e2e:build && pnpm --filter cosmic-web e2e:dev",
+    "pree2e:build": "pnpm build",
+    "e2e:build": "node ./scripts/build-e2e.mjs",
+    "e2e:clean": "rimraf \"**/e2e-cache.json\" \"**/.*.ts\"",
+    "test:unit": "jest --config=./scripts/jest.config.ts",
+    "test:e2e": "pnpm e2e:clean && pnpm e2e:build && PLAYWRIGHT_BROWSERS_PATH=./browsers playwright test --config=./scripts/playwright.config.ts && pnpm e2e:clean",
+    "test:e2e:ci": "node ./scripts/e2e-cov-check.mjs",
+    "install-browser": "PLAYWRIGHT_BROWSERS_PATH=./browsers playwright install",
+    "install-browser:webkit": "PLAYWRIGHT_BROWSERS_PATH=./browsers playwright install webkit",
+    "install-browser:chromium": "PLAYWRIGHT_BROWSERS_PATH=./browsers playwright install chromium"
+  },
+  "author": "cosmic",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "san": "3.14.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.less": "stylelint",
+    "*.{js,jsx,ts,tsx}": [
+      "eslint",
+      "node scripts/tsc-staged.mjs"
+    ]
+  },
+  "browserslist": [
+    "android >= 5",
+    "ios >= 10"
+  ],
+  "devDependencies": {
+    "@babel/core": "7.17.5",
+    "@babel/eslint-parser": "~7.17.0",
+    "@babel/eslint-plugin": "~7.16.5",
+    "@babel/generator": "~7.17.3",
+    "@babel/parser": "~7.17.3",
+    "@babel/traverse": "~7.17.3",
+    "@babel/types": "~7.18.2",
+    "@bgotink/playwright-coverage": "0.2.2",
+    "@ecomfe/eslint-config": "~7.4.0",
+    "@playwright/test": "~1.37.1",
+    "@rollup/plugin-alias": "~3.1.9",
+    "@rollup/plugin-commonjs": "~24.0.1",
+    "@rollup/plugin-node-resolve": "~13.1.3",
+    "@rollup/plugin-typescript": "~8.3.1",
+    "@swc/core": "~1.3.40",
+    "@types/bmapgl": "^0.0.7",
+    "@types/jest": "~27.4.1",
+    "@types/node": "~17.0.21",
+    "@typescript-eslint/eslint-plugin": "~5.14.0",
+    "@typescript-eslint/parser": "~5.14.0",
+    "autoprefixer": "^10.4.17",
+    "cache-free-require": "~1.0.4",
+    "cheerio": "1.0.0-rc.3",
+    "clean-css": "~5.3.2",
+    "commander": "^11.0.0",
+    "cssnano": "^6.0.3",
+    "dotenv": "~16.0.0",
+    "ejs": "~3.1.9",
+    "eslint": "~8.10.0",
+    "eslint-plugin-san": "~1.0.4",
+    "fis-http-push": "~1.6.3",
+    "fs-extra": "^11.1.1",
+    "glob": "^10.3.3",
+    "husky": "^8.0.3",
+    "identity-obj-proxy": "~3.0.0",
+    "jest": "~27.5.1",
+    "jest-playwright-preset": "~3.0.1",
+    "less": "~4.2.0",
+    "lint-staged": "~12.3.7",
+    "lodash-es": "~4.17.21",
+    "mkdirp": "~1.0.4",
+    "moment": "^2.30.1",
+    "node-fetch": "^3.3.2",
+    "npm-run-all": "~4.1.5",
+    "pnpm": "~8.6.12",
+    "postcss": "~8.4.32",
+    "rimraf": "~3.0.2",
+    "rollup": "~2.70.1",
+    "rollup-plugin-esbuild": "^6.2.1",
+    "rollup-plugin-ignore-import": "^1.3.2",
+    "rollup-plugin-multi-input": "1.4.1",
+    "rollup-plugin-styles": "^4.0.0",
+    "rollup-pluginutils": "^2.8.2",
+    "san-anode-utils": "~3.10.0",
+    "san-ssr": "3.14.3",
+    "san-test-utils": "^0.2.7",
+    "shelljs": "~0.8.5",
+    "stylelint": "^15.10.3",
+    "stylelint-config-recommended-less": "^2.0.0",
+    "stylelint-order": "^6.0.4",
+    "terser": "~5.18.1",
+    "ts-jest": "~27.1.3",
+    "ts-morph": "~19.0.0",
+    "ts-node": "~10.7.0",
+    "tslib": "~2.3.1",
+    "tsx": "^4.19.4",
+    "typescript": "~4.6.2",
+    "unix-timestamp": "^1.0.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "san": "3.14.1",
+      "property-information": "6.5.0",
+      "highlight.js": "11.9.0"
+    }
+  }
+}

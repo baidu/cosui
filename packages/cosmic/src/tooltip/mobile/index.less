@@ -1,0 +1,119 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+// 小三角的高度或者宽度 / 2 加上 3 px 的间距
+@cos-tooltip-arrow: 9px;
+
+.@{prefix}-tooltip {
+    position: relative;
+    &-trigger {
+        position: absolute;
+        // 跟随单条结果移动, z-index：250-299
+        z-index: 250;
+        &-hidden {
+            .cos-invisible();
+        }
+    }
+    &-content {
+        position: relative;
+        padding: var(--cos-space-none) var(--cos-space-sm);
+        max-width: 248px;
+        line-height: 40px;
+        .cos-flex();
+        .cos-flex-row();
+        .cos-text-center();
+        font-size: var(--cos-text-body);
+        white-space: nowrap;
+        .cos-color-text-inverse();
+        background-color: #1f1f1ff2;
+        .cos-rounded-md();
+    }
+    &-arrow {
+        position: absolute;
+        border: 6px solid transparent;
+        width: 0;
+        height: 0;
+    }
+    &-top {
+        padding-bottom: @cos-tooltip-arrow;
+        .@{prefix}-tooltip-arrow {
+            border-top-color: #1f1f1ff2;
+        }
+    }
+
+    &-bottom {
+        padding-top: @cos-tooltip-arrow;
+        .@{prefix}-tooltip-arrow {
+            top: -3px;
+            border-bottom-color: #1f1f1ff2;
+        }
+    }
+
+    &-left {
+        padding-right: @cos-tooltip-arrow;
+        .@{prefix}-tooltip-arrow {
+            right: -3px;
+            border-left-color: #1f1f1ff2;
+        }
+    }
+
+    &-right {
+        padding-left: @cos-tooltip-arrow;
+        .@{prefix}-tooltip-arrow {
+            left: -3px;
+            border-right-color: #1f1f1ff2;
+        }
+    }
+}
+
+// 由于安卓内核夜间对于 bg 和 border 色的规则不一样，导致 content 与 arrow 颜色不一致
+// 这里取消小三角的内核映射，直接把它设置为 content 被内核映射过后的颜色
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-tooltip {
+            &-top {
+                .@{prefix}-tooltip-arrow {
+                    color-scheme: dark;
+                    border-top-color: #060606;
+                }
+            }
+
+            &-bottom {
+                .@{prefix}-tooltip-arrow {
+                    color-scheme: dark;
+                    border-bottom-color: #060606;
+                }
+            }
+
+            &-left {
+                .@{prefix}-tooltip-arrow {
+                    color-scheme: dark;
+                    border-left-color: #060606;
+                }
+            }
+
+            &-right {
+                .@{prefix}-tooltip-arrow {
+                    color-scheme: dark;
+                    border-right-color: #060606;
+                }
+            }
+        }
+    }
+}

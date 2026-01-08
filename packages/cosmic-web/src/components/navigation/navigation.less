@@ -1,0 +1,159 @@
+@import (reference) 'tokens.less';
+
+ul,li {
+    .cos-space-p-none();
+    list-style: none;
+    outline: none;
+}
+
+
+.cos-web-navigation {
+    height: calc(100% - var(--web-header-height, 56px));
+    font-family: pingFang SC;
+    // 导航菜单
+    &-menu {
+        border: none;
+        .cos-space-pr-xs();
+        .cos-space-pl-xs();
+        width: 100%;
+        height: 100%;
+        .cos-color-bg();
+        overscroll-behavior-y: contain;
+        box-sizing: border-box;
+
+        &-item {
+            margin: 4px var(--cos-space-none) 8px var(--cos-space-none);
+            .cos-rounded-full();
+            padding: var(--cos-space-none) 20px;
+            width: auto;
+            height: 32px;
+            font-size: var(--cos-text-subtitle-sm);
+            font-family: var(--cos-font-family);
+            font-weight: var(--cos-font-regular);
+            .cos-color-text-tiny();
+            -webkit-text-stroke: 0;
+            line-height: 32px;
+            cursor: pointer;
+            &:hover {
+                .cos-color-bg-dent();
+            }
+
+            &-active {
+                .cos-font-medium();
+                .cos-color-text-primary();
+                .cos-color-bg-dent();
+            }
+            &-title {
+                padding: var(--cos-space-none) 20px;
+                &-container {
+                    position: relative;
+                }
+            }
+        }
+
+        &-group {
+            padding: var(--cos-space-none) 20px;
+            line-height: 40px;
+            cursor: pointer;
+            &:hover {
+                background: none;
+            }
+            span {
+                padding: 8px 16px 8px 32px;
+            }
+            &-item {
+                margin-top: 8px;
+                .cos-leading-0();
+                &-text {
+                    position: relative;
+                    .cos-inline-block();
+                    overflow: visible;
+                    .cos-space-ml-3xs();
+                    padding: 8px 16px 8px 32px;
+                    font-size: var(--cos-text-body);
+                    font-family: var(--cos-font-family);
+                    font-weight: var(--cos-font-regular);
+                    .cos-color-text-slim();
+                    -webkit-text-stroke: 0;
+                    line-height: var(--cos-leading-body);
+                    cursor: default;
+                    &:after {
+                        position: absolute;
+                        top: 50%;
+                        .cos-space-ml-xs();
+                        width: 100%;
+                        height: 1px;
+                        background-color: var(--cos-color-border-minor);
+                        content: "";
+                        transform: translateY(-50%);
+                    }
+                }
+            }
+
+            & .cos-web-navigation-menu-item {
+                padding-left: 32px;
+            }
+
+            & .cos-web-navigation-menu-item-title {
+                padding: var(--cos-space-none) 20px;
+            }
+
+            &-arrow {
+                position: absolute;
+                top: 50%;
+                right: 2px;
+                width: 10px;
+                transform: translateY(-1px);
+                transition: transform .3s cubic-bezier(.645, .045, .355, 1);
+                font-style: italic;
+
+                &:before,
+                &:after {
+                    position: absolute;
+                    border-radius: 2px;
+                    width: 6px;
+                    height: 1.5px;
+                    transition: background .3s cubic-bezier(.645, .045, .355, 1),
+                        transform .3s cubic-bezier(.645, .045, .355, 1),
+                        top .3s cubic-bezier(.645, .045, .355, 1);
+                    background-image: linear-gradient(
+                        to right,
+                        rgba(0, 0, 0, .65),
+                        rgba(0, 0, 0, .65)
+                    );
+                    content: "";
+                }
+
+                &:before {
+                    transform: rotate(45deg) translate(2px);
+                }
+
+                &:after {
+                    transform: rotate(-45deg) translate(-2px);
+                }
+
+                &.collapsed {
+                    &:before {
+                        transform: rotate(-45deg) translate(2px);
+                    }
+
+                    &:after {
+                        transform: rotate(45deg) translate(-2px);
+                    }
+                }
+            }
+
+            & .cos-web-navigation-menu-item {
+                padding-left: 32px;
+            }
+
+            & .cos-web-navigation-menu-item-title {
+                padding: var(--cos-space-none) 20px;
+            }
+        }
+
+        &-leaf {
+            height: auto;
+        }
+    }
+}

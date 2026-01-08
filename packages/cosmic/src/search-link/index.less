@@ -1,0 +1,95 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-search-link {
+    position: relative;
+    .cos-inline-block();
+    vertical-align: baseline;
+    .cos-color-text-link();
+    word-spacing: calc(-0.25 * var(--cos-search-link-text));
+    -webkit-tap-highlight-color: transparent;
+
+    &-text {
+        .cos-color-text-link();
+    }
+
+    &-icon {
+        position: relative;
+        .cos-color-text-link();
+        bottom: calc(var(--cos-search-link-text) - 9.5px);
+        width: var(--cos-space-xs);
+        font-size: 9px;
+    }
+
+    &:hover {
+        .cos-opacity-80();
+    }
+
+    a.@{prefix}-search-link-text {
+        .cos-color-text-link();
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        &:active {
+            .cos-color-text-link();
+        }
+    }
+}
+
+.@{prefix}-text-headline-xl.@{prefix}-search-link {
+    --cos-search-link-text: var(--cos-text-headline-xl);
+}
+
+.@{prefix}-text-headline.@{prefix}-search-link {
+    --cos-search-link-text: var(--cos-text-headline);
+}
+
+.@{prefix}-text-headline-sm.@{prefix}-search-link {
+    --cos-search-link-text: var(--cos-text-headline-sm);
+}
+
+.@{prefix}-text-subtitle.@{prefix}-search-link {
+    --cos-search-link-text: var(--cos-text-subtitle);
+}
+
+.@{prefix}-text-subtitle-sm.@{prefix}-search-link {
+     --cos-search-link-text: var(--cos-text-subtitle-sm);
+}
+
+.@{prefix}-text-body-lg-higher.@{prefix}-search-link {
+    --cos-search-link-text: var(--cos-text-body-lg-higher);
+}
+
+.@{prefix}-text-body-lg.@{prefix}-search-link {
+    --cos-search-link-text: var(--cos-text-body-lg);
+}
+
+.@{prefix}-text-body.@{prefix}-search-link {
+    --cos-search-link-text: var(--cos-text-body);
+}
+
+.@{prefix}-text-caption.@{prefix}-search-link {
+    --cos-search-link-text: var(--cos-text-caption);
+}
+
+.@{prefix}-text-caption-sm.@{prefix}-search-link {
+    --cos-search-link-text: var(--cos-text-caption-sm);
+}

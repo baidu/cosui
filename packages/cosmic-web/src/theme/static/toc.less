@@ -1,0 +1,67 @@
+
+@import (reference) "tokens.less";
+
+.toc {
+  margin: 16px var(--cos-space-none);
+  border-left: 1px solid var(--cos-color-border-minor);
+  .cos-space-pl-none();
+  .cos-text-caption-sm();
+  list-style: none;
+}
+
+ul.toc > li {
+  .cos-space-ml-none();
+  .cos-space-pl-none();
+  list-style: none;
+  line-height: 1.5;
+  &:not(:last-child) {
+    margin-bottom: 4px;
+  }
+}
+
+.toc li > ul {
+  .cos-hidden();
+  .cos-text-caption-sm();
+  text-indent: 8px;
+}
+
+.toc a {
+  .cos-block();
+  overflow: hidden;
+  margin-left: -1px;
+  border-left: 1px solid transparent;
+  .cos-space-pl-md();
+  width: 110px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: @site-text-color;
+  transition: all 0.3s ease;
+}
+
+.toc a:hover {
+  color: @primary-color;
+}
+
+.toc a.current {
+  border-color: @primary-color;
+  color: @primary-color;
+}
+
+.toc-affix {
+  position: absolute;
+  top: 8px;
+  right: 20px;
+  .ant-affix {
+    overflow: auto;
+    max-height: ~"calc(100vh - 16px)";
+    .cos-color-bg();
+  }
+}
+.toc-affix-bottom {
+  position: absolute;
+  right: 20px;
+  bottom: 88px;
+  .ant-affix {
+    .cos-color-bg();
+  }
+}

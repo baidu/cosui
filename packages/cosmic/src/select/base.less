@@ -1,0 +1,84 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.@{prefix}-select {
+    position: relative;
+    &-entry {
+        box-sizing: border-box;
+        .cos-inline-flex();
+        .cos-items-center();
+        .cos-justify-between();
+        .cos-rounded-sm();
+        border: 1px solid var(--cos-color-border-tiny);
+        // 内边距对齐feed
+        padding: 10px var(--cos-space-xxs);
+        width: 100%;
+        min-height: 36px;
+        // max-width: fit-content;
+        .cos-font-regular();
+        font-size: var(--cos-text-subtitle-sm);
+        .cos-leading-none();
+
+        &-label, &-text, &-placeholder {
+            .cos-space-mr-md();
+            .cos-color-text-minor();
+        }
+
+        &-label {
+            min-width: fit-content;
+            .cos-space-mr-md();
+            .cos-color-text-minor();
+        }
+
+        &-text, &-placeholder {
+            .cos-space-mr-md();
+            .cos-line-clamp-1();
+            .cos-color-text();
+            flex-basis: 100%;
+        }
+
+        &-placeholder {
+            .cos-color-text-minor();
+        }
+    }
+
+    &-panel {
+        width: 100%;
+        &-list {
+            .cos-flex();
+            .@{prefix}-select-option-group {
+                .cos-flex();
+                width: 100%;
+                .cos-space-mb-md();
+                .cos-color-text-minor();
+                .cos-font-medium();
+            }
+        }
+
+        &-list-mark {
+            .cos-flex-col();
+            .@{prefix}-select-option-group {
+                .cos-space-pl-lg();
+            }
+        }
+
+        &-list-tag {
+            .cos-space-pl-sm();
+            .cos-space-pr-xxs();
+            .cos-flex-wrap();
+        }
+    }
+}

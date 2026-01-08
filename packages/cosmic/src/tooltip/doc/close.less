@@ -1,0 +1,24 @@
+@import (reference) 'tokens.less';
+
+.container {
+    position: relative;
+    .cos-flex();
+    .cos-flex-col();
+    line-height: var(--cos-text-subtitle-sm);
+    padding: var(--cos-space-xs) var(--cos-space-none);
+    .title {
+        .cos-space-pb-xs();
+        .cos-text-left();
+    }
+    
+    .close {
+        position: absolute;
+        top: 10px;
+        right: -2px;
+        box-sizing: border-box;
+        .cos-icon {
+            font-size: var(--cos-text-subtitle-sm);
+            .cos-leading-none();
+        }
+    }
+}

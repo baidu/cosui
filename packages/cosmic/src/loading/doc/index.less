@@ -1,0 +1,26 @@
+@import (reference) 'tokens.less';
+
+.cos-loading {
+      .custom-loading-icon {
+            width: 30px;
+            height: 30px;
+            background: url(//psstatic.cdn.bcebos.com/basics/cosmic/loading_1701331151000.gif) no-repeat;
+            background-size: cover;
+      }
+}
+
+.loading-box {
+      .cos-justify-center();
+      margin: var(--cos-space-none) auto;
+      width: 100px;
+      height: 100px;
+      .cos-color-bg-bubble();
+}
+.page-loading {
+      .cos-loading .cos-loading-icon {
+            animation: none;
+      }
+}
+.page-loading-icon {
+      height: 47px;
+}

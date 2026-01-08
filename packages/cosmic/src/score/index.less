@@ -1,0 +1,147 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-score {
+    .cos-inline-flex();
+
+    &-controlled {
+        cursor: pointer;
+    }
+
+    &-icon-container {
+        // 为了子元素绝对定位，父元素需要相对定位
+        position: relative;
+        .cos-inline-flex();
+        // 为了和后面的字对齐
+        align-self: center;
+    }
+
+    &-row,
+    &-row-empty {
+        .cos-flex();
+        .cos-items-center();
+    }
+
+    &-row {
+        /*
+            该元素为所有涂颜色星星的父容器，利用绝对定位
+            浮于不涂颜色的星星之上，达到覆盖的效果
+        */
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    &-count {
+        // 评分数字的尺寸为 16px
+        font-size: var(--cos-text-subtitle);
+        .cos-leading-none();
+        .cos-color-text-alive();
+        .cos-font-medium();
+        .cos-space-mr-3xs();
+        font-family: 'BaiduNumberPlus';
+        white-space: nowrap;
+    }
+
+    &-unit {
+        // 评分单位的尺寸为 14px
+        font-size: var(--cos-text-subtitle);
+        .cos-leading-none();
+        .cos-color-text-alive();
+        .cos-font-medium();
+    }
+
+    &-text {
+        .cos-text-body();
+        .cos-color-text-minor();
+        .cos-space-ml-3xs();
+    }
+
+    &-zero {
+        // pc 与 wise 颜色统一，无适合的 token，暂时使用固定颜色
+        color: #b7b9c1;
+    }
+
+    // 星星 icon 的尺寸为 14px
+    .cos-icon-star-fill {
+        font-size: var(--cos-text-subtitle-sm);
+
+        &::before {
+            vertical-align: top;
+        }
+    }
+
+    &-icon,
+    &-icon-empty {
+        .cos-space-mr-3xs();
+        .cos-shrink-0();
+        .cos-leading-none();
+    }
+
+    &-icon {
+        .cos-color-text-alive();
+    }
+
+    &-icon-empty {
+        color: var(--cos-color-border-minor);
+    }
+
+    &-icon-decimal {
+        /*
+           该元素(涂一部分颜色的星星)宽度为计算出的0-14px之间
+           在之中的星星icon宽度标准情况下为14px，在大字版时宽度变化，因为将半星宽度采用em单位，
+           将溢出的部分隐藏，从而达到颜色按比例涂一部分的效果
+        */
+        position: relative;
+        overflow: hidden;
+    }
+}
+
+// 星星icon自带上下间距，评分和星星一起出现时，ios上移2px可对齐，安卓正常
+.cos-ios {
+    .@{prefix}-score-icon-bottom {
+        margin-bottom: 2px;
+    }
+}
+
+.@{prefix}-score-sm {
+    .@{prefix}-score-count {
+        font-size: var(--cos-text-subtitle-sm);
+    }
+
+    .@{prefix}-score-icon-container,
+    .@{prefix}-icon-star-fill {
+        font-size: var(--cos-text-caption);
+    }
+}
+
+.@{prefix}-score-lg {
+    .@{prefix}-score-count,
+    .@{prefix}-score-text {
+        .cos-text-headline();
+    }
+
+    .@{prefix}-score-icon,
+    .@{prefix}-score-icon-empty {
+        .cos-space-mr-sm();
+    }
+    .cos-icon-star-fill {
+        font-size: 24px;
+    }
+}

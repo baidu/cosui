@@ -1,0 +1,94 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import "variable.less";
+@import (reference) "tokens.less";
+
+.flex-row-center() {
+    .cos-flex();
+    .cos-justify-start();
+    .cos-items-center();
+}
+
+.cos-comment {
+    .cos-color-text-minor();
+
+    &-header {
+        .flex-row-center();
+
+        &-author {
+            .flex-row-center();
+            .cos-flex-1();
+            overflow: hidden;
+            gap: var(--cos-space-xxs);
+            .cos-space-ml-xs();
+
+            span {
+                .cos-line-clamp-1();
+            }
+        }
+
+        &-label {
+            margin-left: auto;
+            height: 1em;
+        }
+    }
+
+    &-content {
+        .cos-space-mt-xs();
+        .cos-color-text-tiny();
+    }
+
+    &-footer {
+        .flex-row-center();
+        gap: 8px;
+        .cos-space-mt-xs();
+
+        span {
+            white-space: nowrap;
+        }
+
+        // 内容来源、时间、地区超出隐藏
+        &-source, &-time, &-location {
+            .cos-line-clamp-1();
+        }
+
+        a, a:active, a:hover, a:visited {
+            .cos-color-text-minor();
+            text-decoration: none;;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        &-reply {
+            margin-left: 1px;
+            .cos-font-medium();
+            cursor: pointer;
+        }
+
+        &-like {
+            margin-left: auto;
+            cursor: pointer;
+
+            &-active {
+                .cos-color-text-on-error-light();
+            }
+        }
+
+        .cos-icon {
+            .cos-space-ml-3xs();
+        }
+    }
+}

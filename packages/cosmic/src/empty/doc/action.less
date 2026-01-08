@@ -1,0 +1,53 @@
+@import (reference) 'tokens.less';
+.empty-demo {
+
+    h4 {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+    }
+}
+.custom-loading {
+    .cos-loading {
+        .cos-space-mt-xs();
+        &-icon {
+            font-size: var(--cos-text-subtitle);
+            background: conic-gradient(from 0deg at center, #0000, var(--cos-color-text-primary));
+            background-clip: text;
+        }
+        &-text {
+            .cos-color-text-primary();
+            .cos-leading-none();
+            .cos-font-medium();
+        }
+    }
+}
+
+.custom-button {
+    .cos-button {
+        .cos-space-mt-lg();
+        width: 121px;
+    }
+}
+
+.custom-button-link {
+    .cos-empty-action {
+        .cos-flex();
+        .cos-flex-col();
+        .cos-justify-center();
+        .cos-items-center();
+
+        .cos-button {
+            .cos-space-mt-lg();
+            width: 121px;
+        }
+
+        .custom-link {
+            .cos-space-mt-lg();
+            .cos-color-text-link();
+            .cos-leading-none();
+            font-size: var(--cos-text-body);
+        }
+    }
+}

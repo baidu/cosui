@@ -1,0 +1,92 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-toast {
+    .cos-flex();
+    .cos-items-center();
+    .cos-text-center();
+    .cos-rounded-md();
+    .cos-opacity-0();
+    .cos-color-bg();
+    .cos-color-text();
+    .cos-space-pt-sm();
+    .cos-space-pb-sm();
+    .cos-space-pr-md();
+    .cos-space-pl-md();
+
+    position: fixed;
+    left: 50%;
+    z-index: 902;
+    box-sizing: border-box;
+    height: 42px;
+    box-shadow: 0px 6px 21px 0px rgba(30, 31, 36, .2);
+    pointer-events: none;
+    transform: translate(-50%, 0);
+    transition: top .3s ease, opacity .16s ease;
+
+    &-message {
+        .cos-shrink-0();
+        .cos-text-center();
+        .cos-text-body();
+    }
+
+    &-md-icon {
+        .cos-space-mr-xs();
+        font-size: var(--cos-text-headline-sm);
+    }
+
+    &-info-icon {
+        .cos-color-text-primary();
+    }
+
+    &-success-icon {
+        .cos-color-text-success();
+    }
+
+    &-warning-icon {
+        .cos-color-text-warning();
+    }
+
+    &-error-icon {
+        .cos-color-text-error();
+    }
+
+    &-link,
+    &-close-icon {
+        .cos-inline-flex();
+        .cos-items-center();
+        pointer-events: auto;
+        cursor: pointer;
+    }
+
+    &-link {
+        .cos-color-text-primary();
+        .cos-text-caption();
+        .cos-space-ml-xxs();
+    }
+
+    &-close-icon {
+        /* 标注此处未覆盖 token */
+        margin-left: 8px;
+
+        & .@{prefix}-icon {
+            font-size: var(--cos-text-body-lg-higher);
+        }
+    }
+}

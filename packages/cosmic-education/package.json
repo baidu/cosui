@@ -1,0 +1,36 @@
+{
+    "name": "@cosui/cosmic-education",
+    "version": "1.0.1",
+    "description": "",
+    "main": "./dist/mobile/index.js",
+    "exports": {
+        ".": "./dist/mobile/index.js",
+        "./index.css": "./dist/mobile/index.css",
+        "./tokens.css": "./dist/mobile/tokens.css",
+        "./pc": "./dist/pc/index.js",
+        "./pc/index.css": "./dist/pc/index.css",
+        "./pc/tokens.css": "./dist/pc/tokens.css",
+        "./pc/*": "./dist/pc/*/index.js",
+        "./*": "./dist/mobile/*/index.js"
+    },
+    "files": [
+        "src",
+        "dist",
+        "package.json",
+        "README.md"
+    ],
+    "scripts": {
+        "clean": "rimraf dist",
+        "dev": "tsc --noEmit || true && cd ../../ && NODE_ENV=development node ./scripts/build.mjs -p cosmic-education -w",
+        "build": "tsc --noEmit || true && cd ../../ && NODE_ENV=production node ./scripts/build.mjs -p cosmic-education"
+    },
+    "license": "Apache-2.0",
+    "devDependencies": {
+        "@cosui/cosmic": "workspace:~"
+    },
+    "peerDependencies": {
+        "san": "^3.14.1",
+        "@cosui/cosmic": "workspace:~"
+    },
+    "types": "distTypes"
+}

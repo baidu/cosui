@@ -1,0 +1,126 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+.@{prefix}-search-header {
+    .cos-flex();
+    .cos-items-center();
+    .cos-justify-between();
+
+    &-brand-area {
+        .cos-flex();
+        .cos-flex-auto();
+        .cos-items-center();
+        min-width: 0;
+    }
+    &-brand-ai, &-brand-logo {
+        .cos-flex();
+        .cos-items-center();
+        margin-top: 0.5px;
+
+        .img-light {
+            .cos-block();
+        }
+        .img-dark {
+            .cos-hidden();
+        }
+    }
+
+    &-brand-ai-image {
+        width: calc(64px * var(--font-size-scale, 1));
+        min-width: calc(64px * var(--font-size-scale, 1));
+        height: calc(16px * var(--font-size-scale, 1));
+    }
+    &-brand-logo-image {
+        height: calc(16px * var(--font-size-scale, 1));
+    }
+    &-citation, &-overview {
+        margin-top: 1px;
+        font-size: var(--cos-text-body-lg);
+        .cos-space-pl-3xs();
+        .cos-line-clamp-1();
+        line-height: var(--cos-text-body-lg);
+    }
+    &-citation {
+        .cos-space-pl-xxs();
+    }
+    &-functional-area {
+        .cos-flex();
+        .cos-items-center();
+        margin: -5px var(--cos-space-none);
+    }
+}
+
+.@{prefix}-search-header-primary {
+    .cosd-search-header-brand-logo-divider {
+        margin: var(--cos-space-none) var(--cos-space-xxs);
+        width: calc(4px * var(--font-size-scale, 1));
+        height: calc(4px * var(--font-size-scale, 1));
+        .cos-color-bg-primary();
+        .cos-rounded-full();
+    }
+    .cosd-search-header-overview {
+        .cos-font-medium();
+    }
+}
+
+.@{prefix}-search-header-enhance {
+    .cosd-search-header-brand-logo-divider {
+        margin: 1px var(--cos-space-xxs) var(--cos-space-none);
+        width: calc(1px * var(--font-size-scale, 1));
+        height: calc(12px * var(--font-size-scale, 1));
+        background-color: var(--cos-gray--3);
+    }
+}
+
+@{dark-selectors} {
+    .@{prefix}-search-header-brand-logo,
+    .@{prefix}-search-header-brand-ai {
+        .img-light {
+            .cos-hidden();
+        }
+        .img-dark {
+            .cos-block();
+        }
+    }
+    .@{prefix}-search-header-enhance {
+        .@{prefix}-search-header-brand-logo-divider {
+            .cos-color-bg-dent-inverse();
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-search-header-enhance {
+            .@{prefix}-search-header-brand-logo-divider {
+                color-scheme: dark;
+                background-color: rgba(255, 255, 255, .4);
+            }
+        }
+
+        .@{prefix}-search-header-brand-logo,
+        .@{prefix}-search-header-brand-ai {
+            .img-light {
+                .cos-hidden();
+            }
+            .img-dark {
+                .cos-block();
+            }
+        }
+    }
+}

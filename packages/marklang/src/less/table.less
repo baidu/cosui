@@ -1,0 +1,98 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@{parent-prefix} {
+
+    table {
+        position: relative;
+        display: block;
+        overflow: auto;
+        margin: 12px 0;
+        border-radius: 9px;
+        border-spacing: 0;
+        border-collapse: separate;
+        box-sizing: border-box;
+        word-break: keep-all;
+
+        td[rowspan] {
+            vertical-align: middle;
+        }
+
+        thead {
+            position: relative;
+
+            tr {
+                overflow: hidden;
+                color: #848691;
+            }
+
+            th {
+                border-top: 0;
+                border-right: 1px solid #edeef0;
+                border-bottom: 1px solid #edeef0;
+                padding: 10.5px 16px 7.5px;
+                max-width: 212px;
+                white-space: wrap;
+                background: #f5f6f9;
+                box-sizing: border-box;
+            }
+
+            tr:first-of-type {
+                th {
+                    border-top: 1px solid #edeef0;
+                }
+
+                th:first-of-type {
+                    border-top-left-radius: 9px;
+                }
+
+                th:last-of-type {
+                    border-top-right-radius: 9px;
+                }
+            }
+
+            tr {
+                th:first-of-type {
+                    border-left: 1px solid #edeef0;
+                }
+            }
+        }
+
+        tbody {
+
+            td {
+                position: relative;
+                border-right: 1px solid #edeef0;
+                border-bottom: 1px solid #edeef0;
+                padding: 10.5px 16px;
+                max-width: 212px;
+                white-space: wrap;
+                background: #fff;
+                box-sizing: border-box;
+            }
+
+            tr {
+                td:first-of-type {
+                    border-left: 1px solid #edeef0;
+                }
+
+                td:last-of-type {
+                    border-right: 1px solid #edeef0;
+                }
+            }
+        }
+    }
+}

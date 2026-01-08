@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="./components/icon/svg/cosmic-icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cosmic Design</title>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement('script');
+            hm.src = 'https://hm.baidu.com/hm.js?2f7e812a22bec66eb19f07461835ce7e';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <style>
+      body.cos-default-dark {
+        background-color: #161616ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const isNightMode = localStorage.getItem('isNightMode')
+            ? localStorage.getItem('isNightMode')  === 'true' : false;
+      isNightMode && document.body.classList.add('cos-default-dark');
+    </script>
+    <script type="module" src="./index.ts"></script>
+  </body>
+</html>

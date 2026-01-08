@@ -1,0 +1,198 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import (reference) 'tokens.less';
+@import 'variable.less';
+
+.@{prefix}-calendar {
+    .cos-flex();
+    .cos-leading-none();
+    width: 100%;
+
+    &-header {
+        .cos-flex();
+        .cos-color-bg();
+        .cos-space-p-sm();
+        .cos-space-pt-lg();
+        padding: var(--cos-space-lg) var(--cos-space-xxs) 13px;
+
+        &-day {
+            .cos-flex();
+            .cos-items-center();
+            .cos-justify-center();
+            .cos-opacity-80();
+            .cos-color-text-slim();
+            width: 100%;
+            font-size: var(--cos-text-subtitle-sm);
+            .cos-leading-none();
+        }
+    }
+
+    &-content {
+        .cos-flex();
+        .cos-flex-col();
+        .cos-space-pl-xxs();
+        .cos-space-pr-xxs();
+        .cos-space-pb-xxs();
+
+        &-week {
+            .cos-flex();
+            .cos-rounded-xs();
+            .cos-space-mb-3xs();
+            overflow: hidden;
+
+            > div {
+                .cos-flex();
+                .cos-items-center();
+                .cos-justify-center();
+                flex: 1;
+            }
+        }
+
+        &-day {
+            .cos-flex();
+            .cos-flex-col();
+            .cos-items-center();
+            .cos-justify-center();
+            .cos-rounded-xs();
+            position: relative;
+            padding: var(--cos-space-none) var(--cos-space-xxs);
+            cursor: pointer;
+            box-sizing: border-box;
+
+            &-item {
+                .cos-flex();
+                .cos-flex-col();
+                .cos-items-center();
+                .cos-justify-center();
+                .cos-rounded-xs();
+                padding: var(--cos-space-xs) var(--cos-space-none);
+                width: 32px;
+                font-size: var(--cos-text-subtitle-sm);
+                .cos-font-number-medium();
+                transition: all var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+            }
+
+            &:not(&-selected):not(&-disabled):not(&-start):not(&-middle):not(&-end):not(&-hover-in-range):not(&-hover-end) {
+                .@{prefix}-calendar-content-day-item:hover {
+                   .cos-color-bg-hover();
+                }
+            }
+
+            &-today {
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 4px;
+                    display: block;
+                    border-radius: 50%;
+                    width: 4px;
+                    height: 4px;
+                    .cos-color-bg-primary();
+                }
+            }
+
+            &-selected {
+                &::after {
+                    .cos-color-bg();
+                }
+
+                .@{prefix}-calendar-content-day-item {
+                    .cos-color-bg-primary();
+                    .cos-color-text-inverse-active();
+                }
+            }
+
+            &-start {
+                border-top-right-radius: var(--cos-rounded-none);
+                border-bottom-right-radius: var(--cos-rounded-none);
+                .cos-space-pl-none();
+                .cos-space-ml-xxs();
+                .cos-color-bg-primary-light();
+
+                .@{prefix}-calendar-content-day-item {
+                    .cos-color-bg-primary();
+                    .cos-color-text-inverse-active();
+                    border-top-right-radius: var(--cos-rounded-none);
+                    border-bottom-right-radius: var(--cos-rounded-none);
+                    transition: all var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+                }
+            }
+
+            &-middle {
+                .cos-color-bg-primary();
+                .cos-color-bg-primary-light();
+                .cos-rounded-none();
+            }
+
+            &-end {
+                border-top-left-radius: var(--cos-rounded-none);
+                border-bottom-left-radius: var(--cos-rounded-none);
+                .cos-space-pr-none();
+                .cos-space-mr-xxs();
+                .cos-color-bg-primary-light();
+
+                .@{prefix}-calendar-content-day-item {
+                    .cos-color-bg-primary();
+                    .cos-color-text-inverse-active();
+                    border-top-left-radius: var(--cos-rounded-none);
+                    border-bottom-left-radius: var(--cos-rounded-none);
+                    transition: all var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+                }
+            }
+
+            &-first {
+                border-top-left-radius: var(--cos-rounded-xs);
+                border-bottom-left-radius: var(--cos-rounded-xs);
+            }
+
+            &-last {
+                border-top-right-radius: var(--cos-rounded-xs);
+                border-bottom-right-radius: var(--cos-rounded-xs);
+            }
+
+            &-hover-in-range {
+                .cos-color-bg-primary();
+                .cos-color-bg-primary-light();
+                .cos-rounded-none();
+                transition: all var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+            }
+
+            &-hover-end {
+                .cos-color-bg-primary();
+                .cos-color-bg-primary-light();
+                border-top-left-radius: var(--cos-rounded-none);
+                border-bottom-left-radius: var(--cos-rounded-none);
+            }
+
+            &-other {
+                .cos-opacity-40();
+                .cos-color-bg();
+                .@{prefix}-calendar-content-day-item {
+                    .cos-color-text();
+                    .cos-color-bg();
+                }
+            }
+
+            &-disabled {
+                .cos-opacity-40();
+                .@{prefix}-calendar-content-day-item {
+                    .cos-color-text();
+                }
+            }
+        }
+    }
+}

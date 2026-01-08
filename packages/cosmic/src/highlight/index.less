@@ -1,0 +1,91 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.highlight-background-position(@leading-height) {
+    // 高亮背景固定 12px 高度，相对于文字底间距 3px
+    // 当行高 - 文字 = 6px，居中后和行高底部对齐
+    background-position-y: calc(50% + @leading-height / 2 - 6px);
+}
+
+.@{prefix}-highlight {
+    background: linear-gradient(
+        90deg,
+        var(--cos-color-border-primary-light),
+        var(--cos-color-border-primary-light)
+    ) no-repeat bottom;
+    background-size: 100% 12px;
+    .cos-font-medium();
+}
+
+.@{prefix}-highlight.@{prefix}-text-headline-xl,
+.@{prefix}-highlight .@{prefix}-text-headline-xl,
+.@{prefix}-text-headline-xl .@{prefix}-highlight {
+    .highlight-background-position(var(--cos-leading-headline-xl));
+}
+
+.@{prefix}-highlight.@{prefix}-text-headline,
+.@{prefix}-highlight .@{prefix}-text-headline,
+.@{prefix}-text-headline .@{prefix}-highlight {
+    .highlight-background-position(var(--cos-leading-headline));
+}
+
+.@{prefix}-highlight.@{prefix}-text-headline-sm,
+.@{prefix}-highlight .@{prefix}-text-headline-sm,
+.@{prefix}-text-headline-sm .@{prefix}-highlight {
+    .highlight-background-position(var(--cos-leading-headline-sm));
+    .cos-font-medium();
+}
+
+.@{prefix}-highlight.@{prefix}-text-subtitle,
+.@{prefix}-highlight .@{prefix}-text-subtitle,
+.@{prefix}-text-subtitle .@{prefix}-highlight {
+    .highlight-background-position(var(--cos-leading-subtitle));
+    .cos-font-medium();
+}
+
+.@{prefix}-highlight.@{prefix}-text-subtitle-sm,
+.@{prefix}-highlight .@{prefix}-text-subtitle-sm,
+.@{prefix}-text-subtitle-sm .@{prefix}-highlight {
+    .highlight-background-position(var(--cos-leading-subtitle-sm));
+    .cos-font-medium();
+}
+
+.@{prefix}-highlight.@{prefix}-text-body-lg-higher,
+.@{prefix}-highlight .@{prefix}-text-body-lg-higher,
+.@{prefix}-text-body-lg-higher .@{prefix}-highlight {
+    // 当行高 - 文字 = 12px，高亮需高于行高底部 3px
+    background-position-y: calc(50% + var(--cos-leading-body-lg-higher) / 2 - 9px);
+    .cos-font-medium();
+}
+
+.@{prefix}-highlight.@{prefix}-text-body-lg,
+.@{prefix}-highlight .@{prefix}-text-body-lg,
+.@{prefix}-text-body-lg .@{prefix}-highlight {
+    // 当行高 - 文字 = 12px，高亮需高于行高底部 1.5px
+    background-position-y: calc(50% + var(--cos-leading-body-lg) / 2 - 7.5px);
+    .cos-font-medium();
+}
+
+.@{prefix}-highlight.@{prefix}-text-body,
+.@{prefix}-highlight .@{prefix}-text-body,
+.@{prefix}-text-body .@{prefix}-highlight {
+    // 当行高 - 文字 = 12px，高亮需高于行高底部 1.5px
+    background-position-y: calc(50% + var(--cos-leading-body) / 2 - 7.5px);
+    .cos-font-medium();
+}

@@ -1,0 +1,63 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import '../mobile/index.less';
+
+.@{prefix}-copyable-text {
+    &-phrase {
+        .cosd-copyable-text-item {
+            &:nth-child(even) {
+                .cosd-copyable-text-divider {
+                    .cos-space-ml-none();
+                }
+            }
+            &:not(:nth-child(3n)) {
+                .cosd-copyable-text-divider {
+                    margin-right: -24px;
+                }
+            }
+            &:nth-child(n+3) {
+                .cos-space-mt-none();
+            }
+            &:nth-child(n+4) {
+                .cos-space-mt-lg();
+            }
+            .cosd-copyable-text-footer {
+                .cosd-copyable-text-note {
+                    .cos-text-body-lg();
+                }
+            }
+        }
+    }
+    &-paragraph {
+        .cosd-copyable-text-content {
+            .cosd-copyable-text-footer {
+                .cosd-copyable-text-note {
+                    .cos-text-body-lg();
+                }
+                .cosd-copyable-text-copy {
+                    cursor: pointer;
+                    &:hover {
+                        background-color: #eeeff2;
+                    }
+                    &:active {
+                        background-color: #e6e7ea;
+                    }
+                }
+            }
+        }
+    }
+}

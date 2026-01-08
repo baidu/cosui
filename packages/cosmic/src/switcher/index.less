@@ -1,0 +1,82 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-switcher {
+    .cos-rounded-full();
+    .cos-color-bg-raised-inverse();
+    .cos-space-p-3xs();
+    box-sizing: border-box;
+    position: relative;
+    transition: all 0.16s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+
+    &:hover {
+        .cos-opacity-80();
+    }
+
+    // 子级按钮
+    &-slider {
+        .cos-rounded-full();
+        .cos-color-bg();
+        position: absolute;
+        box-sizing: border-box;
+        transition: all 0.16s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+    }
+
+    &.@{prefix}-disabled {
+        .cos-opacity-40();
+    }
+
+    &.@{prefix}-md {
+        width: 56px;
+        height: 28px;
+
+        .@{prefix}-switcher-slider {
+            left: 3px;
+            width: 22px;
+            height: 22px;
+        }
+    }
+
+    &.@{prefix}-sm {
+        width: 36px;
+        height: 20px;
+
+        .@{prefix}-switcher-slider {
+            left: 3px;
+            width: 14px;
+            height: 14px;
+        }
+    }
+
+    &.@{prefix}-checked {
+        .cos-color-bg-primary();
+
+        &.@{prefix}-md {
+            .@{prefix}-switcher-slider {
+                left: 31px;
+            }
+        }
+
+        &.@{prefix}-sm {
+            .@{prefix}-switcher-slider {
+                left: 19px;
+            }
+        }
+    }
+}

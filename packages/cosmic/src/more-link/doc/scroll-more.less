@@ -1,0 +1,33 @@
+@import (reference) 'tokens.less';
+
+.scroll-more {
+    .cos-swiper-list {
+        .cos-space-pl-none();
+    }
+
+    .jump-doc {
+        text-decoration: underline;
+        color: -webkit-link;
+    }
+
+    .demo-item {
+        .item-image {
+            position: relative;
+            padding-top: 56.25%;
+            .cos-rounded-xs();
+            .cos-color-text-on-em();
+            .cos-text-headline();
+            & span {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                .cos-flex();
+                .cos-justify-center();
+                .cos-items-center();
+            }
+        }
+    }
+    
+}

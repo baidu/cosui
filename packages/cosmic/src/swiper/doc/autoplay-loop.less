@@ -1,0 +1,35 @@
+@import (reference) 'tokens.less';
+
+.demo-controller {
+    .cos-space-mb-xs();
+
+    > * {
+        .cos-flex();
+        .cos-items-center();
+        .cos-space-mb-xs();
+
+        > label {
+            .cos-space-mr-xxs();
+        }
+    }
+}
+
+.demo-item {
+    .item-image {
+        position: relative;
+        padding-top: 56.25%;
+        .cos-rounded-xs();
+        .cos-color-text-on-em();
+        .cos-text-headline();
+        & span {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+        }
+    }
+}

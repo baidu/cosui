@@ -1,0 +1,83 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@parent-prefix: .marklang;
+
+@{parent-prefix} {
+    font-size: 16px;
+    color: #1e1f24;
+    word-wrap: break-word;
+    word-break: normal;
+
+    .marklang-link {
+        text-decoration: none;
+        color: #4367b4;
+    }
+    .marklang-paragraph {
+        margin: 0;
+        margin-top: 6px;
+        margin-bottom: 6px;
+        font-size: 16px;
+        line-height: 28px;
+    }
+
+    hr {
+        position: relative;
+        margin: 12px 0;
+        border: none;
+        width: auto;
+        height: 1px;
+        background-color: transparent;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: 0 0;
+            width: 100%;
+            height: 1px;
+            transform: scaleY(.66666667);
+            background-color: #edeef0;
+        }
+    }
+
+    h2 {
+        margin: 6px 0;
+        font-size: 21px;
+        line-height: 30px;
+    }
+
+    h3 {
+        margin: 6px 0;
+        font-size: 18px;
+        line-height: 30px;
+    }
+
+    @keyframes leftToRight {
+        0% {
+            width: 0;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+    mark {
+        background: linear-gradient(to right, rgba(111, 75, 250, .12), rgba(111, 75, 250, .12)) no-repeat center bottom;
+        background-size: 100% 12px;
+    }
+}

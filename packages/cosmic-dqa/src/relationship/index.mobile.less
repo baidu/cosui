@@ -1,0 +1,107 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import (reference) 'tokens.less';
+
+.@{prefix}-relationship {
+    clear: both;
+    .cos-space-pb-xs();
+    .cos-space-pt-xxs();
+    .cos-text-body();
+    .cos-swiper-item {
+        .cos-space-mr-xl();
+    }
+    .cos-swiper-item:last-child {
+        .cos-space-mr-none();
+    }
+    .cos-swiper-content {
+        .cos-rounded-none();
+    }
+    .cos-swiper-list {
+        .cos-space-pl-none();
+    }
+    &-member {
+        .cos-text-center();
+        cursor: default;
+        &:active {
+            .cos-opacity-20();
+        }
+        &-relation {
+            .cos-leading-none();
+            font-size: var(--cos-text-caption);
+            .cos-color-text-minor();
+            .cos-space-mt-xs();
+        }
+        &-name {
+            .cos-leading-none();
+            font-size: var(--cos-text-subtitle-sm);
+            .cos-color-text();
+            .cos-space-mt-xs();
+
+        }
+        &-image {
+            width: 57px;
+            height: 57px;
+        }
+        &-image-word {
+            box-sizing: border-box;
+            border: 0.5px solid var(--cos-image-color-border);
+            width: 57px;
+            height: 57px;
+
+            /* cosmic-token-disable-next-line */
+            font-size: 24px;
+            background-color: var(--cos-blue--3);
+            cursor: pointer;
+            .cos-flex();
+            .cos-color-text-on-primary();
+            .cos-justify-center();
+            .cos-items-center();
+            .cos-font-medium();
+            .cos-leading-none();
+            .cos-rounded-xl();
+        }
+        &-image-shape-circle {
+            /* cosmic-token-disable-next-line */
+            border-radius: 50%;
+        }
+    }
+    &-more {
+        cursor: default;
+        &:active {
+            .cos-opacity-20();
+        }
+    }
+
+    &-overscroll {
+        &-text {
+            max-width: 1em;
+            word-wrap: break-word;
+            word-break: break-all;
+            line-height: 1.3;
+        }
+        &-icon {
+            border-radius: 100%;
+            width: 16px;
+            line-height: 16px;
+            font-size: var(--cos-text-caption);
+            .cos-text-center();
+            .cos-space-ml-xxs();
+            .cos-font-medium();
+            .cos-color-bg-dent();
+        }
+    }
+}

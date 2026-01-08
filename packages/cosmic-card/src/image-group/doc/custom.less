@@ -1,0 +1,50 @@
+
+@import (reference) "tokens.less";
+
+.left-image,
+.left-image:before {
+    border-top-right-radius: var(--cos-rounded-none);
+    border-bottom-right-radius: var(--cos-rounded-none);
+}
+
+.right-image,
+.right-image:before {
+    border-top-left-radius: var(--cos-rounded-none);
+    border-bottom-left-radius: var(--cos-rounded-none);
+}
+
+.image-ratio-2-1 {
+    overflow: hidden;
+    padding-bottom: 50%;
+    height: 0;
+}
+
+.image-group-demo {
+
+    &-item {
+        margin-bottom: 8px;
+    }
+
+    .video-icon {
+        .cos-block();
+        width: 32px; 
+        height: 32px;
+        background: url('./assets/video-icon.png') center / cover no-repeat;
+    }
+    
+    .image-ratio-2-1 {
+        overflow: hidden;
+        padding-bottom: calc(50% - 3px);
+        height: 0;
+    }
+
+    .image-ratio-3-1 {
+        overflow: hidden;
+        padding-bottom: calc(33% - 9px);
+        height: 0;
+    }
+}
+.jump-link {
+    .cos-block();
+    width: 100%;
+}

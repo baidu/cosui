@@ -1,0 +1,56 @@
+@rounded-lg: var(--cos-rounded-lg);@grid-gap: 2px;
+
+.grid-demo-set-radius(@tl, @tr, @br, @bl) {
+    .cosd-generating-view {
+        border-radius: @tl @tr @br @bl;
+    }
+}
+
+.grid-demo {
+    &-row,
+    &-quad {
+        display: grid;
+        gap: @grid-gap;
+
+        .grid-demo-item {
+            width: 100%;
+            .grid-demo-set-radius(0, 0, 0, 0);
+        }
+    }
+
+    &-row {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+
+        .grid-demo-item {
+            &:first-child {
+                .grid-demo-set-radius(@rounded-lg, 0, 0, @rounded-lg);
+            }
+
+            &:last-child {
+                .grid-demo-set-radius(0, @rounded-lg, @rounded-lg, 0);
+            }
+        }
+    }
+
+    &-quad {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        .grid-demo-item {
+            &:nth-child(1) {
+                .grid-demo-set-radius(@rounded-lg, 0, 0, 0);
+            }
+
+            &:nth-child(2) {
+                .grid-demo-set-radius(0, @rounded-lg, 0, 0);
+            }
+
+            &:nth-child(3) {
+                .grid-demo-set-radius(0, 0, 0, @rounded-lg);
+            }
+
+            &:nth-child(4) {
+                .grid-demo-set-radius(0, 0, @rounded-lg, 0);
+            }
+        }
+    }
+}

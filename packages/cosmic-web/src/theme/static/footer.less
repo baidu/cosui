@@ -1,0 +1,48 @@
+
+@import (reference) "tokens.less";
+
+@import './colors';
+
+@padding-space: 144px;
+
+footer {
+    position: relative;
+    z-index: 9;
+    clear: both;
+    font-size: var(--cos-text-subtitle-sm);
+    color: rgba(255, 255, 255, 0.65);
+    background-color: #000;
+    .footer-wrap {
+        position: relative;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 60px;
+    }
+    .bottom-bar {
+        overflow: hidden;
+        .cos-space-m-none();
+        padding: 16px @padding-space;
+        .cos-text-right();
+        line-height: 32px;
+        a {
+            color: rgba(255, 255, 255, 0.65);
+            &:hover {
+                .cos-color-text-inverse();
+            }
+        }
+        .translate-button {
+            .cos-text-left();
+        }
+    }
+    a {
+        color: rgba(255, 255, 255, 0.9);
+    }
+    h2 {
+        .cos-color-text-inverse();
+        & > span {
+            .cos-color-text-inverse();
+        }
+    }
+    svg {
+        .cos-inline-block();
+    }
+}

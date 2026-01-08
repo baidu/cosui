@@ -1,0 +1,13 @@
+.ratio-demo-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 9px;
+
+    > :nth-child(-n + 2) {
+        grid-column: span 3;
+    }
+
+    > :nth-child(n + 3) {
+        grid-column: span 2;
+    }
+}

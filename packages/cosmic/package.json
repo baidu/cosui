@@ -1,0 +1,38 @@
+{
+  "name": "@cosui/cosmic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/mobile/index.js",
+  "exports": {
+    ".": "./dist/mobile/index.js",
+    "./index.css": "./dist/mobile/index.css",
+    "./tokens.css": "./dist/mobile/tokens.css",
+    "./pc": "./dist/pc/index.js",
+    "./pc/index.css": "./dist/pc/index.css",
+    "./pc/tokens.css": "./dist/pc/tokens.css",
+    "./pc/*": "./dist/pc/*/index.js",
+    "./*": "./dist/mobile/*/index.js",
+    "./mobile/tokens": "./src/token/mobile/tokens.less",
+    "./pc/tokens": "./src/token/pc/tokens.less"
+  },
+  "files": [
+    "src",
+    "dist",
+    "package.json",
+    "README.md",
+    "types"
+  ],
+  "author": "",
+  "scripts": {
+    "clean": "rimraf dist",
+    "dev": "tsc --noEmit || true && cd ../../ && NODE_ENV=development node --max-old-space-size=4096 ./scripts/build.mjs -p cosmic -w",
+    "build": "tsc --noEmit || true && cd ../../ && NODE_ENV=production node ./scripts/build.mjs -p cosmic && tsx ./scripts/build-types.ts -p cosmic"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {},
+  "peerDependencies": {
+    "san": "^3.14.1",
+    "lottie-web": "^5.7.3"
+  },
+  "types": "distTypes"
+}

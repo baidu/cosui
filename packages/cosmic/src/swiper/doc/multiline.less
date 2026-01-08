@@ -1,0 +1,65 @@
+@import (reference) 'tokens.less';
+
+.demo-item {
+    .item-image {
+        position: relative;
+        padding-top: 56.25%;
+        .cos-rounded-xs();
+        .cos-color-text-on-em();
+        .cos-text-headline();
+        & span {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+        }
+    }
+
+    .cos-col+.cos-col {
+        .cos-space-ml-xs();
+    }
+
+    .cos-row+.cos-row {
+        .cos-space-mt-xs();
+    }
+}
+
+.mobile-padding-none {
+    .cos-swiper-list {
+        .cos-space-pl-none();
+        .cos-space-pr-none();
+    }
+}
+
+.demo-controller {
+    .cos-space-mb-xs();
+
+    > * {
+        .cos-flex();
+        .cos-items-center();
+        .cos-space-mb-xs();
+
+        > label {
+            .cos-space-mr-xxs();
+            width: 80px;
+        }
+        .cos-input {
+            width: 200px;
+        }
+        .cos-select-entry {
+            .cos-color-border();
+            height: 36px;
+        }
+    }
+}
+
+h4 {
+    .cos-color-text-minor();
+    .cos-space-mt-none();
+    .cos-space-mb-xs();
+    .cos-font-regular();
+}

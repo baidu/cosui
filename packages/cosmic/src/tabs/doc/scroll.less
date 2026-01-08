@@ -1,0 +1,76 @@
+@import (reference) 'tokens.less';
+
+.custom-tabs .cos-tabs-header {
+    .cos-tab {
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+    }
+}
+
+.custom-arrow-tabs .cos-tabs-header {
+    .cos-tabs-header {
+        position: relative;
+    }
+
+    .custom-arrow-tab-left {
+        .cos-flex();
+        .cos-justify-start();
+        .cos-items-center();
+
+        .left-arrow-wrapper {
+            position: absolute;
+            left: 0px;
+            width: 30px;
+            height: 100%;
+            .cos-rounded-sm();
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+            .cos-text-caption();
+            .cos-color-text();
+            .cos-color-bg-dent();
+        }
+
+    }
+
+    .custom-arrow-tab-right {
+        .cos-flex();
+        .cos-justify-end();
+        .cos-items-center();
+
+        .right-arrow-wrapper {
+            position: absolute;
+            right: 0px;
+            width: 30px;
+            height: 100%;
+            .cos-rounded-sm();
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+            .cos-text-caption();
+            .cos-color-text();
+            .cos-color-bg-dent();
+        }
+    }
+}
+
+.scroll-tabs {
+    .cos-color-text();
+
+    .cos-tab-pane {
+        .cos-space-mt-md();
+    }
+
+    h4 {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+    }
+    
+    p {
+        .cos-color-text-minor();
+    }
+}
+

@@ -1,0 +1,94 @@
+@import (reference) 'tokens.less';
+@import 'variable.less';
+@import '../../common/date-picker-input/index.less';
+@import '../../common/date-picker-panel/index.less';
+@import '../../common/time-picker-panel/index.less';
+
+.@{prefix}-date-time-picker {
+
+    &-entry {
+        .cos-flex();
+        .cos-rounded-sm();
+        .cos-items-center();
+        .cos-justify-between();
+        .cos-color-text-minor();
+        box-sizing: border-box;
+        width: 100%;
+        height: 36px;
+        outline: 1px solid var(--cos-color-border-tiny);
+        cursor: pointer;
+        transition: outline-color var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+
+        &:hover {
+            outline: 1px solid var(--cos-color-border);
+            transition: outline-color var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+        }
+
+        .@{prefix}-date-picker-input {
+            .cos-flex-1();
+        }
+
+        &-text {
+            .cos-color-text();
+        }
+
+        .cos-icon {
+            display: inline-block;
+            font-size: var(--cos-text-subtitle-sm);
+        }
+    }
+
+    &-panel {
+        .cos-flex();
+        .cos-flex-col();
+        &-content {
+            .cos-flex();
+        }
+        &-divider {
+            border-right: 1px solid var(--cos-color-border-minor);
+        }
+        .@{prefix}-date-picker-content {
+            border: none;
+        }
+        &-content-selected {
+            position: absolute;
+            top: 50%;
+            right: 18px;
+            left: 18px;
+            transform: translateY(-50%);
+            height: 40px;
+            .cos-color-bg-dent();
+            .cos-rounded-xs();
+        }
+    }
+    &-footer {
+        border-top: 1px solid var(--cos-color-border-minor);
+        padding: var(--cos-space-xxs) var(--cos-space-sm);
+        height: 33px;
+        .cos-flex();
+        .cos-justify-between();
+        .cos-items-center();
+        .cos-color-text();
+        font-size: var(--cos-text-body-lg);
+        &-description {
+            flex: 1 1 0%;
+            .cos-space-pl-3xs();
+        }
+
+        &-action {
+            .cos-flex();
+            .cos-items-center();
+            .cos-justify-center();
+        }
+
+        &-confirm {
+            width: 57px;
+            transition: background-color var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+
+            &:active {
+                .cos-opacity-50();
+                transition: opacity var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+            }
+        }
+    }
+}

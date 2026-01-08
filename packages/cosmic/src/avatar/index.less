@@ -1,0 +1,95 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+@font-size-scale: var(--font-size-scale, 1);
+
+@size-xs: 16px;
+@size-sm: 24px;
+@size-md: 40px;
+
+.avatar-size(@size) {
+    width: @size;
+    height: @size;
+}
+
+.@{prefix}-avatar {
+    position: relative;
+    .cos-leading-0();
+
+    &-img,
+    &-placeholder,
+    &-fallback {
+        overflow: hidden;
+        .cos-rounded-full();
+        box-sizing: border-box;
+        .cos-image-color-bg-placeholder();
+        .avatar-size(100%);
+    }
+
+    &-xs {
+        .avatar-size(calc(@size-xs * @font-size-scale));
+    }
+    &-sm {
+        .avatar-size(calc(@size-sm * @font-size-scale));
+    }
+    &-md,
+    &-lg /* 为了兼容之前设置 size 为 lg 的业务，所以保留并收敛到 md */ {
+        .avatar-size(calc(@size-md * @font-size-scale));
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        border: 1px solid var(--cos-image-color-border);
+        width: 200%;
+        height: 200%;
+        transform-origin: 0 0;
+        transform: scale(.5);
+        box-sizing: border-box;
+        pointer-events: none;
+        .cos-rounded-full();
+    }
+}
+
+// iOS 暗黑
+@{dark-selectors} {
+    .@{prefix}-avatar {
+        &-img,
+        &-placeholder {
+            border: 0.5px solid #fff3;
+        }
+    }
+}
+
+// android 夜间模式且屏蔽系统内核映射
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-avatar {
+            &-fallback, &-placeholder {
+                color-scheme: dark;
+                background-color: #1f1f1f;
+            }
+        }
+    }
+}

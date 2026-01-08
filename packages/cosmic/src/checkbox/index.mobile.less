@@ -1,0 +1,128 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-checkbox {
+    .cos-inline-flex();
+    .cos-items-center();
+    .cos-justify-center();
+    padding: var(--cos-space-xs) var(--cos-space-sm);
+    font-size: var(--cos-text-subtitle-sm);
+    .cos-font-regular();
+    .cos-color-text();
+    .cos-color-bg-dent();
+    .cos-rounded-sm();
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    &-icon {
+        .cos-hidden();
+
+        svg {
+            width: calc(16px * var(--font-size-scale, 1));
+            height: calc(16px * var(--font-size-scale, 1));
+        }
+    }
+
+    &-checked {
+        .cos-font-medium();
+        .cos-color-text-primary();
+        .cos-color-bg-primary-light();
+    }
+
+    &-disabled {
+        .cos-opacity-40();
+        cursor: not-allowed;
+    }
+
+    &.@{prefix}-checkbox-mark {
+        .cos-space-p-none();
+        background: none;
+
+        .@{prefix}-checkbox-icon {
+            .cos-inline-flex();
+            .cos-items-center();
+            .cos-justify-center();
+            box-sizing: border-box;
+            cursor: pointer;
+            outline: none;
+
+            // svg 初始态
+            .@{prefix}-checkbox {
+                &-container-border {
+                    fill: var(--cos-color-border);
+                }
+                &-checked {
+                    fill: var(--cos-color-text-primary);
+                }
+                &-indeterminate {
+                    fill: var(--cos-color-text-primary);
+                }
+            }
+        }
+
+        .@{prefix}-checkbox-label {
+            .cos-space-ml-xs();
+            .cos-inline-flex();
+            .cos-leading-none();
+            .cos-color-text();
+            .cos-text-subtitle();
+            .cos-font-regular();
+        }
+
+        &.@{prefix}-checkbox-checked {
+            .@{prefix}-checkbox-label {
+                .cos-font-regular();
+                .cos-color-text-primary();
+            }
+        }
+
+        &.@{prefix}-checkbox-indeterminate {
+            .@{prefix}-checkbox-label {
+                .cos-font-regular();
+                .cos-color-text();
+            }
+        }
+
+        &.@{prefix}-checkbox-disabled {
+            .@{prefix}-checkbox-label {
+                .cos-font-regular();
+                .cos-color-text-disabled();
+            }
+
+
+            .@{prefix}-checkbox {
+                cursor: not-allowed;
+                &-container-inner {
+                    fill: var(--cos-color-border-minor);
+                }
+            }
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-checkbox:not(.@{prefix}-checkbox-mark).@{prefix}-checkbox-checked {
+            color-scheme: dark;
+            color: #263678;
+            background-color: #4e6ef21a;
+        }
+    }
+}

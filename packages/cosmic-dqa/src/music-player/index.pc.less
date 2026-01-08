@@ -1,0 +1,313 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@import './base.less';
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes move {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(9px);
+    }
+}
+
+@keyframes rotateCancel {
+    0% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes moveCancel {
+    0% {
+        transform: translateX(9px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.@{prefix}-music-player {
+    overflow: visible;
+    border: none;
+    border-radius: none;
+
+    &-panel {
+        flex-direction: column;
+        border: .5px solid var(--cos-color-border-minor);
+        border-bottom: none;
+        border-radius: var(--cos-rounded-lg);
+        padding: var(--cos-space-lg) var(--cos-space-3xl) 41px 30px;
+        height: 202px;
+    }
+
+    &-type {
+        height: 14px;
+        .cos-space-mt-none();
+        .cos-space-mb-sm();
+
+        &-img {
+            width: 14px;
+            height: 14px;
+        }
+    }
+
+    &-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 30px;
+    }
+
+    &-poster {
+        width: 166px;
+        height: 166px;
+        object-fit: cover;
+        object-position: center center;
+        cursor: pointer;
+        .cos-rounded-lg();
+
+        &-box {
+            width: 166px;
+            height: 166px;
+        }
+
+        &-wrapper {
+            width: 208px;
+            height: 166px;
+            .cos-rounded-lg();
+            .cos-space-mt-xxs();
+            .cos-space-mb-xxs();
+        }
+
+        &-icon {
+            font-size: var(--cos-leading-headline-xl);
+            cursor: pointer;
+
+            &-play {
+                transform: translate(calc(-50% + 4px), -50%);
+            }
+        }
+    }
+
+    &-vinyl {
+        top: 50%;
+        transform: translateY(-50%);
+        left: 72px;
+        width: 136px;
+        height: 136px;
+        transition: transform 0.4s cubic-bezier(0, 0, 0.39, 1.12);
+        .cos-rounded-full();
+        box-sizing: border-box;
+
+        &-playing {
+            transform: translateY(-50%) translateX(6px);
+        }
+
+        &-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            transition-timing-function: linear;
+            transition-duration: 550ms;
+            .cos-rounded-full();
+            background: url(https://gips1.baidu.com/it/u=2059581208,4043524228&fm=3028&app=3028&f=PNG&fmt=auto&q=75&size=f544_544) no-repeat top left / 100% 100%;
+            will-change: transform;
+            animation: rotate 8s linear infinite;
+            animation-play-state: paused;
+
+            &-rotate {
+                animation-play-state: running;
+            }
+        }
+
+        &-poster {
+            width: 64px;
+            height: 64px;
+            box-sizing: border-box;
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--url) center / cover no-repeat;
+        }
+    }
+
+    &-content {
+        min-width: 0;
+        max-height: 178px;
+
+        &-title {
+            .cos-space-pb-md();
+            line-height: var(--cos-text-subtitle);
+        }
+
+        &-lyrics {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+
+            .@{prefix}-music-player-content-lyrics-scroll {
+                flex: 1;
+                overflow-y: auto;
+                scrollbar-color: hsla(228, 7%, 74%, .6) transparent;
+                scrollbar-width: thin;
+            }
+
+
+            &-mask {
+                &-all {
+                    -webkit-mask: linear-gradient(to bottom,
+                        rgba(0,0,0,0) 0%,
+                        rgba(0,0,0,0.8) .15rem,
+                        rgba(0,0,0,1) .3rem,
+                        rgba(0,0,0,1) calc(100% - .3rem),
+                        rgba(0,0,0,0.8) calc(100% - .15rem),
+                        rgba(0,0,0,0) calc(100% - 0px)
+                    );
+                    mask: linear-gradient(to bottom,
+                        rgba(0,0,0,0) 0%,
+                        rgba(0,0,0,0.8) .15rem,
+                        rgba(0,0,0,1) .3rem,
+                        rgba(0,0,0,1) calc(100% - .3rem),
+                        rgba(0,0,0,0.8) calc(100% - .15rem),
+                        rgba(0,0,0,0) calc(100% - 0px)
+                    );
+                }
+
+                &-top {
+                    -webkit-mask: linear-gradient(to top, rgba(0, 0, 0, 1.0) calc(100% - 0.3rem), transparent);
+                    mask: linear-gradient(to top, rgba(0, 0, 0, 1.0) calc(100% - 0.3rem), transparent);
+                }
+
+                &-bottom {
+                    -webkit-mask: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) calc(100% - 0.3rem), transparent);
+                    mask: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) calc(100% - 0.3rem), transparent);
+                }
+            }
+        }
+
+        &-lyric {
+            &:hover {
+                .cos-opacity-100();
+                .cos-color-text-primary();
+                cursor: pointer;
+            }
+        }
+    }
+
+    &-progress {
+
+        &:hover {
+            .@{prefix}-music-player-progress-bar {
+                background: linear-gradient(to top, var(--cos-color-bg-primary-light) 0%, var(--cos-color-bg-primary-light) 40%, transparent 40%, transparent 100%);
+            }
+
+            .@{prefix}-music-player-progress-inner {
+                background: linear-gradient(to top, var(--cos-color-text-primary) 0%, var(--cos-color-text-primary) 40%, transparent 40%, transparent 100%);
+            }
+
+            .@{prefix}-music-player-progress-bar-time {
+                .cos-opacity-100();
+                visibility: visible;
+            }
+
+            .@{prefix}-music-player-progress-thumb {
+                .cos-opacity-100();
+                pointer-events: auto;
+            }
+        }
+
+        &-inner {
+           position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, var(--cos-color-text-primary) 0%, var(--cos-color-text-primary) 20%, transparent 20%, transparent 100%);
+
+            // 拖动中禁用动画
+            &.dragging {
+                transition: none;
+                .@{prefix}-music-player-progress-thumb {
+                    .cos-opacity-100();
+                    pointer-events: auto;
+                }
+            }
+        }
+
+
+        &-bar {
+            position: relative;
+            overflow: hidden;
+            margin-top: 14px;
+            border: 0.5px solid var(--cos-color-border-minor);
+            border-top: none;
+            border-radius: 0 0 var(--cos-rounded-lg) var(--cos-rounded-lg);
+            width: 100%;
+            height: 15px;
+            background: linear-gradient(to top, var(--cos-color-bg-primary-light) 0%, var(--cos-color-bg-primary-light) 20%, transparent 20%, transparent 100%);
+
+            &-time {
+                position: absolute;
+                right: 15px;
+                bottom: 15px;
+                display: flex;
+                .cos-opacity-0();
+                .cos-font-medium();
+                .cos-color-text-tiny-disabled();
+                font-size: var(--cos-text-body);
+                line-height: var(--cos-text-body);
+                visibility: hidden;
+
+                &-current {
+                    .cos-color-text();
+                }
+            }
+        }
+
+
+        &-thumb {
+            position: absolute;
+            right: 0px;
+            bottom: -3px;
+            border-radius: 10px;
+            width: 6px;
+            height: 14px;
+            .cos-color-bg-primary();
+            .cos-opacity-0();
+            box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.20);
+            transition: opacity 0.2s ease, transform 0.1s ease;
+            pointer-events: none;
+        }
+    }
+
+    &-tag {
+        top: 9px;
+        right: 9px;
+        height: 15px;
+    }
+}

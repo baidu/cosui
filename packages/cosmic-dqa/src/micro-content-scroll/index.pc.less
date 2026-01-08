@@ -1,0 +1,99 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-micro-content-scroll {
+    &-title {
+        .cos-text-body-lg();
+        .cos-color-text();
+        line-height: var(--cos-leading-body-lg-higher);
+        .cos-space-mb-sm();
+    }
+
+    &-item-bottom {
+        .cos-justify-between();
+    }
+
+    &-item-wrapper {
+        // 统一 item 高度，减去上下 padding 所占高度：var(--cos-space-xs)*2 = var(--cos-space-lg)
+        height: calc(100% - var(--cos-space-lg));
+    }
+
+    &-item {
+        .cos-flex();
+        .cos-flex-col();
+        .cos-color-bg-dent();
+        .cos-rounded-sm();
+        .cos-space-p-xs();
+        gap: var(--cos-space-sm);
+        height: 100%;
+
+        &-author {
+            .cos-flex();
+            .cos-items-center();
+            max-width: 100%;
+        }
+        &-author-name, &-author-suffix, &-author-colon {
+            .cos-color-text-minor();
+            .cos-font-medium();
+            .cos-leading-none();
+        }
+        &-author-name {
+            .cos-line-clamp-1();
+            .cos-space-ml-xxs();
+        }
+        &-author-suffix, &-author-colon {
+            .cos-shrink-0();
+        }
+        &-author-suffix {
+            .cos-space-ml-3xs();
+        }
+        &-author-avatar {
+            .cos-shrink-0();
+        }
+
+        &-content {
+            .cos-flex();
+            .cos-items-start();
+            .cos-color-text();
+        }
+        &-content-thumbnail {
+            width: 57px;
+            height: 57px;
+            .cos-shrink-0();
+            .cos-space-mr-sm();
+        }
+        &-content-text {
+            .cos-line-clamp-3();
+            position: relative;
+        }
+        &-content-tag {
+            .cos-color-text-on-primary-light();
+            .cos-color-bg-primary-light();
+            &.cos-tag.cos-sm {
+                position: relative;
+                top: -1px;
+                padding: var(--cos-space-none) var(--cos-space-3xs);
+            }
+        }
+    }
+
+    &-item:hover {
+        text-decoration: none;
+    }
+}

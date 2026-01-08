@@ -1,0 +1,83 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import (reference) "tokens.less";
+@import 'variable.less';
+
+.@{prefix}-copyable-text {
+    &-phrase {
+        .cosd-copyable-text-item {
+            .cos-flex();
+            .cos-flex-col();
+            &:nth-child(even) {
+                .cosd-copyable-text-divider {
+                    margin-left: -24px;
+                }
+            }
+        }
+        .cosd-copyable-text-item:nth-child(n+3) {
+            .cos-space-mt-lg();
+        }
+        .cosd-copyable-text-content {
+            .cos-flex();
+            .cos-justify-between();
+            .cos-items-center();
+            flex: 1;
+            margin-top: -4px;
+            margin-bottom: -5px;
+        }
+        .cosd-copyable-text-footer {
+            .cos-text-body();
+            .cos-space-ml-xxs();
+            .cos-leading-none();
+        }
+        .cosd-copyable-text-divider {
+            .cos-space-mt-lg();
+        }
+    }
+    &-paragraph {
+        .cosd-copyable-text-content {
+            .cosd-copyable-text-footer {
+                .cos-flex();
+                .cos-justify-between();
+                .cos-space-mt-sm();
+                .cosd-copyable-text-copy {
+                    .cos-inline-block();
+                    .cos-color-bg();
+                    .cos-rounded-full();
+                    .cos-color-text();
+                    .cos-space-pl-sm();
+                    .cos-space-pr-sm();
+                    .cos-text-body();
+                    .cos-font-medium();
+                    line-height: 30px;
+                }
+                .cosd-copyable-text-note {
+                    .cos-text-caption();
+                    .cos-color-text-minor();
+                    .cos-space-p-none();
+                }
+            }
+        }
+        .cosd-copyable-text-divider {
+            .cos-space-mt-md();
+        }
+
+    }
+    &-divider {
+        border-bottom: 1px dashed #6354f02e;
+    }
+}

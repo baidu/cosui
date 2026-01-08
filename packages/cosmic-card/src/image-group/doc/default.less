@@ -1,0 +1,30 @@
+@import (reference) 'tokens.less';
+
+h4 {
+    .cos-color-text-minor();
+    .cos-space-mt-xs();
+    .cos-space-mb-xs();
+    font-family: "PingFang SC";
+    font-weight: var(--cos-font-regular);
+}
+
+.cos-pc .cosc-image-group {
+    .cos-image-background {
+        .cos-block();
+        background-position: center;
+        background-size: cover;
+    }
+    .cos-image-body {
+        .cos-hidden();
+    }
+}
+
+.cos-wise .cosc-image-group {
+    .cos-image-body {
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+    }
+}

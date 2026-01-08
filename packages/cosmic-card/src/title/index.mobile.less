@@ -1,0 +1,89 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+// h3 默认样式重置
+.@{prefix}-title {
+    .cos-space-m-none();
+    font-weight: normal;
+    .cos-color-text();
+    .cos-leading-none();
+
+    .cos-icon {
+        font-size: var(--cos-text-subtitle);
+    }
+
+    &-icon-custom {
+        // 转换成内联块元素，以设置默认宽高
+        .cos-inline-block();
+        width: 18px;
+        height: 18px;
+
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    // 设置 icon 的默认大小
+    .@{prefix}-title-icon {
+        font-size: var(--cos-text-headline-sm);
+    }
+
+    &-icon,
+    &-tag {
+        .cos-space-mr-xxs();
+        vertical-align: middle;
+    }
+
+    // 调整垂直居中
+    &-icon-custom,
+    &-tag {
+        .cos-inline-block();
+        margin-bottom: 2px;
+    }
+
+    &-md {
+        .cos-text-headline-sm();
+    }
+
+    &-lg {
+        .cos-text-headline();
+    }
+
+    &-sm {
+        .cos-text-subtitle();
+    }
+
+    &-xs {
+        .cos-text-subtitle-sm();
+    }
+}
+
+@media (max-width: 375px) {
+    .@{prefix}-title > * {
+        .cos-line-clamp-2();
+    }
+}
+
+@{dark-browser-selectors}  {
+    .@{prefix}-title-a .@{prefix}-title-slot {
+        em {
+            color: var(--cos-red-0) !important;
+        }
+    }
+}

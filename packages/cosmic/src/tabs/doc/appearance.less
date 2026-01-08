@@ -1,0 +1,79 @@
+@import (reference) 'tokens.less';
+
+/* 为区分组件展示，设置底部背景色 */
+.custom-card-tabs {
+    .cos-color-bg-dent();
+    .cos-space-p-xxs();
+}
+
+/* 如果想控制下划线的宽度，请给 .cos-tab-indicator 类名设置 width 属性 */
+.custom-line-tabs.cos-tabs.cos-tabs-line {
+    /* 自定义下划线宽度 */
+    .cos-tab-indicator {
+        width: 20px;
+    }
+}
+
+.custom-image-tabs {
+    .cos-wise & {
+        &.cos-tabs-outline .cos-tabs-header {
+            margin-right: -14px;
+        }
+    }
+    
+    /* 如果想控制横滑时两侧负边距，请给 .cos-tabs-header-left/right-margin 类名设置 margin-left/right 属性 */
+    &.cos-tabs-outline .cos-tabs-header-container {
+        margin-right: calc(var(--cos-space-3xs) * -1);
+        margin-left: calc(var(--cos-space-3xs) * -1);
+        .cos-tabs-header {
+            .cos-space-pr-3xs();
+            .cos-space-pl-3xs();
+        }
+    }
+}
+
+.appearance-tabs {
+    .cos-color-text();
+
+    .cos-tab-pane {
+        .cos-space-mt-md();
+    }
+
+    h4 {
+        .cos-color-text-minor();
+        .cos-space-mt-none();
+        .cos-space-mb-xs();
+        .cos-font-regular();
+    }
+
+    &>p {
+        .cos-color-text-minor();
+    }
+}
+
+.custom-line-two2 {
+    > .cos-tabs-content > .cos-tab-pane {
+        margin-top: 11px;
+    }
+    .custom-line-sub2 {
+        .cos-tab {
+            height: 26px;
+            min-height: 26px;
+        }
+    }
+}
+
+.cos-test-cas {
+    position: absolute;
+    top: 0;
+    right: 0;
+    .cos-flex();
+
+    .cos-cascader {
+        .cos-space-ml-sm();
+    }
+
+    .cos-cascader-entry {
+        height: 29px;
+    }
+}

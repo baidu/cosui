@@ -1,0 +1,52 @@
+@import (reference) 'tokens.less';
+
+h4 {
+    .cos-color-text-minor();
+    .cos-space-mt-md();
+    .cos-space-mb-xs();
+    .cos-font-regular();
+}
+
+.cos-button {
+
+    &.loading-primary {
+        .cos-loading {
+            &-icon {
+                font-size: var(--cos-text-body);
+                background: conic-gradient(from 0deg at center, transparent, var(--cos-color-text-inverse));
+                background-clip: text;
+            }
+        }
+    }
+
+
+    &.loading-secondary {
+        .cos-loading {
+            &-icon {
+                font-size: var(--cos-text-body);
+                background: conic-gradient(from 0deg at center, transparent, #36f);
+                background-clip: text;
+            }
+        }
+    }
+
+    &.loading-text {
+        .cos-loading {
+            &-icon {
+                font-size: var(--cos-text-body);
+                background: conic-gradient(from 0deg at center, transparent, var(--cos-color-text));
+                background-clip: text;
+            }
+        }
+    }
+
+    &.loading-icon {
+        .cos-loading {
+            &-icon {
+                font-size: calc(var(--cos-text-body) + 2px);
+                background: conic-gradient(from 0deg at center, transparent, var(--cos-color-text));
+                background-clip: text;
+            }
+        }
+    }
+}

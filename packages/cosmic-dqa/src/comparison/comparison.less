@@ -1,0 +1,164 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-comparison {
+    // 比对对象 -- start
+    &-targets {
+        .cos-flex();
+        .cos-justify-between();
+        .cos-items-center();
+        width: 100%;
+        > div {
+            .cos-flex();
+            .cos-items-center();
+            width: 152px;
+            > span {
+                max-width: 92px;
+                .cos-line-clamp-1();
+            }
+        }
+        &-vs {
+            font-size: 20px;
+            color: #0335fe;
+        }
+        &-left {
+            > span {
+                .cos-space-ml-xs();
+            }
+        }
+        &-right {
+            justify-content: flex-end;
+            > span {
+                .cos-space-mr-xs();
+            }
+        }
+    }
+    &-logo {
+        .cos-shrink-0();
+        width: 54px;
+        height: 54px;
+
+        &-img {
+            width: 54px;
+            height: 54px;
+        }
+    }
+    // 比对对象 -- end
+
+    // bar -- start
+    &-bar {
+        .cos-flex();
+        .cos-flex-row();
+        .cos-justify-between();
+        .cos-items-start();
+        width: 100%;
+        .cos-space-mt-md();
+        &-item {
+            min-width: 45px;
+            > div {
+                height: 8px;
+                white-space: nowrap;
+            }
+            span {
+                .cos-leading-none();
+                .cos-block();
+                .cos-color-text-minor();
+                .cos-space-mt-xs();
+            }
+
+            // 左侧圆角
+            &:nth-child(1) div {
+                border-radius: var(--cos-rounded-xs) var(--cos-rounded-none) var(--cos-rounded-none) var(--cos-rounded-xs);
+            }
+
+            // 左右白色斜线
+            &:nth-child(2) div {
+                position: relative;
+                &::after, &::before {
+                    content: '';
+                    position: absolute;
+                    top: -1px;
+                    .cos-block();
+                    width: 3px;
+                    height: 10px;
+                    .cos-color-bg();
+                    transform: skew(340deg);
+                }
+                &::after {
+                    left: -1px;
+                }
+                &::before {
+                    right: -1px;
+                    z-index: 2;
+                }
+            }
+
+            // 右侧圆角
+            &:nth-child(3) div {
+                border-radius: var(--cos-rounded-none) var(--cos-rounded-xs) var(--cos-rounded-xs) var(--cos-rounded-none);
+            }
+        }
+        & > :nth-child(2) {
+            .cos-text-center();
+        }
+        & > :nth-child(3) {
+            .cos-text-right();
+        }
+    }
+    // bar -- end
+
+    // 表格 list
+    &-table {
+        .cos-space-mt-md();
+        .cos-text-body();
+        &-item {
+            .cos-flex();
+            .cos-justify-between();
+            .cos-items-center();
+            padding: var(--cos-space-none) var(--cos-space-sm);
+            height: 44px;
+        }
+        &-item:nth-child(odd) {
+            background-color: rgba(82, 64, 255, .03);
+        }
+    }
+}
+
+@{dark-selectors} {
+    .@{prefix}-comparison {
+        &-table {
+            &-item:nth-child(odd) {
+                background-color: rgba(82, 64, 255, .03);
+            }
+        }
+    }
+}
+
+.font-size {
+    &-2, &-3 {
+        .@{prefix}-comparison {
+            &-bar {
+                // 大字号下中间的文字支持换行
+                &-item:nth-child(2) span {
+                    white-space: normal;
+                }
+            }
+        }
+    }
+}
