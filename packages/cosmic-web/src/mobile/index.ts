@@ -1,4 +1,4 @@
-import {router} from 'san-router';
+import {router} from '../utils/proxy-router';
 import Home from './components/home';
 import Preview from './components/preview';
 import './index.less';

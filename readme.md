@@ -8,7 +8,7 @@
     - Markdown 扩展协议：Markdown 纯文本基础之上可结构化展现、动态交互
     - JSON 动态协议：JSON 协议 可灵活重组，动态定制
 
-- UI 解析渲染 SDK：包含 UI 组件、Markdown 扩展协议解析渲染、JSON 协议解析及渲染的完整 SDK 解决方案
+- UI 解析渲染 SDK：包含 Markdown 扩展协议解析渲染、JSON 协议解析及渲染的完整 SDK 解决方案
 
 - 基于 San 的 UI 组件
     - 基于设计系统： Cosmic Design Token

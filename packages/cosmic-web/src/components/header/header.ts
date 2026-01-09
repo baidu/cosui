@@ -6,7 +6,7 @@ import SkinFilledIcon from '../icon/svg/skin-filled';
 import MoonFill from '../icon/svg/moon-fill.svg';
 import SunFill from '../icon/svg/sun-filled.svg';
 import GithubIcon from '../icon/svg/github';
-import {Link} from 'san-router';
+import {Link} from '../../utils/proxy-router';
 import tabItems from './tab-items.config';
 import Select from './select';
 import './select/index.less';
