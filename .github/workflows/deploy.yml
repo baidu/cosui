@@ -57,8 +57,9 @@ jobs:
               run: pnpm build:site
 
             - name: Create .nojekyll for GitHub Pages
-              run: touch packages/cosmic-web/dist/.nojekyll
-              echo "/* /index.html 200" > packages/cosmic-web/dist/_redirects
+              run: |
+                touch packages/cosmic-web/dist/.nojekyll
+                echo "/* /index.html 200" > packages/cosmic-web/dist/_redirects
 
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
