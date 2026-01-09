@@ -25,7 +25,7 @@ const imageGroups: Array<{ title: string, images: ImageConfig[] }> = [
         title: 'Cosmic（当前线上）',
         images: [
             {key: 'default', src: DefaultImg, alt: '通用', selected: true},
-            {key: 'dqa', src: DqaImg, alt: 'DQA智能化', selected: false},
+            {key: 'dqa', src: DqaImg, alt: '智能化', selected: false},
             {key: 'shop', src: ShopImg, alt: '电商', selected: false},
             {key: 'medical', src: MedicalImg, alt: '医疗', selected: false},
             {key: 'education', src: EducationImg, alt: '教育', selected: false}
