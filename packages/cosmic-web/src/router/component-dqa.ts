@@ -94,7 +94,7 @@ export default [
                     },
                     {
                         name: 'Chart',
-                        text: '通用图表',
+                        text: '图表',
                         path: 'chart',
                         key: '/components/cosmic-dqa/chart'
                     },

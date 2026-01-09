@@ -1,6 +1,6 @@
 import {Component} from 'san';
 import routes from '../../router/routes';
-import {router} from 'san-router';
+import {router} from '../../utils/proxy-router';
 
 
 let getComponentList = () => {

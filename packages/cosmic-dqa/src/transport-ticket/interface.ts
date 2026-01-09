@@ -85,6 +85,21 @@ interface TransportTicketProps {
      * 整个区域跳转链接
      */
     linkInfo?: LinkInfo | null;
+
+    /**
+     * 服务平台
+     */
+    service?: string;
+
+    /**
+     * 中转信息
+     */
+    transfer?: Transfer;
+
+    /**
+     * 行程跨越天数
+     */
+    crossDays?: number;
 }
 
 interface Seat {
@@ -99,4 +114,46 @@ interface Seat {
     remaining: string;
 }
 
-export type TransportTicketData = Required<TransportTicketProps>;
+/**
+ * 中转车次/航次信息
+ */
+interface Segment {
+    /**
+     * 班次号，如 "MF4714"、"G419"
+     */
+    number: string;
+
+    /**
+     * 运营商，如 "厦门航空"
+     */
+    operator?: string;
+
+    /**
+     * 可选座位
+     */
+    seats?: Seat[];
+}
+
+/**
+ * 中转信息
+ */
+interface Transfer {
+    /**
+     * 中转站
+     */
+    station: string;
+
+    /**
+     * 换乘等待时间，如 "换乘3小时23分"
+     */
+    waitTime: string;
+
+    /**
+     * 中转车次/航次数组
+     */
+    segments: Segment[];
+}
+
+export type TransportTicketData = Required<Omit<TransportTicketProps, 'transfer'>> &
+    Pick<TransportTicketProps, 'transfer'>;
+export type {Seat, Segment, Transfer};
