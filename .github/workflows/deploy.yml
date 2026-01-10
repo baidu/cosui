@@ -56,10 +56,22 @@ jobs:
             - name: Build site
               run: pnpm build:site
 
-            - name: Create .nojekyll for GitHub Pages
+            - name: Setup GitHub Pages for SPA routing
               run: |
+                # 创建 .nojekyll 文件，禁用 Jekyll 处理
                 touch packages/cosmic-web/dist/.nojekyll
-                echo "/* /index.html 200" > packages/cosmic-web/dist/_redirects
+                # 复制 index.html 为 404.html，用于处理 SPA 路由
+                # 当访问不存在的路径时，GitHub Pages 会返回 404.html
+                # 然后由前端路由处理实际路径
+                if [ -f packages/cosmic-web/dist/index.html ]; then
+                  cp packages/cosmic-web/dist/index.html packages/cosmic-web/dist/404.html
+                  echo "✅ Created 404.html for SPA routing support"
+                  echo "📄 Files created:"
+                  ls -lh packages/cosmic-web/dist/*.html
+                else
+                  echo "❌ Error: index.html not found!"
+                  exit 1
+                fi
 
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
