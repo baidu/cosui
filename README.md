@@ -1,8 +1,8 @@
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/baidu/cosui/deploy.yml?style=flat-square&label=build)](https://github.com/baidu/cosui/actions/workflows/deploy.yml)
+[![License](https://img.shields.io/github/license/baidu/cosui.svg)](LICENSE)
 [![npm version (@cosui/cosmic)](https://img.shields.io/npm/v/@cosui/cosmic.svg?style=flat-square&label=@cosui/cosmic)](https://www.npmjs.com/package/@cosui/cosmic)
 [![npm version (@cosui/cosmic-dynamic-ui)](https://img.shields.io/npm/v/@cosui/cosmic-dynamic-ui.svg?style=flat-square&label=@cosui/cosmic-dynamic-ui)](https://www.npmjs.com/package/@cosui/cosmic-dynamic-ui)
 [![npm version (marklang)](https://img.shields.io/npm/v/marklang.svg?style=flat-square&label=marklang)](https://www.npmjs.com/package/marklang)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square)](LICENSE)
-[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/baidu/cosui/deploy.yml?style=flat-square&label=build)](https://github.com/baidu/cosui/actions/workflows/deploy.yml)
 
 # COSUI
 
