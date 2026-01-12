@@ -1,11 +1,12 @@
 import {Component} from 'san';
-import {router} from 'san-router';
+import {router, BASE_URL} from '../../utils/proxy-router';
 import styles from '../../mobile.less?inline';
 
 // eslint-disable-next-line max-len
 const components = import.meta.glob('../../../../(cosmic|cosmic-card|cosmic-dqa|cosmic-shop)/**/doc/preview.ts');
 const protocols = import.meta.glob('../../docs/protocol/**/preview.ts');
 const uis = import.meta.glob('../../docs/agent-ui/**/preview.ts');
+const markdownComponent = import.meta.glob('../../../../cosmic-dqa/**/doc/*.ts');
 
 
 const getComponents = (query: any) => {
@@ -13,12 +14,21 @@ const getComponents = (query: any) => {
 
     if (type === 'components') {
         const prefix = `../../../../${packages}/src/${component}/doc`;
+
+        if (component === 'markdown') {
+            const alias = `${prefix}/index.ts`;
+            return markdownComponent[alias] ? markdownComponent[alias]() : Promise.reject('load component fail');
+        }
         const alias = `${prefix}/preview.ts`;
         return components[alias] ? components[alias]() : Promise.reject('load component fail');
     }
     else if (type === 'protocol' || type === 'agent-ui') {
         const prefix = `../../docs/${type}/${packages}`;
         let alias = null;
+        if (packages === 'markdown') {
+            alias = `../../../../cosmic-dqa/src/markdown/doc/${ui}.ts`;
+            return markdownComponent[alias] ? markdownComponent[alias]() : Promise.reject('load component fail');
+        }
         if (component === 'index') {
             alias = `${prefix}/preview.ts`;
         }
@@ -79,7 +89,7 @@ export default class Main extends Component {
             <div id="mobile-style" style="display: none;">{{styles}}</div>
             <div s-if="route.query.name || route.query.text" class="preview-head">
                 <svg on-click="toHome" t="1650885692911" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6649" width="18" height="18"><path d="M320 885.333333c-8.533333 0-17.066667-4.266667-23.466667-10.666666-12.8-12.8-10.666667-34.133333 2.133334-44.8L654.933333 512 298.666667 194.133333c-12.8-10.666667-14.933333-32-2.133334-44.8 10.666667-12.8 32-14.933333 44.8-2.133333l384 341.333333c6.4 6.4 10.666667 14.933333 10.666667 23.466667 0 8.533333-4.266667 17.066667-10.666667 23.466667l-384 341.333333c-6.4 6.4-12.8 8.533333-21.333333 8.533333z" p-id="6650"></path></svg>
-                <span>{{route.query.name}} {{route.query.text}}</span>
+                <span>{{route.query.name || ''}} {{route.query.text || ''}}</span>
             </div>
             <div id="content"></div>
         </div>
@@ -108,7 +118,7 @@ export default class Main extends Component {
     responsive() {
         if (window.innerWidth >= 600) {
             // eslint-disable-next-line
-            const desktopUrl = `${location.origin}/${location.hash.replace(/#\/preview\/([^\?]+)\??.*/, '$1').toLowerCase()}`;
+            const desktopUrl = `${location.origin}${BASE_URL}/${location.hash.replace(/#\/preview\/([^\?]+)\??.*/, '$1').toLowerCase()}`;
             location.href = desktopUrl;
         }
     };

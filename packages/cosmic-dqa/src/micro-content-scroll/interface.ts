@@ -19,6 +19,11 @@ import type {LinkInfo} from '@cosui/cosmic/util/interface';
 export type MicroContentScrollAppearance = 'top' | 'bottom';
 
 interface MicroContentItemProps {
+    /**
+     * 标题
+     */
+    title: string;
+    source?: Source;
 
     /**
      * 作者头像
@@ -54,6 +59,12 @@ interface MicroContentItemProps {
      * 跳转链接
      */
     linkInfo?: LinkInfo;
+}
+
+interface Source {
+    caption?: string;
+    name?: string;
+    tag?: string;
 }
 
 interface MicroContentScrollProps {

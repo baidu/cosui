@@ -232,6 +232,12 @@ export interface CitySelectorContentData {
      */
     _initialHeight?: number;
 
+
+    /**
+     * 侧边栏滚动高度
+     */
+    _sideBarScrollTop?: number;
+
     /**
      * 菜单城市数据
      */

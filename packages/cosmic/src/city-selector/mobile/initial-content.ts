@@ -37,16 +37,11 @@ export default class CitySelector extends Component<CitySelectorContentData> {
             <ul
                 s-ref="sideBarWrapper"
                 class="cos-city-selector-initial-list"
-                style="top: 9px;"
+                style="top: {{_initialListTop}}px; bottom: 9px;"
                 on-touchstart="touchStart"
                 on-touchmove="touchMove"
                 on-touchend="touchEnd"
                 on-contextmenu="stopMenu">
-                <div
-                    s-show="_showBubble || _isTouching"
-                    class="cos-city-selector-initial-list-bubble"
-                    style="top: {{_currentInitial.index * _initialHeight - 18}}px;">
-                    ${BubbleIcon}</div>
                 <li
                     s-for="item, index in _initialList"
                     s-ref="initial"
@@ -55,6 +50,11 @@ export default class CitySelector extends Component<CitySelectorContentData> {
                         {{ item.initial }}</span>
                 </li>
             </ul>
+            <div
+                s-show="_showBubble || _isTouching"
+                class="cos-city-selector-initial-list-bubble"
+                style="top: {{_initialListTop + _currentInitial.index * _initialHeight - 18 - _sideBarScrollTop}}px;">
+                ${BubbleIcon}</div>
             <div class="cos-city-selector-initial-cities-wrap" s-ref="citiesWrap">
                 <!-- 虚拟列表 -->
                 <div class="cos-city-selector-initial-virtual" style="height: {{_citiesHeight}}px;"></div>
@@ -103,6 +103,7 @@ export default class CitySelector extends Component<CitySelectorContentData> {
         activeCity: activeCity
     };
 
+
     activeInitialIndex: number;
     debounce: Debounce | null;
     throttle: Throttle | null;
@@ -129,7 +130,9 @@ export default class CitySelector extends Component<CitySelectorContentData> {
             _cities: [],
             _citiesHeight: 0,
             _hideHot: false,
-            _useContinent: false
+            _useContinent: false,
+            _initialListTop: 51,
+            _sideBarScrollTop: 0
         };
     }
 
@@ -429,8 +432,10 @@ export default class CitySelector extends Component<CitySelectorContentData> {
     }
 
     stepMove(e: any) {
-        const {clientY} = e.changedTouches[0];
+        let {clientY} = e.changedTouches[0];
         const sideBarStep = this.data.get('sideBarStep');
+        const scrollTop = this.ref('sideBarWrapper')?.scrollTop || 0;
+        clientY += scrollTop;
         if (!sideBarStep?.length) {
             return;
         }
@@ -439,6 +444,13 @@ export default class CitySelector extends Component<CitySelectorContentData> {
         }
         const stepIndex = Math.max(sideBarStep.findIndex((step: number) => clientY < step), 0);
         return stepIndex;
+    }
+
+    // 判断字母是否在可视区，如果不在可视区，不继续滚动
+    initialVisible(clientY: number) {
+        const sideBarWrapper = this.ref('sideBarWrapper') as unknown as HTMLElement;
+        return sideBarWrapper.getBoundingClientRect().top > clientY
+        || sideBarWrapper.getBoundingClientRect().bottom < clientY;
     }
 
     touchStart(e: Event) {
@@ -462,18 +474,19 @@ export default class CitySelector extends Component<CitySelectorContentData> {
         this.showBubble();
         this.data.set('_isTouching', true);
         // @ts-ignore
-        const {top, height} = (this.ref('sideBarWrapper')).getClientRects()[0];
-        const step = height / _initialList.length;
+        const sideBarWrapper = this.ref('sideBarWrapper') as unknown as HTMLElement;
+        const top = sideBarWrapper.getClientRects()[0].top;
+        const initial = this.ref('initial') as unknown as HTMLElement;
+        const step = initial.clientHeight;
         // sideBarStep 记录每个字母的位置
         const sideBarStep = new Array(_initialList.length).fill(1).map((item, index) => (index + 1) * step + top);
         this.data.set('sideBarStep', sideBarStep);
+        this.data.set('_sideBarScrollTop', sideBarWrapper?.scrollTop || 0);
     }
 
-    touchMove(e: Event) {
-        e.stopPropagation();
-        e.preventDefault();
+    touchMove(e: TouchEvent) {
         const index = dataIndex(e.target, 'li');
-        if ((!index && index !== 0) || this.cancelClickScroll) {
+        if ((!index && index !== 0) || this.cancelClickScroll || this.initialVisible(e.changedTouches[0].clientY)) {
             return;
         }
         const currentIndex = this.stepMove(e);
@@ -491,17 +504,19 @@ export default class CitySelector extends Component<CitySelectorContentData> {
             this.clickDebounce = new Debounce(80);
         }
         this.clickDebounce?.debounce(this.scrollCurrentInitialCites.bind(this, currentIndex), this);
+        this.data.set('_sideBarScrollTop', this.ref('sideBarWrapper')?.scrollTop || 0);
         this.showBubble();
     }
 
-    touchEnd(e: Event) {
+    touchEnd(e: TouchEvent) {
         this.data.set('_isTouching', false);
         const index = dataIndex(e.target, 'li');
-        if ((!index && index !== 0) || this.cancelClickScroll) {
+        if ((!index && index !== 0) || this.cancelClickScroll || this.initialVisible(e.changedTouches[0].clientY)) {
             return;
         }
         const currentIndex = this.stepMove(e);
         this.scrollCurrentInitialCites(currentIndex);
+        this.data.set('_sideBarScrollTop', this.ref('sideBarWrapper')?.scrollTop || 0);
     }
 
     showBubble() {

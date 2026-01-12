@@ -3,8 +3,13 @@ import sanRouter, {Router, createLink, RedirectOptions} from 'san-router';
 const BASE_URL = import.meta.env.VITE_APP_BASE_URL || '/cosui';
 
 const handleLink = (e) => {
-    const target = e.target as HTMLElement;
-    const link = target.closest('a');
+    // 兼容示例 shadow dom 内的 a 标签
+    const path = e.composedPath();
+
+    const link = path.find(
+        el => el instanceof HTMLAnchorElement
+    ) as HTMLAnchorElement | undefined;
+
     if (!link) return;
 
     let href = link.getAttribute('href');
@@ -159,4 +164,4 @@ BASE_URL && proxyRouter();
 const router = new Router({mode: 'html5'});
 const Link = createLink(router);
 
-export {router, Link};
+export {router, Link, BASE_URL};

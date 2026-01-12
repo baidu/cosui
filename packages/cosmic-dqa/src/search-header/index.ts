@@ -45,7 +45,7 @@ export default class SearchHeader extends Component<SearchHeaderData> {
                     >
                 </div>
                 <div
-                    s-if="citationCount > 0 && !overview"
+                    s-elif="citationCount > 0 && !overview"
                     class="cosd-search-header-citation"
                     on-click="handleClick"
                 >

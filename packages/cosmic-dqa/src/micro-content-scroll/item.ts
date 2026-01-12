@@ -58,14 +58,19 @@ export default class MicroContentItem extends Component<MicroContentItemData> {
                         />
                     </div>
                     <div class="cosd-micro-content-scroll-item-content-text cos-text-body cos-space-m-none">
-                        <cos-tag
-                            s-if="tag"
-                            appearance="filled"
-                            class="cosd-micro-content-scroll-item-content-tag"
-                        >
-                            {{tag}}
-                        </cos-tag>
-                        {{content}}
+                        <div s-if="title" class="cosd-micro-content-scroll-item-content-title">
+                            {{title}}
+                        </div>
+                        <div class="{{title ? 'cos-line-clamp-2' : 'cos-line-clamp-3'}}">
+                            <cos-tag
+                                s-if="tag"
+                                appearance="filled"
+                                class="cosd-micro-content-scroll-item-content-tag"
+                            >
+                                {{tag}}
+                            </cos-tag>
+                            {{content}}
+                        </div>
                     </div>
                 </div>
                 <!-- 作者在下 -->
@@ -73,17 +78,24 @@ export default class MicroContentItem extends Component<MicroContentItemData> {
                     class="cosd-micro-content-scroll-item-author"
                     s-if="appearance === 'bottom'"
                 >
-                    <cos-avatar class="cosd-micro-content-scroll-item-author-avatar"
+                    <cos-avatar s-if="avatar" class="cosd-micro-content-scroll-item-author-avatar"
                         src="{{avatar}}"
                         alt="{{author}}"
                         size="xs"
                     />
-                    <div class="cosd-micro-content-scroll-item-author-name">
-                        {{author}}
+                    <div s-if="author || source.name" class="cosd-micro-content-scroll-item-author-name">
+                        {{author || source.name}}
                     </div>
                     <div class="cosd-micro-content-scroll-item-author-suffix">
-                        的分享
+                        {{source.caption || '的分享'}}
                     </div>
+                    <cos-tag
+                        s-if="source.tag"
+                        appearance="filled"
+                        class="cos-color-text-on-primary-light cosd-micro-content-scroll-item-author-source-tag"
+                    >
+                        {{source.tag}}
+                    </cos-tag>
                 </div>
             </component>
         </div>
@@ -103,6 +115,8 @@ export default class MicroContentItem extends Component<MicroContentItemData> {
             thumbnail: '',
             tag: '',
             linkInfo: {},
+            title: '',
+            source: {},
             appearance: 'top'
         };
     }

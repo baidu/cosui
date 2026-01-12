@@ -1,5 +1,5 @@
 import {Component} from 'san';
-import {router} from './utils/proxy-router';
+import {router, BASE_URL} from './utils/proxy-router';
 import './index.less';
 import routes from './router/routes';
 
@@ -23,21 +23,26 @@ const excludedPatterns = [
     /\/components\/cosmic-dqa\/overview/
 ];
 
+
 const makeMobileLink = () => {
-    const currentPath = location.pathname;
+    let currentPath = location.pathname;
+    if (BASE_URL && currentPath.startsWith(BASE_URL)) {
+        currentPath = currentPath.slice(BASE_URL.length) || '';
+    }
 
     // 检查当前路径是否匹配任何排除模式
     const isExcluded = excludedPatterns.some(pattern => pattern.test(currentPath));
 
     // 生成移动端链接
-    if ((currentPath.includes('components') || currentPath.includes('json/') || currentPath.includes('agent-ui/'))
+    if ((currentPath.includes('components') || currentPath.includes('markdown/component')
+        || currentPath.includes('json/') || currentPath.includes('agent-ui/'))
         && !isExcluded
     ) {
-        return `${location.origin}/mobile/#/preview${currentPath}`;
+        return `${location.origin}${BASE_URL}/mobile/#/preview${currentPath}`;
     }
 
     // 生成默认链接
-    return `${location.origin}/mobile/#/`;
+    return `${location.origin}${BASE_URL}/mobile/#/`;
 };
 
 

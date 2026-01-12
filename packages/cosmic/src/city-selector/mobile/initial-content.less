@@ -41,6 +41,7 @@
         right: 0;
         z-index: 1;
         .cos-text-center();
+        overflow-y: auto;
         margin: var(--cos-space-none) var(--cos-space-xs) var(--cos-space-none);
         .cos-space-p-none();
         width: 14px;
@@ -48,6 +49,8 @@
         line-height: calc(14px / var(--font-size-scale, 1));
         list-style: none;
         .cos-color-text-minor();
+        scrollbar-color: transparent transparent;
+        scrollbar-width: thin;
         li {
             padding-bottom: 2px;
             box-sizing: border-box;
@@ -63,7 +66,7 @@
 
         &-bubble {
             position: absolute;
-            right: 18px;
+            right: 25px;
             z-index: 1;
             width: 61px;
             height: 51px;

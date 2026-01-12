@@ -15,10 +15,17 @@
 |-|-|-|-|-|-|
 |avatar|string|-|是|作者头像|PC/Mobile|
 |author|string|-|是|作者名称|PC/Mobile|
+|title|string|-|否|文本标题|PC/Mobile|
 |content|string|''|是|文本内容|PC/Mobile|
 |thumbnail|string|-|否|贴图内容|PC/Mobile|
 |tag|string|-|否|标签|PC/Mobile|
+|source|Source|-|否|来源信息|PC/Mobile|
 |linkInfo|[LinkInfo](/components/cosmic/link)|{}|否|跳转信息|PC/Mobile|
+
+### Source 对象
+|name|string|-|否|来源名称|PC/Mobile|
+|tag|string|-|否|来源标签|PC/Mobile|
+|caption|string|''|否|来源说明|PC/Mobile|
 
 ### Events
 
