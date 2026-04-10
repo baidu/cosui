@@ -427,7 +427,88 @@
             .cos-space-mb-3xs();
             .cos-rounded-sm();
         }
+        .cosd-markdown-table {
+            .cos-space-mt-sm();
+            .cos-space-mb-sm();
+            .cos-rounded-sm();
+            overflow: hidden;
+            border-top: 0.7px solid var(--cos-color-border-minor);
+            border-right: 0.7px solid var(--cos-color-border-minor);
+            border-left: 0.7px solid var(--cos-color-border-minor);
+            width: fit-content;
+            max-width: 100%;
+            box-sizing: border-box;
+            &-header {
+                .cos-flex();
+                .cos-justify-between();
+                .cos-items-center();
+                .cos-color-bg-dent();
+                .cos-color-text();
+                padding: var(--cos-space-md) var(--cos-space-md) var(--cos-space-sm);
 
+                &-left {
+                    .cos-color-text-minor();
+                    .cos-leading-none();
+                }
+
+                &-right {
+                    font-size: 18px;
+                    .cos-leading-none();
+                    .cos-flex();
+                    .cos-icon {
+                        .cos-space-ml-lg();
+                        &:active {
+                            .cos-opacity-20();
+                        }
+                    }
+                }
+            }
+            table {
+                .cos-space-m-none();
+                border-top-left-radius: var(--cos-rounded-none);
+                border-top-right-radius: var(--cos-rounded-none);
+                thead {
+                    tr {
+                        &:first-child {
+                            th:first-of-type {
+                                .cos-rounded-none();
+                            }
+                    
+                            th:last-of-type {
+                                .cos-rounded-none();
+                            }
+                        }
+                        th {
+                            border-width: 0.7px;
+                            .cos-color-text();
+                            .cos-font-medium();
+                            .cos-color-bg();
+                            .cos-color-border-minor();
+                            &:first-of-type {
+                                border-left: none;
+                            }
+                            &:last-of-type {
+                                border-right: none;
+                            }
+                        }
+                    }
+                }
+                tbody {
+                    tr {
+                        td {
+                            border-width: 0.7px;
+                        }
+                        td:first-of-type {
+                            border-left: none;
+                        }
+                        td:last-of-type {
+                            border-right: none;
+                        }
+                    }
+                }
+            }
+
+        }
         table {
             thead {
                 tr th {
@@ -530,66 +611,5 @@
         ml-text[type="highlight"] {
             .cos-color-text-em()
         }
-    }
-}
-
-@{dark-selectors} {
-    .@{prefix}-markdown {
-        &-search-more {
-            background-image: url(https://gips1.baidu.com/it/u=3625973829,440351408&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f18_4);
-        }
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    /**
-    * 由于安卓夜间模式下token设置的#303030颜色被内核修改了
-    * 导致分割线颜色偏黑，无法辨识，因此需要这里覆盖深色模式下的颜色
-    */
-    @{t7-kernel-selectors} {
-        .@{prefix}-markdown {
-            &-mask {
-                .cos-hidden();
-            }
-            @{markdownsdk} {
-                hr:after {
-                    color-scheme: dark;
-                    background-color: #303030;
-                }
-                ul>li::before {
-                    color-scheme: dark;
-                    background-color: rgba(255, 255, 255, .8);
-                }
-            }
-
-            &-search-more {
-                color-scheme: dark;
-                color: #666;
-                background-image: url(https://gips1.baidu.com/it/u=3625973829,440351408&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f18_4);
-            }
-        }
-        // 兼容夜间模式下不显示的问题
-        .@{prefix}-markdown .marklang .marklang-link[type=agent]:after {
-            color-scheme: dark;
-            box-shadow: inset 0 0 0 1px #fff6;
-        }
-    }
-}
-
-.@{prefix}-markdown .marklang .marklang-link[type=agent]:after {
-    .font-size-0 & {
-        --size-scale: 0.86;
-    }
-    .font-size-1 & {
-        --size-scale: 1;
-    }
-    .font-size-2 & {
-        --size-scale: 1.06;
-    }
-    .font-size-3 & {
-        --size-scale: 1.21;
-    }
-    .font-size-4 & {
-        --size-scale: 1.21;
     }
 }

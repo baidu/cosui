@@ -34,6 +34,10 @@
         -webkit-tap-highlight-color:rgba(0,0,0,0);
     }
 
+    .cos-avatar::before {
+        border: 0.5px solid var(--cos-image-color-border);
+    }
+
     &-logo {
         .cos-block();
         .cos-space-mb-sm() ;
@@ -47,7 +51,7 @@
     &-filled {
         .cos-rounded-sm();
         .cos-color-bg-page();
-        .cos-color-bg-dent();
+        .cos-vcard-color-bg();
         .cos-space-p-xs();
 
         .@{root}-button {
@@ -112,17 +116,13 @@
         .cos-items-center();
         .cos-justify-between();
         .cos-rounded-sm();
-        .cos-color-bg-dent();
+        .cos-vcard-color-bg();
         .cos-space-p-xs();
 
         .@{root}-button {
             .cos-color-bg();
             .cos-color-text-primary();
             background-image: none;
-        }
-
-        .cos-avatar::before {
-            border: none;
         }
 
         .cos-avatar-img {
@@ -217,7 +217,7 @@
         .cos-flex-row();
         .cos-justify-start();
         .cos-items-center();
-        .cos-space-pt-xxs();
+        .cos-space-pt-xs();
         .cos-space-pb-3xs();
         margin-bottom: calc(var(--cos-space-3xs) * -1);
         width: 100%;
@@ -286,7 +286,7 @@
 
     &-introduction {
         .cos-color-text();
-        .cos-color-bg-dent();
+        .cos-vcard-color-bg();
         .cos-space-p-xs();
         .cos-space-mt-xxs();
         .cos-rounded-sm();
@@ -298,7 +298,7 @@
             top: -12px;
             left: 14px;
             border: 6px solid #0000;
-            border-bottom-color: var(--cos-color-bg-dent);
+            border-bottom-color: var(--cos-vcard-color-bg);
             width: 0;
             height: 0;
         }

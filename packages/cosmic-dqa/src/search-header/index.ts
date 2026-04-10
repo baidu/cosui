@@ -76,8 +76,8 @@ export default class SearchHeader extends Component<SearchHeaderData> {
     initData(): SearchHeaderData {
         return {
             // 品牌logo
-            logo: 'https://gips2.baidu.com/it/u=1009531835,1711006677&fm=3028&app=3028&f=PNG&fmt=auto&q=90&size=f187_48',
-            logoDark: 'https://gips3.baidu.com/it/u=397455163,2412254865&fm=3028&app=3028&f=PNG&fmt=auto&q=90&size=f187_48',
+            logo: 'https://gips0.baidu.com/it/u=2660100043,3986572706&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f192_48',
+            logoDark: 'https://gips3.baidu.com/it/u=2862834531,2772849958&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f192_48',
             // 联名品牌logo链接
             brandLogo: '',
             brandLogoDark: '',

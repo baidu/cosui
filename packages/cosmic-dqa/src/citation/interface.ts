@@ -49,7 +49,7 @@ export interface Source {
     }>;
 }
 export interface CitationProps {
-    appearance?: '' | 'link' | 'tag';
+    appearance?: '' | 'link' | 'tag' | 'aggregated';
     citationId: string;
     title: string;
     source?: Source;

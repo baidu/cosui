@@ -69,6 +69,16 @@ const mlCitation = {
             }
         }
 
+        // 聚合溯源特殊处理：多个ref只渲染一个聚合图标
+        if (appearance === 'aggregated') {
+            // eslint-disable-next-line @babel/new-cap
+            const citationHtml = Citation({
+                appearance: 'aggregated'
+            });
+            str += citationHtml;
+            return `<span disable-audio disable-copy disable-jump>${str}</span>`;
+        }
+
         refs.map(ref => {
             if (!ref) {
                 return;
@@ -130,6 +140,9 @@ const mlCitation = {
         // 兼容单个和多个数据
         const refs = node.properties?.ref ? (node.properties?.ref as string).split(',') : [node.content];
         const appearance = (node.properties?.appearance as string) || '';
+        const aggregatedIndexes = node.properties?.aggregatedIndexes
+            ? (node.properties?.aggregatedIndexes as string).split(',')
+            : [];
         if (appearance === 'link') {
             const citationsData = node.properties?.data || [];
             let data = {} as CitationProps;
@@ -151,6 +164,38 @@ const mlCitation = {
             element.setAttribute('disable-audio', 'true');
             element.setAttribute('disable-copy', 'true');
             element.setAttribute('disable-jump', 'true');
+        }
+
+        // 聚合溯源特殊处理：多个ref只渲染一个聚合图标
+        if (appearance === 'aggregated') {
+            if (refs.length > 0) {
+                const el = document.createElement('span');
+                el.setAttribute('rl-type', 'stop');
+
+                const citationCompData = {
+                    appearance: 'aggregated'
+                } as CitationProps;
+
+                const citationComp = new Citation({
+                    data: citationCompData
+                });
+                citationComp.on('click', (params: any) => {
+                    // @ts-ignore - this 指向 Markdown 组件实例
+                    this.fire('click', {
+                        directive: mlCitation.directive,
+                        ...params,
+                        data: {
+                            aggregatedIndexes: refs
+                        }
+                    });
+                });
+                citationComp.attach(el);
+
+                // @ts-ignore
+                this.setDirectiveComponents(mlCitation.directive, citationComp);
+                element.appendChild(el);
+            }
+            return element;
         }
 
         refs.forEach(ref => {
@@ -186,7 +231,7 @@ const mlCitation = {
 
             if ((appearance !== 'link' && data.hidden)
                 || (appearance === 'link' && (!data?.source?.name || data?.source?.type === 'default'))
-                || (data.appearance === 'tag' && !data.source?.tag)
+                || ((data.appearance || appearance) === 'tag' && !data.source?.tag)
             ) {
                 return;
             }
@@ -213,7 +258,10 @@ const mlCitation = {
                 this.fire('click', {
                     directive: mlCitation.directive,
                     ...params,
-                    data
+                    data: {
+                        ...data,
+                        aggregatedIndexes
+                    }
                 });
             });
             citationComp.on('toggle', (params: any) => {

@@ -21,7 +21,9 @@ import {componentNameMap} from './constant';
 import BarChart from './bar-chart';
 import LineChart from './line-chart';
 import PieChart from './pie-chart';
-import {ChartProps, ChartMethods} from './interface';
+import MapChart from './map-chart';
+import RadarChart from './radar-chart';
+import {ChartProps, ChartMethods, RegisterMapParams} from './interface';
 import {ECharts} from 'echarts';
 import BaseChart from './base-chart';
 
@@ -33,6 +35,7 @@ export default class Chart extends Component<ChartProps> implements ChartMethods
             s-is="{{componentChart}}"
             s-ref="base-chart"
             option="{{option}}"
+            async="{{async}}"
             on-chart-rendered="handleChartRendered"
         />
     `;
@@ -40,7 +43,9 @@ export default class Chart extends Component<ChartProps> implements ChartMethods
     static components = {
         'cosd-line-chart': LineChart,
         'cosd-bar-chart': BarChart,
-        'cosd-pie-chart': PieChart
+        'cosd-pie-chart': PieChart,
+        'cosd-map-chart': MapChart,
+        'cosd-radar-chart': RadarChart
     };
 
     static computed = {
@@ -51,6 +56,14 @@ export default class Chart extends Component<ChartProps> implements ChartMethods
     getEchartsInstance(): ECharts | null {
         const baseChart = this.ref<BaseChart>('base-chart');
         return baseChart.chartInstance;
+    };
+    updateChart() {
+        const baseChart = this.ref<BaseChart>('base-chart');
+        baseChart.updateChart();
+    }
+    registerMap(...args: RegisterMapParams) {
+        const baseChart = this.ref<BaseChart>('base-chart');
+        baseChart.registerMap(...args);
     }
     handleChartRendered() {
         this.fire('chart-rendered');

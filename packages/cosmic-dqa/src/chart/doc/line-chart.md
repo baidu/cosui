@@ -7,6 +7,7 @@ export default class LineChartDemo extends Component {
         <div style="height: 300px">
             <cosd-chart
                 type="line"
+                async
                 s-ref="lineChart"
                 option="{{lineOption}}"
                 on-chart-rendered="handleChartRendered"
@@ -17,7 +18,12 @@ export default class LineChartDemo extends Component {
     static components = {
         'cosd-chart': Chart
     };
-
+    attached() {
+        setTimeout(() => {
+            const chartRef = this.ref('lineChart');
+            chartRef.updateChart();
+        }, 3000)
+    }
     initData() {
         return {
             lineOption: {
@@ -43,10 +49,12 @@ export default class LineChartDemo extends Component {
     }
 
     handleChartRendered() {
-        console.log('Line Chart rendered');
         const chartRef = this.ref('lineChart');
         const echartInstance = chartRef?.getEchartsInstance();
-        console.log(echartInstance);
+        echartInstance.dispatchAction({
+            type: 'highlight',
+            dataIndex: 3
+        });
         echartInstance.on('legendselectchanged', (params) => {
            console.log(params);
         });
