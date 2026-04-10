@@ -94,6 +94,7 @@ function marklang(options?: Options) {
             allowDangerousHtml: true,
             handlers: extendedTableHandlers
         })
+        // @ts-ignore
         .use(rehypeKatex, {
             errorColor: 'var(--marklang-math-error-color, #1e1f24)'
         })

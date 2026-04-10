@@ -114,7 +114,14 @@ export default defineConfig((config => {
                         }
                         return matched;
                     }
-                }
+                },
+                {
+                    // marklang 按需加载插件路径映射
+                    find: /^marklang\/plugins\/(.*)$/,
+                    replacement: (_: string, pluginName: string) => {
+                        return resolve(`./marklang/lib/plugins/${pluginName}.esm.js`);
+                    }
+                },
             ]
         },
         // server: {

@@ -144,6 +144,12 @@ export default [
                         key: '/components/cosmic/map'
                     },
                     {
+                        name: 'Masonry',
+                        text: '瀑布流',
+                        path: 'masonry',
+                        key: '/components/cosmic/masonry'
+                    },
+                    {
                         name: 'MoreLink',
                         text: '查看更多链接',
                         path: 'more-link',

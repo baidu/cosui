@@ -42,9 +42,9 @@ export default function remarkGfm(options: Options) {
     // @ts-ignore
     const data = this.data();
 
-    const micromarkExtensions = data.micromarkExtensions;
-    const fromMarkdownExtensions = data.fromMarkdownExtensions;
-    const toMarkdownExtensions = data.toMarkdownExtensions;
+    const micromarkExtensions = data.micromarkExtensions || (data.micromarkExtensions = []);
+    const fromMarkdownExtensions = data.fromMarkdownExtensions || (data.fromMarkdownExtensions = []);
+    const toMarkdownExtensions = data.toMarkdownExtensions || (data.toMarkdownExtensions = []);
 
     micromarkExtensions.push(gfm(options));
     fromMarkdownExtensions.push(gfmFromMarkdown(options));

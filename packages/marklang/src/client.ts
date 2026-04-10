@@ -20,11 +20,8 @@ import {unified} from 'unified';
 import remarkParse from 'remark-parse';
 import remarkDirective from 'remark-directive';
 import remarkMarkers from './extensions/remark-markers';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
 import remarkGfm from './extensions/remark-gfm';
 import remarkBreaks from 'remark-breaks';
-import rehypeHighlight from 'rehype-highlight';
 import {customRehypePlugin} from './extensions/rehype-plugin';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
@@ -34,7 +31,27 @@ import {findComments, injectPolyfill, isDOMElement, processOptions,
     getDefaultOptions, getAttributesAsObject} from './utils';
 import {Options, Directives, DataMap} from './types';
 
+let registeredPlugins = [];
+let loadedPluginModules: {[key: string]: any} = {};
+let loadingPluginModules: {[key: string]: Promise<void>} = {};
 injectPolyfill();
+
+// 从模块中提取插件函数（兼容不同的导出格式）
+function extractPluginFunction(mod: any) {
+    // 格式1: { default: [Function: rehypeXxx] } - marklang/plugins/* 导出格式
+    if (mod.default && typeof mod.default === 'function') {
+        return {fn: mod.default, name: mod.default.name || ''};
+    }
+    // 格式2: { rehypeXxx: [Function] } 或 { remarkXxx: [Function] } - 命名导出
+    const keys = Object.keys(mod).filter(k => k !== 'default');
+    for (const key of keys) {
+        if (typeof mod[key] === 'function') {
+            return {fn: mod[key], name: key};
+        }
+    }
+    return null;
+}
+
 function replaceDirective(el: HTMLElement, {
     directives,
     dataMap
@@ -60,6 +77,46 @@ function replaceDirective(el: HTMLElement, {
             }
         });
     });
+}
+
+interface Plugin {
+    name: string;
+    feature: RegExp;
+    load: () => Promise<any>;
+}
+// @ts-ignore
+function preloadPlugin(source?: string): Promise<void[]> {
+    // @ts-ignore
+    const promises: Promise<void>[] = [];
+    registeredPlugins.forEach((plugin: Plugin) => {
+        if (plugin.feature && plugin.feature.test(source)) {
+            // 已加载完成，跳过
+            if (loadedPluginModules[plugin.name]) {
+                return;
+            }
+            // 正在加载中，复用已有的 Promise
+            if (loadingPluginModules[plugin.name]) {
+                promises.push(loadingPluginModules[plugin.name]);
+                return;
+            }
+            // 开始加载
+            const loaders = plugin.load();
+            if (loaders && loaders.length) {
+                const modules: any[] = [];
+                const loaderPromises = loaders.map(loader =>
+                    loader.then(mod => {
+                        modules.push(mod);
+                    })
+                );
+                loadingPluginModules[plugin.name] = Promise.all(loaderPromises).then(() => {
+                    // 加载完成后才设置，确保缓存键变化时模块已就绪
+                    loadedPluginModules[plugin.name] = modules;
+                });
+                promises.push(loadingPluginModules[plugin.name]);
+            }
+        }
+    });
+    return Promise.all(promises);
 }
 
 function marklang(options?: Options) {
@@ -91,54 +148,106 @@ function marklang(options?: Options) {
         }
     };
 
-    const instance = unified()
-        .use(remarkParse)
+    // 缓存的 unified 实例
+    let cachedInstance: any = null;
+    // 记录创建缓存时已加载的插件名称列表
+    let cachedPluginKeys: string = '';
 
-        // \n 换行
-        .use(remarkBreaks)
+    function createUnifinedInstance() {
+        const instance = unified().use(remarkParse).use(remarkBreaks);
 
-        // 数学公式
-        .use(remarkMath)
-        .use(remarkGfm, {
+        // remark 插件
+        Object.keys(loadedPluginModules).sort().forEach(name => {
+            loadedPluginModules[name].forEach(module => {
+                const plugin = extractPluginFunction(module);
+                if (plugin && !plugin.name.startsWith('rehype')) {
+                    instance.use(plugin.fn);
+                }
+            });
+        });
+        instance.use(remarkGfm, {
             singleTilde: !!options?.singleTilde,
             autolink: options?.autolink
         })
 
-        // ==高亮语法==
-        .use(remarkMarkers)
-        .use(remarkDirective)
+            // ==高亮语法==
+            .use(remarkMarkers)
+            .use(remarkDirective)
 
-        // 自定义插件，修改 mdast 语法树(放在 remarkRehype 之前)
-        .use(customRemarkPlugin, {
-            transformers,
-            dataMap
-        })
+            // 自定义插件，修改 mdast 语法树(放在 remarkRehype 之前)
+            .use(customRemarkPlugin, {
+                transformers,
+                dataMap
+            })
 
-        // 表格处理
-        .use(remarkExtendedTable)
-        .use(remarkRehype, {
-            allowDangerousHtml: true,
-            handlers: extendedTableHandlers
-        })
-        .use(rehypeKatex, {
-            errorColor: 'var(--marklang-math-error-color, #1e1f24)'
-        })
-
-        // 代码高亮处理
-        .use(rehypeHighlight)
+            // 表格处理
+            .use(remarkExtendedTable)
+            .use(remarkRehype, {
+                allowDangerousHtml: true,
+                handlers: extendedTableHandlers
+            });
+        // rehype 插件
+        Object.keys(loadedPluginModules).sort().forEach(name => {
+            loadedPluginModules[name].forEach(module => {
+                const plugin = extractPluginFunction(module);
+                if (plugin && plugin.name.startsWith('rehype')) {
+                    instance.use(plugin.fn);
+                }
+            });
+        });
 
         // 自定义插件，修改 hast 语法树(放在 remarkRehype 之后)
-        .use(customRehypePlugin, {
+        instance.use(customRehypePlugin, {
             isDomRender: true,
             directives,
             transformers,
             dataMap
-        })
-        .use(rehypeStringify);
+        }).use(rehypeStringify);
+
+        return instance;
+    }
+
+    function getPluginCacheKey(): string {
+        return Object.keys(loadedPluginModules).sort().join(',');
+    }
+
+    // 同步获取缓存的实例，如果插件列表变化则重新创建
+    function getCachedInstance() {
+        const pluginKeys = getPluginCacheKey();
+        if (!cachedInstance || cachedPluginKeys !== pluginKeys) {
+            cachedInstance = createUnifinedInstance();
+            cachedPluginKeys = pluginKeys;
+        }
+        return cachedInstance;
+    }
+
+    async function getUnifiedInstance(source: string) {
+        await preloadPlugin(source);
+        return getCachedInstance();
+    }
 
     return {
+        async getUnifiedInstance(source: string) {
+            return getUnifiedInstance(source);
+        },
+        async renderToElementAsync(source: string, el: HTMLElement) {
+            const instance = await getUnifiedInstance(source);
+            const file = await instance.process(source);
+            const html = String(file);
+            // bca-disable-line
+            el.innerHTML = `<div class="marklang">
+                    ${html}
+                </div>`;
+            replaceDirective(el, {
+                directives,
+                dataMap
+            });
+        },
 
         renderToElement(source: string, el: HTMLElement) {
+            // 警告：同步渲染不会等待插件加载，确保已通过 preloadPlugin 预加载
+            preloadPlugin(source);
+            const instance = getCachedInstance();
             const file = instance.processSync(source);
             const html = String(file);
             // bca-disable-line
@@ -202,5 +311,18 @@ marklang.dataToAst = function (markdown: string) {
         .parse(markdown);
     return tree;
 };
-
+marklang.registerPlugin = function ({
+    name,
+    feature,
+    load
+}: Plugin) {
+    registeredPlugins.push({
+        name,
+        feature,
+        load
+    });
+};
+marklang.preloadPlugin = function (source) {
+    return preloadPlugin(source);
+};
 export default marklang;

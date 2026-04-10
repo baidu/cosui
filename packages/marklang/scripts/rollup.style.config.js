@@ -1,5 +1,5 @@
 /* eslint-disable */
-import less from 'rollup-plugin-less';
+const less = require('rollup-plugin-less');
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -15,11 +15,15 @@ module.exports = [
         },
         plugins: [
             less({
-                // 排除不需要编译的依赖包
                 exclude: ['node_modules/**'],
-                // CSS 输出文件
-                output: 'lib/style.css'
+                output: 'lib/style.css',
+                sourceMap: true,
+                minify: true
             })
-        ]
+        ],
+        treeshake: {
+            preset: 'recommended',
+            moduleSideEffects: false
+        }
     }
 ];

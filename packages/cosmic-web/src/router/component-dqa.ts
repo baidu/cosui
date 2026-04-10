@@ -135,6 +135,12 @@ export default [
                         key: '/components/cosmic-dqa/generating-view'
                     },
                     {
+                        name: 'GreetingCard',
+                        text: '打招呼卡片',
+                        path: 'greeting-card',
+                        key: '/components/cosmic-dqa/greeting-card'
+                    },
+                    {
                         name: 'LocationCard',
                         text: '地点卡片',
                         path: 'location-card',
@@ -181,6 +187,12 @@ export default [
                         text: '站点挂载卡片',
                         path: 'site-vcard',
                         key: '/components/cosmic-dqa/site-vcard'
+                    },
+                    {
+                        name: 'SiteVcardList',
+                        text: '站点挂载卡片列表',
+                        path: 'site-vcard-list',
+                        key: '/components/cosmic-dqa/site-vcard-list'
                     },
                     {
                         name: 'TransportTicket',
