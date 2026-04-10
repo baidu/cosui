@@ -14,18 +14,19 @@
  * limitations under the License.
  *
  *
- * @file 工具入口
- * @description cosmic util 会导出给其他业务 package 使用
- * @notice 请注意其他业务 package 引用由于是跨包，因此无法在 ssr 阶段使用
+ * @file 可见字符拆分
  */
 
-export {default as Debounce} from './debounce';
-export {default as Throttle} from './throttle';
-export * from './platform';
-export * from './constant';
-export * from './empty';
-export * from './shadow';
-export * from './use-lock-scroll';
-export * from './animations';
-export * from './is-url';
-export * from './grapheme';
+const segmenter = typeof Intl !== 'undefined' && (Intl as any).Segmenter
+    ? new (Intl as any).Segmenter(undefined, {granularity: 'grapheme'})
+    : null;
+
+export const splitGraphemes = (value: string) => {
+    if (segmenter) {
+        return Array.from(
+            segmenter.segment(value),
+            (segment: {segment: string}) => segment.segment
+        );
+    }
+    return [...value];
+};

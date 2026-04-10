@@ -11,7 +11,7 @@ export default class Basic extends Component {
     static template = `
         <div data-testid="basic-tabs" class="basic-tabs">
             <h4>单级 Tabs</h4>
-            <cos-tabs class="custom-content-tabs" on-change="handleChange">
+            <cos-tabs class="custom-content-tabs" on-change="handleChange" on-click="handleClick">
                 <cos-tab slot="tab" s-for="tab in cityTabs">{{ tab.title }}</cos-tab>
                 <cos-tab-pane s-for="pane in cityTabs">{{pane.content}}</cos-tab-pane>
             </cos-tabs>
@@ -20,10 +20,10 @@ export default class Basic extends Component {
             <h4>两级 Tabs</h4>
             <p class="cos-space-mt-xs cos-color-text-minor">（如果想控制第二级 Tabs 的两侧负边距，请参考本例样式给 .cos-tabs-header-left/right-margin 类名设置 margin-left/right 属性，当前为 -16px）</p>
             <div class="custom-multi-tabs cos-row cos-space-mt-xs">
-                <cos-tabs appearance="bar" on-change="handleChange">
+                <cos-tabs appearance="bar" on-change="handleChange" on-click="handleClick">
                     <cos-tab slot="tab" s-for="tab in cityTabs">{{ tab.title }}</cos-tab>
                     <cos-tab-pane s-for="pane in cityTabs" class="cos-space-mt-xs">
-                        <cos-tabs appearance="pill-filled" on-change="handleChange" arrow="{{isPc}}">
+                        <cos-tabs appearance="pill-filled" on-change="handleChange" on-click="handleClick" arrow="{{isPc}}">
                             <cos-tab slot="tab" s-for="tab in pane.children">{{ tab.title }}</cos-tab>
                             <cos-tab-pane s-for="tab in pane.children">{{tab.content}}</cos-tab-pane>
                         </cos-tabs>
@@ -34,7 +34,7 @@ export default class Basic extends Component {
             <br /><br />
             <h4>图文 Tabs</h4>
             <div class="custom-img-tabs cos-row cos-space-mt-xs">
-                <cos-tabs appearance="outline">
+            <cos-tabs appearance="outline" on-click="handleClick">
                     <cos-tab slot="tab" s-for="tab in tabs">
                         <cos-image class="cos-img" src="{{src}}" alt="基本样式" />
                         <p class="cos-space-m-none">{{ tab.title }}</p>
@@ -184,6 +184,10 @@ export default class Basic extends Component {
 
     handleChange(activeIndex) {
         console.log('activeIndex: ', activeIndex);
+    }
+
+    handleClick({index}) {
+        console.log('clickIndex: ', index);
     }
 
     handleRightArrowClick() {

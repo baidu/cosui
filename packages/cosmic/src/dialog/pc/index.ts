@@ -143,7 +143,6 @@ export default class Dialog extends Component<DialogData> {
 
     handleClick(e: Event) {
         e.stopPropagation();
-        e.preventDefault();
     }
     handleMask(e: Event) {
         this.data.get('outsideClosable') && this.handleClose(e);

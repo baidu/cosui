@@ -64,8 +64,11 @@ export default class Tabs extends Component<TabsData> implements TabsMethods {
             const index = this.tabComponents.findIndex((tabComponent: any) => {
                 return tabComponent.id === tab.id;
             });
-            if (index !== -1 && index !== this.data.get('activeIndex')) {
-                this.data.set('activeIndex', index);
+            if (index !== -1) {
+                this.fire<TabsEvents['click']>('click', {index, event});
+                if (this.data.get('activeIndex') !== index) {
+                    this.data.set('activeIndex', index);
+                }
             }
         }
     };
@@ -166,6 +169,9 @@ export default class Tabs extends Component<TabsData> implements TabsMethods {
      */
     setArrow() {
         const header = this.ref('tabsHeader') as unknown as HTMLElement;
+        if (!header) {
+            return;
+        }
         const {
             showLeftArrow,
             showRightArrow
@@ -288,6 +294,9 @@ export default class Tabs extends Component<TabsData> implements TabsMethods {
      */
     handleScroll() {
         const header = this.ref('tabsHeader') as unknown as HTMLElement;
+        if (!header) {
+            return;
+        }
         const {
             scrollWidth,
             scrollLeft
@@ -314,7 +323,7 @@ export default class Tabs extends Component<TabsData> implements TabsMethods {
             this.nextTick(() => {
                 header.scrollTo({
                     left: scrollLeft + (scrollWidth - scrollLeft - header.clientWidth),
-                    behavior: 'instant'
+                    behavior: 'instant' as ScrollBehavior
                 });
             });
         }
@@ -341,11 +350,20 @@ export default class Tabs extends Component<TabsData> implements TabsMethods {
      */
     turnPage(direction: 'left' | 'right') {
         const header = this.ref('tabsHeader') as unknown as HTMLElement;
+        if (!header) {
+            return;
+        }
         const scrollCoord = ((direction === 'left') ? -1 : 1) * header.offsetWidth;
         header.scrollBy(scrollCoord, 0);
     }
 
     computeArrowState(header: HTMLElement) {
+        if (!header) {
+            return {
+                showLeftArrow: false,
+                showRightArrow: false
+            };
+        }
         const {
             scrollWidth,
             clientWidth,

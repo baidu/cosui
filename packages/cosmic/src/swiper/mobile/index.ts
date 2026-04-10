@@ -148,7 +148,7 @@ export default class Swiper extends Component<SwiperData> implements SwiperMobil
             (this as any).data.push('_swiperItems', el);
             // 更新 swiper 宽度
             (this as any).nextTick(() => {
-                const swiperWidth = (this as any).ref('swiperList').clientWidth;
+                const swiperWidth = (this as any).ref('swiperList')?.clientWidth;
                 (this as any).data.set('_swiperWidth', swiperWidth);
             });
         },

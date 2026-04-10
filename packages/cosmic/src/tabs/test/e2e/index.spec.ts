@@ -29,6 +29,44 @@ test.describe('basic tabs', () => {
         await expect(activeTabContent).toHaveText('标签内容 2');
     });
 
+    test('emits click event in multiple scenarios', async ({page}) => {
+        const logs: string[] = [];
+        page.on('console', msg => logs.push(msg.text()));
+
+        const selector = '[data-testid="basic-tabs"] .custom-content-tabs';
+        await page.waitForSelector(selector);
+        const tabsComponent = page.locator(selector);
+        await expect(tabsComponent).toBeVisible();
+
+        // 点击单级 Tabs 的第 2 个 tab（索引 1）
+        await tabsComponent.locator('.cos-tab:nth-child(2)').click();
+
+        // 点击两级 Tabs：先定位到外层 Tabs 的头部区域（用 > 限定直接子元素）
+        const outerTabsHeader = page.locator('.custom-multi-tabs > .cos-tabs > .cos-tabs-header-container > .cos-tabs-header');
+        await outerTabsHeader.locator('.cos-tab:nth-child(3)').click();
+
+        // 点击两级 Tabs 的内层 Tabs
+        const innerTabsHeader = page.locator('.custom-multi-tabs .cos-tabs-content .cos-tabs .cos-tabs-header').first();
+        await innerTabsHeader.locator('.cos-tab:nth-child(2)').click();
+
+        // 点击图文 Tabs
+        const imageTabsHeader = page.locator('.custom-img-tabs > .cos-tabs > .cos-tabs-header-container > .cos-tabs-header');
+        await imageTabsHeader.locator('.cos-tab:nth-child(3)').click();
+
+        const getClickIndexes = () => logs
+            .map(text => text.match(/clickIndex:\s*(\d+)/))
+            .filter((match): match is RegExpMatchArray => Boolean(match))
+            .map(match => Number(match[1]));
+
+        const expectedClickIndexes = [1, 2, 1, 2];
+        await expect.poll(() => {
+            const indexes = getClickIndexes();
+            return indexes.length >= expectedClickIndexes.length
+                ? indexes.slice(-expectedClickIndexes.length)
+                : indexes;
+        }).toEqual(expectedClickIndexes);
+    });
+
     test('dynamically adds a tab and displays corresponding content', async ({page}) => {
         const selector = '.custom-dynamic-tabs .cos-tab:last-child';
         await page.waitForSelector(selector);

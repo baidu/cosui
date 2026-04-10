@@ -75,6 +75,11 @@ export interface ScoreProps {
      * 是否支持清除（可控模式下，二次点击同一个分数）
      */
     clearable?: boolean;
+
+    /**
+     * 说明列表
+     */
+    labels?: string[];
 }
 
 export type ScoreData = Required<ScoreProps>;

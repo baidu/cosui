@@ -63,6 +63,7 @@ export default class TooltipTrigger extends Component<TooltipTriggerData> {
             open: false,
             getPopupContainer: undefined,
             bubbleClass: '',
+            autoAdjustOverflow: true,
             _ownerEl: undefined,
             _tipPosition: {},
             _platform: 'mobile'
@@ -73,6 +74,7 @@ export default class TooltipTrigger extends Component<TooltipTriggerData> {
         this.data.set('_tipPosition', {});
         const ownerEl = this.data.get('_ownerEl');
         const position = this.data.get('position');
+        const autoAdjustOverflow = this.data.get('autoAdjustOverflow');
         const getPopupContainer = this.data.get('getPopupContainer');
         const container = getPopupContainer ? getPopupContainer() : document.body;
 
@@ -101,7 +103,7 @@ export default class TooltipTrigger extends Component<TooltipTriggerData> {
             elRect,
             arrowRect,
             position,
-            true,
+            autoAdjustOverflow,
             isAttachBody
         );
         this.data.set('_tipPosition', placements);
