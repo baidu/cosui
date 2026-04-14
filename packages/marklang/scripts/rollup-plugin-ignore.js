@@ -1,4 +1,4 @@
-export default function ignore(type) {
+module.exports = function ignore(type) {
     let startFlag = '// node-build-remove-start';
     let endFlag = '// node-build-remove-end';
     if (type === 'browser') {
@@ -26,9 +26,9 @@ export default function ignore(type) {
                         else if (ignore) {
                             return '';
                         }
-                        else {
-                            return line;
-                        }
+
+                        return line;
+
                     })
                     .join('\n');
 
@@ -39,4 +39,4 @@ export default function ignore(type) {
             }
         }
     };
-}
+};

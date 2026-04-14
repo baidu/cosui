@@ -13,6 +13,7 @@
 | open              | boolean           | false                | 可选   | 是否展示气泡，仅在 trigger 为 'custom' 时生效 | PC/Mobile |
 | get-popup-container | () => HTMLElement | document.body | 可选 | 指定父级 DOM，弹层将会渲染至该 DOM,该节点需要设置 position: relative  | PC/Mobile |
 | bubble-class | string | ''       | 可选   | 气泡类名;使用场景：业务想要自定义挂载在 body 上气泡的气泡样式 | PC/Mobile |
+| auto-adjust-overflow | boolean | true       | 可选   | 气泡被遮挡时自动调整位置 | PC/Mobile |
 
 ### Slots
 

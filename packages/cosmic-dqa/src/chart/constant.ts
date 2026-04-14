@@ -22,7 +22,9 @@ import {Type} from './interface';
 export const componentNameMap = {
     [Type.LINE]: 'cosd-line-chart',
     [Type.BAR]: 'cosd-bar-chart',
-    [Type.PIE]: 'cosd-pie-chart'
+    [Type.PIE]: 'cosd-pie-chart',
+    [Type.MAP]: 'cosd-map-chart',
+    [Type.RADAR]: 'cosd-radar-chart'
 };
 
 /**

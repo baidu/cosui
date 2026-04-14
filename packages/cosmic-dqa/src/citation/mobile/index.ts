@@ -52,6 +52,14 @@ export default class Citation extends Component<CitationData> implements Citatio
                     <span class="cosd-citation-link-text">{{titleAfterWord}}</span>
                 </a>
             </span>
+            <span s-else-if="appearance === 'aggregated'"
+                class="cosd-citation cosd-citation-aggregated cos-link"
+                on-click="handleClick($event, 'citationAggregated')"
+            >
+                <span class="cosd-citation-aggregated-citationId">
+                    <cos-icon name="source-trace" class="cosd-citation-aggregated-icon" />
+                </span>
+            </span>
             <cos-tooltip
                 s-else
                 s-ref="tooltip"
@@ -67,7 +75,7 @@ export default class Citation extends Component<CitationData> implements Citatio
                     data-nolog="true"
                     on-click="handleClick($event, appearance === 'tag' ? 'citationTag' : 'citationId')"
                 >
-                    {{citationId}}
+                    <span class="cosd-citation-tag-number">{{citationId}}</span>
                     <span s-if="appearance === 'tag'">
                         <span class="cosd-citation-tag-text">{{source.tag.text}}</span>
                     </span>

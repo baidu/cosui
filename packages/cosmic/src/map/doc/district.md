@@ -13,23 +13,23 @@ export default class MapDistrictDemo extends Component {
             <div style="margin: 10px var(--cos-space-none);">
                 地图组件预览依赖地图apiKey，输入正确apiKey后展示实际效果
             </div>
-            <div style="width: 100%; height: 300px;" data-testid="district">
+            <div style="width: 100%; height: 170px;" data-testid="district">
                 <div style="margin: 10px var(--cos-space-none);">二级和高光区域</div>
                 <cosd-map
                     s-if="{{apiKey}}"
                     apiKey="{{apiKey}}"
                     district="{{district}}"
                 />
-                <img s-else src="https://gips0.baidu.com/it/u=1325925190,952363812&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f512_300" />
+                <img s-else class="cos-rounded-lg" src="https://gips0.baidu.com/it/u=1325925190,952363812&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f512_171" />
             </div>
-            <div style="width: 100%; height: 300px; margin-top: 40px;">
+            <div style="width: 100%; height: 170px; margin-top: 40px;">
                 <div style="margin: 10px var(--cos-space-none);">仅存在高光区域</div>
                 <cosd-map
                     s-if="{{apiKey}}"
                     apiKey="{{apiKey}}"
                     district="{{districtOnlyHighlight}}"
                 />
-                <img s-else src="https://gips3.baidu.com/it/u=39755312,2197217568&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f514_292" />
+                <img s-else class="cos-rounded-lg" src="https://gips3.baidu.com/it/u=39755312,2197217568&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f514_171" />
             </div>
         </div>
         <div s-else>

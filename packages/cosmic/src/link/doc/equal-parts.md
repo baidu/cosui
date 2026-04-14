@@ -14,7 +14,7 @@ export default class Demo extends Component {
                         s-is="{{linkInfo.href ? 'a' : 'div'}}"
                         class="cos-link-button cos-block cos-text-center"
                         s-bind="linkInfo">
-                        <div>链接</div>
+                        <div class="cos-color-text">链接</div>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@ export default class Demo extends Component {
                         s-is="{{linkInfo.href ? 'a' : 'div'}}"
                         class="cos-link-button cos-block cos-text-center"
                         s-bind="linkInfo">
-                        <div>链接</div>
+                        <div class="cos-color-text">链接</div>
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@ export default class Demo extends Component {
                         s-is="{{linkInfo.href ? 'a' : 'div'}}"
                         class="cos-link-button cos-flex cos-justify-center"
                         s-bind="linkInfo">
-                        <div class="cos-line-clamp-1 cos-text-center">
+                        <div class="cos-line-clamp-1 cos-text-center cos-color-text">
                             <cos-icon name="baidu"/>链接</div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ export default class Demo extends Component {
                         s-is="{{linkInfo.href ? 'a' : 'div'}}"
                         class="cos-link-button cos-block cos-text-center"
                         s-bind="linkInfo">
-                        <div class="cos-line-clamp-1">链接链接链接链接链接</div>
+                        <div class="cos-line-clamp-1 cos-color-text">链接链接链接链接链接</div>
                     </div>
                 </div>
             </div>

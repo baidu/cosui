@@ -17,6 +17,7 @@
  */
 
 import type {EChartsOption, ECharts} from 'echarts';
+import type * as echarts from 'echarts';
 
 export interface ChartProps {
     /**
@@ -28,6 +29,11 @@ export interface ChartProps {
      * 外部传入的配置项，完全对齐 EChartsOption
      */
     option: EChartsOption;
+
+    /**
+     * 图表是否异步加载，默认为 false，默认为同步加载图表数据
+     */
+    async?: boolean;
 }
 
 export interface ChartData {
@@ -49,6 +55,14 @@ export enum Type {
      * 饼图
      */
     PIE = 'pie',
+    /**
+     * 地图图
+     */
+    MAP = 'map',
+    /**
+     * 雷达图
+     */
+    RADAR = 'radar',
 }
 
 export enum Theme {
@@ -63,6 +77,10 @@ export enum Theme {
     DARK = 'dark',
 }
 
+export type RegisterMapParams = Parameters<typeof echarts.registerMap>;
 export interface ChartMethods {
     getEchartsInstance(): ECharts | null;
+    updateChart(): void;
+    registerMap(...args: RegisterMapParams): void;
 }
+

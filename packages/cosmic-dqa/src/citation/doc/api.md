@@ -4,7 +4,7 @@
 
 |名称|类型|默认值|是否必选|说明|覆盖平台|
 |---|---|---|---|---|---|
-|appearance|'' \| 'link' \|'tag' |''|否|溯源展现类型|PC/Mobile|
+|appearance|'' \| 'link' \|'tag' \| 'aggregated' |''|否|溯源展现类型|PC/Mobile|
 |citation-id|string||是|溯源角标ID|PC/Mobile|
 |disabled|boolean|false|否|是否禁止弹窗|PC/Mobile|
 |title|string||是|核心文本/标题|PC/Mobile|

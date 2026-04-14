@@ -78,7 +78,8 @@
     }
 
     &-citationId,
-    &-tag-citationId {
+    &-tag-citationId,
+    &-aggregated-citationId {
         position: relative;
         top: -1px;
         z-index: 0;
@@ -232,6 +233,12 @@
             }
         }
         &-tag {
+            &-citationId {
+                &::after {
+                    top: 50%;
+                    height: 19px;
+                }
+            }
             &-text {
                 &::before {
                     position: relative;

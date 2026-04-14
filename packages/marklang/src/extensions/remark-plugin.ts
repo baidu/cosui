@@ -123,8 +123,7 @@ export function customRemarkPlugin({
     dataMap: DataMap;
  }) {
     return (tree: Root) => {
-        visit(tree, function (node: Node, index, parent: Parent) {
-
+        visit(tree as any, function (node: Node, index, parent: Parent) {
             if (node.type === 'link') {
                 if (node.url && /^javascript:/i.test(node.url)) {
                     // 移除不安全链接，防止 xss 攻击

@@ -32,7 +32,9 @@ export default class Score extends Component<ScoreData> {
 
     static template = `
         <div class="cos-score cos-score-{{size}}{{controlled ? ' cos-score-controlled' : ''}}{{
-            showStar ? ' cos-items-center' : ' cos-items-baseline'}}"
+            showStar ? ' cos-items-center' : ' cos-items-baseline'}} {{
+                showLabels ? 'cos-labels-area' : ''
+            }}"
         >
             <!-- 分数 (注意这里 formattedValue*1 不能写成 +formattedValue -->
             <!-- bad case: csr 环境正常，ssr 环境下渲染 PC 模板时的报错 -->
@@ -50,34 +52,30 @@ export default class Score extends Component<ScoreData> {
                 class="cos-score-icon-container{{score ? ' cos-score-icon-bottom' : ''}}"
                 on-click="handleClick"
             >
-                <!-- 实心行 -->
-                <div class="cos-score-row">
-                    <!-- 整星实心行 -->
-                    <span
-                        s-for="star, index in _score.fullList"
-                        :key="{{'icon' + index}}"
-                        class="cos-score-icon"
-                    >
-                        <cos-icon name="star-fill" />
-                    </span>
-                    <!-- 半星实心行 -->
-                    <span
-                        s-if="_score.halfPart"
-                        class="cos-score-icon cos-score-icon-decimal"
-                        style="{{emptyStyle}}"
-                    >
-                        <cos-icon name="star-fill" />
-                    </span>
-                </div>
-
                 <!-- 空心行 -->
-                <div class="cos-score-row-empty">
+                <div class="cos-score-row">
                     <span
                         s-for="star, index in totalList"
-                        :key="{{'icon' + index}}"
-                        class="cos-score-icon-empty"
+                        key="{{'icon' + index}}"
+                        class="{{index < _score.fullLength ? 'cos-score-icon' : 'cos-score-icon-empty'}}"
                     >
                         <cos-icon name="star-fill" />
+
+                        <!-- 半星实心行 -->
+                        <span
+                            s-if="_score.halfPart && index === _score.fullLength"
+                            class="cos-score-icon cos-score-icon-decimal"
+                            style="{{emptyStyle}}"
+                        >
+                            <cos-icon name="star-fill" />
+                        </span>
+
+                        <span
+                            s-if="showLabels && value && labels && labels[index]"
+                            class="cos-score-label {{_curSelected === index ? 'cos-score-label-selected' : ''}}"
+                        >
+                            {{labels[index]}}
+                        </span>
                     </span>
                 </div>
             </div>
@@ -86,6 +84,9 @@ export default class Score extends Component<ScoreData> {
 
             <!-- 文字 -->
             <span class="cos-score-text"><slot /></span>
+
+            <!-- 标签提示 -->
+            <span s-if="showLabels && !value" class="cos-score-tips">轻触评分</span>
         </div>
     `;
 
@@ -104,7 +105,7 @@ export default class Score extends Component<ScoreData> {
 
         _score(this: Score) {
             const scoreType = this.data.get('type');
-            let fullList = [];
+            let fullLength = 0;
             let halfPart = 0;
             const max = this.data.get('max');
             const currentValue = +this.data.get('formattedValue') || 0;
@@ -113,24 +114,24 @@ export default class Score extends Component<ScoreData> {
             if (scoreType === ScoreType.Single) {
                 if (num === 1) {
                     // 当评分为满分时，显示一个满星
-                    fullList = new Array(1);
+                    fullLength = 1;
                     halfPart = 0;
                 }
                 else {
                     // 非满分情况下，fullList 为空，halfPart 为小数部分
-                    fullList = [];
+                    fullLength = 0;
                     halfPart = num;
                 }
             }
             else {
                 // 非单星评分的处理方式
                 const length = Math.floor(num);
-                fullList = new Array(length);
+                fullLength = length;
                 halfPart = num === length ? 0 : num % 1;
             }
             return {
-                // 获取分数的整数部分，即整星数量
-                fullList,
+                // 整星数量
+                fullLength,
                 // 分数的小数值
                 halfPart
             };
@@ -195,6 +196,29 @@ export default class Score extends Component<ScoreData> {
             }
             currentValue = Math.max(currentValue, 0);
             return currentValue.toFixed(1);
+        },
+
+        /**
+         * 五星评分场景展示对应分值说明文案
+         *
+         * @returns {boolean} 是否对应分值说明文案
+         */
+        showLabels(this: Score): boolean {
+            const type = this.data.get('type');
+            if (type !== ScoreType.Multiple) {
+                return false;
+            }
+            const labels = this.data.get('labels') || [];
+            const controlled = this.data.get('controlled');
+            return labels.length > 0 && controlled;
+        },
+
+        /**
+         * 当前选中的分数
+         */
+        _curSelected(this: Score): number {
+            const value = this.data.get('value');
+            return Math.ceil(value || -1) - 1;
         }
     };
     initData(): ScoreProps {
@@ -206,7 +230,8 @@ export default class Score extends Component<ScoreData> {
             type: ScoreType.Multiple,
             controlled: false,
             clearable: true,
-            size: Size.MD
+            size: Size.MD,
+            labels: []
         };
     }
 

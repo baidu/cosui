@@ -19,6 +19,7 @@ export default class BaseDemo extends Component {
     initData() {
         return {
             text: '## 行内公式\n'
+            + '支持mhchem化学公式，比如：乙是$\\ce{CO}$（一氧化碳），丙是$\\ce{CO_{2}}$（二氧化碳），对应反应为$\\ce{3CO + Fe_{2}O_{3}\\xlongequal{高温} 2Fe + 3CO_{2}}$、$\\ce{CO_{2} + C\\xlongequal{高温} 2CO}$\n'
             + '在文本中嵌入数学公式，如：勾股定理 $a^2 + b^2 = c^2$，欧拉公式 $e^{i\\pi} + 1 = 0$。\n圆的面积公式是$$S = \\pi r^2$$其中 $r$ 是半径。\n二次方程 $(ax^2 + bx + c = 0)$ 的解为$$x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$$\n'
             + '## 块级公式\n'
             + '### 基础数学运算\n$$\\begin{aligned}a + b &= c \\\\d - e &= f \\\\g \\times h &= i \\\\ \\frac{j}{k} &= l\\end{aligned}$$\n'

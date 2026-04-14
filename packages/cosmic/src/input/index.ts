@@ -20,7 +20,7 @@
 import {Component} from 'san';
 import Icon from '@cosui/cosmic/icon';
 import type {InputProps, InputData, InputEvents} from './interface';
-import {isAndroid, isBaiduBox} from '../util';
+import {isAndroid, isBaiduBox, splitGraphemes} from '../util';
 import {Animations} from '../util/animations';
 
 const CLAMP_CLS = 'cos-line-clamp-1';
@@ -58,7 +58,6 @@ export default class Input extends Component<InputData> {
                 value="{=value=}"
                 placeholder="{{placeholder}}"
                 disabled="{{disabled}}"
-                maxlength="{{maxlength}}"
                 minlength="{{minlength}}"
                 enterkeyhint="{{enterkeyhint}}"
                 class="cos-input-box"
@@ -69,6 +68,8 @@ export default class Input extends Component<InputData> {
                 on-click="handleClick"
                 on-keyup="handleKeyUp"
                 on-keydown="handleKeyDown"
+                on-compositionstart="handleCompositionstart"
+                on-compositionend="handleCompositionend"
             >
             <div
                 s-if="clear && value && _focus"
@@ -80,7 +81,7 @@ export default class Input extends Component<InputData> {
                 <cos-icon name="close-circle-fill"/>
             </div>
             <div s-if="count && maxlength" class="cos-input-count cos-space-ml-md cos-color-text-minor">
-                {{value.length}}/{{maxlength}}
+                {{_valueLength}}/{{maxlength}}
             </div>
             <div
                 s-if="_buttonSlot"
@@ -95,8 +96,19 @@ export default class Input extends Component<InputData> {
         'cos-icon': Icon
     };
 
+    static computed = {
+        /**
+         * 当前输入字数（可见字符）
+         */
+        _valueLength(this: Input) {
+            const value = this.data.get('value') || '';
+            return splitGraphemes(value).length;
+        }
+    };
+
     innerHeight: number;
     scrollTimeout: null | ReturnType<typeof setTimeout>;
+    isComposing: boolean;
 
     initData(): InputProps {
         return {
@@ -120,6 +132,7 @@ export default class Input extends Component<InputData> {
 
     created() {
         this.innerHeight = window.innerHeight;
+        this.isComposing = false;
     }
 
     detached() {
@@ -186,9 +199,73 @@ export default class Input extends Component<InputData> {
         this.scrollIntoView();
     }
 
-    handleInput(event: Event) {
-        const value = this.data.get('value');
-        this.fire<InputEvents['input']>('input', {event, value});
+    limitValueLength = (value: string) => {
+        const maxlength = this.data.get('maxlength');
+        if (!maxlength) {
+            return value;
+        }
+
+        const valueSegments = splitGraphemes(value);
+        if (valueSegments.length <= maxlength) {
+            return value;
+        }
+
+        const inputRef = this.ref('input') as unknown as HTMLInputElement;
+        const selectionEnd = inputRef.selectionEnd;
+        if (typeof selectionEnd !== 'number' || selectionEnd < 0) {
+            return valueSegments.slice(0, maxlength).join('');
+        }
+
+        const exceededLength = valueSegments.length - maxlength;
+        const selectionLength = splitGraphemes(
+            value.slice(0, selectionEnd)
+        ).length;
+        const spliceStart = Math.max(0, selectionLength - exceededLength);
+        valueSegments.splice(spliceStart, exceededLength);
+        return valueSegments.join('');
+    };
+
+    updateInputValue(value: string) {
+        // 统一使用 js 限制输入长度，避免 maxlength 在可见字符统计上不一致
+        const limitedValue = this.limitValueLength(value);
+        const inputRef = this.ref('input') as unknown as HTMLInputElement;
+        let {selectionStart, selectionEnd} = inputRef;
+        inputRef.value = limitedValue || '';
+
+        if (selectionStart == null || selectionEnd == null) {
+            this.data.set('value', limitedValue);
+            return limitedValue;
+        }
+
+        const limitDiffLen = value.length - limitedValue.length;
+        if (limitDiffLen) {
+            selectionStart -= limitDiffLen;
+            selectionEnd -= limitDiffLen;
+        }
+
+        inputRef.setSelectionRange(
+            Math.min(selectionStart, limitedValue.length),
+            Math.min(selectionEnd, limitedValue.length),
+        );
+        this.data.set('value', limitedValue);
+
+        return limitedValue;
+    }
+
+    handleInput(event: InputEvent) {
+        if (!event || !event.target) {
+            return;
+        }
+        const originalValue = (event.target as HTMLInputElement).value;
+        let value = originalValue;
+        // 在输入法输入的场景，value算是临时值，不做长度校验，这一点和原生maxlength保持一致
+        if (!this.isComposing) {
+            value = this.updateInputValue(value);
+        }
+        // Compositionend中派发的事件，若未过长，则不触发input，因为input已触发过一次
+        if (event.isTrusted || originalValue !== value) {
+            this.fire<InputEvents['input']>('input', {event, value});
+        }
     }
 
     handleChange(event: Event) {
@@ -218,5 +295,21 @@ export default class Input extends Component<InputData> {
 
     handleKeyDown(event: Event) {
         this.fire<InputEvents['keydown']>('keydown', {event});
+    }
+
+    handleCompositionstart() {
+        this.isComposing = true;
+    }
+
+    handleCompositionend(event: Event) {
+        this.isComposing = false;
+
+        // 由于Compositionend触发时机晚于input，导致输入法输入的最终结果未被input事件正确处理
+        // 这里派发一次input事件
+        event.target?.dispatchEvent(new InputEvent('input', {
+            bubbles: true,
+            cancelable: true,
+            composed: true
+        }));
     }
 }

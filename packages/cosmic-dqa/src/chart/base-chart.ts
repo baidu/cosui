@@ -19,7 +19,7 @@ import type {ECharts, EChartsOption, TooltipComponentOption} from 'echarts';
 import Loading from '@cosui/cosmic/loading';
 import {isAndroid} from '@cosui/cosmic/util';
 import {colors, customColors} from './constant';
-import {ChartProps, ChartData, Theme} from './interface';
+import {ChartProps, ChartData, Theme, Type, RegisterMapParams} from './interface';
 import {deepMerge} from './utils';
 
 /**
@@ -41,6 +41,8 @@ export default class BaseChart extends Component<ChartProps & ChartData> {
         'cos-loading': Loading
     };
 
+    // 是否已设置事件监听，在图表渲染完后设置
+    hasEventListener: boolean = false;
     // ECharts实例
     chartInstance: ECharts | null;
     // 根元素样式表
@@ -51,7 +53,8 @@ export default class BaseChart extends Component<ChartProps & ChartData> {
     initData() {
         return {
             option: {},
-            _loading: true
+            _loading: true,
+            async: false
         };
     }
 
@@ -59,26 +62,36 @@ export default class BaseChart extends Component<ChartProps & ChartData> {
         this.chartInstance = null;
         this.styleDeclaration = null;
         this.themeObserverCleanup = null;
+        // 地图需要异步请求地图配置
+        if (this.data.get('type') === Type.MAP) {
+            this.data.set('async', true);
+        }
     }
 
     attached() {
         this.styleDeclaration = getComputedStyle(this.el!);
+        // 异步无需自动更新配置，需要在外部手动调用 updateChart 方法更新配置
+        if (!this.data.get('async')) {
+            this.updateChart();
+        }
+    }
+    registerMap(...args: RegisterMapParams): void {
         const chartContainer = this.ref('chartContainer') as unknown as HTMLDivElement;
-
         import('echarts').then(echarts => {
-            const mainChart = echarts.init(chartContainer);
-
-            this.initChart(mainChart);
+            echarts.registerMap(...args);
+            const chartInstance = echarts.init(chartContainer);
+            this.chartInstance = chartInstance;
+            this.addChartListener();
+            this.updateChartOption();
         }).catch(error => {
             throw new Error(`ECharts initialization failed: ${error.message}`);
         }).finally(() => {
             this.data.set('_loading', false);
         });
     }
-
     updated() {
-        if (this.chartInstance && this.data.get('option')) {
-            this.updateChart();
+        if (this.chartInstance && this.data.get('option') && !this.data.get('async')) {
+            this.updateChartOption();
         }
     }
 
@@ -87,31 +100,44 @@ export default class BaseChart extends Component<ChartProps & ChartData> {
         this.themeObserverCleanup?.();
         window.removeEventListener('resize', this.handleResize);
     }
-
-    // 初始化图表
-    initChart(chartInstance: ECharts) {
-        this.chartInstance = chartInstance;
-        this.handleResize = this.handleResize.bind(this);
-
-        // 监听窗口大小变化
-        window.addEventListener('resize', this.handleResize);
-        // 监听图表渲染完成事件
-        this.chartInstance.on('finished', this.handleChartRendered.bind(this));
-        // 监听主题模式变化
-        this.themeObserverCleanup = this.onColorSchemeChange(() => {
-            this.chartInstance?.setOption(this.getDarkModeStyle());
-        });
-        this.updateChart();
-    }
-
-    // 更新图表
-    updateChart() {
+    addChartListener() {
         if (!this.chartInstance) {
             return;
         }
+        if (!this.hasEventListener) {
+            this.handleResize = this.handleResize.bind(this);
+            // 监听窗口大小变化
+            window.addEventListener('resize', this.handleResize);
+            // 监听图表渲染完成事件
+            this.chartInstance?.on('finished', this.handleChartRendered.bind(this));
+            // 监听主题模式变化
+            this.themeObserverCleanup = this.onColorSchemeChange(() => {
+                this.chartInstance?.setOption(this.getDarkModeStyle());
+            });
+            this.hasEventListener = true;
+        }
+    }
+    // 更新图表
+    updateChart() {
+        const chartContainer = this.ref('chartContainer') as unknown as HTMLDivElement;
+        import('echarts').then(echarts => {
+            const chartInstance = echarts.init(chartContainer);
+            this.chartInstance = chartInstance;
+            this.addChartListener();
+            this.updateChartOption();
+        }).catch(error => {
+            throw new Error(`ECharts initialization failed: ${error.message}`);
+        }).finally(() => {
+            this.data.set('_loading', false);
+        });
+    }
 
+    // 更新图表
+    updateChartOption() {
+        if (!this.chartInstance) {
+            return;
+        }
         const option = this.mergeOption();
-
         this.chartInstance.setOption(option, true);
     }
 

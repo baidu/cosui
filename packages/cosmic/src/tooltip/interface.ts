@@ -64,6 +64,12 @@ export interface TooltipTriggerProps {
     position: Position;
 
     /**
+     * tootip 被遮挡时自动调整位置
+     * @default true
+     */
+    autoAdjustOverflow: boolean;
+
+    /**
      * 是否展示气泡，仅在 trigger 为 'custom' 时生效
      * @default false
      */

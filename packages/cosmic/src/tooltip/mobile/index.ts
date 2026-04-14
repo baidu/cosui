@@ -49,7 +49,8 @@ export default class Tooltip extends Component<TooltipData> implements TooltipMe
             _hoverTarget: false,
             _hoverTooltip: false,
             _platform: 'mobile' as keyof typeof SafeLimitMap,
-            bubbleClass: ''
+            bubbleClass: '',
+            autoAdjustOverflow: true
         };
     }
     attached() {
@@ -193,6 +194,7 @@ export default class Tooltip extends Component<TooltipData> implements TooltipMe
                     position="{{position}}"
                     bubbleClass="{{bubbleClass}}"
                     getPopupContainer="{{getPopupContainer}}"
+                    autoAdjustOverflow="{{autoAdjustOverflow}}"
                     _ownerEl="{{_ownerEl}}"
                     _platform="{{_platform}}"
                 >

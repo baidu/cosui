@@ -33,6 +33,15 @@ export default class DefaultDemo extends Component {
                     />
                 </span>
             </p>
+            <p>这是一个聚合后的普通溯源，样式长这样：根据
+                <span s-for="item, index in citationList">
+                    <cosd-citation
+                        appearance="aggregated"
+                        on-click="handleClick"
+                    />
+                </span>
+                可知文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本
+            </p>
             <p>这是一个可信溯源，样式长这样：根据
                 <span s-for="item, index in citationList">
                     <cosd-citation

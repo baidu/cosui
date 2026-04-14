@@ -13,13 +13,13 @@ export default class MapMarkerDemo extends Component {
             <div style="margin: 10px var(--cos-space-none);">
                 地图组件预览依赖地图apiKey，输入正确apiKey后展示实际效果
             </div>
-            <div style="width: 100%; height: 300px;">
+            <div style="width: 100%; height: 170px;">
                 <cosd-map
                     s-if="{{apiKey}}"
                     apiKey="{{apiKey}}"
                     marker="{{marker}}"
                 />
-                <img s-else src="https://gips1.baidu.com/it/u=4095002862,527297986&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f514_304" />
+                <img s-else class="cos-rounded-lg" src="https://gips1.baidu.com/it/u=4095002862,527297986&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f514_171" />
             </div>
         </div>
         <div s-else>

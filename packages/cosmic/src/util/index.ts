@@ -28,3 +28,4 @@ export * from './shadow';
 export * from './use-lock-scroll';
 export * from './animations';
 export * from './is-url';
+export * from './grapheme';

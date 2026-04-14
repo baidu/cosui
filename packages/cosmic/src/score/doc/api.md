@@ -12,6 +12,7 @@
 |size|string|'md'|可选|设置评分大小，可选值为：`sm`, `md`, `lg`|PC/Mobile|
 |controlled|boolean|false|可选|是否可控，可控时可以点击选择评分|PC/Mobile|
 |clearable|boolean|false|可选|是否可清除评分|PC/Mobile|
+|labels|string[]|[]|可选|选项评分说明文案|PC/Mobile|
 
 ### Slots
 

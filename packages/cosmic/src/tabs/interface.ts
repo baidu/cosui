@@ -20,6 +20,12 @@ export interface TabsEvents {
      * @param index - 当前激活的tab索引
      */
     change: {index: number};
+    /**
+     * tab点击事件
+     * @param index - 当前点击的tab索引
+     * @param event - Event对象
+     */
+    click: {index: number, event: Event};
 }
 
 export interface TabsProps {

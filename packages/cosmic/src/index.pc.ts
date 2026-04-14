@@ -52,3 +52,4 @@ export {default as TimePicker} from './time-picker/pc';
 export {default as Picker} from './picker';
 export {default as DateTimePicker} from './date-time-picker/pc';
 export {default as Map} from './map';
+export {default as Masonry} from './masonry';

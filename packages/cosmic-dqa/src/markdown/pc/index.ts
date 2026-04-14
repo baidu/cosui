@@ -106,7 +106,7 @@ export default class Markdown extends Component<MarkdownData> {
                     'ml-site-vcard': mlSiteVcard.ssr,
                     'ml-search-more': mlSearchMore.ssr
                 },
-                transformers: getTransformers()
+                transformers: getTransformers.bind(this)()
             }).render(this.getContent(content));
             this.data.set('_html', html);
         }
@@ -119,6 +119,8 @@ export default class Markdown extends Component<MarkdownData> {
             normalizeContent: null,
             typing: null,
             config: {},
+            // table的配置项
+            table: null,
             autolink: false,
             // 展示的 markdown 文本
             _showContent: '',
@@ -170,7 +172,26 @@ export default class Markdown extends Component<MarkdownData> {
         this.data.set('_directiveComponentsMap', {});
     }
 
-    attached() {
+    async attached() {
+        if (marklang.registerPlugin) {
+            marklang.registerPlugin({
+                name: 'math',
+                feature: /\$\$[\s\S]*?\$\$|\$[^$\n]+\$/,
+                load: () => {
+                    // eslint-disable-next-line max-len
+                    return [import('marklang/plugins/remark-math'), import('marklang/plugins/rehype-katex')];
+                }
+            });
+
+            marklang.registerPlugin({
+                name: 'highlight',
+                feature: /(?<!(?:::ml-data[\s\S]*?))```[\s\S]*?```/,
+                load: () => {
+                    return [import('marklang/plugins/rehype-highlight')];
+                }
+            });
+        }
+
         this._tempRootOfSentenceMode = document.createElement('div');
         const sentenceMode = this.data.get('isTypingSentenceMode');
 
@@ -199,7 +220,6 @@ export default class Markdown extends Component<MarkdownData> {
             newDirectives[key] = _directives[key].bind(this);
             return newDirectives;
         }, {});
-
         const marklangOptions = {
             autolink: this.data.get('autolink'),
             directives: {
@@ -217,22 +237,22 @@ export default class Markdown extends Component<MarkdownData> {
                 'ml-search-more': mlSearchMore.csr.bind(this),
                 ...directives
             },
-            transformers: getTransformers()
+            transformers: getTransformers.bind(this)()
         };
         // bug: PC 端 SSR 取不到 html 的值，所以暂时按照 querySelector 的方式判断
         // const html = this.data.get('html');
         const html = el.querySelector('.marklang');
         const marklangIns = marklang(marklangOptions);
         this.data.set('_marklangIns', marklangIns);
-        // TODO：待san升级后，放开限制
-        const hasPreCode = html?.querySelector('pre');
-        if (!html || hasPreCode) {
+        if (!html) {
             if (this.data.get('typing')) {
                 this.data.push('_typingList', content);
                 this.typingContent(el);
             }
             else {
-                content && marklangIns.renderToElement(this.getContent(content), el);
+                content && marklangIns.renderToElementAsync
+                    ? await marklangIns.renderToElementAsync(this.getContent(content), el)
+                    : marklangIns.renderToElement(this.getContent(content), el);
             }
         }
         else {
@@ -252,7 +272,7 @@ export default class Markdown extends Component<MarkdownData> {
      * 更新content
      * @param content Markdown 文本
      */
-    updateContent(content: string) {
+    async updateContent(content: string) {
         const el = this.ref('markdownRef') as unknown as HTMLElement;
         this.data.set('_showContent', content);
         if (this.data.get('typing')) {
@@ -262,7 +282,9 @@ export default class Markdown extends Component<MarkdownData> {
         }
         else {
             const marklangIns = this.data.get('_marklangIns');
-            content && marklangIns.renderToElement(this.getContent(content), this._renderingDom || el);
+            content && marklangIns.renderToElementAsync
+                ? await marklangIns.renderToElementAsync(this.getContent(content), this._renderingDom || el)
+                : marklangIns.renderToElement(this.getContent(content), this._renderingDom || el);
         }
     }
     /**
@@ -283,7 +305,9 @@ export default class Markdown extends Component<MarkdownData> {
             this.data.set('_showContent', _showContent);
             const marklangIns = this.data.get('_marklangIns');
             this.destroyComponents();
-            _showContent && marklangIns.renderToElement(this.getContent(_showContent), this._renderingDom || el);
+            _showContent && marklangIns.renderToElementAsync
+                ? marklangIns.renderToElementAsync(this.getContent(_showContent), this._renderingDom || el)
+                : marklangIns.renderToElement(this.getContent(_showContent), this._renderingDom || el);
         }
     }
     typingContent(el: HTMLElement) {
@@ -311,11 +335,24 @@ export default class Markdown extends Component<MarkdownData> {
             after: ''
         };
     }
-    typingAllOrSentence(el: HTMLElement) {
+    async typingAllOrSentence(el: HTMLElement) {
+        // 如果正在打印，返回（等待当前打印完成）
         if (this.modeAllTimer) {
             return;
         }
+        // 检查是否停止打印
+        if (this.data.get('_isStop')) {
+            return;
+        }
+        // 标记正在打印
+        this.modeAllTimer = 1;
+
+        // 开始打印
         const typingList = this.data.get('_typingList');
+        if (!typingList || !typingList.length) {
+            this.modeAllTimer = null;
+            return;
+        }
         const typingConfig = this.data.get('typing');
         const text = typingList[0];
         const marklangIns = this.data.get('_marklangIns');
@@ -336,7 +373,9 @@ export default class Markdown extends Component<MarkdownData> {
         const sentenceMode = this.data.get('isTypingSentenceMode');
         const content = this.getContent(storeText);
 
-        marklangIns.renderToElement(content, this._renderingDom || el);
+        marklangIns.renderToElementAsync
+            ? await marklangIns.renderToElementAsync(content, this._renderingDom || el)
+            : marklangIns.renderToElement(content, this._renderingDom || el);
         if (sentenceMode) {
             this.removeCursor();
             this._typingSentenceManager?.render(el, () => {
@@ -347,12 +386,13 @@ export default class Markdown extends Component<MarkdownData> {
         if (before.endsWith('\n')) {
             const dom = this._renderingDom || el;
 
-            const lastEl = dom.firstChild.lastElementChild;
-            // p标签结尾，且内容不包含表格语法
-            if (lastEl && lastEl.tagName === 'P' && !storeText.includes('|')) {
+            const firstChild = dom.firstElementChild;
+            const lastEl = firstChild?.lastElementChild;
+            // p标签结尾，且内容不包含表格语法，不包含溯源数据
+            if (lastEl && lastEl.tagName === 'P' && !storeText.includes('|') && !storeText.includes('ml-data')) {
                 storeText = after;
                 this.data.set('_storeText', storeText);
-                const markdownRef = this.ref('markdownRef');
+                const markdownRef = this.ref('markdownRef') as unknown as HTMLElement;
                 const newDom = document.createElement('div');
 
                 sentenceMode ? this._tempRootOfSentenceMode?.appendChild(newDom) : markdownRef.appendChild(newDom);
@@ -362,7 +402,9 @@ export default class Markdown extends Component<MarkdownData> {
                 if (after) {
                     this.removeCursor();
                     const content = this.getContent(storeText);
-                    marklangIns.renderToElement(content, this._renderingDom);
+                    marklangIns.renderToElementAsync
+                        ? await marklangIns.renderToElementAsync(content, this._renderingDom)
+                        : marklangIns.renderToElement(content, this._renderingDom);
                     if (sentenceMode) {
                         this._typingSentenceManager?.render(
                             this._tempRootOfSentenceMode as unknown as HTMLElement,
@@ -383,6 +425,12 @@ export default class Markdown extends Component<MarkdownData> {
             this.addCursor();
         }
 
+        // 检查是否已停止
+        if (this.data.get('_isStop')) {
+            this.data.shift('_typingList');
+            return;
+        }
+
         // 强制浏览器重排
         void el.offsetHeight;
         // 动效部分逻辑处理
@@ -392,7 +440,7 @@ export default class Markdown extends Component<MarkdownData> {
             this.data.set('_lastTotalHeight', totalHeight);
             const height = Math.max(totalHeight - _lastTotalHeight, 30);
             const maskDom = this.ref('mask') as unknown as HTMLElement;
-            this.fire('typing-start', {height});
+            this.fire('typing-start', {height: totalHeight - _lastTotalHeight});
             if (maskDom) {
                 maskDom.style.animation = 'none';
                 maskDom.style.height = '0px';
@@ -408,25 +456,24 @@ export default class Markdown extends Component<MarkdownData> {
             el.style.height = 'auto';
         }
 
-        let intervalTime = 0;
-        const frameInterval = (typingConfig.speed || 320) / (1000 / 60);
-        const frameFunction = () => {
-            intervalTime++;
-            if (intervalTime >= frameInterval) {
-                this.modeAllTimer = null;
-                this.data.shift('_typingList');
-                if (this.data.get('_typingList').length) {
-                    this.typingAllOrSentence(el);
-                }
-                else {
-                    this.fire('typing-finished');
-                }
-            }
-            else {
-                this.modeAllTimer = requestAnimationFrame(frameFunction);
-            }
-        };
-        this.modeAllTimer = requestAnimationFrame(frameFunction);
+        // 使用 Promise 等待动画间隔时间
+        const delayTime = typingConfig?.speed || 320;
+        await new Promise(resolve => {
+            setTimeout(resolve, delayTime);
+        });
+
+        // 移除当前打印的内容，继续下一个
+        this.data.shift('_typingList');
+        // 清除打印标记
+        this.modeAllTimer = null;
+
+        // 检查是否还有待打印内容
+        if (this.data.get('_typingList').length) {
+            this.typingAllOrSentence(el);
+        }
+        else {
+            this.fire('typing-finished');
+        }
     }
 
     getComponentsByDirective(directive: string) {
@@ -465,14 +512,8 @@ export default class Markdown extends Component<MarkdownData> {
             return;
         }
         this.data.set('_isStop', true);
-        if (this.timer) {
-            cancelAnimationFrame(this.timer);
-            this.timer = null;
-        }
-        if (this.modeAllTimer) {
-            cancelAnimationFrame(this.modeAllTimer);
-            this.modeAllTimer = null;
-        }
+        this.timer = null;
+        this.modeAllTimer = null;
 
         const sentenceMode = this.data.get('isTypingSentenceMode');
 
@@ -561,63 +602,56 @@ export default class Markdown extends Component<MarkdownData> {
         renderedCursorDom && renderedCursorDom?.parentNode?.removeChild(renderedCursorDom);
     }
 
-    typingText(el: HTMLElement) {
+    async typingText(el: HTMLElement) {
         if (this.timer) {
             return;
         }
+
+        this.fire('typing-start', {height: 0});
+        this.timer = 1;
 
         const typingList = this.data.get('_typingList');
         let text = typingList[0];
         let textIndex = 0;
         const marklangIns = this.data.get('_marklangIns');
         const speed = this.data.get('typing').speed || 30;
-        let lastTime = 0;
+        let storeText = this.data.get('_typingEndText') || '';
 
-        let type = (time: number) => {
-            if (lastTime === 0) {
-                lastTime = time;
+        while (!this.data.get('_isStop') && textIndex < text.length) {
+            if (this.processMediaDirectiveComponents()) {
+                storeText = '';
             }
-            const delta = time - lastTime;
 
-            if (delta >= speed) {
-                lastTime = time;
-                let storeText = this.data.get('_typingEndText');
-                if (this.processMediaDirectiveComponents()) {
-                    storeText = '';
-                }
-                if (textIndex < text.length) {
-                    storeText += text.charAt(textIndex);
-                    textIndex++;
-                    const {str, length} = handleNotTyping(text, storeText, textIndex);
-                    storeText += str;
-                    textIndex += length;
-                    this.data.set('_typingEndText', storeText);
-                    this.destroyComponents();
-                    marklangIns.renderToElement(this.getContent(storeText), this._renderingDom || el);
-                    this.addCursor();
-                    this.timer = requestAnimationFrame(type);
-                }
-                else {
-                    cancelAnimationFrame(this.timer as number);
-                    this.timer = null;
-                    // @ts-ignore
-                    type = null;
-                    this.data.shift('_typingList');
+            storeText += text.charAt(textIndex);
+            textIndex++;
+            const {str, length} = handleNotTyping(text, storeText, textIndex);
+            storeText += str;
+            textIndex += length;
 
-                    if (this.data.get('_typingList').length) {
-                        this.typingText(el);
-                    }
-                    else {
-                        this.fire('typing-finished');
-                    }
-                }
+            this.data.set('_typingEndText', storeText);
+            this.destroyComponents();
+            const content = this.getContent(storeText);
+            if (marklangIns.renderToElementAsync) {
+                await marklangIns.renderToElementAsync(content, this._renderingDom || el);
+            } else {
+                marklangIns.renderToElement(content, this._renderingDom || el);
+            }
+            this.addCursor();
+            await new Promise(resolve => setTimeout(resolve, speed));
+        }
+
+        this.timer = null;
+
+        if (!this.data.get('_isStop')) {
+            this.data.shift('_typingList');
+
+            if (this.data.get('_typingList').length) {
+                this.typingText(el);
             }
             else {
-                this.timer = requestAnimationFrame(type);
+                this.fire('typing-finished');
             }
-        };
-        this.fire('typing-start', {height: 0});
-        this.timer = requestAnimationFrame(type);
+        }
     }
 
     // 判断是否是音频指令
@@ -687,6 +721,25 @@ export default class Markdown extends Component<MarkdownData> {
         this.showImage(event);
         this.handleLink(event);
         this.handleCodeCopy(event);
+        this.handleTable(event);
+    }
+    handleTable(event: Event) {
+        const target = event.target as HTMLElement;
+        if (!target || !target.classList.contains('cos-icon') || !target.closest('.cosd-markdown-table-header')) {
+            return;
+        }
+        const tableParent = target.closest('.cosd-markdown-table');
+        const iconClassList = Array.from(target.classList);
+        const action = iconClassList.find(item => item.startsWith('cos-icon-'))?.replace('cos-icon-', '') || '';
+        event.stopPropagation();
+        this.fire('click', {
+            event,
+            data: {
+                tableDom: tableParent?.querySelector('table')
+            },
+            action,
+            from: 'table'
+        });
     }
     handleCodeCopy(event: Event) {
         const target = event.target as HTMLElement;

@@ -125,8 +125,13 @@
 
     /* bar appearance */
     &.@{prefix}-tabs-bar {
-        .@{prefix}-tabs-header {
+        // 作用范围仅限于直接子元素，以避免对嵌套在 bar 外观内部的其他 tabs 产生影响。
+        > .@{prefix}-tabs-header-container > .@{prefix}-tabs-header {
             .cos-color-bg-dent();
+        }
+
+        // 有业务覆盖了样式，不可合并
+        .@{prefix}-tabs-header {
             .cos-rounded-md();
             padding: 2px;
         }
@@ -170,7 +175,6 @@
 
         .@{prefix}-tabs-header {
             .cos-rounded-none();
-            .cos-color-bg();
             padding: var(--cos-space-none) 2px;
             height: 30px;
         }

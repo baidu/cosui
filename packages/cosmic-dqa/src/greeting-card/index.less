@@ -1,0 +1,285 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) "tokens.less";
+
+.@{prefix}-greeting-card {
+    .cos-flex();
+    .cos-rounded-sm();
+    overflow: hidden;
+
+    &-card-wrap {
+        // appearance是card的时候直接使用白色，不需要适配暗黑模式
+        background-color: #fff;
+    }
+
+    // appearance是filled的时候需要适配暗黑模式
+    &-filled-wrap {
+        .cos-color-bg();
+    }
+
+    &-card {
+        position: relative;
+        padding-bottom: 56.52%;
+        box-sizing: border-box;
+        width: 100%;
+
+        &-wrapper {
+            position: absolute;
+            .cos-flex();
+            width: 100%;
+            height: 100%;
+            background:   
+                radial-gradient(
+                    173.93% 109.71% at 95.13% 0%,
+                    rgba(149, 253, 255, .08) 0%,
+                    rgba(149, 253, 255, 0) 100%
+                ),
+                linear-gradient(
+                    180deg,
+                    rgba(116, 145, 208, .08) 0%,
+                    rgba(217, 223, 255, 0) 100%
+                ),
+                rgba(255, 255, 255, .4);
+        }
+
+        .@{prefix}-greeting-card-avatar-wrapper {
+            .cos-flex-1();
+            .cos-flex();
+            .cos-items-end();
+            min-width: 0;
+            height: 100%;
+
+            .@{prefix}-greeting-card-avatar-container {
+                max-width: 100%;
+                max-height: 100%;
+                aspect-ratio: 1 / 1.1;
+
+                .@{prefix}-greeting-card-avatar-image {
+                    width: 100%;
+                }
+
+                &::after {
+                    content: '';
+                    .cos-block();
+                    width: 100vw;
+                }
+            }
+        }
+        .@{prefix}-greeting-card-body {
+            .cos-flex-1();
+            min-width: 177px;
+            .cos-flex();
+            .cos-flex-col();
+            .cos-justify-end();
+
+            &-text {
+                .cos-flex-1();
+                .cos-flex();
+                .cos-flex-col();
+
+                &-content {
+                    .cos-flex();
+                    position: relative;
+                    .cos-space-mr-md();
+                    padding: 7px var(--cos-space-sm);
+                    .cos-rounded-sm();
+                    background-color: #fff;  
+                    .cos-text-body();
+                    box-shadow: 0 4px 18.3px 0 rgba(63, 103, 211, .1);
+                    &-inner {
+                        .cos-font-bold();
+                        color: #000311;
+                        .cos-line-clamp-3();
+                    }
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: 50%;
+                        left: -7px;
+                        transform: translate(0, -50%);
+                        border-top: 5px solid transparent;
+                        border-right: 7.5px solid #fff;
+                        border-bottom: 5px solid transparent;
+                        width: 0;
+                        height: 0;
+                    }
+                }
+                .@{prefix}-greeting-card-spacer {
+                    flex-grow: 1;
+                    &-top {
+                        flex-grow: 57;
+                    }
+                    &-bottom {
+                        flex-grow: 43;
+                    }
+                }
+            }
+
+            &-action-btns {
+                .cos-flex();
+                .cos-space-mb-lg();
+
+                &-btn {
+                    line-height: var(--cos-text-headline-sm);;
+                    .cos-flex();
+                    padding: var(--cos-space-xs) var(--cos-space-sm);
+                    height: 18px;
+                    .cos-rounded-full();
+                    .cos-items-center();
+                    .cos-font-medium();
+                    &:active {
+                        .cos-opacity-20();
+                    }
+                }
+
+                .@{prefix}-greeting-card-voice-btn {
+                    .cos-color-text-on-primary();
+                    background: linear-gradient(299deg, #9278fa 0%, #4e6ef2 100%);
+
+                    &-img {
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+
+                .@{prefix}-greeting-card-video-btn {
+                    text-align: center;
+                    background: linear-gradient(299deg, rgba(146, 120, 250, .12) 0%, rgba(78, 110, 242, .12) 98.32%), rgba(78, 110, 242, 0);
+                    .cos-space-mr-xs();
+
+                    &-text,
+                    &-icon {
+                        background: linear-gradient(162deg, #4e6ef2 10.42%, #9f66ff 177.05%);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                    }
+                    &-img {
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+            }
+        }
+
+        &::after {
+            content: '';
+            height: 100%;
+        }
+    }
+
+    &-filled {
+        .cos-flex();
+        .cos-items-center();
+        padding: var(--cos-space-xs) 16px var(--cos-space-xs) var(--cos-space-sm);
+        width: 100%;
+        background: linear-gradient(104deg, rgba(40, 106, 255, .05) 9.35%, rgba(78, 110, 242, .05) 30.12%, rgba(114, 116, 249, .08) 59.56%, rgba(159, 102, 255, .08) 82.23%);
+        .cos-rounded-sm();
+
+        .@{prefix}-greeting-card-avatar {
+            .cos-space-mr-xs();
+        }
+
+        .@{prefix}-greeting-card-body {
+            .cos-flex();
+            .cos-flex-1();
+            .cos-items-center();
+
+            &-text {
+                .cos-flex-1();
+                .cos-space-mr-md();
+                width: 0;
+                min-width: 0;
+                &-title {
+                    font-size: 15px;
+                    .cos-font-medium();
+                    .cos-color-text();
+                    .cos-line-clamp-1();
+                }
+
+                &-content {
+                    .cos-line-clamp-1();
+                    color: #848691;
+                }
+            }
+        }
+
+        .@{prefix}-greeting-card-body-action-btns {
+            .cos-flex();
+            .cos-color-text();
+            &-btn {
+                .cos-flex();
+                .cos-justify-center();
+                .cos-items-center();
+                width: 30px;
+                height: 30px;
+                .cos-rounded-full();
+                .cos-color-bg();
+                
+                &:active {
+                    .cos-opacity-20();
+                }
+
+                &.@{prefix}-greeting-card-voice-btn {
+                    .cos-space-ml-sm();
+                }
+
+                .@{prefix}-greeting-card-video-btn,
+                .@{prefix}-greeting-card-voice-btn {
+                    &-img {
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// iOS 暗黑
+@{dark-selectors} {
+    .@{prefix}-greeting-card-filled {
+        background: linear-gradient(104deg, #286aff33 9.35%, #4e6ef233 30.12%, #7274f94d 59.56%, #9f66ff4d 82.23%);
+    }
+}
+
+// 处理安卓端内外 background-clip 导致的文本边缘问题
+.cos-android {
+    .@{prefix}-greeting-card-video-btn-text {
+        color: transparent;
+        background: linear-gradient(162deg,#4e6ef2 10.42%,#9f66ff 177.05%);
+        -webkit-mask-image: text;
+        -webkit-mask-image: linear-gradient(black, black);
+        -webkit-mask-clip: text;
+        -webkit-mask-repeat: no-repeat;
+    }
+}
+
+// android 夜间模式且屏蔽系统内核映射
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-greeting-card {
+            color-scheme: dark;
+            .cos-opacity-50();
+
+            &-filled {
+                background: linear-gradient(104deg, #286aff33 9.35%, #4e6ef233 30.12%, #7274f94d 59.56%, #9f66ff4d 82.23%);
+            }
+        }
+    }
+}

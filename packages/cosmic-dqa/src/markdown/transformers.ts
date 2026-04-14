@@ -44,6 +44,27 @@ function getLineNumbers(node?: HastNode) {
     return lineNumber;
 }
 
+function createTextNode(value: string) {
+    return {
+        type: 'text',
+        value
+    } as HastNode;
+}
+
+function createElement(
+    tagName: string,
+    className?: string[],
+    children: HastNode[] = [],
+    properties: Record<string, unknown> = {}
+) {
+    return {
+        type: 'element',
+        tagName,
+        properties: {className, ...properties},
+        children
+    } as HastNode;
+}
+
 export function getTransformers() {
     return {
         mdast: {
@@ -64,6 +85,37 @@ export function getTransformers() {
             }
         },
         hast: {
+            table: ({
+                node,
+                index,
+                parent
+            }: { node: HastNode, index: number, parent: HastNode }) => {
+                // @ts-ignore
+                const table = this.data.get('table');
+                if (!table || !node.children?.length) {
+                    return node;
+                }
+
+                const {copy, fullscreen} = table;
+                const headerIconsNodes: HastNode[] = [];
+
+                if (copy) {
+                    // eslint-disable-next-line max-len
+                    headerIconsNodes.push(createElement('i', ['cos-icon cos-icon-copy'], []));
+                }
+                if (fullscreen) {
+                    // eslint-disable-next-line max-len
+                    headerIconsNodes.push(createElement('i', ['cos-icon cos-icon-full-screen'], []));
+                }
+
+                const leftNode = createElement('span', ['cosd-markdown-table-header-left'], [createTextNode('表格')]);
+                const rightNode = createElement('span', ['cosd-markdown-table-header-right'], headerIconsNodes);
+                const headerNode = createElement('div', ['cosd-markdown-table-header'], [leftNode, rightNode]);
+                const newTableNode = createElement('div', ['cosd-markdown-table'], [headerNode, node]);
+                if (parent.children) {
+                    parent.children[index] = newTableNode;
+                }
+            },
             /**
              * 代码块增加头部：语言+复制按钮
              */
@@ -124,6 +176,7 @@ export function getTransformers() {
                             tagName: 'div',
                             children: []
                         };
+                        // @ts-ignore
                         leftNode.children.push(lineNumberNode);
                     };
                 });

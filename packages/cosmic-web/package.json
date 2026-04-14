@@ -47,7 +47,7 @@
     "@cosui/cosmic-medical": "workspace:~",
     "@cosui/cosmic-shop": "workspace:~",
     "@cosui/cosmic-dynamic-ui": "workspace:~",
-    "@cosui/icon": "^1.0.2",
+    "@cosui/icon": "^1.0.4",
     "@codemirror/basic-setup": "^0.20.0",
     "@codemirror/lang-markdown": "^6.2.2",
     "@codemirror/state": "^6.2.1",

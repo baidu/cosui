@@ -15,6 +15,7 @@
  */
 
 import {Options} from './remark-gfm';
+import type {Extension as FromMarkdownExtension} from 'mdast-util-from-markdown';
 import {
     gfmAutolinkLiteralFromMarkdown,
     gfmAutolinkLiteralToMarkdown
@@ -37,7 +38,7 @@ import {gfmTableFromMarkdown, gfmTableToMarkdown} from 'mdast-util-gfm-table';
  *   Extension for `mdast-util-from-markdown` to enable GFM (autolink literals,
  *   footnotes, strikethrough, tables, tasklists).
  */
-export function gfmFromMarkdown(options?: Options) {
+export function gfmFromMarkdown(options?: Options): FromMarkdownExtension[] {
     return [
         ...(options?.autolink ? [gfmAutolinkLiteralFromMarkdown()] : []),
         gfmFootnoteFromMarkdown(),

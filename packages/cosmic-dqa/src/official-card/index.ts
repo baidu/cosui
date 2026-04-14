@@ -183,8 +183,6 @@ export default class OfficialCard extends Component<OfficialCardData> {
         };
     }
     handleBtnClick(params: {event: Event}) {
-        // TODO: 兼容代码应删掉
-        this.fire<OfficialCardEvents['button-click']>('btn-click', params);
         this.fire<OfficialCardEvents['button-click']>('button-click', params);
     }
 }

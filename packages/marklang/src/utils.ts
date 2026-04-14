@@ -20,6 +20,21 @@ import {Element as HElement} from 'hast';
 import {Directives as DirectivesNode} from 'mdast-util-directive';
 import {Options, HastTransformerParam, MdastTransformerParam} from './types';
 
+
+/**
+ * 检测内容是否需要数学公式支持
+ */
+export function needsMathSupport(content: string): boolean {
+    return /\$\$[\s\S]*?\$\$|\$[^$\n]+\$/.test(content);
+}
+
+/**
+ * 检测内容是否需要代码高亮支持
+ */
+export function needsCodeHighlight(content: string): boolean {
+    return /```[\s\S]*?```/.test(content);
+}
+
 /**
  * 是否是驼峰字符串
  */
@@ -129,8 +144,9 @@ export function injectPolyfill() {
         // @ts-ignore
         // eslint-disable-next-line no-extend-native
         String.prototype.matchAll = function (regexp) {
-            const matches = [];
-            let match = undefined;
+            const matches: RegExpExecArray[] = [];
+            // eslint-disable-next-line @typescript-eslint/init-declarations
+            let match: RegExpExecArray | null;
             if (this === null) {
                 throw new TypeError("Cannot read property 'matchAll' of null or undefined");
             }
@@ -138,7 +154,7 @@ export function injectPolyfill() {
                 throw new TypeError("The 'matchAll' method requires a global regular expression");
             }
             // eslint-disable-next-line
-            while (match = regexp.exec(this)) {
+            while (match = regexp.exec(this as string)) {
                 matches.push(match);
             }
             return matches;
@@ -223,7 +239,7 @@ export function getDefaultOptions(): Options {
                     }
 
                     // 删除当前 ml-data 指令
-                    directiveNode.type = 'definition';
+                    (directiveNode as any).type = 'definition';
                 }
             },
             hast: {

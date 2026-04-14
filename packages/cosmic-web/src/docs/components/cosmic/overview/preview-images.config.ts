@@ -6,12 +6,10 @@ import BadgeImg from './assets/components/cosmic/badge.png';
 import ButtonImg from './assets/components/cosmic/button.png';
 import CalendarImg from './assets/components/cosmic/calendar.png';
 import CascaderImg from './assets/components/cosmic/cascader.png';
-import CompanyCardImg from './assets/components/cosmic-dqa/company-card.png';
 import CheckboxGroupImg from './assets/components/cosmic/checkbox-group.png';
 import CheckboxImg from './assets/components/cosmic/checkbox.png';
 import CitySelectorImg from './assets/components/cosmic/city-selector.png';
 import CommentImg from './assets/components/cosmic/comment.png';
-import CompanyGraphImg from './assets/components/cosmic-dqa/company-graph.png';
 import DatePickerImg from './assets/components/cosmic/date-picker.png';
 import DateTimePickerImg from './assets/components/cosmic/date-time-picker.png';
 import DialogImg from './assets/components/cosmic/dialog.png';
@@ -28,6 +26,7 @@ import InputImg from './assets/components/cosmic/input.png';
 import LinkImg from './assets/components/cosmic/link.png';
 import LoadingImg from './assets/components/cosmic/loading.png';
 import MapImg from './assets/components/cosmic/map.png';
+import MasonryImg from './assets/components/cosmic/masonry.png';
 import MoreLinkImg from './assets/components/cosmic/more-link.png';
 import PaginationImg from './assets/components/cosmic/pagination.png';
 import ParagraphImg from './assets/components/cosmic/paragraph.png';
@@ -60,9 +59,12 @@ import ImageWithTagsImg from './assets/components/cosmic-card/image-with-tags.pn
 import TitleImg from './assets/components/cosmic-card/title.png';
 import AgentCardImg from './assets/components/cosmic-dqa/agent-card.png';
 import AuthorCardImg from './assets/components/cosmic-dqa/author-card.png';
+import CarScrollImg from './assets/components/cosmic-dqa/car-scroll.png';
 import ChartImg from './assets/components/cosmic-dqa/chart.png';
 import CitationImg from './assets/components/cosmic-dqa/citation.png';
 import ComparisonImg from './assets/components/cosmic-dqa/comparison.png';
+import CompanyCardImg from './assets/components/cosmic-dqa/company-card.png';
+import CompanyGraphImg from './assets/components/cosmic-dqa/company-graph.png';
 import CopyableTextImg from './assets/components/cosmic-dqa/copyable-text.png';
 import DocumentScrollImg from './assets/components/cosmic-dqa/document-scroll.png';
 import GeneratingViewImg from './assets/components/cosmic-dqa/generating-view.png';
@@ -80,11 +82,12 @@ import SearchHeaderImg from './assets/components/cosmic-dqa/search-header.png';
 import SearchingOutlinesImg from './assets/components/cosmic-dqa/searching-outlines.png';
 import SearchingStepsImg from './assets/components/cosmic-dqa/searching-steps.png';
 import ShopAddressImg from './assets/components/cosmic-dqa/shop-address.png';
-import CarScrollImg from './assets/components/cosmic-dqa/car-scroll.png';
 import SiteVcardImg from './assets/components/cosmic-dqa/site-vcard.png';
+import SiteVcardListImg from './assets/components/cosmic-dqa/site-vcard-list.png';
 import TagLinkImg from './assets/components/cosmic-dqa/tag-link.png';
 import TransportTicketListImg from './assets/components/cosmic-dqa/transport-ticket-list.png';
 import TransportTicketImg from './assets/components/cosmic-dqa/transport-ticket.png';
+import GreetingCardImg from './assets/components/cosmic-dqa/greeting-card.png';
 
 export default [
     {name: '/components/cosmic/accordion', src: AccordionImg},
@@ -115,6 +118,7 @@ export default [
     {name: '/components/cosmic/link', src: LinkImg},
     {name: '/components/cosmic/loading', src: LoadingImg},
     {name: '/components/cosmic/map', src: MapImg},
+    {name: '/components/cosmic/masonry', src: MasonryImg},
     {name: '/components/cosmic/more-link', src: MoreLinkImg},
     {name: '/components/cosmic/pagination', src: PaginationImg},
     {name: '/components/cosmic/paragraph', src: ParagraphImg},
@@ -147,12 +151,13 @@ export default [
     {name: '/components/cosmic-card/title', src: TitleImg},
     {name: '/components/cosmic-dqa/agent-card', src: AgentCardImg},
     {name: '/components/cosmic-dqa/author-card', src: AuthorCardImg},
-    {name: '/components/cosmic-dqa/company-card', src: CompanyCardImg},
+    {name: '/components/cosmic-dqa/car-scroll', src: CarScrollImg},
     {name: '/components/cosmic-dqa/chart', src: ChartImg},
     {name: '/components/cosmic-dqa/citation', src: CitationImg},
     {name: '/components/cosmic-dqa/comparison', src: ComparisonImg},
-    {name: '/components/cosmic-dqa/copyable-text', src: CopyableTextImg},
+    {name: '/components/cosmic-dqa/company-card', src: CompanyCardImg},
     {name: '/components/cosmic-dqa/company-graph', src: CompanyGraphImg},
+    {name: '/components/cosmic-dqa/copyable-text', src: CopyableTextImg},
     {name: '/components/cosmic-dqa/document-scroll', src: DocumentScrollImg},
     {name: '/components/cosmic-dqa/generating-view', src: GeneratingViewImg},
     {name: '/components/cosmic-dqa/location-card', src: LocationCardImg},
@@ -169,9 +174,10 @@ export default [
     {name: '/components/cosmic-dqa/searching-outlines', src: SearchingOutlinesImg},
     {name: '/components/cosmic-dqa/searching-steps', src: SearchingStepsImg},
     {name: '/components/cosmic-dqa/shop-address', src: ShopAddressImg},
-    {name: '/components/cosmic-dqa/car-scroll', src: CarScrollImg},
     {name: '/components/cosmic-dqa/site-vcard', src: SiteVcardImg},
+    {name: '/components/cosmic-dqa/site-vcard-list', src: SiteVcardListImg},
     {name: '/components/cosmic-dqa/tag-link', src: TagLinkImg},
     {name: '/components/cosmic-dqa/transport-ticket-list', src: TransportTicketListImg},
-    {name: '/components/cosmic-dqa/transport-ticket', src: TransportTicketImg}
+    {name: '/components/cosmic-dqa/transport-ticket', src: TransportTicketImg},
+    {name: '/components/cosmic-dqa/greeting-card', src: GreetingCardImg}
 ];

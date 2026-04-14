@@ -23,7 +23,10 @@ interface TypingConfig {
     /** 逐句打字模式下，渐变动效的持续时长 */
     animationDuration?: number;
 }
-
+export interface Table {
+    copy?: boolean;
+    fullscreen?: boolean;
+}
 export interface MarkdownData {
     /**
      * markdown 语法文本
@@ -32,6 +35,10 @@ export interface MarkdownData {
     content: string;
     config?: Config;
     typing?: TypingConfig;
+    /**
+     * 表格表头的配置
+     */
+    table?: Table;
 };
 
 export interface Config {

@@ -143,3 +143,89 @@
         }
     }
 }
+
+
+@{dark-browser-selectors} .@{prefix}-tag {
+    // 正版一级强面型标签
+    &.cos-color-bg-primary.cos-color-text-on-primary {
+        .cos-color-bg-primary() !important;
+        .cos-color-text-on-primary() !important;
+        .@{prefix}-icon {
+            .cos-color-text-on-primary() !important;
+        }
+    }
+
+    // 标签二级弱面型标签
+    &.cos-color-bg-primary-light.cos-color-text-on-primary {
+        .cos-color-bg-primary-light() !important;
+        .cos-color-text-on-primary() !important;
+        .@{prefix}-icon {
+            .cos-color-text-on-primary() !important;
+        }
+    }
+
+    // 风险强面型标签
+    &.cos-color-bg-alive.cos-color-text-on-primary {
+        .cos-color-bg-alive() !important;
+        .cos-color-text-on-primary() !important;
+        .@{prefix}-icon {
+            .cos-color-text-on-primary() !important;
+        }
+    }
+
+    // 弱面型警示标签
+    &.cos-color-bg-warning-light.cos-color-text-on-warning-light {
+        .cos-color-bg-warning-light() !important;
+        .cos-color-text-on-warning-light() !important;
+        .@{prefix}-icon {
+            .cos-color-text-on-warning-light() !important;
+        }
+    }
+
+    // 弱面型风险标签
+    &.cos-color-bg-error-light.cos-color-text-on-error-light {
+        .cos-color-bg-error-light() !important;
+        .cos-color-text-on-error-light() !important;
+        .@{prefix}-icon {
+            .cos-color-text-on-error-light() !important;
+        }
+    }
+
+    // 弱面型成功标签
+    &.cos-color-bg-success-light.cos-color-text-on-success-light {
+        .cos-color-bg-success-light() !important;
+        .cos-color-text-on-success-light() !important;
+        .@{prefix}-icon {
+            .cos-color-text-on-success-light() !important;
+        }
+    }
+
+    // 新弱面型灰色标签
+    &.cos-tag-color-bg.cos-color-text-tiny,
+    &.cos-color-bg-dent.cos-color-text-tiny,
+    &.cos-tag-color-bg.cos-color-text-tiny-active {
+        .cos-tag-color-bg() !important;
+        .cos-color-text-tiny-active() !important;
+        .@{prefix}-icon {
+            .cos-color-text-tiny-active() !important;
+        }
+    }
+
+    // 弱面型品牌色标签
+    &.cos-color-bg-primary-light.cos-color-text-on-primary-light {
+        .cos-color-bg-primary-light() !important;
+        .cos-color-text-on-primary-light() !important;
+        .@{prefix}-icon {
+            color: #263678 !important;
+        }
+    }
+
+    // 弱面型优惠标签
+    &.cos-color-bg-alive-light.cos-color-text-on-alive-light {
+        .cos-color-bg-alive-light() !important;
+        .cos-color-text-on-alive-light() !important;
+        .@{prefix}-icon {
+            .cos-color-text-on-alive-light() !important;
+        }
+    }
+}

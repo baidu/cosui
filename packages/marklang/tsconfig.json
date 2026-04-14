@@ -1,8 +1,22 @@
 {
     "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "declaration": true,
+        "outDir": "lib/types",
+        "skipLibCheck": true,
+        "strictNullChecks": false,
+        "noImplicitAny": false,
+        "typeRoots": [
+            "./src/types",
+            "./node_modules/@types"
+        ]
+    },
+    "include": ["src/**/*", "scripts/**/*"],
     "exclude": [
         "node_modules",
         "dist",
-        "lib"
+        "lib",
+        "**/*.test.ts",
+        "**/*.spec.ts"
     ]
 }

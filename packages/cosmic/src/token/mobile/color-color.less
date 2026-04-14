@@ -44,7 +44,7 @@
     --cos-color-text-success: #39b362ff;
     --cos-color-border: #b7b9c1ff;
     --cos-color-border-tiny: #dcdde0ff;
-    --cos-color-border-minor: #ededf0ff;
+    --cos-color-border-minor: #dcdde099;
     --cos-color-border-inverse: #ffffff66;
     --cos-color-border-tiny-inverse: #ffffff4d;
     --cos-color-border-minor-inverse: #ffffff33;
@@ -271,9 +271,10 @@
     --cos-color-bg-bubble: #1e1f24f2;
     --cos-tag-color-bg-overlay: #00000066;
     --cos-tag-color-bg: #edf0faff;
-    --cos-image-color-border: #dcdde04d;
+    --cos-image-color-border: #dcdde066;
     --cos-image-color-bg-placeholder: #edeff5ff;
     --cos-color-text-on-page: #848691;
+    --cos-vcard-color-bg: #f7f8fc;
 }
 
 .cos-wise,
@@ -541,6 +542,7 @@
     --cos-image-color-border: #ffffff33;
     --cos-image-color-bg-placeholder: #1a1a1bff;
     --cos-color-text-on-page: #ffffff80;
+    --cos-vcard-color-bg: #1c1c1c;
 }
 
 /* 兼容低端设备选择器切换暗黑 */
@@ -1340,6 +1342,10 @@
     }
     .cos-color-text-on-page {
         color: var(--cos-color-text-on-page);
+    }
+
+    .cos-vcard-color-bg {
+        background-color: var(--cos-vcard-color-bg);
     }
 
     .cos-color-bg-transparent {

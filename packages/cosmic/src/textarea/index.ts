@@ -20,7 +20,7 @@
 import {Component} from 'san';
 import type {TextareaProps, TextareaEvents, TextareaData} from './interface';
 import calcTextareaHeight from './calc-textarea-height';
-import {isIOS, isAndroid, isBaiduBox} from '../util';
+import {isIOS, isAndroid, isBaiduBox, splitGraphemes} from '../util';
 
 export default class Textarea extends Component<TextareaData> {
 
@@ -59,7 +59,7 @@ export default class Textarea extends Component<TextareaData> {
                 <div s-if="count" class="cos-textarea-count cos-shrink-0 cos-color-text-minor{{
                     clear || _bottomSuffixSlot ? ' cos-space-mr-md' : ''}}"
                 >
-                    {{value.length}}/{{maxlength}}
+                    {{_valueLength}}/{{maxlength}}
                 </div>
                 <div
                     s-if="clear"
@@ -71,6 +71,16 @@ export default class Textarea extends Component<TextareaData> {
             </div>
         </div>
     `;
+
+    static computed = {
+        /**
+         * 当前输入字数（可见字符）
+         */
+        _valueLength(this: Textarea) {
+            const value = this.data.get('value') || '';
+            return splitGraphemes(value).length;
+        }
+    };
 
     timer: null | ReturnType<typeof setTimeout>;
     focus: boolean;
@@ -162,19 +172,30 @@ export default class Textarea extends Component<TextareaData> {
 
     limitValueLength = (value: string) => {
         const maxlength = this.data.get('maxlength');
-        if (maxlength && value.length > maxlength) {
-            const textareaRef = this.ref('textarea') as unknown as HTMLTextAreaElement;
-            const selectionEnd = textareaRef.selectionEnd;
-            if (selectionEnd) {
-                const valueArr = [...value];
-                const exceededLength = valueArr.length - maxlength;
-                valueArr.splice(selectionEnd - exceededLength, exceededLength);
-                return valueArr.join('');
-            }
-            return value.slice(0, maxlength);
+        if (!maxlength) {
+            return value;
         }
-        return value;
+
+        const valueSegments = splitGraphemes(value);
+        if (valueSegments.length <= maxlength) {
+            return value;
+        }
+
+        const textareaRef = this.ref('textarea') as unknown as HTMLTextAreaElement;
+        const selectionEnd = textareaRef.selectionEnd;
+        if (typeof selectionEnd !== 'number' || selectionEnd < 0) {
+            return valueSegments.slice(0, maxlength).join('');
+        }
+
+        const exceededLength = valueSegments.length - maxlength;
+        const selectionLength = splitGraphemes(
+            value.slice(0, selectionEnd)
+        ).length;
+        const spliceStart = Math.max(0, selectionLength - exceededLength);
+        valueSegments.splice(spliceStart, exceededLength);
+        return valueSegments.join('');
     };
+
 
     updateInputValue(value: string) {
         // 低版本ios（如15.4）中textarea原生属性maxlength对换行符的计数不准确，会导致实际输入与字数统计不一致问题

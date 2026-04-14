@@ -13,7 +13,7 @@ export default class MapRouteDemo extends Component {
             <div style="margin: 10px var(--cos-space-none);">
                 地图组件预览依赖地图apiKey，输入正确apiKey后展示实际效果
             </div>
-            <div style="width: 100%; height: 300px;" data-testid="route">
+            <div style="width: 100%; height: 170px;" data-testid="route">
                 <div style="margin: 10px var(--cos-space-none);">驾车路线</div>
                 <cos-map
                     s-if="{{isPc && apiKey}}"
@@ -25,34 +25,34 @@ export default class MapRouteDemo extends Component {
                     on-zoom-in="handleZoomIn"
                     on-zoom-out="handleZoomOut"
                 />
-                <img s-else src="https://gips1.baidu.com/it/u=2086505124,1054302150&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f512_302" />
+                <img s-else class="cos-rounded-lg" src="https://gips1.baidu.com/it/u=2086505124,1054302150&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f512_171" />
             </div>
-            <div style="width: 100%; height: 300px; margin-top: 40px;">
+            <div style="width: 100%; height: 170px; margin-top: 40px;">
                 <div style="margin: 10px var(--cos-space-none);">公共交通路线</div>
                 <cos-map
                     s-if="{{isPc && apiKey}}"
                     route="{{routeTransit}}"
                     apiKey="{{apiKey}}"
                 />
-                <img s-else src="https://gips3.baidu.com/it/u=1198905505,4186360545&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f512_302" />
+                <img s-else class="cos-rounded-lg" src="https://gips3.baidu.com/it/u=1198905505,4186360545&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f512_171" />
             </div>
-            <div style="width: 100%; height: 300px; margin-top: 40px;">
+            <div style="width: 100%; height: 170px; margin-top: 40px;">
                 <div style="margin: 10px var(--cos-space-none);">步行路线</div>
                 <cos-map
                     s-if="{{isPc && apiKey}}"
                     route="{{routeWalking}}"
                     apiKey="{{apiKey}}"
                 />
-                <img s-else src="https://gips1.baidu.com/it/u=721216040,555377640&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f512_300" />
+                <img s-else class="cos-rounded-lg" src="https://gips1.baidu.com/it/u=721216040,555377640&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f512_171" />
             </div>
-            <div style="width: 100%; height: 300px; margin-top: 40px;">
+            <div style="width: 100%; height: 170px; margin-top: 40px;">
                 <div style="margin: 10px var(--cos-space-none);">骑行路线</div>
                 <cos-map
                     s-if="{{isPc && apiKey}}"
                     route="{{routeRiding}}"
                     apiKey="{{apiKey}}"
                 />
-                <img s-else src="https://gips1.baidu.com/it/u=3686761005,8293812&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f516_296" />
+                <img s-else class="cos-rounded-lg" src="https://gips1.baidu.com/it/u=3686761005,8293812&fm=3028&app=3028&f=PNG&fmt=auto&q=100&size=f516_172" />
             </div>
         </div>
         <div s-else>

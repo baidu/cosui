@@ -7,6 +7,7 @@
 | content         | string |  '' |必选| Markdown 语法文本          |PC/Mobile |
 | normalizeContent | (content: string) => string | null |可选| content 语法规范化处理函数 |PC/Mobile |
 | config  | {[directiveName: string]: any} | null |可选| 自定义指令对应的配置项 |PC/Mobile|
+| table  | {copy?: boolean, fullscreen?: boolean} | null |可选| 表格表头的配置项       |PC/Mobile|
 | typing  | Typing  |   - |可选| 是否展示打字机效果        |PC/Mobile |
 | autolink  | boolean  |   - |可选| 是否将文本中的链接文本渲染为可跳转的链接       |PC/Mobile |
 
@@ -22,7 +23,7 @@
 |事件|参数|说明|覆盖平台|
 |---|---|---|---|
 | poi-ready | {invokeParams: InvokeParams} | 参考 poi 和 shop-address |Mobile|
-| click | {event: Event, directive: string, from: string, action: 'preview' \| 'copy', data: any} | 点击 |Mobile|
+| click | {event: Event, directive: string, from: 'link' \| 'table' \| 'img', action: 'preview' \| 'copy' \| 'full-screen', data: any} | 点击 |PC/Mobile|
 | toggle | {status: 'folded' \| 'unfoled', event: Event} | 展开收起切换点击 |Mobile|
 | typing-start | {height: number} | 打字开始事件（ height 为打印新增部分文本需要的高度） |PC/Mobile|
 | typing-finished |  | 打字结束事件 |PC/Mobile|
@@ -30,12 +31,13 @@
 | render-complete |  | 组件内容完全渲染完成事件。当 typing.mode !== 'sentence' 且上层业务调用 finish 方法或者 stop 方法时，在组件渲染完成时会派发；当 typing.mode === 'sentence' 且上层业务调用 finish 方法时，在组件渲染完成时会派发会触发。 |PC/Mobile|
 
 ##### click action 参数
-| 参数 | 支持的指令       | 说明       |
+| 参数 | 支持的指令/标签 | 说明       |
 |----|-------------------------|---------------|
 | pause | ml-tts/ml-audio|用户手动暂停播放音频 |
 | play | ml-tts/ml-audio |用户手动播放音频 |
 | preview | - |点击图片，展示大图查看器|
 | copy | - |复制文字 |
+| full-screen | table | 表格放大 |
 
 ### Methods
 |事件|参数|说明|覆盖平台|

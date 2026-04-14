@@ -57,13 +57,27 @@ export default class Markdown extends PcMarkdown {
                     'ml-site-vcard': mlSiteVcard.ssr,
                     'ml-search-more': mlSearchMore.ssr
                 },
-                transformers: getTransformers()
+                transformers: getTransformers.bind(this)()
             }).render(this.getContent(content));
             this.data.set('_html', html);
         }
     }
 
-    attached() {
+    async attached() {
+        if (marklang.registerPlugin) {
+            marklang.registerPlugin({
+                name: 'math',
+                feature: /\$\$[\s\S]*?\$\$|\$[^$\n]+\$/,
+                // eslint-disable-next-line max-len
+                load: () => [import('marklang/plugins/remark-math'), import('marklang/plugins/rehype-katex')]
+            });
+            marklang.registerPlugin({
+                name: 'highlight',
+                feature: /```(\w*)\n([\s\S]*?)\n```/,
+                load: () => [import('marklang/plugins/rehype-highlight')]
+            });
+        }
+
         this._tempRootOfSentenceMode = document.createElement('div');
         const sentenceMode = this.data.get('typing')?.mode === 'sentence';
 
@@ -108,22 +122,22 @@ export default class Markdown extends PcMarkdown {
                 'ml-search-more': mlSearchMore.csr.bind(this),
                 ...directives
             },
-            transformers: getTransformers()
+            transformers: getTransformers.bind(this)()
         };
         // bug: PC 端 SSR 取不到 html 的值，所以暂时按照 querySelector 的方式判断
         // const html = this.data.get('html');
         const html = el.querySelector('.marklang');
         const marklangIns = marklang(marklangOptions);
         this.data.set('_marklangIns', marklangIns);
-        // TODO：待san升级后，放开限制
-        const hasPreCode = html?.querySelector('pre');
-        if (!html || hasPreCode) {
+        if (!html) {
             if (this.data.get('typing')) {
                 this.data.push('_typingList', content);
                 this.typingContent(el);
             }
             else {
-                content && marklangIns.renderToElement(this.getContent(content), el);
+                content && marklangIns.renderToElementAsync
+                    ? await marklangIns.renderToElementAsync(this.getContent(content), el)
+                    : marklangIns.renderToElement(this.getContent(content), el);
             }
         }
         else {
