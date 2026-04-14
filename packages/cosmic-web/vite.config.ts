@@ -14,6 +14,14 @@ const templatePath = resolve('cosmic-web/src/theme/preview.template');
 const template = fs.readFileSync(templatePath, {encoding: 'utf-8'});
 const templateWidget = fs.readFileSync(resolve('cosmic-web/src/theme/widget.template'), {encoding: 'utf-8'});
 
+const previewImagesContent = fs.readFileSync(
+    path.resolve(__dirname, 'src/docs/components/cosmic/overview/preview-images.config.ts'),
+    {encoding: 'utf-8'}
+);
+// 组件数量
+const COMPONENT_COUNT = (previewImagesContent.match(/\{name: '\/components\//g) || []).length;
+const COMPONENT_COUNT_ROUND = Math.floor(COMPONENT_COUNT / 10) * 10;
+
 // https://vitejs.dev/config/
 export default defineConfig((config => {
     process.env = {...process.env, ...loadEnv(config.mode, __dirname)};
@@ -22,7 +30,9 @@ export default defineConfig((config => {
         base: process.env.VITE_APP_BASE_URL || '/cosui/',
         define: {
             '__NAME__': JSON.stringify('Cosmic Design'),
-            'process.env.ASSISTANT_HOST': JSON.stringify(process.env.VITE_ASSISTANT_HOST)
+            'process.env.ASSISTANT_HOST': JSON.stringify(process.env.VITE_ASSISTANT_HOST),
+            'COMPONENT_COUNT': JSON.stringify(COMPONENT_COUNT),
+            'COMPONENT_COUNT_ROUND': JSON.stringify(COMPONENT_COUNT_ROUND)
         },
         build: {
             rollupOptions: {
@@ -121,7 +131,7 @@ export default defineConfig((config => {
                     replacement: (_: string, pluginName: string) => {
                         return resolve(`./marklang/lib/plugins/${pluginName}.esm.js`);
                     }
-                },
+                }
             ]
         },
         // server: {

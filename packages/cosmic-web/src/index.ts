@@ -241,8 +241,6 @@ class Main extends Component {
             this.data.set('currentPath', e.path);
             this.data.set('currentQuery', query);
             this.data.set('activeIndex', 0);
-
-            // TODO: token 预览和工具迁移到 iCode 后删除
             this.data.set('isWebComp', false);
             const idMap: any = {
                 '/design-token/cosmic': 5
@@ -507,7 +505,7 @@ class Main extends Component {
         let headings: Array<{level: string, text: string, dom: Element, active: boolean}> = [];
         const isWebComp = this.data.get('isWebComp');
         if (isWebComp) {
-            // 获取自定义 markdown 组件里的标题，TODO: 迁移后删除
+            // 获取自定义 markdown 组件里的标题
             const shadowRoot = document.querySelector('co-md')?.shadowRoot;
             const tabRoot = shadowRoot?.querySelector('md-tab-pane.co-active');
             let beforeDoms = [];

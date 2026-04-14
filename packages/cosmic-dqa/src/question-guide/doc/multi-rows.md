@@ -33,7 +33,7 @@ export default class DefaultDemo extends Component {
                     options: [
                         {
                             value: '选项1',
-                            image: 'https://gips3.baidu.com/it/u=2334325247,129821877&fm=3028&app=3028&f=PNG&fmt=auto&q=75&size=f54_54'
+                            icon: 'https://gips3.baidu.com/it/u=2334325247,129821877&fm=3028&app=3028&f=PNG&fmt=auto&q=75&size=f54_54'
                         },
                         {value: '选项2，这是选项2', icon: 'search'},
                         {value: '选项3，选项最多展示3行', icon: 'https://gips3.baidu.com/it/u=2334325247,129821877&fm=3028&app=3028&f=PNG&fmt=auto&q=75&size=f54_54'},

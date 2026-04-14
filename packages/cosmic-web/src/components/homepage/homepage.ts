@@ -1,5 +1,5 @@
 import {Component} from 'san';
-import {Button} from '@cosui/cosmic';
+import Button from '@cosui/cosmic/button';
 import './homepage.less';
 import GenerativeUI from './assets/generative-ui.svg';
 import Logo from './assets/logo.svg';
@@ -174,7 +174,7 @@ export default class HomePage extends Component {
                     <div class="overview-stat-label">业务线主题适配</div>
                 </div>
                 <div class="overview-stat-item">
-                    <div class="overview-stat-value primary">80+</div>
+                    <div class="overview-stat-value primary">${COMPONENT_COUNT_ROUND}+</div>
                     <div class="overview-stat-label">UI 组件覆盖全场景</div>
                 </div>
                 <div class="overview-stat-item">

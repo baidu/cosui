@@ -1,14 +1,14 @@
 import {Component} from 'san';
-import quickStart from './quick-start.md';
+import dynamicUI from './dynamic-ui.md';
 
 export default class Doc extends Component {
     static template = `
         <div>
-            <quick-start />
+            <dynamic-ui />
         </div>
     `;
 
     static components = {
-        'quick-start': quickStart
+        'dynamic-ui': dynamicUI
     };
 }

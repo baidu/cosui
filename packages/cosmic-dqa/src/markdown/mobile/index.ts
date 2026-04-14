@@ -129,9 +129,7 @@ export default class Markdown extends PcMarkdown {
         const html = el.querySelector('.marklang');
         const marklangIns = marklang(marklangOptions);
         this.data.set('_marklangIns', marklangIns);
-        // TODO：待san升级后，放开限制
-        const hasPreCode = html?.querySelector('pre');
-        if (!html || hasPreCode) {
+        if (!html) {
             if (this.data.get('typing')) {
                 this.data.push('_typingList', content);
                 this.typingContent(el);

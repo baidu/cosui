@@ -34,8 +34,7 @@ export default class QuestionGuide extends QuestionGuideBase {
             <span>{{title}}</span>
         </div>
         <div class="cosd-question-guide-items-container">
-            <!-- TODO: cosd-question-guide-item-swiper 为临时兼容A页场景增加 后续会删除 -->
-            <div class="cosd-question-guide-items cosd-question-guide-item-swiper">
+            <div class="cosd-question-guide-items">
                 <div
                     s-ref="swiperList"
                     class="cosd-question-guide-items-content"
@@ -49,21 +48,19 @@ export default class QuestionGuide extends QuestionGuideBase {
                             s-if="item.label"
                             class="cosd-question-guide-item-label"
                         >{{item.label}}：</div>
-                        <!-- TODO: cos-swiper-item 为临时兼容A页场景增加 后续会删除 -->
                         <div
                             s-for="option, optionIndex in item.options"
-                            class="cosd-question-guide-option cos-swiper-item"
+                            class="cosd-question-guide-option"
                         >
                             <a
                                 class="cosd-question-guide-option-content"
                                 on-click="handleChange($event, item, itemIndex, option, optionIndex)"
                                 s-bind="{{option.linkInfo}}"
                             >
-                                <!-- TODO: @助手 option.image 修改后删除 -->
                                 <i
-                                    s-if="{{option.image || isUrl(option.icon)}}"
+                                    s-if="{{isUrl(option.icon)}}"
                                     class="cosd-question-guide-option-img"
-                                    style="background-image: url({{option.image || option.icon}})"
+                                    style="background-image: url({{option.icon}})"
                                 ></i>
                                 <cos-icon
                                     s-if="{{option.icon && !isUrl(option.icon)}}"
