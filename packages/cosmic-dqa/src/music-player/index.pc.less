@@ -61,14 +61,14 @@
         border: .5px solid var(--cos-color-border-minor);
         border-bottom: none;
         border-radius: var(--cos-rounded-lg);
-        padding: var(--cos-space-lg) var(--cos-space-3xl) 41px 30px;
-        height: 202px;
+        padding: var(--cos-space-md) var(--cos-space-xxl) 35px;
+        height: 174px;
     }
 
     &-type {
-        height: 14px;
         .cos-space-mt-none();
-        .cos-space-mb-sm();
+        margin-bottom: 7px;
+        height: 14px;
 
         &-img {
             width: 14px;
@@ -83,24 +83,25 @@
     }
 
     &-poster {
-        width: 166px;
-        height: 166px;
+        margin: auto var(--cos-space-none);
+        width: 143px;
+        height: 143px;
         object-fit: cover;
         object-position: center center;
         cursor: pointer;
         .cos-rounded-lg();
 
         &-box {
-            width: 166px;
-            height: 166px;
+            margin: auto var(--cos-space-none);
+            width: 143px;
+            height: 143px;
         }
 
         &-wrapper {
-            width: 208px;
-            height: 166px;
+            .cos-space-m-none();
+            width: 163px;
+            height: 149px;
             .cos-rounded-lg();
-            .cos-space-mt-xxs();
-            .cos-space-mb-xxs();
         }
 
         &-icon {
@@ -116,9 +117,9 @@
     &-vinyl {
         top: 50%;
         transform: translateY(-50%);
-        left: 72px;
-        width: 136px;
-        height: 136px;
+        left: 60px;
+        width: 112px;
+        height: 112px;
         transition: transform 0.4s cubic-bezier(0, 0, 0.39, 1.12);
         .cos-rounded-full();
         box-sizing: border-box;
@@ -156,7 +157,7 @@
 
     &-content {
         min-width: 0;
-        max-height: 178px;
+        max-height: 149px;
 
         &-title {
             .cos-space-pb-md();

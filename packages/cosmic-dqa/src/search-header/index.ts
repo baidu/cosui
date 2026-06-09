@@ -23,7 +23,7 @@ export default class SearchHeader extends Component<SearchHeaderData> {
     static template = `
         <div class="cosd-search-header cosd-search-header-{{appearance}}">
             <div class="cosd-search-header-brand-area">
-                <div class="cosd-search-header-brand-ai">
+                <div s-if="logo || logoDark" class="cosd-search-header-brand-ai">
                     <img
                         src="{{logo}}"
                         class="img-light cosd-search-header-brand-ai-image"
