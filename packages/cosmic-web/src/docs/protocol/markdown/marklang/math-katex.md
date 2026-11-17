@@ -3,13 +3,21 @@
 
 ## 示例
 
-markdown 语法
+markdown 语法----块级语法
 
 ```
-$c = \pm\sqrt{a^2 + b^2}$
+$$
+L = \\frac{1}{2} \\rho v^2 S C_L
+$$
 ```
 
-html 输出结果
+markdown 语法----内联语法
+
+```
+$c = \\pm\sqrt{a^2 + b^2}$
+```
+
+内联语法 html 输出结果
 ```html
 <span class="katex">
     <span class="katex-mathml">
@@ -27,3 +35,4 @@ c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
 M834 80h400000v40h-400000z"></path></svg></span></span></span><span class="vlist-s">&ZeroWidthSpace;</span></span><span class="vlist-r"><span class="vlist" style="height:0.1266em;"><span></span></span></span></span></span></span></span>
 </span>
 ```
+

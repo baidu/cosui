@@ -25,6 +25,7 @@
 | icon | string | '' | 否 | 选项前图标  | PC/Mobile |
 | linkInfo | [LinkInfo](/components/cosmic/link) | {} | 否 | 自定义挂载属性集(支持JS未ready前跳转点击) | PC/Mobile |
 | caption | string | '' | 否 | 选项文本后的字幕 | PC/Mobile |
+| selected | boolean | false | 否 | 是否选中  | PC/Mobile |
 
 ### Slots
 无

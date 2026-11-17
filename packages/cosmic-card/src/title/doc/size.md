@@ -6,14 +6,12 @@ export default class Demo extends Component {
 
     static template = `
         <div>
-            <cosc-title size="lg" url="{{url}}">{{text | raw}}</cosc-title>
-            <br/>
-
             <!-- size 默认 md -->
             <cosc-title url="{{url}}">{{text | raw}}</cosc-title>
             <br/>
 
-            <cosc-title size="sm" url="{{url}}">{{text | raw}}</cosc-title>
+            <!-- PC不应展示sm字号（16px） -->
+            <cosc-title s-if="!isPc" size="sm" url="{{url}}">{{text | raw}}</cosc-title>
             <br/>
             <cosc-title size="xs" url="{{url}}">{{text | raw}}</cosc-title>
         </div>

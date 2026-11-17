@@ -731,7 +731,10 @@ export default class TokenWidget extends Component {
     /**
      * 判断字符串是否可以转成数字
      */
-    isNumeric(str: string) {
+    isNumeric(str: string | number) {
+        if (typeof str === 'number') {
+            return !Number.isNaN(str);
+        }
         if (typeof str !== 'string') {
             return false;
         }
@@ -754,8 +757,12 @@ export default class TokenWidget extends Component {
         }
 
         if (attr === 'text') {
-            if (value === '/' || this.isNumeric(value)) {
+            if (value === '/') {
                 return value;
+            }
+            if (this.isNumeric(value)) {
+                // 字号变量只有数值、缺省单位时，var 列补上 px（字重等非字号变量保持原值）
+                return rowKey === 'var' && item.key.includes('text') ? `${value}px` : value;
             }
             return this.normalizeCssText(value);
         }

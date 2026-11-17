@@ -18,15 +18,18 @@ import type san from 'san';
 
 // ------------- 协议接口类型 -------------
 export interface UI extends OldCompatible {
+    id?: UIId;
     type: string;
     props?: PropsConfig;
     if?: string;
     for?: string;
-    children?: UI[];
+    children?: UI[] | UIId[];
     events?: {
         [key: string]: ActionConfig[];
     };
 }
+
+export type UIId = string;
 
 export interface PropsConfig {
     [prop: string]: unknown;
@@ -54,7 +57,7 @@ interface OldCompatible {
 // ------------- 协议解析器接口类型 -------------
 
 export interface CompileOption extends CompileUIOption {
-    ui: UI;
+    ui: UI | UI[];
     dataExtends?: Data;
     actions?: {
         [key: string]: ActionListener;
@@ -113,6 +116,7 @@ export interface Context {
     };
     events: NormalizedEventOption;
     nodes?: CompileOption['nodes'];
+    uiMap: Record<UIId, UI>;
     data: Record<string, unknown>;
     asyncComptRefs: string[];
     dataIndex: number;

@@ -1,5 +1,5 @@
 import {Component} from 'san';
-import {Link} from '../../../../utils/proxy-router';
+import {Link} from '../../../../public/proxy-router';
 import './card.less';
 import imageGroups from './preview-images.config';
 

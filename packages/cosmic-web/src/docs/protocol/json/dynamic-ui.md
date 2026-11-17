@@ -17,9 +17,10 @@ Cosmic Dynamic UI 引擎完全遵循 JSON UI 协议。开发者通过 JSON 对�
 
 | 属性 | 类型 | 必选 | 说明 |
 | :--- | :--- | :--- | :--- |
+| **id** | `string` | 否 | **节点唯一标识**。作用于引用解析。 |
 | **type** | `string` | **是** | **节点类型**（对应组件名）。<br>• **内置容器**：`block`, `grid`, `flex` 等。<br>• **内置文本**：`text`, `paragraph` 等。<br>• **自定义**：如 `image`, `score` (需在 components 中注册)。 |
 | **props** | `object` | 否 | **节点属性**。包含组件数据、样式及外观配置。 |
-| **children** | `UI[]` | 否 | **子节点列表**。嵌套描述 UI 结构。 |
+| **children** | `UI[]` \｜ `UIID[]` | 否 | **子节点列表**。支持 ID 引用 和 对象嵌套两种方式描述 UI 结构，包含一组 UI ID 字符 或 一组 UI Node 对象。 |
 | **{{}}** | `string` | 否 | **插值语法**。支持在属性值或文本中使用 |
 | **if** | `string` | 否 | **条件渲染**。如 `"list.length > 0"`。 |
 | **for** | `string` | 否 | **循环渲染**。如 `"item, index in list"`。 |

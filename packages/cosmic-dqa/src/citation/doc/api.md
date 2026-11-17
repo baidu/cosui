@@ -12,7 +12,7 @@
 |thumbnail|string||否|图片|PC|
 |is-video|boolean|false|否|是否是视频类型|PC/Mobile|
 |source|object||否|来源|PC/Mobile|
-|source.logo|string||否|来源图标|PC/Mobile|
+|source.logo|string \| string[]||否|来源图标，说明：当前数组类型仅在有 aggregated-text 值下生效|PC/Mobile|
 |source.name|string||否|来源名称|PC/Mobile|
 |source.icon|string||否|可信溯源兜底图标|PC/Mobile|
 |source.type|string||否|可信溯源类型|PC/Mobile|
@@ -20,12 +20,21 @@
 |link-info|[LinkInfo](/components/cosmic/link)|{}|否|跳转信息|PC/Mobile|
 |get-popup-container|() => HTMLElement|document.body|否|气泡挂载的 DOM 节点，气泡将被限定在这个节点范围内，该节点需要设置 position: relative|PC/Mobile|
 |tooltip-panel-clickable|boolean|false|否|是否允许点击弹窗整体跳转|PC|
+|aggregated-list|AggregatedItem[]||否|聚合溯源面板数据列表|PC|
+|aggregated-text|string||否|聚合溯源展示文案|Mobile|
 
 #### Tag
 |名称|类型|默认值|是否必选|说明|覆盖平台|
 |---|---|---|---|---|---|
 |text|string||否|可信溯源标签展示文本|PC/Mobile|
 |colorVars|string||否|可信溯源标签文字和背景色自定义颜色变量|PC/Mobile|
+
+#### AggregatedItem
+|名称|类型|默认值|是否必选|说明|覆盖平台|
+|---|---|---|---|---|---|
+|title|string||是|溯源标题|PC|
+|source|object||否|来源|PC|
+|linkInfo|[LinkInfo](/components/cosmic/link)|{}|否|跳转信息|PC|
 
 ### Methods
 |事件|参数|说明|覆盖平台|
@@ -60,5 +69,5 @@
 ### Events
 | 事件 | 参数 | 说明 | 覆盖平台 |
 | --- | --- | --- | --- |
-| toggle | {event: Event,open:boolean} | 弹出层展示/隐藏时触发的回调 | PC/Mobile |
-| click | {event: Event} | 弹窗内容点击的回调 | PC/Mobile |
+| toggle | {event: Event, open: boolean} | 弹出层展示/隐藏时触发的回调 | PC/Mobile |
+| click | {event: Event, from: string, index?: number} | 弹窗内容点击的回调，index仅在pc点击溯源列表面板事件中返回 | PC/Mobile |

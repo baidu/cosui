@@ -65,12 +65,16 @@ const UIJSON = {
         }
 
         const normalizedEvents = this.normalizeEventOption(options.events || {});
+
+        const rootUI = Array.isArray(options.ui) ? options.ui[0] : options.ui;
+
         const tplDataParsed = parseNode(
-            options.ui,
+            rootUI,
             undefined,
             options.components,
             normalizedEvents,
-            options.nodes
+            options.nodes,
+            this.getUIMapByID(options.ui)
         );
 
         const dataExtends = Object.assign({}, options.dataExtends);
@@ -252,12 +256,15 @@ const UIJSON = {
             throw new Error('options.components is required');
         }
 
+        const rootUI = Array.isArray(ui) ? ui[0] : ui;
         const normalizedEvents = this.normalizeEventOption(events || {});
         return parseNode(
-            ui, undefined,
+            rootUI,
+            undefined,
             components,
             normalizedEvents,
-            nodes
+            nodes,
+            this.getUIMapByID(ui)
         ).tpl;
     },
 
@@ -288,6 +295,26 @@ const UIJSON = {
         });
 
         return normalized;
+    },
+
+    getUIMapByID(ui: UI | UI[]): {[id: string]: UI} {
+        if (!ui) {
+            return {};
+        }
+
+        if (Array.isArray(ui)) {
+            return ui.reduce((acc: {[id: string]: UI}, cur) => {
+                if (cur.id) {
+                    if (acc[cur.id]) {
+                        throw new Error(`Duplicate UI id: "${cur.id}"`);
+                    }
+                    acc[cur.id] = cur;
+                };
+                return acc;
+            }, {});
+        }
+
+        return ui.id ? {[ui.id]: ui} : {};
     }
 };
 

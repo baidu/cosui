@@ -129,16 +129,22 @@ export default [
                         key: '/components/cosmic-dqa/document-scroll'
                     },
                     {
+                        name: 'GreetingCard',
+                        text: '打招呼卡片',
+                        path: 'greeting-card',
+                        key: '/components/cosmic-dqa/greeting-card'
+                    },
+                    {
                         name: 'GeneratingView',
                         text: '生成式富媒体加载',
                         path: 'generating-view',
                         key: '/components/cosmic-dqa/generating-view'
                     },
                     {
-                        name: 'GreetingCard',
-                        text: '打招呼卡片',
-                        path: 'greeting-card',
-                        key: '/components/cosmic-dqa/greeting-card'
+                        name: 'HotelCard',
+                        text: '酒店信息卡',
+                        path: 'hotel-card',
+                        key: '/components/cosmic-dqa/hotel-card'
                     },
                     {
                         name: 'LocationCard',
@@ -178,9 +184,15 @@ export default [
                     },
                     {
                         name: 'SearchHeader',
-                        text: '百看头部',
+                        text: '搜索头部',
                         key: '/components/cosmic-dqa/search-header',
                         path: 'search-header'
+                    },
+                    {
+                        name: 'ProductCard',
+                        text: '产品信息卡',
+                        path: 'product-card',
+                        key: '/components/cosmic-dqa/product-card'
                     },
                     {
                         name: 'SiteVcard',

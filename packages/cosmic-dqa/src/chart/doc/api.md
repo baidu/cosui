@@ -18,3 +18,5 @@
 |getEchartsInstance| - |() => [ECharts](https://echarts.apache.org/zh/api.html#echartsInstance)|获取 echarts 实例，可调用 echarts 方法自定义事件|
 |updateChart| - | - | 异步更新图表（须同时设置async为true）|
 |registerMap|[Parameters<typeof echarts.registerMap>](https://echarts.apache.org/zh/api.html#echarts.registerMap) | - | 地图需要异步更新地图数据（须同时设置async为true）并完成渲染（不需要再调用updateChart，内部会自行更新） |
+
+

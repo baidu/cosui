@@ -16,37 +16,37 @@ describe('gfm function', () => {
     beforeEach(() => {
         // Clear all mocks before each test
         jest.clearAllMocks();
-        
+
         // Setup mock implementations
         (combineExtensions as jest.Mock).mockReturnValue({});
-        (gfmAutolinkLiteral as jest.Mock).mockReturnValue({ type: 'autolink' });
-        (gfmFootnote as jest.Mock).mockReturnValue({ type: 'footnote' });
-        (gfmStrikethrough as jest.Mock).mockReturnValue({ type: 'strikethrough' });
-        (gfmTable as jest.Mock).mockReturnValue({ type: 'table' });
+        (gfmAutolinkLiteral as jest.Mock).mockReturnValue({type: 'autolink'});
+        (gfmFootnote as jest.Mock).mockReturnValue({type: 'footnote'});
+        (gfmStrikethrough as jest.Mock).mockReturnValue({type: 'strikethrough'});
+        (gfmTable as jest.Mock).mockReturnValue({type: 'table'});
     });
 
     it('should include autolink extension when options.autolink is true', () => {
-        const options = { autolink: true };
+        const options = {autolink: true};
         gfm(options);
 
         expect(gfmAutolinkLiteral).toHaveBeenCalled();
         expect(combineExtensions).toHaveBeenCalledWith([
-            { type: 'autolink' },
-            { type: 'footnote' },
-            { type: 'strikethrough' },
-            { type: 'table' }
+            {type: 'autolink'},
+            {type: 'footnote'},
+            {type: 'strikethrough'},
+            {type: 'table'}
         ]);
     });
 
     it('should exclude autolink extension when options.autolink is false', () => {
-        const options = { autolink: false };
+        const options = {autolink: false};
         gfm(options);
 
         expect(gfmAutolinkLiteral).not.toHaveBeenCalled();
         expect(combineExtensions).toHaveBeenCalledWith([
-            { type: 'footnote' },
-            { type: 'strikethrough' },
-            { type: 'table' }
+            {type: 'footnote'},
+            {type: 'strikethrough'},
+            {type: 'table'}
         ]);
     });
 
@@ -56,9 +56,9 @@ describe('gfm function', () => {
 
         expect(gfmAutolinkLiteral).not.toHaveBeenCalled();
         expect(combineExtensions).toHaveBeenCalledWith([
-            { type: 'footnote' },
-            { type: 'strikethrough' },
-            { type: 'table' }
+            {type: 'footnote'},
+            {type: 'strikethrough'},
+            {type: 'table'}
         ]);
     });
 
@@ -67,14 +67,14 @@ describe('gfm function', () => {
 
         expect(gfmAutolinkLiteral).not.toHaveBeenCalled();
         expect(combineExtensions).toHaveBeenCalledWith([
-            { type: 'footnote' },
-            { type: 'strikethrough' },
-            { type: 'table' }
+            {type: 'footnote'},
+            {type: 'strikethrough'},
+            {type: 'table'}
         ]);
     });
 
     it('should pass options to gfmStrikethrough', () => {
-        const options = { singleTilde: true };
+        const options = {singleTilde: true};
         gfm(options);
 
         expect(gfmStrikethrough).toHaveBeenCalledWith(options);

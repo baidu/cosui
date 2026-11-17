@@ -4,6 +4,7 @@
 
 import {Component} from 'san';
 import './navigation.less';
+import Icon from '@cosui/cosmic/icon';
 
 export default class Navigation extends Component {
     static template = `
@@ -17,10 +18,11 @@ export default class Navigation extends Component {
                         item.leaf ? ' cos-web-navigation-menu-leaf' : ''}}">
                     <div class="cos-web-navigation-menu-item-title-container">
                         <span class="cos-line-clamp-1 cos-web-navigation-menu-item-title">{{item.name}}</span>
-                        <i
-                            s-if="item.list || item.leaf"
+                        <cos-icon 
+                            s-if="item.list || item.leaf" 
+                            name="up" 
                             class="cos-web-navigation-menu-group-arrow {{item.collapsed ? 'collapsed' : ''}}"
-                        ></i>
+                        />
                     </div>
                     <ul s-if="item.leaf && !item.collapsed"  class="cos-web-navigation-menu-group-item">
                         <li s-for="leafItem, leafIndex in item.leaf"
@@ -46,6 +48,10 @@ export default class Navigation extends Component {
             </ul>
         </section>
     `;
+
+    static components = {
+        'cos-icon': Icon
+    };
 
     static computed = {
         selectedKeys() {

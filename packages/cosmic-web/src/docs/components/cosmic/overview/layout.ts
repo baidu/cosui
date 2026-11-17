@@ -2,7 +2,7 @@ import {Component} from 'san';
 import './layout.less';
 import Card from './card';
 import routes from '../../../../router/routes';
-import {Link} from '../../../../utils/proxy-router';
+import {Link} from '../../../../public/proxy-router';
 
 
 export default class Layout extends Component {

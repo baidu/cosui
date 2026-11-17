@@ -18,7 +18,7 @@ import type {LinkInfo} from '@cosui/cosmic/util/interface';
 
 export interface Source {
     name: string;
-    logo?: string;
+    logo?: string | string[];
     /**
      * 可信溯源兜底图标
      */
@@ -48,6 +48,12 @@ export interface Source {
         bgColor: string;
     }>;
 }
+export interface AggregatedItem {
+    title: string;
+    source?: Source;
+    linkInfo?: LinkInfo;
+}
+
 export interface CitationProps {
     appearance?: '' | 'link' | 'tag' | 'aggregated';
     citationId: string;
@@ -61,6 +67,8 @@ export interface CitationProps {
     getPopupContainer?: () => HTMLElement;
     linkInfo?: LinkInfo;
     tooltipPanelClickable?: boolean;
+    aggregatedList?: AggregatedItem[];
+    aggregatedText?: string;
 }
 
 export interface CitationEvents {
@@ -70,6 +78,10 @@ export interface CitationEvents {
     click: {
         event: Event;
         from: string;
+        /**
+         * pc 点击溯源列表 tooltip 内溯源的索引，即 aggregatedList 项的索引
+         */
+        index?: number;
     };
 }
 

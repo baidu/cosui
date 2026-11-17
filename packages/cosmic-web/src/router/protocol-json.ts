@@ -62,6 +62,11 @@ export default [
                         path: 'event'
                     },
                     {
+                        name: 'Reference 引用解析',
+                        key: '/protocol/json/api/reference',
+                        path: 'reference'
+                    },
+                    {
                         name: 'Node 节点处理',
                         key: '/protocol/json/api/node',
                         path: 'node'

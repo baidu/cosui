@@ -1,0 +1,358 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.image-viewer-glass() {
+    // cosmic-token-disable-next-line
+    background: rgba(67, 67, 67, .58);
+    backdrop-filter: blur(25px);
+}
+
+// 蒙层内功能按钮的统一 hover 反馈：仅内部内容（icon / 文字）50% 透明，按钮底色保持不变
+.image-viewer-hover() {
+    &:hover > * {
+        .cos-opacity-50();
+    }
+}
+
+.image-viewer-chip-40() {
+    .cos-flex();
+    .cos-justify-center();
+    .cos-items-center();
+    height: 40px;
+    box-sizing: border-box;
+}
+
+.@{prefix}-image-viewer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 902;
+    overflow: hidden;
+    // cosmic-token-disable-next-line
+    background: rgba(22, 22, 22, .94);
+    backdrop-filter: blur(2px);
+    .cos-color-text-inverse();
+
+    // :where 让通用 button reset 特异性归零，命名 chip 类按源序覆盖，避免 !important
+    :where(button) {
+        .cos-space-m-none();
+        border: 0;
+        .cos-space-p-none();
+        font: inherit;
+        color: inherit;
+        background: transparent;
+        outline: none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    &-source {
+        position: absolute;
+        top: var(--cos-space-xxl);
+        left: var(--cos-space-xxl);
+        z-index: 3;
+        .cos-flex();
+        .cos-items-center();
+        // 用 gap 而非 margin：title 缺失时，跳转链接不残留左侧空隙
+        gap: var(--cos-space-lg);
+        overflow: hidden;
+        .cos-rounded-xxl();
+        // cosmic-token-disable-next-line
+        padding: var(--cos-space-none) 16px;
+        max-width: min(654px, calc(100% - 190px));
+        height: 38px;
+        box-sizing: border-box;
+        white-space: nowrap;
+        .cos-text-body-lg();
+        .cos-leading-none();
+        .image-viewer-glass();
+    }
+
+    &-title {
+        min-width: 0;
+        .cos-line-clamp-1();
+    }
+
+    &-original {
+        .cos-flex-none();
+        text-decoration: none;
+        white-space: nowrap;
+        .cos-text-body-lg();
+        .cos-leading-none();
+        .cos-opacity-70();
+
+        // 覆盖浏览器默认的 :link / :visited / :hover / :active 蓝色，
+        // 统一继承左侧标题的文字色
+        &,
+        &:link,
+        &:visited,
+        &:hover,
+        &:active {
+            color: inherit;
+        }
+
+        &:hover {
+            .cos-opacity-100();
+        }
+    }
+
+    &-header-actions {
+        position: absolute;
+        top: var(--cos-space-xxl);
+        right: var(--cos-space-xxl);
+        z-index: 3;
+        .cos-flex();
+        .cos-items-center();
+        .cos-flex-none();
+        gap: var(--cos-space-lg);
+    }
+
+    &-counter {
+        .image-viewer-chip-40();
+        .cos-rounded-xxl();
+        // cosmic-token-disable-next-line
+        padding: var(--cos-space-none) 16px;
+        min-width: 59px;
+        white-space: nowrap;
+        .cos-text-body-lg();
+        .cos-leading-none();
+        .image-viewer-glass();
+    }
+
+    &-close {
+        .image-viewer-chip-40();
+        .cos-rounded-full();
+        width: 40px;
+        font-size: var(--cos-text-subtitle);
+        .image-viewer-glass();
+        .image-viewer-hover();
+    }
+
+    &-stage {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        // 初始图片布局安全距离
+        padding: 88px 108px 169px 108px;
+        box-sizing: border-box;
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+    }
+
+    &-image {
+        .cos-block();
+        // max-width/height 相对 stage 的 content-box（已扣掉 padding），
+        // 配合 width/height: auto：小图保持原始尺寸，大图按比例缩到 contain。
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        max-height: 100%;
+        user-select: none;
+        -webkit-user-drag: none;
+        touch-action: none;
+        cursor: grab;
+        transform-origin: center center;
+        will-change: transform;
+
+        &-dragging {
+            cursor: grabbing;
+        }
+    }
+
+    &-navigation {
+        position: absolute;
+        // 翻页按钮要在 header下 与 toolbar上 这块区域内垂直居中，而非整屏居中
+        // 上下 inset 划定区域，再靠 margin auto 自动居中
+        top: calc(var(--cos-space-xxl) + 40px);
+        bottom: calc(105px + 40px);
+        margin-top: auto;
+        margin-bottom: auto;
+        z-index: 3;
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        .cos-rounded-full();
+        width: 54px;
+        height: 54px;
+        color: var(--cos-color-text-inverse);
+        .image-viewer-glass();
+        .image-viewer-hover();
+
+        &-icon {
+            .cos-block();
+            width: 24px;
+            height: 24px;
+        }
+
+        // 首/末张时按钮视觉隐藏但保留占位与点击响应：
+        // 仍会吞掉点击并 stopPropagation，避免误触蒙层关闭查看器
+        &-hidden {
+            opacity: 0;
+            cursor: default;
+
+            &:hover {
+                opacity: 0;
+            }
+        }
+    }
+
+    &-previous {
+        left: var(--cos-space-xxl);
+
+        // 复用右箭头 SVG，水平翻转得到左箭头
+        .cos-image-viewer-navigation-icon {
+            transform: scaleX(-1);
+        }
+    }
+
+    &-next {
+        right: var(--cos-space-xxl);
+    }
+
+    &-toolbar {
+        position: absolute;
+        right: var(--cos-space-xxl);
+        bottom: 105px;
+        z-index: 3;
+        .cos-flex();
+        .cos-items-center();
+        gap: var(--cos-space-lg);
+        height: 40px;
+    }
+
+    &-download {
+        .image-viewer-chip-40();
+        gap: var(--cos-space-xxs);
+        .cos-rounded-xxl();
+        width: 82px;
+        .cos-text-body-lg();
+        .cos-leading-none();
+        .image-viewer-glass();
+        .image-viewer-hover();
+
+        .@{prefix}-icon {
+            font-size: var(--cos-text-subtitle);
+        }
+    }
+
+    &-zoom {
+        .image-viewer-chip-40();
+        .cos-rounded-xxl();
+        // cosmic-token-disable-next-line
+        padding: var(--cos-space-none) 16px;
+        min-width: 112px;
+        .cos-text-body-lg();
+        .cos-leading-none();
+        .image-viewer-glass();
+
+        button {
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+            width: 16px;
+            height: 16px;
+            font-size: var(--cos-text-subtitle);
+            // zoom 胶囊里的 +/- 按钮直接子元素只有 icon 本身，
+            // 用同一 mixin 抹掉时不需要额外包裹
+            .image-viewer-hover();
+        }
+
+        span {
+            margin: var(--cos-space-none) var(--cos-space-xxs);
+            min-width: 36px;
+            text-align: center;
+            white-space: nowrap;
+        }
+    }
+
+    &-thumbnails {
+        position: absolute;
+        right: var(--cos-space-xxl);
+        bottom: var(--cos-space-xxl);
+        left: var(--cos-space-xxl);
+        z-index: 3;
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 57px;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    &-thumbnail-list {
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        gap: var(--cos-space-xxs);
+        width: max-content;
+        min-width: 100%;
+        height: 57px;
+    }
+
+    &-thumbnail {
+        position: relative;
+        .cos-flex-none();
+        box-sizing: border-box;
+
+        // ::after 描边叠在图片上层不占布局，图片尺寸保持不跳变
+        &-active::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            border: 3px solid var(--cos-color-text-inverse);
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+    }
+
+    // 缩略图高固定 57px，宽度由 aspect-ratio 按比例算出
+    &-thumbnail-image {
+        .cos-rounded-none();
+        width: auto;
+        height: 57px;
+        transition: opacity var(--cos-transition-duration-moderater) var(--cos-transition-easing-standard);
+
+        // 隐藏image 组件自带 ::before 描边圆角
+        &::before {
+            display: none;
+        }
+
+        &-1-1 {
+            aspect-ratio: 1 / 1;
+        }
+
+        &-4-3 {
+            aspect-ratio: 4 / 3;
+        }
+
+        &-3-4 {
+            aspect-ratio: 3 / 4;
+        }
+    }
+
+    &-thumbnail:hover:not(&-thumbnail-active) &-thumbnail-image {
+        .cos-opacity-50();
+    }
+}

@@ -15,7 +15,7 @@
 ## 参数说明
 |参数|类型|是否必选|默认值|说明|
 |---|---|---|---|---|
-|ui|UI|是|-|ui 配置项，同 `UI语法` 部分|
+|ui|UI \| UI[] |是|-|ui 配置项，同 `UI语法` 部分，当内部存有 [引用结构](/protocol/json/overview/index) 时，必须为数组|
 |components|{[key: string]: san.Component}|是|-|自定义组件，定义 UI 协议的 节点类型 能力|
 |dataExtends|Data|否|-|自定义数据，扩展 UI 协议的所需数据|
 |actions|{[key: string]: (e) => void}|否|-|自定义行为，定义 UI 协议的 action 能力|

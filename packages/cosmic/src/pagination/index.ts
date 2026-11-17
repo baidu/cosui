@@ -18,6 +18,7 @@
  */
 
 import {Component} from 'san';
+import Icon from '../icon';
 import type {PaginationData, PaginationProps, PaginationEvents} from './interface';
 
 const ELLIPSIS = '...';
@@ -26,43 +27,69 @@ export default class Pagination extends Component<PaginationData> {
     static trimWhitespace = 'all';
 
     static template = `
-        <div class="cos-pagination">
-            <div
-                s-if="showPagination"
-                class="cos-pagination-prev{{
-                    _current === 1 ? ' cos-pagination-in-first-page' : ''
-                }}"
-                on-click="onPrev"
-            >
-                上一页
-            </div>
-            <div class="cos-pagination-pager">
+        <div class="cos-pagination{{appearance ? ' cos-pagination-' + appearance : ''}}">
+            <template s-if="appearance === 'compact'">
                 <div
-                    s-for="page, index in pageList"
-                    class="cos-pagination-pager-item{{
-                        page === _current ? ' cos-pagination-pager-item-current' : ''
-                    }}{{
-                        page === '...' ? ' cos-pagination-pager-item-ellipsis' : ''
+                    class="cos-pagination-compact-btn{{
+                        _current <= 1 ? ' cos-pagination-compact-btn-disabled' : ''
                     }}"
-                    on-click="pageClick(page)"
+                    on-click="onPrev"
                 >
-                    <!-- 页码超过两位数，按照左右边距 6px 自适应 -->
-                    <span class="{{ page > 99 ? 'cos-space-pl-xxs cos-space-pr-xxs' : ''}}">
-                        {{page}}
-                    </span>
+                    <cos-icon class="cos-pagination-compact-icon" name="left" />
                 </div>
-            </div>
-            <div
-                s-if="showPagination"
-                class="cos-pagination-next{{
-                    _current === _pageCount ? ' cos-pagination-in-last-page' : ''
-                }}"
-                on-click="onNext"
-            >
-                下一页
-            </div>
+                <span class="cos-pagination-compact-text">
+                    {{_current}} / {{_pageCount}}
+                </span>
+                <div
+                    class="cos-pagination-compact-btn{{
+                        _current >= _pageCount ? ' cos-pagination-compact-btn-disabled' : ''
+                    }}"
+                    on-click="onNext"
+                >
+                    <cos-icon class="cos-pagination-compact-icon" name="right" />
+                </div>
+            </template>
+            <template s-else>
+                <div
+                    s-if="showPagination"
+                    class="cos-pagination-prev{{
+                        _current === 1 ? ' cos-pagination-in-first-page' : ''
+                    }}"
+                    on-click="onPrev"
+                >
+                    上一页
+                </div>
+                <div class="cos-pagination-pager">
+                    <div
+                        s-for="page, index in pageList"
+                        class="cos-pagination-pager-item{{
+                            page === _current ? ' cos-pagination-pager-item-current' : ''
+                        }}{{
+                            page === '...' ? ' cos-pagination-pager-item-ellipsis' : ''
+                        }}"
+                        on-click="pageClick(page)"
+                    >
+                        <span class="{{ page > 99 ? 'cos-space-pl-xxs cos-space-pr-xxs' : ''}}">
+                            {{page}}
+                        </span>
+                    </div>
+                </div>
+                <div
+                    s-if="showPagination"
+                    class="cos-pagination-next{{
+                        _current === _pageCount ? ' cos-pagination-in-last-page' : ''
+                    }}"
+                    on-click="onNext"
+                >
+                    下一页
+                </div>
+            </template>
         </div>
     `;
+
+    static components = {
+        'cos-icon': Icon
+    };
 
     static computed = {
 
@@ -158,7 +185,8 @@ export default class Pagination extends Component<PaginationData> {
             total: 0,
             current: 1,
             pageSize: 10,
-            pageCount: undefined
+            pageCount: undefined,
+            appearance: undefined
         };
     }
 

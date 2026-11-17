@@ -1,4 +1,4 @@
-``` san export=preview caption=标题前加标签
+``` san export=preview caption=标题组合标签使用
 import {Component} from 'san';
 import Title from '@cosui/cosmic-card/title';
 

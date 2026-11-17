@@ -51,7 +51,9 @@ export default class QuestionGuideBase extends Component<QuestionGuideData> {
                 >{{item.label}}：</div>
                 <div
                     s-for="option, optionIndex in item.options"
-                    class="cosd-question-guide-option"
+                    class="cosd-question-guide-option{{isSelected(item, optionIndex)
+                        ? ' cosd-question-guide-option-selected'
+                        : ''}}"
                 >
                     <a
                         class="cosd-question-guide-option-content"
@@ -124,6 +126,20 @@ export default class QuestionGuideBase extends Component<QuestionGuideData> {
     handleChange(event: Event, item: Item, index: number, option: Option, optionIndex: number) {
         event.preventDefault();
 
+        const isSelectionEnabled = item.options.some(option => 'selected' in option);
+
+        if (isSelectionEnabled) {
+            if (item.type === 'radio') {
+                item.options.forEach((option, idx) => {
+                    this.data.set(`items[${index}].options[${idx}].selected`, idx === optionIndex);
+                });
+            }
+            else if (item.type === 'checkbox') {
+                const selected = this.data.get(`items[${index}].options[${optionIndex}].selected`) || false;
+                this.data.set(`items[${index}].options[${optionIndex}].selected`, !selected);
+            }
+        }
+
         this.fire<QuestionGuideEvents['change']>('change', {
             event,
             label: item.label,
@@ -133,6 +149,10 @@ export default class QuestionGuideBase extends Component<QuestionGuideData> {
             optionIndex,
             index
         });
+    }
+
+    isSelected(item: Item, optionIndex: number): boolean {
+        return item.options[optionIndex]?.selected || false;
     }
 
     detached() {

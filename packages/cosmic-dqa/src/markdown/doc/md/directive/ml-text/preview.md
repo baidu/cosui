@@ -17,7 +17,7 @@ export default class CSRDemo extends Component {
 
     initData() {
         return {
-            text: '普通文本颜色 <br> :ml-text[灰色标签样式]{type="label"} <br> :ml-text[红色高亮文本样式]{type="highlight"}'
+            text: '普通文本颜色 <br> :ml-text[灰色标签样式]{type="label"} <br> :ml-text[红色高亮文本样式]{type="highlight"} <br> :ml-text[加粗放大文本样式]{type="emphasis"}'
         };
     }
 }

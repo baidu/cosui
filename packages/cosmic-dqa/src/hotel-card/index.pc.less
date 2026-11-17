@@ -12,11 +12,29 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- *
- * @file pagination 不支持 mobile 平台，返回一个空组件兼容路径使用
  */
 
-import {createEmptyComponent} from '../util';
+@import 'variable.less';
+@import './index.mobile.less';
 
-export default createEmptyComponent('pagination', 'mobile');
+.@{prefix}-hotel-card {
+    &:hover {
+        .cos-color-bg-dent-hover();
+        .cosd-hotel-card-title {
+            .cos-color-text-on-primary-light();
+        }
+    }
+
+    &.cos-link:hover {
+        text-decoration: none;
+    }
+
+    &-title:hover {
+        text-decoration: none;
+    }
+
+    &-thumbnail {
+        width: 88px;
+        height: 88px;
+    }
+}

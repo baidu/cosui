@@ -26,6 +26,12 @@ interface TypingConfig {
 export interface Table {
     copy?: boolean;
     fullscreen?: boolean;
+    download?: boolean;
+}
+export interface Code {
+    fullscreen?: boolean;
+    lineNumbers?: boolean;
+    foldable?: boolean;
 }
 export interface MarkdownData {
     /**
@@ -39,6 +45,10 @@ export interface MarkdownData {
      * 表格表头的配置
      */
     table?: Table;
+    /**
+     * 代码块的配置
+     */
+    code?: Code;
 };
 
 export interface Config {
@@ -50,12 +60,32 @@ export interface Config {
     };
 };
 
+export interface MlSearchLinkContext {
+    id?: string;
+}
+
+export interface MlSearchLinkInfo {
+    clickable?: boolean;
+    href?: string;
+    target?: string;
+    query?: string;
+}
+
+export interface MlSearchConfig {
+    sa?: string;
+    getLinkInfo?: (
+        text: string,
+        context?: MlSearchLinkContext
+    ) => MlSearchLinkInfo;
+}
+
 export interface DirectiveInfo {
     name: string;
     properties?: {
         [key: string]: unknown;
     };
     content?: string;
+    children?: HastNode[];
 }
 export interface MdastNode {
     name: string;
@@ -70,6 +100,11 @@ export interface HastNode {
     properties?: Record<string, unknown>;
     children?: HastNode[];
     value?: string;
+    /** marklang 会把代码围栏 language 后面的元信息串挂到 code 节点的 data.meta 上 */
+    data?: {
+        [key: string]: unknown;
+        meta?: string;
+    };
 }
 
 // video 默认封面
@@ -79,4 +114,11 @@ export interface MarkdownMethods {
     stop(): void;
     focus(): void;
     blur(): void;
+    refreshMlSearchLinks(ids?: string[]): void;
+}
+
+export interface MlIntentData {
+    text: string;
+    intentText: string;
+    index?: number;
 }

@@ -12,6 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ *
+ * @file pagination 样式
  */
 
 @import (reference) 'tokens.less';
@@ -90,5 +93,54 @@
         .cos-color-bg-dent-disabled();
         .cos-color-text-primary-disabled();
         cursor: not-allowed;
+    }
+
+    &-compact {
+        display: inline-flex;
+        .cos-items-center();
+        box-sizing: border-box;
+        border: 1px solid var(--cos-color-border-minor);
+        .cos-rounded-full();
+        padding: 2px;
+
+        &-btn {
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+            .cos-rounded-full();
+            width: 24px;
+            height: 24px;
+            .cos-color-text();
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:not(.@{prefix}-pagination-compact-btn-disabled):hover {
+                .cos-color-bg-dent();
+                .cos-color-text-primary();
+            }
+
+            &-disabled {
+                pointer-events: none;
+                .cos-color-text-disabled();
+            }
+        }
+
+        &-icon {
+            .cos-flex();
+            .cos-justify-center();
+            .cos-items-center();
+            .cos-rounded-full();
+            width: 24px;
+            height: 24px;
+            .cos-leading-none();
+        }
+
+        &-text {
+            .cos-space-ml-xxs();
+            .cos-space-mr-xxs();
+            .cos-color-text();
+            .cos-text-body();
+            white-space: nowrap;
+        }
     }
 }

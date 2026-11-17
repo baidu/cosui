@@ -31,7 +31,8 @@ function runCommand(command, description) {
         });
         console.log(`✅ ${description} completed successfully`);
         return true;
-    } catch (error) {
+    }
+    catch (error) {
         console.error(`❌ ${description} failed:`, error.message);
         return false;
     }
@@ -79,7 +80,7 @@ function buildJavaScript() {
 function generateBundleReport() {
     if (!config.analyze) {
         return true;
-    };
+    }
 
     console.log('\n📈 Generating bundle analysis report...');
 
@@ -93,10 +94,12 @@ function generateBundleReport() {
         if (fs.existsSync(source)) {
             fs.renameSync(source, dest);
             console.log('💡 Open `lib/stats.html` in browser to view detailed bundle analysis');
-        } else {
+        }
+        else {
             console.log('ℹ️  Analysis report not found at stats.html');
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.log('ℹ️  Analysis report is at stats.html (root directory)');
     }
 
@@ -110,17 +113,17 @@ async function main() {
     // 1. 清理
     if (!cleanBuild()) {
         process.exit(1);
-    };
+    }
 
     // 2. 构建样式
     if (!buildStyles()) {
         process.exit(1);
-    };
+    }
 
     // 3. 构建 JavaScript
     if (!buildJavaScript()) {
         process.exit(1);
-    };
+    }
 
     // 4. 生成类型定义
     // if (!generateTypes()) process.exit(1);

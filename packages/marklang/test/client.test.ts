@@ -1,5 +1,5 @@
-import marklangHtml from "../src/server";
-import marklang from "../src/client";
+import marklangHtml from '../src/server';
+import marklang from '../src/client';
 import {DirectiveInfo} from '../src/types';
 import mockData from './utils';
 const mlDataDirectives = {
@@ -7,7 +7,7 @@ const mlDataDirectives = {
         const span = document.createElement('span');
         span.className = 'ml-citation';
         expect(node.properties?.data).toMatchObject(mockData.citationList);
-        span.textContent = `ml-citation`;
+        span.textContent = 'ml-citation';
         return span;
     }
 };
@@ -16,7 +16,7 @@ const directives = {
         const span = document.createElement('span');
         span.className = 'ml-citation';
         expect(node.properties?.test).not.toBeNull();
-        span.textContent = `ml-citation`;
+        span.textContent = 'ml-citation';
         return span;
     }
 };
@@ -170,7 +170,7 @@ describe('Markdown Class', () => {
         it('should auto-convert URLs to links when autolink is enabled', () => {
             const el = document.createElement('div');
             const text = 'Visit https://example.com and http://test.com/path?query=123';
-            
+
             marklang({
                 autolink: true
             }).renderToElement(text, el);
@@ -186,7 +186,7 @@ describe('Markdown Class', () => {
         it('should not convert URLs to links when autolink is disabled', () => {
             const el = document.createElement('div');
             const text = 'Visit https://example.com and http://test.com';
-            
+
             marklang({
                 autolink: false
             }).renderToElement(text, el);
@@ -200,7 +200,7 @@ describe('Markdown Class', () => {
         it('should not convert URLs in code spans when autolink is enabled', () => {
             const el = document.createElement('div');
             const text = '`https://code.com` and https://normal.com';
-            
+
             marklang({
                 autolink: true
             }).renderToElement(text, el);
@@ -218,14 +218,14 @@ describe('Markdown Class', () => {
 
         marklang({
             directives: {
-                'ml-citation': (node) => {
+                'ml-citation': node => {
                     expect(node.properties?.fontSize).toBe('12px');
                     expect(node.properties?.textAlign).toBe('center');
                     expect(node.properties?.testkey).toBe('testValue');
                     const el = document.createElement('div');
                     el.className = 'ml-citation';
                     Object.keys(node.properties).forEach(key => {
-                        el.setAttribute(key, node.properties[key]);
+                        el.setAttribute(key, String(node.properties[key]));
                     });
                     return el;
                 }
@@ -236,44 +236,265 @@ describe('Markdown Class', () => {
     it('dataToAst: should parse markdown to AST', () => {
         const markdown = '# Hello World';
         const ast = marklang.dataToAst(markdown);
-        
+
         // Check that the result is a Root node
         expect(ast).toBeDefined();
         expect(ast.type).toBe('root');
-        
+
         // Check that it contains a heading node
         const children = ast.children;
         expect(children.length).toBeGreaterThan(0);
         expect(children[0].type).toBe('heading');
-        
+
         // Check heading properties
-        const heading = children[0];
+        const heading = children[0] as any;
         expect(heading.depth).toBe(1);
         expect(heading.children[0].type).toBe('text');
         expect(heading.children[0].value).toBe('Hello World');
     });
 
     it('dataToAst: should handle complex markdown', () => {
-        const markdown = '# Heading\n\nParagraph with **bold** and *italic* text.\n\n```js\nconsole.log("code block");\n```';
+        const markdown = '# Heading\n\n'
+            + 'Paragraph with **bold** and *italic* text.\n\n'
+            + '```js\nconsole.log("code block");\n```';
         const ast = marklang.dataToAst(markdown);
-        
+
         // Check that the result is a Root node with multiple children
         expect(ast).toBeDefined();
         expect(ast.type).toBe('root');
-        
+
         const children = ast.children;
         expect(children.length).toBe(3); // heading, paragraph, and code block
-        
+
         // Check heading
         expect(children[0].type).toBe('heading');
-        
+
         // Check paragraph with formatting
         expect(children[1].type).toBe('paragraph');
-        
+
         // Check code block
         expect(children[2].type).toBe('code');
-        const codeBlock = children[2];
+        const codeBlock = children[2] as any;
         expect(codeBlock.lang).toBe('js');
         expect(codeBlock.value).toBe('console.log("code block");');
+    });
+
+    describe('Plugin Registration', () => {
+        it('registerPlugin: should register a new plugin', () => {
+            const mockPlugin: any = {
+                name: 'test-plugin',
+                feature: /test-pattern/,
+                load: jest.fn(() => [])
+            };
+
+            marklang.registerPlugin(mockPlugin);
+
+            // Should not throw when registering
+            expect(mockPlugin.load).not.toHaveBeenCalled();
+        });
+
+        it('preloadPlugin: should preload plugins matching source pattern', async () => {
+            const mockPlugin: any = {
+                name: 'math-plugin',
+                feature: /\$\$/,
+                load: jest.fn(() => [Promise.resolve({default: jest.fn()})])
+            };
+
+            marklang.registerPlugin(mockPlugin);
+            await marklang.preloadPlugin('Text with $$math$$ expression');
+
+            expect(mockPlugin.load).toHaveBeenCalled();
+        });
+
+        it('preloadPlugin: should not preload plugins that do not match pattern', async () => {
+            const mockPlugin: any = {
+                name: 'math-plugin',
+                feature: /\$\$/,
+                load: jest.fn(() => [Promise.resolve({default: jest.fn()})])
+            };
+
+            marklang.registerPlugin(mockPlugin);
+            await marklang.preloadPlugin('Text without math');
+
+            expect(mockPlugin.load).not.toHaveBeenCalled();
+        });
+
+        it('preloadPlugin: should skip already loaded plugins', async () => {
+            const mockPlugin: any = {
+                name: 'cached-plugin',
+                feature: /cached/,
+                load: jest.fn(() => [Promise.resolve({default: jest.fn()})])
+            };
+
+            marklang.registerPlugin(mockPlugin);
+            await marklang.preloadPlugin('Match cached pattern');
+            const loadCountAfterFirst = mockPlugin.load.mock.calls.length;
+
+            await marklang.preloadPlugin('Match cached again');
+            const loadCountAfterSecond = mockPlugin.load.mock.calls.length;
+
+            // load should only be called once (cached)
+            expect(loadCountAfterSecond).toBe(loadCountAfterFirst);
+        });
+
+        it('preloadPlugin: should handle plugins with empty load result', async () => {
+            const mockPlugin: any = {
+                name: 'empty-load-plugin',
+                feature: /empty/,
+                load: jest.fn(() => [])
+            };
+
+            marklang.registerPlugin(mockPlugin);
+            await marklang.preloadPlugin('Match empty pattern');
+
+            expect(mockPlugin.load).toHaveBeenCalled();
+        });
+    });
+
+    describe('Async Rendering', () => {
+        it('renderToElementAsync: should render markdown asynchronously', async () => {
+            const el = document.createElement('div');
+            const markdown = '# Async Test\n\nThis is async content.';
+
+            await marklang().renderToElementAsync(markdown, el);
+
+            expect(el.querySelector('h1')).not.toBeNull();
+            expect(el.querySelector('h1')?.textContent).toBe('Async Test');
+            expect(el.querySelector('p')?.textContent).toBe('This is async content.');
+        });
+
+        it('renderToElementAsync: should handle directives asynchronously', async () => {
+            const el = document.createElement('div');
+            const directives = {
+                'ml-test': () => {
+                    const span = document.createElement('span');
+                    span.className = 'ml-test';
+                    span.textContent = 'test directive';
+                    return span;
+                }
+            };
+
+            await marklang({directives}).renderToElementAsync(':ml-test[content]', el);
+
+            expect(el.querySelector('span.ml-test')).not.toBeNull();
+        });
+
+        it('renderToElementAsync: should handle plugins with module that has no default export', async () => {
+            const el = document.createElement('div');
+            const plugin: any = {
+                name: 'no-default-plugin',
+                feature: /no-default/,
+                load: jest.fn(() => [Promise.resolve({})]) // Empty module without default
+            };
+
+            marklang.registerPlugin(plugin);
+            await marklang().renderToElementAsync('Text with no-default pattern', el);
+
+            expect(plugin.load).toHaveBeenCalled();
+            expect(el.querySelector('h1')).toBeNull(); // No h1 since it's just text
+        });
+    });
+
+    describe('Plugin Loading Edge Cases', () => {
+        it('should handle plugin with module that has no function exports', async () => {
+            const plugin: any = {
+                name: 'invalid-plugin',
+                feature: /invalid/,
+                load: jest.fn(() => [Promise.resolve({someData: 'value'})]) // Module without function
+            };
+
+            marklang.registerPlugin(plugin);
+            await marklang.preloadPlugin('Test invalid pattern');
+
+            expect(plugin.load).toHaveBeenCalled();
+        });
+
+        it('should handle null module returned from load', async () => {
+            const plugin: any = {
+                name: 'null-plugin',
+                feature: /null-mod/,
+                load: jest.fn(() => [Promise.resolve(null)])
+            };
+
+            marklang.registerPlugin(plugin);
+            await marklang.preloadPlugin('Test null-mod pattern');
+
+            expect(plugin.load).toHaveBeenCalled();
+        });
+
+        it('should handle rehype plugin (plugin name starting with rehype)', async () => {
+            const el = document.createElement('div');
+            // Create a function with name starting with 'rehype'
+            const rehypeFunction = function rehypeCustomPlugin() {};
+            const rehypePlugin: any = {
+                name: 'rehype-custom',
+                feature: /custom/,
+                load: jest.fn(() => [
+                    Promise.resolve({
+                        default: rehypeFunction
+                    })
+                ])
+            };
+
+            marklang.registerPlugin(rehypePlugin);
+            await marklang().renderToElementAsync('Test custom pattern', el);
+
+            expect(rehypePlugin.load).toHaveBeenCalled();
+        });
+
+        it('should handle concurrent plugin loads (reuse loading promise)', async () => {
+            // eslint-disable-next-line @typescript-eslint/init-declarations
+            let resolveLoad: () => void;
+            const plugin: any = {
+                name: 'concurrent-plugin',
+                feature: /concurrent/,
+                load: jest.fn(() => [
+                    new Promise<void>(resolve => {
+                        resolveLoad = resolve;
+                    })
+                ])
+            };
+
+            marklang.registerPlugin(plugin);
+
+            // Start first load (doesn't complete yet)
+            const firstLoad = marklang.preloadPlugin('Test concurrent pattern');
+
+            // Start second load while first is still loading - should reuse the same promise
+            const secondLoad = marklang.preloadPlugin('Test concurrent pattern again');
+
+            // Verify load was called only once
+            expect(plugin.load).toHaveBeenCalledTimes(1);
+
+            // Complete the load
+            resolveLoad();
+
+            // Both should complete successfully
+            await firstLoad;
+            await secondLoad;
+
+            // Load should still only be called once
+            expect(plugin.load).toHaveBeenCalledTimes(1);
+        });
+
+        it('should handle module with non-function properties before function export', async () => {
+            const el = document.createElement('div');
+            const plugin: any = {
+                name: 'mixed-export-plugin',
+                feature: /mixed/,
+                load: jest.fn(() => [
+                    Promise.resolve({
+                        someData: 'value', // Non-function property
+                        anotherData: 123, // Non-function property
+                        remarkCustomPlugin: function remarkCustomPlugin() {} // Function property
+                    })
+                ])
+            };
+
+            marklang.registerPlugin(plugin);
+            await marklang().renderToElementAsync('Test mixed pattern', el);
+
+            expect(plugin.load).toHaveBeenCalled();
+        });
     });
 });

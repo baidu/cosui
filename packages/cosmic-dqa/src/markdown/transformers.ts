@@ -16,6 +16,15 @@
 
 import {MdastNode, HastNode} from './interface';
 
+// 折叠阈值：折叠态锁定的纯内容区（.code-right）高度 448px = 28px 行高 × 16 行，不含 wrapper 的上下 padding。
+// 超过才折叠。每次展开步进见 pc/index.ts（448 * 2）。
+// 与 pc/index.ts 运行时测高逻辑及 code.less 的 max-height 保持一致。
+export const CODE_FOLD_MAX_HEIGHT = 448;
+
+// 原文引用块的 fence 语言标签：策略下发的原文引用以 ```原文/```译文 标注 info string。
+// 这类块语义是「引用」而非普通代码
+export const QUOTE_LANGS = new Set(['原文', '译文']);
+
 export function getLanguage(node: HastNode) {
     const list = node.properties?.className;
 
@@ -26,6 +35,41 @@ export function getLanguage(node: HastNode) {
     return list
         .filter(item => item.startsWith('language-'))
         .map(item => item.substring(9))[0] || '';
+}
+
+/**
+ * 解析代码围栏 language 后面的配置项，形如 ```java {lineNumbers=false} 中的 `{lineNumbers=false}`。
+ * marklang 会把这段元信息挂到 code 节点的 data.meta 上。
+ * 支持 `key=value`（value 为 true/false 时转成布尔值）以及裸 `key`（等价于 key=true）。
+ * 注意：优先级低于外侧全局 code 配置，仅在全局未显式设置对应项时生效。
+ */
+export function parseCodeMeta(meta?: string): Record<string, string | boolean> {
+    const result: Record<string, string | boolean> = {};
+    if (!meta) {
+        return result;
+    }
+    // 取出 {...} 内的内容，没有花括号时直接解析整串
+    const braceMatch = /\{([^}]*)\}/.exec(meta);
+    const raw = braceMatch ? braceMatch[1] : meta;
+    raw
+        .split(/[\s,]+/)
+        .filter(Boolean)
+        .forEach(pair => {
+            const [key, value] = pair.split('=');
+            if (!key) {
+                return;
+            }
+            if (value === undefined) {
+                result[key] = true;
+                return;
+            }
+            if (value === 'true' || value === 'false') {
+                result[key] = value === 'true';
+                return;
+            }
+            result[key] = value;
+        });
+    return result;
 }
 
 function getLineNumbers(node?: HastNode) {
@@ -96,12 +140,16 @@ export function getTransformers() {
                     return node;
                 }
 
-                const {copy, fullscreen} = table;
+                const {copy, fullscreen, download} = table;
                 const headerIconsNodes: HastNode[] = [];
 
                 if (copy) {
                     // eslint-disable-next-line max-len
                     headerIconsNodes.push(createElement('i', ['cos-icon cos-icon-copy'], []));
+                }
+                if (download) {
+                    // eslint-disable-next-line max-len
+                    headerIconsNodes.push(createElement('i', ['cos-icon cos-icon-download'], []));
                 }
                 if (fullscreen) {
                     // eslint-disable-next-line max-len
@@ -117,107 +165,116 @@ export function getTransformers() {
                 }
             },
             /**
-             * 代码块增加头部：语言+复制按钮
+             * 代码块增加头部：语言+复制按钮+放大按钮
              */
-            pre: ({
-                node
-            }: { node: HastNode }) => {
-                if (!node.children || !node.children.length) {
+            pre: ({node}: {node: HastNode}) => {
+                if (!node.children?.length) {
                     return node;
                 }
+                // @ts-ignore
+                const globalCode = this.data.get('code') || {};
+
                 const codeIndex = node.children.findIndex(preItem =>
                     preItem.type === 'element' && preItem.tagName === 'code'
                 );
-
                 if (codeIndex === -1) {
                     return node;
                 }
 
                 const codeNode = node.children[codeIndex];
                 const lang = getLanguage(codeNode);
-                const lineNumberClassName = 'code-number';
-                const codeLeftClassName = 'code-left';
-                const codeRightClassName = 'code-right';
-                const codeWrapperClassName = 'code-wrapper';
-                const codeHeaderClassName = 'code-header';
-                const copyButtonClassName = ['cosd-markdown-code-copy', 'cos-link'];
 
-                // 创建左侧行号节点
-                const leftNode: HastNode = {
-                    type: 'element',
-                    tagName: 'div',
-                    properties: {
-                        className: [codeLeftClassName]
-                    },
-                    children: []
-                };
+                // 原文/译文块标记为引用
+                const isQuote = QUOTE_LANGS.has(lang);
 
-                // 创建右侧代码节点
-                const rightNode: HastNode = {
-                    type: 'element',
-                    tagName: 'div',
-                    properties: {
-                        className: [codeRightClassName]
-                    },
-                    children: [codeNode]
+                // 代码围栏 language 后面的配置项（如 ```java {lineNumbers=false}）。
+                // 围栏配置优先级更高：围栏显式设置时以围栏为准，否则回退到全局 code 配置，最后取默认值。
+                const meta = parseCodeMeta(codeNode.data?.meta);
+                const resolveFlag = (key: 'lineNumbers' | 'fullscreen' | 'foldable', defaultValue: boolean) => {
+                    if (typeof meta[key] === 'boolean') {
+                        return meta[key] as boolean;
+                    }
+                    if (typeof globalCode[key] === 'boolean') {
+                        return globalCode[key] as boolean;
+                    }
+                    return defaultValue;
                 };
+                const lineNumbers = resolveFlag('lineNumbers', true);
+                const fullscreen = resolveFlag('fullscreen', false);
+                const foldable = resolveFlag('foldable', false);
 
                 // 添加行号
-                let index = 1;
+                const lineNumberNodes: HastNode[] = [];
+                let lineIndex = 1;
                 codeNode.children?.forEach(item => {
-                    const lineNumber = getLineNumbers(item);
-                    for (let i = 0; i < lineNumber; i++) {
-                        const lineNumberNode: HastNode = {
-                            type: 'element',
-                            properties: {
-                                'data-line-number': index++,
-                                className: [lineNumberClassName]
-                            },
-                            tagName: 'div',
-                            children: []
-                        };
-                        // @ts-ignore
-                        leftNode.children.push(lineNumberNode);
-                    };
+                    const lineCount = getLineNumbers(item);
+                    if (lineNumbers) {
+                        for (let i = 0; i < lineCount; i++) {
+                            lineNumberNodes.push({
+                                type: 'element',
+                                properties: {
+                                    'data-line-number': lineIndex++,
+                                    className: ['code-number']
+                                },
+                                tagName: 'div',
+                                children: []
+                            });
+                        }
+                    }
                 });
+
+                // 构建header
+                const headerButtons: HastNode[] = [
+                    createElement('i', ['cos-icon', 'cos-icon-copy'])
+                ];
+                if (fullscreen) {
+                    headerButtons.push(createElement('i', ['cos-icon', 'cos-icon-full-screen']));
+                }
+
+                const headerNode = createElement('div', ['code-header'], [
+                    createElement('span', ['code-header-left'], [createTextNode(lang)]),
+                    createElement('span', ['code-header-right'], headerButtons)
+                ]);
 
                 // 包装代码节点
-                node.children[codeIndex] = {
-                    type: 'element',
-                    tagName: 'div',
-                    properties: {
-                        className: [codeWrapperClassName]
-                    },
-                    children: [leftNode, rightNode]
-                };
-
-                // 创建头部包含语言标签和复制按钮
-                const createHeaderButton = (text: string, className?: string[]) => ({
-                    type: 'element',
-                    tagName: 'span',
-                    properties: {
-                        className,
-                        'rl-type': 'stop'
-                    },
-                    children: [{
-                        type: 'text',
-                        value: text
-                    }]
-                });
-
-                const headerNode: HastNode = {
-                    type: 'element',
-                    tagName: 'div',
-                    properties: {
-                        className: [codeHeaderClassName]
-                    },
-                    children: [
-                        createHeaderButton(lang),
-                        createHeaderButton('Copy Code', copyButtonClassName)
+                const wrapperChildren: HastNode[] = lineNumbers
+                    ? [
+                        createElement('div', ['code-left'], lineNumberNodes),
+                        createElement('div', ['code-right'], [codeNode])
                     ]
-                };
-
+                    : [createElement('div', ['code-right'], [codeNode])];
+                node.children[codeIndex] = createElement('div', ['code-wrapper'], wrapperChildren);
                 node.children.unshift(headerNode);
+
+                // 原文/译文引用块打标记类，供业务层区分「引用」与「代码」日志。
+                if (isQuote) {
+                    const existingClass = (node.properties?.className as string[]) || [];
+                    node.properties = {
+                        ...(node.properties || {}),
+                        className: [...existingClass, 'cosd-markdown-code-quote']
+                    };
+                }
+
+                // 无行号场景（如原文引用纯文本），超长单行自动换行而非横向滚动
+                if (!lineNumbers) {
+                    const existingClass = (node.properties?.className as string[]) || [];
+                    node.properties = {
+                        ...(node.properties || {}),
+                        className: [...existingClass, 'cosd-markdown-code-plain']
+                    };
+                }
+
+                // 折叠逻辑改为运行时按真实高度判定（见 pc/index.ts reconcileCollapsibleCode）：
+                // 构建期无法拿到 DOM 高度，纯文本自动换行后的视觉高度更是无法静态估算，
+                // 因此这里不再预判折叠，只保留 foldable 标记类，交给运行时测高决定是否折叠+挂按钮。
+                if (foldable) {
+                    const existingClass = (node.properties?.className as string[]) || [];
+                    node.properties = {
+                        ...(node.properties || {}),
+                        className: [...existingClass, 'cosd-markdown-code-foldable']
+                    };
+                }
+
                 return node;
             }
         }

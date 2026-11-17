@@ -53,11 +53,38 @@ export default class Citation extends Component<CitationData> implements Citatio
                 </a>
             </span>
             <span s-else-if="appearance === 'aggregated'"
-                class="cosd-citation cosd-citation-aggregated cos-link"
+                class="cosd-citation cosd-citation-aggregated cos-link{{
+                    aggregatedText ? ' cosd-citation-aggregated-with-text' : ''}}"
                 on-click="handleClick($event, 'citationAggregated')"
             >
-                <span class="cosd-citation-aggregated-citationId">
-                    <cos-icon name="source-trace" class="cosd-citation-aggregated-icon" />
+                <span
+                    s-if="aggregatedText"
+                    class="cosd-citation-aggregated-text"
+                >
+                    <span
+                        s-if="source && source.logo && source.logo.length"
+                        class="cosd-citation-aggregated-logo-list"
+                    >
+                        <fragment s-for="logo in source.logo">
+                            <span
+                                s-if="logo"
+                                class="cosd-citation-aggregated-logo-wrapper
+                                    cosd-citation-aggregated-logo-wrapper-with-logo"
+                            >
+                                <img src="{{logo}}" class="cosd-citation-aggregated-logo">
+                            </span>
+                            <cos-icon
+                                s-else
+                                name="{{source.icon || 'source-trace'}}"
+                                class="cosd-citation-aggregated-logo-icon"
+                            />
+                        </fragment>
+                    </span>
+                    {{aggregatedText}}
+                    <cos-icon name="right" class="cosd-citation-consensus-arrow cos-color-text-tiny-active" />
+                </span>
+                <span s-else class="cosd-citation-aggregated-citationId">
+                    <cos-icon name="{{source.icon || 'source-trace'}}" class="cosd-citation-aggregated-icon" />
                 </span>
             </span>
             <cos-tooltip
@@ -76,9 +103,18 @@ export default class Citation extends Component<CitationData> implements Citatio
                     on-click="handleClick($event, appearance === 'tag' ? 'citationTag' : 'citationId')"
                 >
                     <span class="cosd-citation-tag-number">{{citationId}}</span>
-                    <span s-if="appearance === 'tag'">
+                    <fragment s-if="appearance === 'tag'">
+                        <span s-if="source && source.logo" class="cosd-citation-tag-logo-wrapper">
+                            <img src="{{source.logo}}" class="cosd-citation-tag-logo">
+                        </span>
+                        <!-- 兜底图标 -->
+                        <cos-icon
+                            s-else-if="source && source.icon"
+                            name="{{source.icon}}"
+                            class="cosd-citation-tag-icon"
+                        />
                         <span class="cosd-citation-tag-text">{{source.tag.text}}</span>
-                    </span>
+                    </fragment>
                 </span>
                 <a
                     slot="content"
@@ -168,6 +204,7 @@ export default class Citation extends Component<CitationData> implements Citatio
             thumbnail: '',
             source: undefined,
             title: '',
+            aggregatedText: '',
             linkInfo: {
                 href: ''
             }

@@ -1,0 +1,115 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-product-card {
+    .cos-flex();
+    .cos-vcard-color-bg();
+    .cos-space-p-xs();
+    .cos-rounded-sm();
+
+    &-thumbnail {
+        .cos-space-mr-xs();
+    }
+    // 右侧内容部分
+    &-content {
+        flex: 1;
+        .cos-flex();
+        .cos-flex-col();
+        .cos-justify-between();
+    }
+    &-line {
+        .cos-flex();
+        .cos-items-center();
+        .cos-text-body();
+        .cos-color-text-minor();
+    }
+    &-title {
+        margin-top: calc(-1 * var(--cos-space-3xs));
+        .cos-line-clamp-1();
+        .cos-font-medium();
+        .cos-color-text();
+        .cos-text-left();
+    }
+    &-caption {
+        .cos-line-clamp-1();
+    }
+    &-caption-item {
+        display: inline;
+    }
+    &-caption-divider {
+        .cos-space-ml-xxs();
+        .cos-space-mr-xxs();
+        .cos-space-mb-3xs();
+        vertical-align:  middle;
+        height: calc(var(--cos-text-caption) * var(--font-size-scale, 1));
+        background-color: var(--cos-color-border);
+    }
+    &-price {
+        .cos-justify-between();
+        .cos-color-text-alive();
+        .cos-space-mt-xs();
+        .cos-leading-none();
+        overflow: hidden;
+        margin-top: 4.5px;
+        margin-bottom: calc(-1 * var(--cos-space-xxs));
+
+        .cos-price-unit {
+            .cos-text-body();
+            .cos-font-medium();
+        }
+        .cos-price-origin-value {
+            .cos-text-body();
+            margin-left: var(--cos-space-3xs);
+        }
+    }
+    &-sales {
+        .cos-shrink-0();
+        .cos-text-body();
+        .cos-space-pl-xs();
+        .cos-color-text-minor();
+    }
+    &-source {
+        .cos-line-clamp-1();
+        .cos-color-text-minor();
+        .cos-space-pt-xxs();
+        margin-top: -4.5px;
+        margin-bottom: -4.5px;
+    }
+    &-tags {
+        .cos-flex-wrap();
+        .cos-space-mt-xxs();
+        overflow: hidden;
+        max-height: 16px;
+
+        &-icon {
+            margin-left: calc(-1 * var(--cos-space-3xs));
+            .cos-space-mr-3xs();
+            width: calc(var(--cos-text-subtitle) * var(--font-size-scale, 1));
+        }
+
+        .cos-tag {
+            .cos-line-clamp-1();
+            .cos-flex();
+
+            &:not(:last-child) {
+                .cos-space-mr-3xs();
+            }
+        }
+    }
+}

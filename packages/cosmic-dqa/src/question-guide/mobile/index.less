@@ -109,6 +109,18 @@
         }
     }
 
+    &-option-selected {
+        &.@{prefix}-question-guide-option {
+            .@{prefix}-question-guide-option-text {
+                .cos-color-text-on-primary-light();
+            }
+        }
+
+        .@{prefix}-question-guide-option-content {
+            .cos-color-bg-primary-light();
+        }
+    }
+
     // 不支持滚动且选项内容超出时，显示省略号
     &-no-scrollable {
         .@{prefix}-question-guide-option {

@@ -26,7 +26,9 @@ export default class Title extends Component<TitleData> {
     static trimWhitespace = 'all';
 
     static template = `
-        <h3 class="cosc-title">
+        <h3 class="cosc-title{{
+            _linkHref ? ' cos-link' : ''}}
+        ">
             <!-- 用 span 不用 div 的原因：业务方直接从根节点上添加 cos-line-clamp-x 能正常截断 -->
             <component
                 class="cosc-title-a{{
@@ -50,7 +52,7 @@ export default class Title extends Component<TitleData> {
                     ></span>
                 </template>
 
-                <!-- tag：tag 组件 -->
+                <!-- tag：tag 组件 wise tag在标题前 -->
                 <cos-tag
                     s-if="{{tag}}"
                     class="cosc-title-tag color-text-on-primary

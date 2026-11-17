@@ -1,5 +1,5 @@
 import {Component} from 'san';
-import {router, BASE_URL} from './utils/proxy-router';
+import {router, BASE_URL} from './public/proxy-router';
 import './index.less';
 import routes from './router/routes';
 

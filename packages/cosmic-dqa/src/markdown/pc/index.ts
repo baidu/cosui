@@ -30,7 +30,8 @@ import mlShopAddress from '../ml-shop-address';
 import mlSearch from './ml-search';
 import mlSiteVcard from '../ml-site-vcard';
 import mlSearchMore from './ml-search-more';
-import {getTransformers} from '../transformers';
+import {getTransformers, CODE_FOLD_MAX_HEIGHT} from '../transformers';
+import mlIntent from '../ml-intent';
 import {MarkdownData} from '../interface';
 import {copyTextToClipboard} from '../copy';
 import {handleNotTyping, findLastElement} from '../typing';
@@ -84,6 +85,9 @@ export default class Markdown extends Component<MarkdownData> {
     _renderedDirectiveComponentsMap: object | null;
     _renderingDom: HTMLElement | null;
     modeAllTimer: number | null;
+    // 记录用户对可折叠代码块的手动展开状态，key 为该块在渲染根下 foldable 列表中的序号。
+    // 打字机每包会重建 DOM，reconcile 后据此恢复，避免用户展开后打完字又缩回折叠态。
+    _codeFoldState: Array<{expanded: boolean, maxHeight: string}> = [];
 
     inited() {
         const content = this.data.get('content');
@@ -104,7 +108,8 @@ export default class Markdown extends Component<MarkdownData> {
                     'ml-tag-link': mlTagLink.ssr,
                     'ml-audio': mlAudio.ssr,
                     'ml-site-vcard': mlSiteVcard.ssr,
-                    'ml-search-more': mlSearchMore.ssr
+                    'ml-search-more': mlSearchMore.ssr,
+                    'ml-intent': mlIntent.ssr
                 },
                 transformers: getTransformers.bind(this)()
             }).render(this.getContent(content));
@@ -121,6 +126,8 @@ export default class Markdown extends Component<MarkdownData> {
             config: {},
             // table的配置项
             table: null,
+            // code的配置项
+            code: null,
             autolink: false,
             // 展示的 markdown 文本
             _showContent: '',
@@ -235,6 +242,7 @@ export default class Markdown extends Component<MarkdownData> {
                 'ml-audio': mlAudio.csr.bind(this),
                 'ml-site-vcard': mlSiteVcard.csr.bind(this),
                 'ml-search-more': mlSearchMore.csr.bind(this),
+                'ml-intent': mlIntent.csr.bind(this),
                 ...directives
             },
             transformers: getTransformers.bind(this)()
@@ -244,7 +252,9 @@ export default class Markdown extends Component<MarkdownData> {
         const html = el.querySelector('.marklang');
         const marklangIns = marklang(marklangOptions);
         this.data.set('_marklangIns', marklangIns);
-        if (!html) {
+        // 由于结果页服务端渲染后会把\n替换为空格，所以代码块的逻辑需要重新渲染
+        const hasPreCode = html?.querySelector('pre');
+        if (!html || hasPreCode) {
             if (this.data.get('typing')) {
                 this.data.push('_typingList', content);
                 this.typingContent(el);
@@ -253,10 +263,13 @@ export default class Markdown extends Component<MarkdownData> {
                 content && marklangIns.renderToElementAsync
                     ? await marklangIns.renderToElementAsync(this.getContent(content), el)
                     : marklangIns.renderToElement(this.getContent(content), el);
+                this.reconcileCollapsibleCode(el);
+                this.fire('render-complete');
             }
         }
         else {
             marklangIns.hydrate(el);
+            this.reconcileCollapsibleCode(el);
         }
         this.watch('content', (newVal: string) => {
             this.updateContent(newVal);
@@ -275,6 +288,10 @@ export default class Markdown extends Component<MarkdownData> {
     async updateContent(content: string) {
         const el = this.ref('markdownRef') as unknown as HTMLElement;
         this.data.set('_showContent', content);
+        // 整篇内容替换：清空折叠状态记录。_codeFoldState 以代码块序号为 key，
+        // 换新内容后旧序号语义失效，不清会让新内容的同序号代码块误用上一篇的展开状态。
+        // （打字机逐包追加走 appendContent，是同一篇内容增长，不经过这里，状态得以保留）
+        this._codeFoldState = [];
         if (this.data.get('typing')) {
             this.stop();
             this.data.set('_typingList', [content]);
@@ -285,6 +302,7 @@ export default class Markdown extends Component<MarkdownData> {
             content && marklangIns.renderToElementAsync
                 ? await marklangIns.renderToElementAsync(this.getContent(content), this._renderingDom || el)
                 : marklangIns.renderToElement(this.getContent(content), this._renderingDom || el);
+            this.reconcileCollapsibleCode(el);
         }
     }
     /**
@@ -305,9 +323,18 @@ export default class Markdown extends Component<MarkdownData> {
             this.data.set('_showContent', _showContent);
             const marklangIns = this.data.get('_marklangIns');
             this.destroyComponents();
-            _showContent && marklangIns.renderToElementAsync
-                ? marklangIns.renderToElementAsync(this.getContent(_showContent), this._renderingDom || el)
-                : marklangIns.renderToElement(this.getContent(_showContent), this._renderingDom || el);
+            if (_showContent && marklangIns.renderToElementAsync) {
+                marklangIns.renderToElementAsync(this.getContent(_showContent), this._renderingDom || el)
+                    .then(() => this.reconcileCollapsibleCode(el as unknown as HTMLElement))
+                    // 与同文件 updateContent 中 await 场景不同，这里是"发射即忘"的追加渲染，
+                    // 不 catch 会产生 unhandled promise rejection；渲染失败时也无从上层恢复，
+                    // 静默吞掉以避免污染宿主页面控制台，同时后续 reconcile 会在下一次渲染中自然补齐折叠态。
+                    .catch(() => {});
+            }
+            else {
+                marklangIns.renderToElement(this.getContent(_showContent), this._renderingDom || el);
+                this.reconcileCollapsibleCode(el as unknown as HTMLElement);
+            }
         }
     }
     typingContent(el: HTMLElement) {
@@ -382,6 +409,8 @@ export default class Markdown extends Component<MarkdownData> {
                 this.addCursor();
             });
         }
+        // 打字过程中每包渲染后即时判定：code 高度一超过阈值（CODE_FOLD_MAX_HEIGHT）就折叠出按钮，不必等全部打完
+        this.reconcileCollapsibleCode(el);
         // 若存在换行符，则判断是否是p标签结尾
         if (before.endsWith('\n')) {
             const dom = this._renderingDom || el;
@@ -472,6 +501,7 @@ export default class Markdown extends Component<MarkdownData> {
             this.typingAllOrSentence(el);
         }
         else {
+            this.reconcileCollapsibleCode(el);
             this.fire('typing-finished');
         }
     }
@@ -502,6 +532,22 @@ export default class Markdown extends Component<MarkdownData> {
             return;
         }
         _directiveComponents.push(component);
+    }
+
+    /**
+     * 刷新已渲染的 ml-search 链接状态。
+     * 不传 ids 时刷新全部；传入数组时只刷新指定指令，空数组不刷新，非数组入参不处理。
+     */
+    refreshMlSearchLinks(ids?: string[]) {
+        // 非数组入参不处理
+        if (ids && !Array.isArray(ids)) {
+            return;
+        }
+
+        // 区分有无 ids 参数，有则处理为 Set
+        const idSet = ids ? new Set(ids) : undefined;
+        const components = this.getComponentsByDirective('ml-search');
+        components.forEach((component: any) => component?.refreshLinkInfo?.(idSet));
     }
 
     stopTyping({immediate}: {immediate: boolean}) {
@@ -537,6 +583,7 @@ export default class Markdown extends Component<MarkdownData> {
                     const tempNode = this._tempRootOfSentenceMode!;
                     marklangIns.renderToElement(content, tempNode);
                     this._typingSentenceManager?.finishRender(tempNode, () => {
+                        this.reconcileCollapsibleCode(el);
                         // 不要使用 render-finish 事件名，会和现有的业务监听事件重复
                         this.fire('render-complete');
                     });
@@ -544,6 +591,7 @@ export default class Markdown extends Component<MarkdownData> {
             }
             else {
                 marklangIns.renderToElement(content, el);
+                this.reconcileCollapsibleCode(el);
                 // 不要使用 render-finish 事件名，会和现有的业务监听事件重复
                 this.fire('render-complete');
             }
@@ -633,10 +681,13 @@ export default class Markdown extends Component<MarkdownData> {
             const content = this.getContent(storeText);
             if (marklangIns.renderToElementAsync) {
                 await marklangIns.renderToElementAsync(content, this._renderingDom || el);
-            } else {
+            }
+            else {
                 marklangIns.renderToElement(content, this._renderingDom || el);
             }
             this.addCursor();
+            // 逐字模式同样每次渲染后即时判定：code 高度超过阈值即折叠出按钮，不必等全部打完
+            this.reconcileCollapsibleCode(el);
             await new Promise(resolve => setTimeout(resolve, speed));
         }
 
@@ -649,6 +700,7 @@ export default class Markdown extends Component<MarkdownData> {
                 this.typingText(el);
             }
             else {
+                this.reconcileCollapsibleCode(el);
                 this.fire('typing-finished');
             }
         }
@@ -720,7 +772,7 @@ export default class Markdown extends Component<MarkdownData> {
     handleClick(event: Event) {
         this.showImage(event);
         this.handleLink(event);
-        this.handleCodeCopy(event);
+        this.handleCode(event);
         this.handleTable(event);
     }
     handleTable(event: Event) {
@@ -730,7 +782,10 @@ export default class Markdown extends Component<MarkdownData> {
         }
         const tableParent = target.closest('.cosd-markdown-table');
         const iconClassList = Array.from(target.classList);
-        const action = iconClassList.find(item => item.startsWith('cos-icon-'))?.replace('cos-icon-', '') || '';
+        let action = iconClassList.find(item => item.startsWith('cos-icon-'))?.replace('cos-icon-', '') || '';
+        if (action === 'full-screen') {
+            action = 'fullscreen';
+        }
         event.stopPropagation();
         this.fire('click', {
             event,
@@ -741,15 +796,67 @@ export default class Markdown extends Component<MarkdownData> {
             from: 'table'
         });
     }
-    handleCodeCopy(event: Event) {
+    handleCode(event: Event) {
         const target = event.target as HTMLElement;
-        if (!target || !target.closest('.cosd-markdown-code-copy')) {
+        const preDom = target?.closest('pre');
+
+        if (!preDom?.querySelector('.code-header')) {
             return;
         }
+
+        // 原文/译文引用块由 transformers 打上 cosd-markdown-code-quote 类，语义为「引用」，
+        const isQuote = preDom.classList.contains('cosd-markdown-code-quote');
+
+        // 折叠/展开
+        const toggleDom = target?.closest('.cosd-code-fold');
+        if (toggleDom) {
+            event.stopPropagation();
+            const codeRight = preDom.querySelector<HTMLElement>('.code-right');
+            const expanded = this.toggleCodeFold(preDom, codeRight);
+
+            const textDom = toggleDom.querySelector('.cosd-code-fold-text');
+            if (textDom) {
+                textDom.textContent = expanded ? '收起' : '展开';
+            }
+            const iconDom = toggleDom.querySelector('.cosd-code-fold-icon');
+            if (iconDom) {
+                iconDom.classList.toggle('cos-icon-down', !expanded);
+                iconDom.classList.toggle('cos-icon-up', expanded);
+            }
+
+            // 记录用户手动状态，供打字机后续重渲染后恢复，避免打完字缩回折叠态
+            this.saveCodeFoldState(preDom, codeRight);
+
+            this.fire('click', {
+                event,
+                data: {preDom, isQuote},
+                action: expanded ? 'unfold' : 'fold',
+                from: 'code'
+            });
+            return;
+        }
+
+        if (!target?.classList.contains('cos-icon') || target.classList.contains('cosd-code-fold-icon')) {
+            return;
+        }
+
+        let action = Array.from(target.classList)
+            .find(item => item.startsWith('cos-icon-'))?.replace('cos-icon-', '') || '';
+        if (action === 'full-screen') {
+            action = 'fullscreen';
+        }
         event.stopPropagation();
-        const preDom = target.closest('pre');
-        const codeDom = preDom ? preDom.querySelector('code') : null;
-        codeDom && this.copyText(codeDom.innerText, event);
+
+        if (action === 'copy') {
+            const codeDom = preDom?.querySelector('code');
+            codeDom && this.copyText(codeDom.innerText, event);
+        }
+        this.fire('click', {
+            event,
+            data: {preDom, isQuote},
+            action,
+            from: 'code'
+        });
     }
 
     handleLink(event: Event) {
@@ -782,7 +889,10 @@ export default class Markdown extends Component<MarkdownData> {
         if (target?.closest('img.marklang-img')) {
             this.fire('click', {
                 event,
-                from: 'img'
+                from: 'img',
+                data: {
+                    removePreview: true
+                }
             });
         }
     }
@@ -807,5 +917,139 @@ export default class Markdown extends Component<MarkdownData> {
                 size: 'md'
             });
         });
+    }
+
+    // 折叠态锁纯内容区（.code-right）高度 CODE_FOLD_MAX_HEIGHT(448px)。每点一次展开 +448*2px，直到露出全部内容变为完全展开。
+    // codeRight 为 .code-right 内容区（不含 wrapper 的上下 padding，测量口径与折叠锁高一致）。
+    // returns true when block is now fully expanded, false when collapsed/partially expanded
+    toggleCodeFold(preDom: Element, codeRight: HTMLElement | null): boolean {
+        if (preDom.classList.contains('cosd-markdown-code-expanded')) {
+            preDom.classList.remove('cosd-markdown-code-expanded');
+            if (codeRight) {
+                codeRight.style.maxHeight = '';
+            }
+            return false;
+        }
+        if (!codeRight) {
+            return false;
+        }
+        const inlineMax = parseFloat(codeRight.style.maxHeight);
+        const computedMax = parseFloat(getComputedStyle(codeRight).maxHeight);
+        const currentMax = Number.isFinite(inlineMax)
+            ? inlineMax
+            : (Number.isFinite(computedMax) ? computedMax : codeRight.clientHeight);
+        const next = currentMax + CODE_FOLD_MAX_HEIGHT * 2;
+        if (next >= codeRight.scrollHeight) {
+            codeRight.style.maxHeight = '';
+            preDom.classList.add('cosd-markdown-code-expanded');
+            return true;
+        }
+        codeRight.style.maxHeight = `${next}px`;
+        return false;
+    }
+
+    /**
+     * 记录某个可折叠代码块的用户手动状态，key 为它在渲染根下 foldable 列表中的序号。
+     * 打字机每包会重建 DOM，reconcile 后据此恢复，避免用户展开后打完字又缩回折叠态。
+     */
+    saveCodeFoldState(preDom: Element, codeRight: HTMLElement | null) {
+        const root = this.el;
+        if (!root) {
+            return;
+        }
+        const list = Array.from(root.querySelectorAll('pre.cosd-markdown-code-foldable'));
+        const index = list.indexOf(preDom);
+        if (index === -1) {
+            return;
+        }
+        this._codeFoldState[index] = {
+            expanded: preDom.classList.contains('cosd-markdown-code-expanded'),
+            maxHeight: codeRight?.style.maxHeight || ''
+        };
+    }
+
+    /** 按记录的状态恢复折叠块的展开态、内联高度与按钮文案/图标 */
+    applyFoldSwitchUI(preDom: Element, expanded: boolean) {
+        const textDom = preDom.querySelector('.cosd-code-fold-text');
+        if (textDom) {
+            textDom.textContent = expanded ? '收起' : '展开';
+        }
+        const iconDom = preDom.querySelector('.cosd-code-fold-icon');
+        if (iconDom) {
+            iconDom.classList.toggle('cos-icon-down', !expanded);
+            iconDom.classList.toggle('cos-icon-up', expanded);
+        }
+    }
+
+    /**
+     * 运行时按真实高度判定折叠：纯内容区 .code-right 实际高度超过 CODE_FOLD_MAX_HEIGHT 才折叠并挂展开按钮。
+     * 测量 .code-right（不含 wrapper padding），与折叠锁高口径一致，避免 padding 计入导致临界误判。
+     * 纯高度判定，与行数、字号、是否换行无关，从根本上避免行数临界误判。
+     * SSR/CSR/打字机每次渲染结束后调用，幂等：已折叠/内容变短都能正确恢复；
+     * 并按 _codeFoldState 恢复用户手动展开状态，避免打字机重渲染后缩回折叠态。
+     */
+    reconcileCollapsibleCode(root: HTMLElement | null) {
+        if (!root) {
+            return;
+        }
+        const preList = root.querySelectorAll<HTMLElement>('pre.cosd-markdown-code-foldable');
+        preList.forEach((preDom, index) => {
+            const codeRight = preDom.querySelector<HTMLElement>('.code-right');
+            if (!codeRight) {
+                return;
+            }
+            // 临界值上再大一点容差，避免行数临界误判
+            const shouldFold = codeRight.scrollHeight > CODE_FOLD_MAX_HEIGHT + 20;
+            const hasSwitch = !!preDom.querySelector('.cosd-code-fold');
+
+            if (shouldFold) {
+                preDom.classList.add('cosd-markdown-code-collapsible');
+                if (!hasSwitch) {
+                    preDom.appendChild(this.createFoldSwitch());
+                }
+                // 恢复用户手动展开状态：重渲染会清掉 cosd-markdown-code-expanded 和内联高度，这里按记录还原
+                const saved = this._codeFoldState[index];
+                if (saved?.expanded) {
+                    preDom.classList.add('cosd-markdown-code-expanded');
+                    codeRight.style.maxHeight = '';
+                    this.applyFoldSwitchUI(preDom, true);
+                }
+                else if (saved?.maxHeight) {
+                    codeRight.style.maxHeight = saved.maxHeight;
+                    this.applyFoldSwitchUI(preDom, false);
+                }
+                else {
+                    // 无历史记录：保持默认折叠态，不额外处理
+                }
+            }
+            else {
+                // 内容不足一屏：移除折叠态和按钮，避免出现点了没变化的按钮
+                preDom.classList.remove('cosd-markdown-code-collapsible', 'cosd-markdown-code-expanded');
+                codeRight.style.maxHeight = '';
+                preDom.querySelector('.cosd-code-fold')?.remove();
+            }
+        });
+    }
+
+    createFoldSwitch(): HTMLElement {
+        const switchDom = document.createElement('div');
+        switchDom.className = 'cosd-code-fold';
+        // 展开/收起是交互控件，不属于正文，避免被 TTS 念出「展开」「收起」
+        switchDom.setAttribute('disable-tts', '');
+        // 显隐由 CSS 依据 pre.cosd-markdown-code-expanded 控制，无需 JS 切换
+        const mask = document.createElement('div');
+        mask.className = 'cosd-code-fold-mask';
+        switchDom.appendChild(mask);
+        const context = document.createElement('div');
+        context.className = 'cosd-code-fold-context';
+        const text = document.createElement('span');
+        text.className = 'cosd-code-fold-text';
+        text.textContent = '展开';
+        const icon = document.createElement('i');
+        icon.className = 'cos-icon cos-icon-down cosd-code-fold-icon';
+        context.appendChild(text);
+        context.appendChild(icon);
+        switchDom.appendChild(context);
+        return switchDom;
     }
 }

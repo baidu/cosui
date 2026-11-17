@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+/**
+ * 分页器外观变体
+ */
+export type PaginationAppearance = 'compact';
+
 export interface PaginationProps {
 
     /**
@@ -35,6 +40,11 @@ export interface PaginationProps {
      * 总页数
      */
     pageCount?: number;
+
+    /**
+     * 外观变体，不传为数字页码翻页器
+     */
+    appearance?: PaginationAppearance;
 }
 
 export interface PaginationEvents {
@@ -44,4 +54,5 @@ export interface PaginationEvents {
     };
 }
 
-export type PaginationData = Required<PaginationProps>;
+export type PaginationData = Required<Omit<PaginationProps, 'appearance'>>
+    & Pick<PaginationProps, 'appearance'>;

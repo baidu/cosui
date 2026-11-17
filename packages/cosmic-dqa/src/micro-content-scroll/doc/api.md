@@ -23,6 +23,9 @@
 |linkInfo|[LinkInfo](/components/cosmic/link)|{}|否|跳转信息|PC/Mobile|
 
 ### Source 对象
+
+|名称|类型|默认值|是否必选|说明|覆盖平台|
+|-|-|-|-|-|-|
 |name|string|-|否|来源名称|PC/Mobile|
 |tag|string|-|否|来源标签|PC/Mobile|
 |caption|string|''|否|来源说明|PC/Mobile|

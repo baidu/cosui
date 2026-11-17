@@ -7,4 +7,4 @@
 | ref         | string  | '' | 展示数据的索引  |必选|PC/Mobile |
 
 ### Events
-参考[citation组件]((/components/cosmic-dqa/citation))事件
+参考[citation组件](/components/cosmic-dqa/citation)事件

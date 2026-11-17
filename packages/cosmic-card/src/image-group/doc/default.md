@@ -12,20 +12,20 @@ export default class ImageGroupDemo extends Component {
             <h4 class="cos-space-mt-none">2 图</h4>
             <cosc-image-group
                 list="{{list2}}"
-                linkInfo="{{linkInfo[0]}}"/>
+                linkInfo="{{linkInfo}}"/>
             <h4>3 图</h4>
             <cosc-image-group
                 list="{{list3}}"
-                linkInfo="{{linkInfo[0]}}"/>
+                linkInfo="{{linkInfo}}"/>
             <h4>4 图</h4>
             <cosc-image-group
                 list="{{list4}}"
-                linkInfo="{{linkInfo[0]}}"
+                linkInfo="{{linkInfo}}"
                 />
             <h4>5 图</h4>
             <cosc-image-group
                 list="{{list5}}"
-                linkInfo="{{linkInfo[0]}}"/>
+                linkInfo="{{linkInfo}}"/>
         </div>
     `;
     static components = {

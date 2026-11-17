@@ -11,7 +11,7 @@ import {
     isDOMElement,
     processOptions,
     getDefaultOptions
-} from "../src/utils";
+} from '../src/utils';
 
 describe('utils function', () => {
     it('should add hasOwn method to Object if it does not exist', () => {
@@ -25,7 +25,7 @@ describe('utils function', () => {
         // @ts-ignore
         expect(typeof Object.hasOwn).toBe('function');
 
-        const obj = { key: 'value' };
+        const obj = {key: 'value'};
         // @ts-ignore
         expect(Object.hasOwn(obj, 'key')).toBe(true);
         // @ts-ignore
@@ -43,28 +43,28 @@ describe('utils function', () => {
     });
 
     it('should return language name when className contains "lang-" prefix', () => {
-        const node = { properties: { className: ['lang-typescript', 'other-class'] } };
+        const node = {properties: {className: ['lang-typescript', 'other-class']}};
 
         // @ts-ignore
         expect(getLanguage(node)).toEqual('typescript');
     });
 
     it('should return language name when className contains "language-" prefix', () => {
-        const node = { properties: { className: ['language-python', 'other-class'] } };
+        const node = {properties: {className: ['language-python', 'other-class']}};
 
         // @ts-ignore
         expect(getLanguage(node)).toEqual('python');
     });
 
     it('should return "text" when className is not an array', () => {
-        const node = { properties: { className: 'not-an-array' } };
+        const node = {properties: {className: 'not-an-array'}};
 
         // @ts-ignore
         expect(getLanguage(node)).toEqual('text');
     });
 
     it('should return empty string when no language class is found', () => {
-        const node = { properties: { className: ['no-language', 'other-class'] } };
+        const node = {properties: {className: ['no-language', 'other-class']}};
 
         // @ts-ignore
         expect(getLanguage(node)).toEqual('');
@@ -124,7 +124,7 @@ describe('utils function', () => {
             element.setAttribute('custom-attr', 'custom');
 
             const result = getAttributesAsObject(element);
-            
+
             expect(result).toEqual({
                 dataTest: 'value',
                 ariaLabel: 'description',
@@ -135,7 +135,7 @@ describe('utils function', () => {
         it('should handle elements with no attributes', () => {
             const element = document.createElement('div');
             const result = getAttributesAsObject(element);
-            
+
             expect(result).toEqual({});
         });
     });
@@ -196,9 +196,9 @@ describe('utils function', () => {
         it('should find comment nodes in DOM tree', () => {
             const div = document.createElement('div');
             div.innerHTML = '<!-- Comment 1 --><p>Text<!-- Comment 2 --></p><!-- Comment 3 -->';
-            
+
             const comments = findComments(div);
-            
+
             expect(comments.length).toBe(3);
             expect(comments[0].nodeType).toBe(Node.COMMENT_NODE);
             expect(comments[1].nodeType).toBe(Node.COMMENT_NODE);
@@ -211,9 +211,9 @@ describe('utils function', () => {
         it('should handle nodes without comments', () => {
             const div = document.createElement('div');
             div.innerHTML = '<p>Text without comments</p>';
-            
+
             const comments = findComments(div);
-            
+
             expect(comments.length).toBe(0);
         });
     });
@@ -222,7 +222,7 @@ describe('utils function', () => {
         it('should return true for HTMLElement instances', () => {
             const div = document.createElement('div');
             const span = document.createElement('span');
-            
+
             expect(isDOMElement(div)).toBe(true);
             expect(isDOMElement(span)).toBe(true);
         });
@@ -260,11 +260,11 @@ describe('utils function', () => {
             processOptions(options);
 
             expect(options.directives['ml-data']).toBeUndefined();
-            expect(options.directives['custom']).toBeDefined();
+            expect(options.directives.custom).toBeDefined();
             expect(options.transformers.mdast['ml-data']).toBeUndefined();
-            expect(options.transformers.mdast['custom']).toBeDefined();
+            expect(options.transformers.mdast.custom).toBeDefined();
             expect(options.transformers.hast['ml-data']).toBeUndefined();
-            expect(options.transformers.hast['custom']).toBeDefined();
+            expect(options.transformers.hast.custom).toBeDefined();
         });
 
         it('should handle undefined options', () => {
@@ -272,7 +272,7 @@ describe('utils function', () => {
         });
 
         it('should handle options without directives or transformers', () => {
-            const options = { otherOption: 'value' };
+            const options: any = {otherOption: 'value'};
             expect(() => processOptions(options)).not.toThrow();
         });
     });
@@ -280,7 +280,7 @@ describe('utils function', () => {
     describe('getDefaultOptions', () => {
         it('should return an object with transformers', () => {
             const options = getDefaultOptions();
-            
+
             expect(options).toBeDefined();
             expect(options.transformers).toBeDefined();
             expect(options.transformers.mdast).toBeDefined();
@@ -292,10 +292,10 @@ describe('utils function', () => {
         it('should have ml-data transformer that handles JSON data', () => {
             const options = getDefaultOptions();
             const mdastTransformer = options.transformers.mdast['ml-data'];
-            
+
             const mockNode = {
                 type: 'containerDirective',
-                attributes: { name: 'testData' },
+                attributes: {name: 'testData'},
                 children: [
                     {
                         type: 'code',
@@ -303,26 +303,26 @@ describe('utils function', () => {
                     }
                 ]
             };
-            
+
             const mockParams = {
                 node: mockNode,
-                dataMap: {}
+                dataMap: {} as Record<string, unknown>
             };
-            
+
             // @ts-ignore - Type issues with the mock
             mdastTransformer(mockParams);
-            
-            expect(mockParams.dataMap['testData']).toEqual({ key: 'value' });
+
+            expect((mockParams.dataMap as any).testData).toEqual({key: 'value'});
             expect(mockNode.type).toBe('definition');
         });
 
         it('should handle invalid JSON in ml-data transformer', () => {
             const options = getDefaultOptions();
             const mdastTransformer = options.transformers.mdast['ml-data'];
-            
+
             const mockNode = {
                 type: 'containerDirective',
-                attributes: { name: 'testData' },
+                attributes: {name: 'testData'},
                 children: [
                     {
                         type: 'code',
@@ -330,14 +330,58 @@ describe('utils function', () => {
                     }
                 ]
             };
-            
+
             const mockParams = {
                 node: mockNode,
                 dataMap: {}
             };
-            
+
             // @ts-ignore - Type issues with the mock
             expect(() => mdastTransformer(mockParams)).not.toThrow();
+        });
+    });
+
+    describe('String.prototype.matchAll polyfill', () => {
+        it('should add matchAll method to String if not exists', () => {
+            // @ts-ignore
+            delete String.prototype.matchAll;
+            // @ts-ignore
+            expect(String.prototype.matchAll).toBeUndefined();
+
+            injectPolyfill();
+
+            // @ts-ignore
+            expect(typeof String.prototype.matchAll).toBe('function');
+
+            // Test basic functionality
+            const regex = /a/g;
+            const result = 'ab aca'.matchAll(regex);
+            // @ts-ignore
+            expect(Array.from(result).length).toBe(3);
+        });
+
+        it('should not override matchAll if already exists', () => {
+            // @ts-ignore
+            const originalMatchAll = String.prototype.matchAll;
+
+            injectPolyfill();
+
+            // @ts-ignore
+            expect(String.prototype.matchAll).toBe(originalMatchAll);
+        });
+
+        it('should throw error for null or undefined', () => {
+            injectPolyfill();
+
+            // @ts-ignore
+            expect(() => null.matchAll(/a/g)).toThrow();
+        });
+
+        it('should throw error for non-global regex', () => {
+            injectPolyfill();
+
+            // @ts-ignore
+            expect(() => 'abc'.matchAll(/a/)).toThrow();
         });
     });
 });
