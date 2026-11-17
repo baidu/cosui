@@ -8,6 +8,8 @@ export {default as Poi} from './poi/index';
 export {default as ShopAddress} from './shop-address/index';
 export {default as LocationList} from './location-list/index';
 export {default as LocationCard} from './location-card/index';
+export {default as HotelCard} from './hotel-card/index';
+export {default as ProductCard} from './product-card/index';
 export {default as Relationship} from './relationship/index';
 export {default as SearchingOutlines} from './searching-outlines/index';
 export {default as RoutePlanner} from './route-planner/index';

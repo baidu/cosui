@@ -15,75 +15,97 @@
  */
 
 import {Component} from 'san';
-import type {LocationCardData, LocationCardProps} from './interface';
+import type {LocationCardData, LocationCardProps, TagItem} from './interface';
 import Image from '@cosui/cosmic/image';
 import Score from '@cosui/cosmic/score';
 import Tag from '@cosui/cosmic/tag';
+import Icon from '@cosui/cosmic/icon';
 
 export default class LocationCard extends Component<LocationCardData> {
     static template = `
-        <template>
-            <component
-                s-is="{{linkInfo.href ? 'a' : 'div'}}"
-                s-bind="linkInfo.href ? linkInfo : ''"
-                class="cosd-location-card{{linkInfo.href ? ' cos-link' : ''}}"
-            >
-                <cos-image
+        <component
+            s-is="{{linkInfo.href ? 'a' : 'div'}}"
+            s-bind="linkInfo.href ? linkInfo : ''"
+            class="cosd-location-card{{linkInfo.href ? ' cos-link' : ''}} {{
+                appearance === 'filled' ? ' cosd-location-card-pack' : ''}}"
+        >
+            <div class="cos-col-3 cosd-location-card-thumbnail">
+                 <cos-image
                     src="{{thumbnail}}"
-                    class="cosd-location-card-thumbnail cos-image-fit-cover cos-image-position-center"
+                    class="cos-image-fit-cover cos-image-position-center cos-image-1-1"
                 />
-                <div class="cosd-location-card-content">
-                    <div class="cosd-location-card-title cos-text-subtitle">
-                        {{title}}
-                    </div>
-                    <div class="cosd-location-card-line cos-text-body cos-space-mt-xs">
-                        <cos-score
-                            s-if="score !== undefined && score >= 0"
-                            class="cosd-location-card-score"
-                            value="{{score}}"
-                            score
+            </div>
+            <div class="cosd-location-card-content">
+                <div class="cosd-location-card-title cos-text-subtitle">
+                    {{title}}
+                </div>
+                <div s-if="tags.length" class="cosd-location-card-line cosd-location-card-tags">
+                    <cos-tag
+                        s-for="tag in _tags"
+                        appearance="filled"
+                        style="{{{
+                            color: tag.color || 'var(--cos-color-text-tiny-active)',
+                            'background-color': tag.bgColor || 'var(--cos-tag-color-bg)'
+                        }}}"
+                    >
+                        <cos-icon
+                            s-if="{{tag.icon}}"
+                            name="{{tag.icon}}"
+                            class="cosd-location-card-tags-icon"
+                            style="{{{
+                                'background-color': tag.iconBgColor || 'var(--cos-tag-color-bg)'
+                            }}}"
                         />
-                        <div class="cosd-location-card-no-score" s-else>暂无评分</div>
-                        <div class="cos-line-clamp-1">
-                            <span s-if="category" class="cosd-location-card-category">
-                                {{category}}
-                            </span>
-                            <span s-if="averageCost" class="cosd-location-card-cost">
-                                {{averageCost}}
-                            </span>
-                        </div>
-                    </div>
-                    <div
-                        s-if="address"
-                        class="cosd-location-card-line cos-text-body cos-space-mt-xs cosd-location-card-address{{
-                            !openingHours && tags.length ? ' cos-space-mb-xs' : ''
-                        }}"
-                    >
-                        {{address}}
-                    </div>
-                    <div
-                        s-if="openingHours"
-                        class="cosd-location-card-line cos-text-body cos-space-mt-xs cosd-location-card-hours{{
-                            tags.length ? ' cos-space-mb-xs' : ''
-                        }}"
-                    >
-                        {{openingHours}}
-                    </div>
-                    <div s-if="tags.length" class="cosd-location-card-line cosd-location-card-tags">
-                        <cos-tag
-                            s-for="tag in _tags"
-                            appearance="filled"
-                            class="{{tag.color === 'blue'
-                                ? 'cos-color-text-on-primary-light cos-color-bg-primary-light'
-                                : 'cos-color-text-tiny cos-color-bg-dent'
-                            }}"
-                        >
-                            {{tag.text}}
-                        </cos-tag>
+                        {{tag.text}}
+                    </cos-tag>
+                </div>
+                <div class="cosd-location-card-line cos-text-body cos-space-mt-xs">
+                    <cos-score
+                        s-if="_score"
+                        s-bind="_score"
+                        class="cosd-location-card-score"
+                    />
+                    <div class="cosd-location-card-no-score" s-else>暂无评分</div>
+                    <div class="cos-line-clamp-1">
+                        <span s-if="category" class="cosd-location-card-category">
+                            {{category}}
+                        </span>
+                        <span s-if="averageCost && appearance === 'card'" class="cosd-location-card-cost">
+                            {{averageCost}}
+                        </span>
+                        <span s-if="recommendedDuration" class="cosd-location-card-cost">
+                            {{recommendedDuration}}
+                        </span>
                     </div>
                 </div>
-            </component>
-        </template>
+                <div
+                    s-if="address"
+                    class="cosd-location-card-line cos-text-body cos-space-mt-xs cosd-location-card-address"
+                >
+                    {{address}}
+                </div>
+                <div class="cosd-location-card-line cos-text-body cos-space-mt-xs cosd-location-card-details">
+                    <span
+                        s-if="averageCost && appearance === 'filled'"
+                        class="cosd-location-card-details-item"
+                    >
+                        {{averageCost}}
+                    </span>
+                    <span
+                        s-if="openingHours"
+                        class="cosd-location-card-details-item"
+                    >
+                        {{openingHours}}
+                    </span>
+                    <span
+                        s-if="caption"
+                        class="cosd-location-card-details-item"
+                    >
+                        {{caption}}
+                    </span>
+                </div>
+            </div>
+        </component>
     `;
 
     static trimWhitespace = 'all';
@@ -91,16 +113,29 @@ export default class LocationCard extends Component<LocationCardData> {
     static components = {
         'cos-image': Image,
         'cos-score': Score,
-        'cos-tag': Tag
+        'cos-tag': Tag,
+        'cos-icon': Icon
     };
 
     static computed = {
-        _tags(this: LocationCard) {
+        _score(this: LocationCard): ScoreProps | undefined {
+            const score = this.data.get('score');
+            return typeof score === 'number'
+                ? {
+                    value: score,
+                    score: true
+                }
+                : score;
+        },
+        _tags(this: LocationCard): TagItem[] {
             const tags = this.data.get('tags');
-            const _tags = [];
+            const _tags: TagItem[] = [];
 
             // 处理简写形式的标签，默认为灰色、线型
             tags.forEach(item => {
+                if (!item) {
+                    return;
+                }
                 if (typeof item === 'string') {
                     _tags.push({
                         text: item
@@ -126,8 +161,11 @@ export default class LocationCard extends Component<LocationCardData> {
             address: '',
             category: '',
             averageCost: '',
+            recommendedDuration: '',
             openingHours: '',
-            tags: []
+            caption: '',
+            tags: [],
+            appearance: 'card'
         };
     }
 }

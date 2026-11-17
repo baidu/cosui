@@ -1,5 +1,6 @@
 import {Component} from 'san';
 import demo from './default.md';
+import link from './link.md';
 import multi from './multi.md';
 import ratio from './ratio.md';
 import fit from './fit.md';
@@ -12,6 +13,7 @@ export default class Doc extends Component {
     static template = `
         <template>
             <default/>
+            <link/>
             <multi/>
             <ratio/>
             <fit/>
@@ -23,6 +25,7 @@ export default class Doc extends Component {
     `;
 
     static components = {
+        'link': link,
         'multi': multi,
         'ratio': ratio,
         'fit': fit,

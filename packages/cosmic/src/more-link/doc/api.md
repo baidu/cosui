@@ -4,7 +4,7 @@
 
 |名称|类型|默认值|说明|覆盖平台|
 |---|---|---|---|---|
-|appearance|'subtle' \| 'filled' \| 'plain' \| 'line'|'subtle'|样式风格|PC/Mobile|
+|appearance|'subtle' \| 'outline' \|'filled' \| 'plain' \| 'line'|'subtle'|样式风格|PC/Mobile|
 |url|string|-|跳转链接地址|PC/Mobile|
 |target|'_blank' \| '_self'|''|跳转打开方式|PC/Mobile|
 |link-info|[LinkInfo](/components/cosmic/link)|{}|自定义挂载属性集(搜索结果页场景传linkAttries)|PC/Mobile|

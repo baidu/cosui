@@ -19,6 +19,7 @@
 import {Component} from 'san';
 import Tooltip from '@cosui/cosmic/tooltip';
 import Icon from '@cosui/cosmic/icon';
+import Avatar from '@cosui/cosmic/avatar';
 import type {CitationProps, CitationMethods, CitationEvents} from '../interface';
 
 export default class Citation extends Component<CitationProps> implements CitationMethods {
@@ -51,14 +52,48 @@ export default class Citation extends Component<CitationProps> implements Citati
                     <span class="cosd-citation-link-text">{{titleAfterWord}}</span>
                 </a>
             </span>
-            <span s-else-if="appearance === 'aggregated'"
-                class="cosd-citation cosd-citation-aggregated cos-link"
-                on-click="handleClick($event, 'citationAggregated')"
+
+            <cos-tooltip
+                s-else-if="appearance === 'aggregated'"
+                s-ref="tooltip"
+                trigger="hover"
+                position="bottom"
+                disabled="{{disabled || !aggregatedList || !aggregatedList.length}}"
+                getPopupContainer="{{getPopupContainer}}"
+                on-toggle="handleToggle"
             >
-                <span class="cosd-citation-aggregated-citationId">
-                    <cos-icon name="source-trace" class="cosd-citation-aggregated-icon" />
+                <span
+                    class="cosd-citation cosd-citation-aggregated cos-link"
+                >
+                    <span class="cosd-citation-aggregated-citationId">
+                        <cos-icon name="source-trace" class="cosd-citation-aggregated-icon" />
+                    </span>
                 </span>
-            </span>
+                <div
+                    slot="content"
+                    class="cosd-citation-tooltip cosd-citation-tooltip-aggregated"
+                >
+                    <div class="cosd-citation-aggregated-list">
+                        <div class="cosd-citation-headline">
+                            内容摘自:
+                        </div>
+                        <div s-for="item, index in aggregatedList" class="cosd-citation-aggregated-item">
+                            <a
+                                s-bind="item.linkInfo || {href: ''}"
+                                target="_blank"
+                                class="cos-line-clamp-1 cosd-citation-title"
+                                on-click="handleClick($event, 'tooltip', index)"
+                            >
+                                <span class="cosd-citation-title-text">{{item.title}}</span>
+                            </a>
+                            <div s-if="item.source" class="cos-flex cos-items-center cos-space-mt-3xs">
+                                <span class="cos-color-text-slim">{{item.source.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </cos-tooltip>
+
             <cos-tooltip
                 s-else
                 s-ref="tooltip"
@@ -71,11 +106,21 @@ export default class Citation extends Component<CitationProps> implements Citati
                 <span
                     class="{{appearance === 'tag' ? 'cosd-citation-tag-citationId' : 'cosd-citation-citationId'}}"
                     style="{{appearance === 'tag' ? (source.tag.colorVars || '') : ''}}"
+                    on-click="handleClick($event, appearance === 'tag' ? 'citationTag' : 'citationId')"
                 >
                     <span class="cosd-citation-tag-number">{{citationId}}</span>
-                    <span s-if="appearance === 'tag'">
+                    <fragment s-if="appearance === 'tag'">
+                        <span s-if="source && source.logo" class="cosd-citation-tag-logo-wrapper">
+                            <img src="{{source.logo}}" class="cosd-citation-tag-logo">
+                        </span>
+                        <!-- 兜底图标 -->
+                        <cos-icon
+                            s-if="source && !source.logo && source.icon"
+                            name="{{source.icon}}"
+                            class="cosd-citation-tag-icon"
+                        />
                         <span class="cosd-citation-tag-text">{{source.tag.text}}</span>
-                    </span>
+                    </fragment>
                 </span>
                 <div
                     slot="content"
@@ -89,13 +134,12 @@ export default class Citation extends Component<CitationProps> implements Citati
                         s-bind="linkInfo"
                         s-ref="citationTitle"
                         target="_blank"
-                        class="cos-line-clamp-2 cosd-citation-title"
+                        class="cos-line-clamp-1 cosd-citation-title"
                         on-click="handleClick($event, 'tooltip')"
                     >
-                        <span>{{titleBeforeWord}}</span>
+                        <span class="cosd-citation-title-text">{{titleBeforeWord}}</span>
                         <span style="text-wrap: nowrap;">
-                            {{titleLastWord}}
-                            <cos-icon class="cos-space-ml-xxs" name="right"/>
+                            <span class="cosd-citation-title-text">{{titleLastWord}}</span>
                         </span>
                     </a>
                     <div class="cos-line-clamp-3">
@@ -111,7 +155,8 @@ export default class Citation extends Component<CitationProps> implements Citati
 
     static components = {
         'cos-tooltip': Tooltip,
-        'cos-icon': Icon
+        'cos-icon': Icon,
+        'cos-avatar': Avatar
     };
 
     static computed = {
@@ -144,7 +189,8 @@ export default class Citation extends Component<CitationProps> implements Citati
             title: '',
             abstract: '',
             disabled: false,
-            tooltipPanelClickable: false
+            tooltipPanelClickable: false,
+            aggregatedList: []
         };
     }
 
@@ -162,11 +208,12 @@ export default class Citation extends Component<CitationProps> implements Citati
             open: showTooltip
         });
     }
-    handleClick(event: Event, from: string) {
+    handleClick(event: Event, from: string, index?: number) {
         this.hideTooltip();
         this.fire<CitationEvents['click']>('click', {
             event,
-            from
+            from,
+            index
         });
     }
 

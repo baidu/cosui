@@ -1,0 +1,102 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-hotel-card {
+    .cos-flex();
+    .cos-space-pt-md();
+    .cos-space-pb-md();
+    .cos-vcard-color-bg();
+    .cos-space-p-xs();
+    .cos-rounded-sm();
+
+    &-thumbnail {
+        .cos-space-mr-xs();
+    }
+    // 右侧内容部分
+    &-content {
+        flex: 1;
+        .cos-space-pr-xs();
+    }
+    &-line {
+        .cos-flex();
+        .cos-items-center();
+        .cos-text-body();
+        .cos-color-text-minor();
+    }
+    &-source {
+        .cos-line-clamp-1();
+        .cos-color-text-minor();
+    }
+    &-title {
+        margin-top: calc(-1 * var(--cos-space-3xs));
+        .cos-line-clamp-1();
+        .cos-font-medium();
+        .cos-color-text();
+        .cos-text-left();
+    }
+    .cos-score {
+        .cos-shrink-0();
+        &, .cos-score-count, .cos-score-unit {
+            .cos-text-body();
+            .cos-font-medium();
+        }
+        .cos-score-count {
+            .cos-space-mr-none();
+        }
+    }
+    &-range {
+        .cos-space-mr-xs();
+    }
+    &-price {
+        .cos-color-text-alive();
+        .cos-space-mt-xs();
+        .cos-leading-none();
+        margin-top: 4.5px;
+        margin-bottom: calc(-1 * var(--cos-space-xxs));
+
+        .cos-price-unit {
+            .cos-text-body();
+            .cos-font-medium();
+        }
+    }
+    &-price-value {
+        .cos-color-text-alive();
+    }
+    &-tags {
+        .cos-flex-wrap();
+        .cos-space-mt-xxs();
+        overflow: hidden;
+        max-height: 16px;
+
+        &-icon {
+            margin-left: calc(-1 * var(--cos-space-3xs));
+            .cos-space-mr-3xs();
+            width: calc(var(--cos-text-subtitle) * var(--font-size-scale, 1));
+        }
+
+        .cos-tag {
+            .cos-line-clamp-1();
+            .cos-flex();
+
+            &:not(:last-child) {
+                .cos-space-mr-3xs();
+            }
+        }
+    }
+}

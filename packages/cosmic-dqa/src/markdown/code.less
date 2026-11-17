@@ -19,13 +19,24 @@
 
 .@{prefix}-markdown {
     @{markdownsdk} {
-        code {
+        code:not(pre code) {
             .cos-color-text();
-            background: var(--cos-color-border-minor);
+            .cos-rounded-xxs();
+            .cos-color-bg-dent();
+            position: relative;
+            bottom: 1px;
+            padding: var(--cos-space-3xs) var(--cos-space-3xs) 2px;
+            font-size: var(--cos-text-subtitle-sm);
+            font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+            line-height: var(--cos-leading-caption);
         }
 
         pre {
+            border: 0.7px solid var(--cos-color-border-minor);
             .cos-rounded-sm();
+            // 半透明底色统一画在 pre 这一层：code-wrapper 与 cos-fold-switch 都不再各自画背景，
+            // cosmic-token-disable-next-line
+            background-color: rgba(247, 248, 252, 0.5);
 
             code {
                 .cos-rounded-none();
@@ -33,9 +44,145 @@
                 white-space: pre;
                 background: none;
             }
+            .code-left {
+                .cos-color-text-minor();
+                border-right: 0.7px solid var(--cos-color-border-minor);
+            }
 
             .code-header {
-                .cos-color-bg-dent();
+                border-bottom: 0.7px solid var(--cos-color-border-minor);
+                // cosmic-token-disable-next-line
+                border-radius: 8px 8px var(--cos-rounded-none) var(--cos-rounded-none);
+                padding-top: 14px;
+                font-size: var(--cos-text-body-lg);
+                background: var(--cos-vcard-color-bg);
+                .cos-space-pb-sm();
+                .cos-leading-none();
+                &-left {
+                    .cos-color-text-minor();
+                }
+                &-right {
+                    font-size: var(--cos-text-headline-sm);
+                    .cos-leading-none();
+                    .cos-flex();
+                }
+                .cos-icon {
+                    .cos-space-ml-lg();
+                }
+            }
+            .code-wrapper {
+                // 背景统一由 pre 承载，这里不再单独画，避免与 fold-switch 重叠区叠色
+                background-color: transparent;
+            }
+
+            &.@{prefix}-markdown-code-collapsible {
+                .code-wrapper {
+                    overflow-x: auto;
+                    overflow-y: hidden;
+
+                    .code-right {
+                        overflow-x: visible;
+                    }
+                }
+
+                // 折叠态锁纯内容区（.code-right）高度：448 = 28px 行高 × 16 行，不含 wrapper 的上下 padding。
+                // CODE_FOLD_MAX_HEIGHT=448 in transformers.ts must match this value
+                &:not(.@{prefix}-markdown-code-expanded) .code-wrapper .code-right {
+                    overflow-y: hidden;
+                    max-height: 448px;
+                }
+            }
+
+            .@{prefix}-code-fold {
+                position: relative;
+                .cos-space-mb-3xs();
+                // 移动端点击时抑制浏览器默认的点击高亮色块
+                -webkit-tap-highlight-color: transparent;
+                // cosmic-token-disable-next-line
+                margin-top: -10px;
+                // 底部两角圆角，与代码块整体收口一致（--cos-rounded-sm = 9px）
+                border-bottom-left-radius: var(--cos-rounded-sm);
+                border-bottom-right-radius: var(--cos-rounded-sm);
+            }
+
+            .@{prefix}-code-fold-mask {
+                position: absolute;
+                right: 0;
+                bottom: calc(var(--cos-space-3xs) * -1);
+                left: 0;
+                z-index: 0;
+                width: 100%;
+                height: 80px;
+                pointer-events: none;
+                // 底部两角圆角与 pre 收口对齐（--cos-rounded-sm = 9px），避免蒙层方角越过 pre 圆角外
+                border-bottom-left-radius: var(--cos-rounded-sm);
+                border-bottom-right-radius: var(--cos-rounded-sm);
+                // 亮色渐变 copy 自 cosmic fold-switch/base.less（.cos-fold-switch-mask）
+                // cosmic-token-disable-next-line
+                background: linear-gradient(
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.93) 50%,
+                    var(--cos-color-bg) 70%
+                );
+            }
+
+            // 完全展开态：蒙层直接隐藏，避免在展开的正文尾部留一段淡出遮挡
+            &.@{prefix}-markdown-code-expanded .@{prefix}-code-fold-mask {
+                display: none;
+            }
+
+            .@{prefix}-code-fold-context {
+                .cos-flex();
+                .cos-items-center();
+                .cos-justify-center();
+                position: relative;
+                z-index: 1;
+                box-sizing: border-box;
+                cursor: pointer;
+                overflow: hidden;
+                width: 100%;
+                height: 40px;
+                text-align: center;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+
+            // 蒙层的绝对定位覆盖了按钮上半区，会盖住文字/图标；
+            // 对齐 cosmic 原生 fold-switch 层级方案：文字/图标补 position:relative + z-index:1，让它们浮在 mask 之上
+            // 字体/字号/字重与 cosmic 原生 .cos-fold-switch-text/-icon（fold-switch/base.less）保持一致，
+            .@{prefix}-code-fold-text {
+                position: relative;
+                z-index: 1;
+                .cos-color-text();
+                .cos-text-body();
+                font-family: PingFang SC, Arial, sans-serif;
+                font-weight: var(--cos-font-regular);
+                // 关闭中文字体加粗描边，避免打字机/加粗上下文对 fold-switch 文本产生额外描边
+                -webkit-text-stroke: 0;
+            }
+            .@{prefix}-code-fold-icon {
+                position: relative;
+                z-index: 1;
+                .cos-space-ml-3xs();
+                .cos-color-text();
+                font-size: var(--cos-text-body-lg);
+                vertical-align: middle;
+            }
+
+            // 无行号纯文本场景（如原文引用）：超长单行自动换行，不横向滚动
+            &.@{prefix}-markdown-code-plain {
+                line-height: var(--cos-leading-body-lg-higher);
+
+                .code-right {
+                    .cos-space-pb-3xs();
+                    padding-left: 2px;
+                }
+                code {
+                    white-space: pre-wrap;
+                    word-break: break-word;
+                }
             }
         }
 
@@ -110,8 +257,36 @@
 @{dark-selectors} {
     .@{prefix}-markdown {
         @{markdownsdk} {
+            // 暗黑模式同样把底色统一画在 pre 层，code-wrapper 与 fold-switch 保持透明，避免重叠区叠色
             pre {
-                background: rgba(34, 34, 34, 0.5);
+                // cosmic-token-disable-next-line
+                background-color: rgba(28, 28, 28, 0.5);
+
+                // 暗色蒙层：SDK 层直接沿用 cosmic 官方 fold-switch/base.less 的暗色取色，
+                // 与亮色版同源使用 var(--cos-color-bg) 收尾。
+                // baikan 等业务如需严格贴合各自皮肤主色（#080808/#161616/rgb(25,25,25)），
+                // 在业务 less 覆盖 .@{prefix}-code-fold-mask 即可（class 是私有前缀，不会被误命中，覆盖也是显式的）。
+                .@{prefix}-code-fold-mask {
+                    // cosmic-token-disable-next-line
+                    background: linear-gradient(
+                        rgba(8, 8, 8, 0) 0%,
+                        rgba(8, 8, 8, 0.8) 50%,
+                        var(--cos-color-bg) 70%
+                    );
+                }
+            }
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors} {
+        .@{prefix}-markdown {
+            @{markdownsdk} {
+                code {
+                    // cosmic-token-disable-next-line
+                    background: #f2f3f5;
+                }
             }
         }
     }

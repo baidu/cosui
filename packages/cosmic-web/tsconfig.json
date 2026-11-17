@@ -1,5 +1,19 @@
 {
     "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "paths": {
+            "@cosui/cosmic/pc/*": [
+                "packages/cosmic/src/*",
+                "packages/cosmic/src/*/pc",
+                "packages/cosmic/src/*/index.pc.ts"
+            ],
+            "@cosui/cosmic/*": [
+                "packages/cosmic/src/*",
+                "packages/cosmic/src/*/mobile",
+                "packages/cosmic/src/*/index.mobile.ts",
+            ]
+        }
+    },
     "include": [
         "src",
         "../../global.d.ts"

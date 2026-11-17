@@ -132,6 +132,18 @@ export default [
                         key: '/components/cosmic/image'
                     },
                     {
+                        name: 'ImageViewer',
+                        text: '大图查看器',
+                        path: 'image-viewer',
+                        key: '/components/cosmic/image-viewer'
+                    },
+                    {
+                        name: 'RowLanes',
+                        text: '等高横向布局',
+                        path: 'row-lanes',
+                        key: '/components/cosmic/row-lanes'
+                    },
+                    {
                         name: 'Link',
                         text: '链接',
                         path: 'link',

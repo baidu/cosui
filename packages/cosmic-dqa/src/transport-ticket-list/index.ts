@@ -18,6 +18,7 @@
 
 import {Component} from 'san';
 import type {TransportTicketListData, TransportTicketListEvents} from './interface';
+import type {TransportTicketData} from '@cosui/cosmic-dqa/transport-ticket/interface';
 import FoldSwitch from '@cosui/cosmic/fold-switch';
 import TransportTicket from '@cosui/cosmic-dqa/transport-ticket';
 
@@ -38,11 +39,6 @@ export default class TransportTicketList extends Component<TransportTicketListDa
                             s-for="item, idx in group.items"
                             on-click="handleClick(group.startIndex + idx)"
                         >
-                            <div
-                                s-if="{{groupIndex !== 0 || idx !== 0}}"
-                                class="cos-divider"
-                            >
-                            </div>
                             <cosd-transport-ticket
                                 s-bind="{{item}}"
                             />
@@ -54,12 +50,10 @@ export default class TransportTicketList extends Component<TransportTicketListDa
                 s-if="{{showMore}}"
                 class="cosd-transport-ticket-list-fold"
             >
-                <div class="cos-divider"></div>
                 <cos-fold-switch
                     folded
                     on-toggle="clickFold"
                 />
-                <div class="cos-divider"></div>
             </div>
         </div>
     `;
@@ -69,15 +63,30 @@ export default class TransportTicketList extends Component<TransportTicketListDa
         'cos-fold-switch': FoldSwitch
     };
     static computed = {
-        groups(this: TransportTicketList) {
+        groups(this: TransportTicketList): Array<{
+            items: TransportTicketData[];
+            startIndex: number;
+            animating: boolean;
+        }> {
             const items = this.data.get('items') || [];
-            const groupSize = 3;
-            const groups = [];
-            for (let i = 0; i < items.length; i += groupSize) {
+
+            const initialCount = 2;
+            const nextCount = 4;
+
+            const groups: Array<{items: TransportTicketData[], startIndex: number, animating: boolean}> = [];
+            if (!items.length) {
+                return groups;
+            }
+            groups.push({
+                items: items.slice(0, initialCount),
+                startIndex: 0,
+                animating: false
+            });
+            for (let i = initialCount; i < items.length; i += nextCount) {
                 groups.push({
-                    items: items.slice(i, i + groupSize),
+                    items: items.slice(i, i + nextCount),
                     startIndex: i,
-                    animating: i > 0
+                    animating: true
                 });
             }
             return groups;

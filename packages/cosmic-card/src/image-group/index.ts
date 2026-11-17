@@ -21,15 +21,12 @@ import Image from '@cosui/cosmic/image';
 import Swiper from '@cosui/cosmic/swiper';
 import SwiperItem from '@cosui/cosmic/swiper-item';
 import {RATIO} from './interface';
-import type {PCImageData, MobileImageData} from '@cosui/cosmic/image/interface';
-import type {ImageGroupData, ImageGroupProps, ImageGroupEvents} from './interface';
+import type {ImageGroupData, ImageGroupProps, ImageGroupEvents, ImageGroupItem} from './interface';
 
 export default class ImageGroup extends Component<ImageGroupData> {
     static template = `
-        <template
-            s-is="{{linkInfo.href ? 'a' : 'div'}}"
-            s-bind="linkInfo.href ? linkInfo : ''"
-            class="cosc-image-group{{linkInfo.href ? ' cos-link' : ''}}
+        <div
+            class="cosc-image-group
                 {{mainImageMode ? ' cos-row cos-row-col-12 cos-gutter cosc-image-group-main' : ''}}
                 {{containerRatio}}
             "
@@ -47,14 +44,20 @@ export default class ImageGroup extends Component<ImageGroupData> {
                             class="cosc-image-group-scrollable-swiper-item"
                             width="calc((100% + 8px) * {{item.span || span || 12}}/12 - 8px)"
                         >
-                            <cos-image
-                                class="cosc-image-group-scrollable-swiper-image
-                                    cos-image-fit-cover
-                                    cos-image-position-center
-                                "
-                                src="{{item.src}}"
-                                on-click="native:showImage($event, item, index)"
-                            />
+                            <component
+                                s-is="{{(item.linkInfo && item.linkInfo.href) || (linkInfo && linkInfo.href) ? 'a' : 'div'}}"
+                                s-bind="{{item.linkInfo && item.linkInfo.href ? item.linkInfo : (linkInfo && linkInfo.href ? linkInfo : {})}}"
+                                class="cosc-image-group-link"
+                            >
+                                <cos-image
+                                    class="cosc-image-group-scrollable-swiper-image
+                                        cos-image-fit-cover
+                                        cos-image-position-center
+                                    "
+                                    src="{{item.src}}"
+                                    on-click="native:showImage($event, item, index)"
+                                />
+                            </component>
                         </cos-swiper-item>
                     </cos-swiper>
                 </div>
@@ -64,12 +67,18 @@ export default class ImageGroup extends Component<ImageGroupData> {
                     s-if="mainImageMode"
                     class="cos-col-{{hasMainImage ? 8 : 6}} cosc-image-group-item"
                 >
-                    <cos-image
-                        s-bind="{{list[0]}}"
-                        class="{{imageRatio}}"
-                        on-click="native:showImage($event, list[0], 0)"
+                    <component
+                        s-is="{{(list[0].linkInfo && list[0].linkInfo.href) || (linkInfo && linkInfo.href) ? 'a' : 'div'}}"
+                        s-bind="{{list[0].linkInfo && list[0].linkInfo.href ? list[0].linkInfo : (linkInfo && linkInfo.href ? linkInfo : {})}}"
+                        class="cosc-image-group-link"
+                    >
+                        <cos-image
+                            s-bind="{{list[0]}}"
+                            class="{{imageRatio}}"
+                            on-click="native:showImage($event, list[0], 0)"
 
-                    />
+                        />
+                    </component>
                 </div>
                 <div class="{{mainImageMode ? 'cos-col-' + (hasMainImage ? 4 : 6) : ''}}">
                     <div
@@ -81,21 +90,27 @@ export default class ImageGroup extends Component<ImageGroupData> {
                             s-for="aImage, imageIndex in rowList"
                             class="cos-col-{{imageSpan}} cosc-image-group-item"
                         >
-                            <cos-image
-                                s-bind="{{aImage}}"
-                                class="{{imageRatio}}
-                                    {{(rowNum > 0 && ((imageIndex + 1) < (12 / imageSpan)))
-                                        ? ' cosc-image-group-middle'
-                                        : ''}}"
-                                on-click="native:showImage($event, aImage,
-                                    (mainImageMode ? 1 : 0) + rowNum * (12 / imageSpan) + imageIndex))"
+                            <component
+                                s-is="{{(aImage.linkInfo && aImage.linkInfo.href) || (linkInfo && linkInfo.href) ? 'a' : 'div'}}"
+                                s-bind="{{aImage.linkInfo && aImage.linkInfo.href ? aImage.linkInfo : (linkInfo && linkInfo.href ? linkInfo : {})}}"
+                                class="cosc-image-group-link"
+                            >
+                                <cos-image
+                                    s-bind="{{aImage}}"
+                                    class="{{imageRatio}}
+                                        {{(rowNum > 0 && ((imageIndex + 1) < (12 / imageSpan)))
+                                            ? ' cosc-image-group-middle'
+                                            : ''}}"
+                                    on-click="native:showImage($event, aImage,
+                                        (mainImageMode ? 1 : 0) + rowNum * (12 / imageSpan) + imageIndex))"
 
-                            />
+                                />
+                            </component>
                         </div>
                     </div>
                 </div>
             </fragment>
-        </template>
+        </div>
     `;
 
     static components = {
@@ -237,9 +252,7 @@ export default class ImageGroup extends Component<ImageGroupData> {
         this.fire<ImageGroupEvents['scroll']>('scroll', {event});
     }
 
-    showImage(event: Event, image: PCImageData | MobileImageData, index: number) {
-        event.stopPropagation();
-        event.preventDefault();
+    showImage(event: Event, image: ImageGroupItem, index: number) {
         this.fire<ImageGroupEvents['click']>('click', {event, image, index});
     }
 }

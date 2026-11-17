@@ -23,9 +23,7 @@
     .cos-space-pb-md();
 
     &-thumbnail {
-        .cos-space-mr-sm();
-        width: 87px;
-        height: 87px;
+        .cos-space-mr-xs();
     }
     // 右侧内容部分
     &-content {
@@ -35,11 +33,24 @@
     &-line {
         .cos-flex();
         .cos-items-center();
-        .cos-color-text-minor();
+        .cos-text-body();
+        .cos-color-text-tiny();
     }
     &-address,
-    &-hours {
+    &-details {
         .cos-line-clamp-1();
+        .cos-color-text-minor();
+    }
+    &-details {
+        margin-bottom: calc(-1 * var(--cos-space-3xs));
+    }
+    &-details-item {
+        .cos-color-text-minor();
+
+        &:not(:last-child) {
+            .cos-shrink-0();
+            .cos-space-mr-xs();
+        }
     }
     &-title {
         .cos-line-clamp-1();
@@ -49,9 +60,9 @@
     }
     .cos-score {
         .cos-shrink-0();
-        &, .cos-score-count {
-            height: 16px;
-            line-height: 16px;
+        &, .cos-score-count, .cos-score-unit {
+            .cos-text-body();
+            .cos-font-medium();
         }
     }
     &-no-score {
@@ -61,20 +72,37 @@
         .cos-space-ml-xxs();
     }
     &-cost {
-        .cos-space-ml-xxs();
+        .cos-space-ml-xs();
     }
     &-tags {
         .cos-flex-wrap();
+        .cos-space-mt-xxs();
         overflow: hidden;
         max-height: 16px;
+
+        &-icon {
+            margin-left: calc(-1 * var(--cos-space-3xs));
+            .cos-space-mr-3xs();
+            width: calc(var(--cos-text-subtitle) * var(--font-size-scale, 1));
+        }
 
         .cos-tag {
             .cos-line-clamp-1();
             .cos-flex();
 
             &:not(:last-child) {
-                .cos-space-mr-xxs();
+                .cos-space-mr-3xs();
             }
         }
+    }
+}
+
+.@{prefix}-location-card-pack {
+    .cos-vcard-color-bg();
+    .cos-space-p-xs();
+    .cos-rounded-sm();
+
+    .cosd-location-card-title {
+        margin-top: calc(-1 * var(--cos-space-3xs));
     }
 }

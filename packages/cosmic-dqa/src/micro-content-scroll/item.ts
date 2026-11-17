@@ -86,8 +86,8 @@ export default class MicroContentItem extends Component<MicroContentItemData> {
                     <div s-if="author || source.name" class="cosd-micro-content-scroll-item-author-name">
                         {{author || source.name}}
                     </div>
-                    <div class="cosd-micro-content-scroll-item-author-suffix">
-                        {{source.caption || '的分享'}}
+                    <div s-if="source.caption" class="cosd-micro-content-scroll-item-author-suffix">
+                        {{source.caption}}
                     </div>
                     <cos-tag
                         s-if="source.tag"

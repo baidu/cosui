@@ -1,6 +1,6 @@
 import sanRouter, {Router, createLink, RedirectOptions} from 'san-router';
 
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL || '/cosui';
+const BASE_URL = import.meta.env.VITE_APP_BASE_URL || '';
 
 const handleLink = (e) => {
     // 兼容示例 shadow dom 内的 a 标签

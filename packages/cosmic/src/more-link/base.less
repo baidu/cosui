@@ -47,4 +47,33 @@
         .cos-flex();
         .cos-items-center();
     }
+
+    &-outline {
+        .@{prefix}-more-link {
+            &-container {
+                flex: 0 0 auto;
+                border: 1px solid var(--cos-color-border-minor);
+                padding: var(--cos-space-3xs) var(--cos-space-xl) var(--cos-space-3xs) var(--cos-space-3xl);
+                .cos-rounded-xxl();
+                transition: background-color var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+                &:hover {
+                    // cosmic-token-disable-next-line
+                    border-color: rgba(78, 110, 242, 0.09);
+                    // cosmic-token-disable-next-line
+                    background-color: rgba(78, 110, 242, 0.09);
+                    transition: background-color var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+
+                    .@{prefix}-more-link {
+                        &-text, &-icon {
+                            color: var(--cos-color-text-link);
+                        }
+                    }
+                }
+                &:active {
+                    .cos-opacity-50();
+                    transition: opacity var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+                }
+            }
+        }
+    }
 }

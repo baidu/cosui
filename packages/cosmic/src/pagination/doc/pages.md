@@ -5,14 +5,14 @@ import Pagination from '@cosui/cosmic/pagination';
 export default class Basic extends Component {
     static template = `
         <div data-testid="pages-pagination">
-            <h4 class="cos-color-text-minor cos-space-mb-xs cos-font-regular" s-if="isPc">7 页以内直接展示所有页码</h4>
-            <p s-if="isPc" class="cos-space-mt-xs cos-color-text-minor">页码为5，现在是第 {{current1}} 页</p>
-            <cos-pagination
-                class="display-all-pages"
-                page-count="{{5}}"
-                on-change="pageChange($event, 'current1')"
-            />
             <div s-if="isPc">
+                <h4 class="cos-color-text-minor cos-space-mb-xs cos-font-regular">7 页以内直接展示所有页码</h4>
+                <p class="cos-space-mt-xs cos-color-text-minor">页码为5，现在是第 {{current1}} 页</p>
+                <cos-pagination
+                    class="display-all-pages"
+                    page-count="{{5}}"
+                    on-change="pageChange($event, 'current1')"
+                />
                 <p class="cos-space-mt-xs cos-color-text-minor">页码为7，现在是第 {{current2}} 页</p>
                 <cos-pagination
                     class="display-all-pages"
@@ -47,6 +47,16 @@ export default class Basic extends Component {
                     on-change="pageChange($event, 'current5')"
                 />
             </div>
+
+            <h4 class="cos-color-text-minor cos-space-mb-xs cos-space-mt-md cos-font-regular">compact 变体（PC / wise 双端）</h4>
+            <p class="cos-space-mt-xs cos-color-text-minor">基础形态，现在是第 {{current6}} / 5 页</p>
+            <cos-pagination
+                class="display-compact"
+                appearance="compact"
+                page-count="{{5}}"
+                current="{{current6}}"
+                on-change="pageChange($event, 'current6')"
+            />
         </div>
     `;
 
@@ -56,7 +66,8 @@ export default class Basic extends Component {
             current2: 1,
             current3: 1,
             current4: 20,
-            current5: 13
+            current5: 13,
+            current6: 1
         }
     }
 

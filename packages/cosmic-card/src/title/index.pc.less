@@ -21,7 +21,32 @@
     .cos-font-medium();
     -webkit-font-smoothing: antialiased;
     -moz-osx-fontsmoothing: grayscale;
+
+    &-tag {
+        .cos-space-ml-xxs();
+    }
 }
+.@{prefix}-title.cos-link {
+    color: var(--cos-color-text-link);
+
+    &:hover {
+        .cos-color-text-primary();
+    }
+}
+
+.@{prefix}-title.cos-line-clamp-1 {   // ← 业务加在根节点的 class
+    .@{prefix}-title-a {
+        .cos-flex();
+        .cos-items-center();
+    }        // ← 组件内层，由组件自己控制
+    .@{prefix}-title-slot {
+        .cos-line-clamp-1();
+    }
+    .@{prefix}-title-tag {
+        .cos-flex-none();
+    }
+}
+
 a.@{prefix}-title-a {
     .@{prefix}-title-slot {
         text-decoration: underline;
@@ -41,6 +66,11 @@ a.@{prefix}-title-a {
                 text-decoration-color: var(--cos-red-0);
             }
         }
+
+        &:active {
+            .cos-color-text-primary();
+        }
+        
         &, & em,
         &:hover, &:hover em {
             text-decoration: underline;

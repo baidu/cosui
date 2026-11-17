@@ -6,4 +6,4 @@
 | data         | [shop-address](/components/cosmic-dqa/shop-address)  | {} | 参数  |必选|PC/Mobile |
 
 ### Events
-参考[shop-address组件]((/components/cosmic-dqa/shop-address))事件
+参考[shop-address组件](/components/cosmic-dqa/shop-address)事件

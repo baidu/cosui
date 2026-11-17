@@ -1,5 +1,5 @@
 import {Component} from 'san';
-import {router, BASE_URL} from '../../utils/proxy-router';
+import {router, BASE_URL} from '../../public/proxy-router';
 import styles from '../../mobile.less?inline';
 
 // eslint-disable-next-line max-len

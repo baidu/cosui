@@ -37,7 +37,8 @@
         }
     }
     &-line,
-    &-subtle {
+    &-subtle,
+    &-outline {
         .@{prefix}-more-link {
             &-container {
                 flex: 0 0 auto;
@@ -46,8 +47,17 @@
                 .cos-rounded-xxl();
                 transition: background-color var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
                 &:hover {
-                    .cos-color-bg-dent();
+                    // cosmic-token-disable-next-line
+                    border-color: rgba(78, 110, 242, 0.09);
+                    // cosmic-token-disable-next-line
+                    background-color: rgba(78, 110, 242, 0.09);
                     transition: background-color var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+
+                    .@{prefix}-more-link {
+                        &-text, &-icon {
+                            color: var(--cos-color-text-link);
+                        }
+                    }
                 }
                 &:active {
                     .cos-opacity-50();

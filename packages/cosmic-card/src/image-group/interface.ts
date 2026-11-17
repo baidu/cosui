@@ -17,13 +17,20 @@
 import {PCImageData, MobileImageData} from '@cosui/cosmic/image/interface';
 import type {LinkInfo} from '@cosui/cosmic/util/interface';
 
+export type ImageGroupItem = (PCImageData | MobileImageData) & {
+    /**
+     * 单张图片跳转链接；优先使用单项链接，缺省时回退到组件整体链接
+     */
+    linkInfo?: LinkInfo;
+};
+
 export interface ImageGroupProps {
     /**
      * 图片信息
      */
-    list: PCImageData[] | MobileImageData[];
+    list: ImageGroupItem[];
     /**
-     * 组件整体跳转链接，不支持区分图片跳转
+     * 组件整体跳转链接
      */
     linkInfo?: LinkInfo;
     /**
@@ -72,7 +79,7 @@ export interface ImageGroupEvents {
     };
     click: {
         event: Event;
-        image: PCImageData | MobileImageData;
+        image: ImageGroupItem;
         index: number;
     };
 }

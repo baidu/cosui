@@ -38,6 +38,9 @@ injectPolyfill();
 
 // 从模块中提取插件函数（兼容不同的导出格式）
 function extractPluginFunction(mod: any) {
+    if (!mod) {
+        return null;
+    }
     // 格式1: { default: [Function: rehypeXxx] } - marklang/plugins/* 导出格式
     if (mod.default && typeof mod.default === 'function') {
         return {fn: mod.default, name: mod.default.name || ''};
@@ -82,12 +85,12 @@ function replaceDirective(el: HTMLElement, {
 interface Plugin {
     name: string;
     feature: RegExp;
-    load: () => Promise<any>;
+    load: () => Array<Promise<any>>;
 }
 // @ts-ignore
 function preloadPlugin(source?: string): Promise<void[]> {
     // @ts-ignore
-    const promises: Promise<void>[] = [];
+    const promises: Array<Promise<void>> = [];
     registeredPlugins.forEach((plugin: Plugin) => {
         if (plugin.feature && plugin.feature.test(source)) {
             // 已加载完成，跳过
@@ -227,9 +230,6 @@ function marklang(options?: Options) {
     }
 
     return {
-        async getUnifiedInstance(source: string) {
-            return getUnifiedInstance(source);
-        },
         async renderToElementAsync(source: string, el: HTMLElement) {
             const instance = await getUnifiedInstance(source);
             const file = await instance.process(source);
@@ -245,8 +245,6 @@ function marklang(options?: Options) {
         },
 
         renderToElement(source: string, el: HTMLElement) {
-            // 警告：同步渲染不会等待插件加载，确保已通过 preloadPlugin 预加载
-            preloadPlugin(source);
             const instance = getCachedInstance();
             const file = instance.processSync(source);
             const html = String(file);

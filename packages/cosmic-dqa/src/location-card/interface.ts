@@ -17,7 +17,7 @@
  */
 
 import type {LinkInfo} from '@cosui/cosmic/util/interface';
-
+import type {ScoreProps} from '@cosui/cosmic/score/interface';
 export interface LocationCardProps {
     /**
      * 跳转信息
@@ -34,7 +34,7 @@ export interface LocationCardProps {
     /**
      * 评分
      */
-    score?: number;
+    score?: number | ScoreProps;
     /**
      * 地址
      */
@@ -48,25 +48,49 @@ export interface LocationCardProps {
      */
     averageCost?: string;
     /**
+     * 推荐游玩时长
+     */
+    recommendedDuration?: string;
+    /**
      * 营业时间，如“08:00-12:00,13:00-17:00”
      */
     openingHours?: string;
+    /**
+     * 地点说明
+     */
+    caption?: string;
+    /**
+     * 卡片外观
+     */
+    appearance?: 'card' | 'filled';
     /**
      * 标签列表
      */
     tags?: TagItem[] | string[];
 }
 
-interface TagItem {
+export interface TagItem {
 
     /**
      * 标签文本
      */
     text: string;
     /**
-     * 标签颜色，目前仅支持蓝色和灰色，默认为灰色
+     * 标签图标
+     */
+    icon?: string;
+    /**
+     * 标签文本颜色，应传具体的颜色样式 css
      */
     color?: string;
+    /**
+     * 标签背景颜色
+     */
+    bgColor?: string;
+    /**
+     * 标签内的 icon 的背景颜色
+     */
+    iconBgColor?: string;
 }
 
 export type LocationCardData = Required<LocationCardProps>;

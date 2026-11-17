@@ -105,6 +105,8 @@
 ### tag 组件色
 <md-token-widget business="cosmic" prefix="cos-tag" attr="color" order="text|bg|border"></md-token-widget>
 
+### vcard 组件色
+<md-token-widget business="cosmic,page-redesign" prefix="cos-vcard" attr="color" order="text|bg|border"></md-token-widget>
 
 ### 透明度
 <md-token-widget business="cosmic" prefix="cos" attr="opacity"></md-token-widget>

@@ -6,7 +6,7 @@ export default class Demo extends Component {
 
     static template = `
         <div>
-            <cosc-title on-click="native:clickHandler">{{text}}</cosc-title>
+            <cosc-title url="{{url}}" on-click="native:clickHandler">{{text}}</cosc-title>
         </div>
     `;
 
@@ -16,7 +16,8 @@ export default class Demo extends Component {
 
     initData() {
         return {
-            text: '标题 - 用作卡片或内容的标题'
+            text: '标题 - 用作卡片或内容的标题',
+            url: `https://www.baidu.com/?t=${(new Date()).getTime()}`
         };
     }
 

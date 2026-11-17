@@ -3,7 +3,7 @@
  */
 
 import {Component} from 'san';
-import {Link, router} from '../../utils/proxy-router';
+import {Link, router} from '../../public/proxy-router';
 import './header-tabs.less';
 
 /**

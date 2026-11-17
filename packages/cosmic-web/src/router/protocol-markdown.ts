@@ -139,6 +139,12 @@ export default [
                         key: '/protocol/markdown/component/ml-copy'
                     },
                     {
+                        name: 'ml-intent 意图协议',
+                        text: '意图协议',
+                        path: 'ml-intent',
+                        key: '/protocol/markdown/component/ml-intent'
+                    },
+                    {
                         name: 'ml-search 回搜',
                         text: '回搜',
                         path: 'ml-search',

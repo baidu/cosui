@@ -83,7 +83,8 @@
         }
     }
     &-citationId,
-    &-tag-citationId {
+    &-tag-citationId,
+    &-aggregated-citationId {
         cursor: pointer;
         position: relative;
         .cos-inline-block();
@@ -149,6 +150,65 @@
             }
 
         }
+
+        &-logo {
+            width: 100%;
+            height: 100%;
+
+            &-wrapper {
+                .cos-space-mr-3xs();
+                .cos-color-bg();
+                .cos-rounded-full();
+                position: relative;
+                .cos-inline-block();
+                overflow: hidden;
+                width: 12px;
+                height: 12px;
+                vertical-align: middle;
+                transform: translateY(-1px);
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 2;
+                    border: 1px solid var(--cos-image-color-border);
+                    box-sizing: border-box;
+                    width: 200%;
+                    height: 200%;
+                    pointer-events: none;
+                    transform: scale(.5) translate(-.25px, -.25px);
+                    transform-origin: 0 0;
+                    .cos-rounded-xl();
+                }
+            }
+        }
+
+        &-icon {
+            .cos-color-text-tiny-active();
+            .cos-space-mr-3xs();
+        }
+
+        &-aggregated {
+            .cosd-citation-title:hover {
+                .cos-color-text-primary();
+            }
+        }
+    }
+    &-aggregated {
+        &-list {
+            overflow-y: auto;
+            max-width: 320px;
+            max-height: 285px;
+            .cosd-citation-title {
+                .cos-line-clamp-1();
+            }
+        }
+        &-item {
+            & + & {
+                .cos-space-mt-xs();
+            }
+        }
     }
     &-tooltip {
         padding-top: 7.5px;
@@ -162,19 +222,22 @@
     }
     &-headline {
         .cos-color-text-slim();
+        .cos-space-mb-xxs();
     }
     &-title {
         .cos-font-medium();
         .cos-color-text();
         .cos-space-mt-3xs();
         word-wrap: break-word;
-        text-decoration: none;
-        &:hover {
-            .cos-color-text();
-            text-decoration: underline;
-        }
         &:visited {
             .cos-color-text();
+        }
+        &:hover {
+            .cos-color-text-primary();
+            text-decoration: none;
+            .cosd-citation-title-text {
+                text-decoration: underline;
+            }
         }
     }
     &-source {

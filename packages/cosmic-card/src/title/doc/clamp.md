@@ -8,7 +8,7 @@ export default class Demo extends Component {
         <div>
             <cosc-title class="cos-line-clamp-1 cos-space-mb-xxs" url="{{url}}">1行截断：{{text | raw}}</cosc-title>
             <br/>
-            <cosc-title class="cos-line-clamp-2" url="{{url}}">2行截断：{{text | raw}}</cosc-title>
+            <cosc-title s-if="!isPc" class="cos-line-clamp-2" url="{{url}}">2行截断：{{text | raw}}</cosc-title>
         </div>
     `;
 

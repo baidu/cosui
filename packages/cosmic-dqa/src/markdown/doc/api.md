@@ -7,7 +7,8 @@
 | content         | string |  '' |必选| Markdown 语法文本          |PC/Mobile |
 | normalizeContent | (content: string) => string | null |可选| content 语法规范化处理函数 |PC/Mobile |
 | config  | {[directiveName: string]: any} | null |可选| 自定义指令对应的配置项 |PC/Mobile|
-| table  | {copy?: boolean, fullscreen?: boolean} | null |可选| 表格表头的配置项       |PC/Mobile|
+| table  | {copy?: boolean, fullscreen?: boolean, download?: boolean} | null |可选| 表格表头的配置项       |PC/Mobile|
+| code  | {fullscreen?: boolean, lineNumbers?: boolean, foldable?: boolean} | null |可选| 代码块全局配置项。`lineNumbers`：是否显示行号，默认 true；`foldable`：超过展示高度显示展开/收起，默认 false。单个代码块可用语法配置 覆盖，见code示例 |PC/Mobile|
 | typing  | Typing  |   - |可选| 是否展示打字机效果        |PC/Mobile |
 | autolink  | boolean  |   - |可选| 是否将文本中的链接文本渲染为可跳转的链接       |PC/Mobile |
 
@@ -23,7 +24,7 @@
 |事件|参数|说明|覆盖平台|
 |---|---|---|---|
 | poi-ready | {invokeParams: InvokeParams} | 参考 poi 和 shop-address |Mobile|
-| click | {event: Event, directive: string, from: 'link' \| 'table' \| 'img', action: 'preview' \| 'copy' \| 'full-screen', data: any} | 点击 |PC/Mobile|
+| click | {event: Event, directive: string, from: 'link' \| 'table' \| 'code' \| 'img', action: Action, data: any} | 点击 |PC/Mobile|
 | toggle | {status: 'folded' \| 'unfoled', event: Event} | 展开收起切换点击 |Mobile|
 | typing-start | {height: number} | 打字开始事件（ height 为打印新增部分文本需要的高度） |PC/Mobile|
 | typing-finished |  | 打字结束事件 |PC/Mobile|
@@ -33,11 +34,17 @@
 ##### click action 参数
 | 参数 | 支持的指令/标签 | 说明       |
 |----|-------------------------|---------------|
-| pause | ml-tts/ml-audio|用户手动暂停播放音频 |
-| play | ml-tts/ml-audio |用户手动播放音频 |
-| preview | - |点击图片，展示大图查看器|
-| copy | - |复制文字 |
-| full-screen | table | 表格放大 |
+| pause | ml-tts/ml-audio/ml-video|用户手动暂停播放音视频 |
+| play | ml-tts/ml-audio/ml-video |用户手动播放音视频 |
+| muted | ml-video |视频点击静音 |
+| volume | ml-video |视频开启音量 |
+| seeked | ml-video |拖动视频进度条 |
+| preview | img |点击图片，展示大图查看器|
+| copy | table/code | 复制文字 |
+| fullscreen | table/code | 表格/代码块放大 |
+| download | table | 下载表格 |
+| fold | code | 代码块收起（`foldable=true` 时触发） |
+| unfold | code | 代码块完全展开（`foldable=true` 时触发） |
 
 ### Methods
 |事件|参数|说明|覆盖平台|
@@ -74,7 +81,8 @@
 | [ml-brief](/protocol/markdown/component/ml-brief) | - | 左图右文 | :::ml-brief（具体可看demo示例） |PC/Mobile|
 | [ml-copy](/protocol/markdown/component/ml-copy) | - | 复制文本 | :ml-copy[复制文本] |PC/Mobile|
 | [ml-search](/protocol/markdown/component/ml-search) | - | 回搜 | :ml-search[回搜文本] 或者 :ml-search[回搜文本]{text="真实回搜文本"} |PC/Mobile|
-| [ml-text](/protocol/markdown/component/ml-text) | - | 特殊样式文本 | :ml-text[文本]{type="label"} :ml-text[文本]{type="highlight"} |PC/Mobile|
+| [ml-text](/protocol/markdown/component/ml-text) | - | 特殊样式文本 | :ml-text[文本]{type="label"} :ml-text[文本]{type="highlight"} :ml-text[文本]{type="emphasis"} |PC/Mobile|
 | [ml-site-vcard](/protocol/markdown/component/ml-site-vcard) | @cosui/cosmic-dqa/site-vcard | 资源展示 | ::ml-site-vcard（具体可看demo示例） |PC/Mobile|
 | [ml-tag-link](/protocol/markdown/component/ml-tag-link) | @cosui/cosmic-dqa/tag-link | 文本标签链接展示 | :ml-tag-link{ref="1"} |PC/Mobile|
 | [ml-search-more](/protocol/markdown/component/ml-search-more) | - | 划词 | :ml-search-more[划词文本] 或者 :ml-search-more[划词文本]{text="真实使用文本" url="https://m.baidu.com/s?sa=sa&word=文本"} |Mobile|
+| [ml-intent](/protocol/markdown/component/ml-intent) | - | 意图 | :ml-intent[意图文本] 或者 :ml-intent[意图文本]{text="真实意图文本"} |PC/Mobile|

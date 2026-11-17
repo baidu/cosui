@@ -33,6 +33,23 @@ export default class DefaultDemo extends Component {
                     />
                 </span>
             </p>
+            <p>这是一个展示文本信息的聚合溯源，样式长这样：观点1
+                <cosd-citation
+                    appearance="aggregated"
+                    aggregatedText="{{aggregatedText}}"
+                    on-click="handleClick"
+                />
+                可知文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本
+            </p>
+            <p>这是一个多头像的聚合溯源，样式长这样：观点2
+                <cosd-citation
+                    appearance="aggregated"
+                    aggregatedText="{{aggregatedText}}"
+                    on-click="handleClick"
+                    source="{{source}}"
+                />
+                可知文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本
+            </p>
             <p>这是一个聚合后的普通溯源，样式长这样：根据
                 <span s-for="item, index in citationList">
                     <cosd-citation
@@ -109,7 +126,14 @@ export default class DefaultDemo extends Component {
                     },
                     abstract: '他(i)跑,他(e)追他(i)插翅难飞世间有一个亘古不变的定律每个i人的身边都有e人朋友相处之后发现e人和i人的区别真的不要太明显! 朋友之间其实有很多共通之处,比如共同的语言习惯,共同的兴趣爱好,共同的朋友等等. 朋友之间也有很多不同之处,比如共同的语言习惯,共同的兴趣爱好,共同的朋友'
                 }
-            ]
+            ],
+            aggregatedText: '58%结果提及',
+            source: {
+                logo:[
+                    "https://b.bdstatic.com/searchbox/mappconsole/image/20181011/1539228343428692.jpg",
+                    "https://pic.rmb.bdstatic.com/4e2b27aa1d53f5673d277d8c29498193.jpeg"
+                ]
+            }
         }
     }
     handleClick(e, data) {

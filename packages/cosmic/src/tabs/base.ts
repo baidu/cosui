@@ -253,6 +253,7 @@ export default class Tabs extends Component<TabsData> implements TabsMethods {
             if (this.data.get('appearance') === 'line') {
                 this.updateLineIndicator();
             }
+            this.setArrow();
         });
     }
 

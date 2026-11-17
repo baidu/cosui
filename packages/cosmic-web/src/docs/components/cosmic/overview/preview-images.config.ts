@@ -22,7 +22,9 @@ import GridImg from './assets/components/cosmic/grid.png';
 import HighlightImg from './assets/components/cosmic/highlight.png';
 import IconImg from './assets/components/cosmic/icon.png';
 import ImageImg from './assets/components/cosmic/image.png';
+import ImageViewerImg from './assets/components/cosmic/image-viewer.png';
 import InputImg from './assets/components/cosmic/input.png';
+import RowLanesImg from './assets/components/cosmic/row-lanes.png';
 import LinkImg from './assets/components/cosmic/link.png';
 import LoadingImg from './assets/components/cosmic/loading.png';
 import MapImg from './assets/components/cosmic/map.png';
@@ -88,6 +90,8 @@ import TagLinkImg from './assets/components/cosmic-dqa/tag-link.png';
 import TransportTicketListImg from './assets/components/cosmic-dqa/transport-ticket-list.png';
 import TransportTicketImg from './assets/components/cosmic-dqa/transport-ticket.png';
 import GreetingCardImg from './assets/components/cosmic-dqa/greeting-card.png';
+import HotelCardImg from './assets/components/cosmic-dqa/hotel-card.png';
+import ProductCardImg from './assets/components/cosmic-dqa/product-card.png';
 
 export default [
     {name: '/components/cosmic/accordion', src: AccordionImg},
@@ -114,7 +118,9 @@ export default [
     {name: '/components/cosmic/highlight', src: HighlightImg},
     {name: '/components/cosmic/icon', src: IconImg},
     {name: '/components/cosmic/image', src: ImageImg},
+    {name: '/components/cosmic/image-viewer', src: ImageViewerImg},
     {name: '/components/cosmic/input', src: InputImg},
+    {name: '/components/cosmic/row-lanes', src: RowLanesImg},
     {name: '/components/cosmic/link', src: LinkImg},
     {name: '/components/cosmic/loading', src: LoadingImg},
     {name: '/components/cosmic/map', src: MapImg},
@@ -179,5 +185,7 @@ export default [
     {name: '/components/cosmic-dqa/tag-link', src: TagLinkImg},
     {name: '/components/cosmic-dqa/transport-ticket-list', src: TransportTicketListImg},
     {name: '/components/cosmic-dqa/transport-ticket', src: TransportTicketImg},
-    {name: '/components/cosmic-dqa/greeting-card', src: GreetingCardImg}
+    {name: '/components/cosmic-dqa/greeting-card', src: GreetingCardImg},
+    {name: '/components/cosmic-dqa/hotel-card', src: HotelCardImg},
+    {name: '/components/cosmic-dqa/product-card', src: ProductCardImg}
 ];

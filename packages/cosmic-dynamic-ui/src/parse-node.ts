@@ -23,7 +23,8 @@ import {
     type TagMap,
     type CompileUIOption,
     type NormalizedEventOption,
-    ErrorCode
+    ErrorCode,
+    UIId
 } from './interface';
 
 import {
@@ -176,11 +177,12 @@ function generateParsers(components?: CompileUIOption['components']) {
 }
 
 export function parseNode(
-    node: UI,
+    node: UI | UIId,
     context?: Context,
     components?: CompileUIOption['components'],
     events?: NormalizedEventOption,
-    nodes?: Context['nodes']
+    nodes?: Context['nodes'],
+    uiMap?: Context['uiMap'],
 ): Context {
     if (!context) {
         context = {
@@ -189,27 +191,33 @@ export function parseNode(
             parsers: generateParsers(components),
             events: events || {},
             nodes: nodes || {},
+            uiMap: uiMap || {},
             asyncComptRefs: [],
             dataIndex: 0,
             parseError: []
         };
     }
 
+    let resolvedNode = typeof node === 'string' ? context.uiMap[node] : node;
+    if (!resolvedNode) {
+        throw new Error('UI JSON is invalid');
+    }
+
     // 修改节点
-    const nodeTransformer = context.nodes![node.type || node.component];
+    const nodeTransformer = context.nodes![resolvedNode.type || resolvedNode.component];
     if (typeof nodeTransformer === 'function') {
         try {
-            node = JSON.parse(JSON.stringify(nodeTransformer(JSON.parse(JSON.stringify(node)))));
+            resolvedNode = JSON.parse(JSON.stringify(nodeTransformer(JSON.parse(JSON.stringify(resolvedNode)))));
         }
         catch (error) {
-            throw new Error(`type: "${node.type}" nodeTransformer error`);
+            throw new Error(`type: "${resolvedNode.type}" nodeTransformer error`);
         }
     }
 
-    const type = node.type || node.component;
+    const type = resolvedNode.type || resolvedNode.component;
 
     if (!type) {
-        node.type = 'fragment';
+        resolvedNode.type = 'fragment';
     }
 
     if (!context.parsers[type]) {
@@ -224,6 +232,6 @@ export function parseNode(
         return context;
     }
 
-    context.parsers[type](node, context);
+    context.parsers[type](resolvedNode, context);
     return context;
 }

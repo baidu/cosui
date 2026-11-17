@@ -4,7 +4,6 @@ const commonjs = require('@rollup/plugin-commonjs').default;
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const terser = require('@rollup/plugin-terser').default;
 const ignore = require('./rollup-plugin-ignore.js');
-const injectDynamicLoader = require('./rollup-plugin-inject-loader.js');
 const tsConfig = require('../tsconfig.json');
 const babelConfig = require('../babel.config.js');
 const path = require('path');
@@ -20,41 +19,6 @@ const extensions = ['.js', '.ts', '.cjs', '.mjs'];
 // 从 Rollup 环境变量获取 NODE_ENV，默认为 production
 const isProduction = process.env.NODE_ENV !== 'development';
 
-// 动态插件加载器代码（注入到 UMD wrapper 内部）
-const pluginLoaderCode = `// 动态插件加载器 - 支持 AMD/CommonJS/全局变量
-var _loadPlugin = (function() {
-    var _pluginPaths = {
-        './plugins/remark-math': 'marklangRemarkMath',
-        './plugins/rehype-katex': 'marklangRehypeKatex',
-        './plugins/rehype-highlight': 'marklangRehypeHighlight'
-    };
-    return function(path) {
-        return new Promise(function(resolve, reject) {
-            var globalName = _pluginPaths[path];
-            if (typeof define === 'function' && define.amd) {
-                var umdPath = path.replace('./plugins/', 'marklang/plugins/');
-                require([umdPath], resolve, reject);
-            } else if (typeof module === 'object' && module.exports) {
-                try {
-                    var umdPath = path.replace('./plugins/', 'marklang/plugins/');
-                    resolve(require(umdPath));
-                } catch (e) { reject(e); }
-            } else if (typeof window !== 'undefined' && globalName && window[globalName]) {
-                resolve(window[globalName]);
-            } else if (typeof window !== 'undefined') {
-                var script = document.createElement('script');
-                script.src = path.replace('./plugins/', 'plugins/').replace('.js', '.umd.js');
-                script.onload = function() { window[globalName] ? resolve(window[globalName]) : reject(new Error('Plugin global not found: ' + globalName)); };
-                script.onerror = function() { reject(new Error('Failed to load plugin: ' + path)); };
-                document.head.appendChild(script);
-            } else {
-                reject(new Error('Unknown environment for dynamic import: ' + path));
-            }
-        });
-    };
-})();
-`;
-
 module.exports = [
     // 核心包 - UMD 格式（兼容浏览器直接引用）
     {
@@ -62,8 +26,7 @@ module.exports = [
         output: {
             file: resolveFile('lib/browser.js'),
             format: 'umd',
-            name: 'marklang',
-            intro: pluginLoaderCode
+            name: 'marklang'
         },
         // 按需加载的插件单独打包，不包含在核心包中
         external: ['./plugins/remark-math', './plugins/rehype-katex', './plugins/rehype-highlight'],
@@ -82,13 +45,12 @@ module.exports = [
                 exclude: 'node_modules/**'
             }),
             ignore('browser'),
-            injectDynamicLoader()
-            // terser({
-            //     compress: {
-            //         drop_console: isProduction,
-            //         drop_debugger: isProduction
-            //     }
-            // })
+            terser({
+                compress: {
+                    drop_console: isProduction,
+                    drop_debugger: isProduction
+                }
+            })
         ],
         treeshake: {
             preset: 'recommended',
@@ -119,13 +81,12 @@ module.exports = [
                 exclude: 'node_modules/**'
             }),
             ignore('browser'),
-            injectDynamicLoader()
-            // terser({
-            //     compress: {
-            //         drop_console: isProduction,
-            //         drop_debugger: isProduction
-            //     }
-            // })
+            terser({
+                compress: {
+                    drop_console: isProduction,
+                    drop_debugger: isProduction
+                }
+            })
         ],
         treeshake: {
             preset: 'recommended',
@@ -141,8 +102,7 @@ module.exports = [
         },
         plugins: [
             nodeResolve({
-                extensions,
-                browser: true
+                extensions
             }),
             commonjs({
                 include: /node_modules/
@@ -175,8 +135,7 @@ module.exports = [
         },
         plugins: [
             nodeResolve({
-                extensions,
-                browser: true
+                extensions
             }),
             commonjs({
                 include: /node_modules/
@@ -208,8 +167,7 @@ module.exports = [
         },
         plugins: [
             nodeResolve({
-                extensions,
-                browser: true
+                extensions
             }),
             commonjs({
                 include: /node_modules/
@@ -243,7 +201,7 @@ module.exports = [
         plugins: [
             nodeResolve({
                 extensions,
-                browser: true
+                browser: false
             }),
             commonjs({
                 include: /node_modules/
@@ -251,8 +209,8 @@ module.exports = [
             babel({
                 ...babelConfig,
                 extensions,
-                babelHelpers: 'bundled',
-                exclude: 'node_modules/**'
+                babelHelpers: 'bundled'
+                // 不设置 exclude，让 Babel 转译所有依赖，避免 ES6 语法
             }),
             terser({
                 compress: {
@@ -275,8 +233,7 @@ module.exports = [
         },
         plugins: [
             nodeResolve({
-                extensions,
-                browser: true
+                extensions
             }),
             commonjs({
                 include: /node_modules/
@@ -309,8 +266,7 @@ module.exports = [
         },
         plugins: [
             nodeResolve({
-                extensions,
-                browser: true
+                extensions
             }),
             commonjs({
                 include: /node_modules/

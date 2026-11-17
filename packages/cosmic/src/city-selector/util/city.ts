@@ -75,7 +75,6 @@ export function matchNameAndPinyin(list: City[], searchStr: string, isGlobal = f
                 sugList.push({...data});
             }
             else {
-                // 分隔搜索词 UE样式要求输入名字的城市 选中的为蓝色
                 const viewWord = name.split('').map(
                     (text: string) => ({
                         text,

@@ -128,6 +128,9 @@
         .cos-avatar-img {
             .cos-rounded-xs();
         }
+        .cos-avatar::before {
+            .cos-rounded-md();
+        }
     }
 
     &-thumbnail-large {
@@ -141,6 +144,9 @@
         }
         .cos-avatar-img {
             .cos-rounded-sm();
+        }
+        .cos-avatar::before {
+            .cos-rounded-xl();
         }
     }
 
@@ -173,7 +179,9 @@
         line-height: var(--cos-text-subtitle-sm);
 
         &-text {
-            .cos-text-body();
+            margin-top: calc(var(--cos-space-3xs) * -1);
+            margin-bottom: calc(var(--cos-space-3xs) * -1);
+            font-size: var(--cos-text-subtitle-sm);
             .cos-font-medium();
             .cos-color-text();
             line-height: var(--cos-text-subtitle-sm);
@@ -181,8 +189,6 @@
             // 解决行高和字号相同，部分文字被截断的问题（如g, y等字母）
             .cos-space-pt-3xs();
             .cos-space-pb-3xs();
-            margin-top: calc(var(--cos-space-3xs) * -1);
-            margin-bottom: calc(var(--cos-space-3xs) * -1);
 
             &-large {
                 font-size: var(--cos-text-subtitle);
@@ -317,6 +323,9 @@
             .cos-space-mr-xxs();
             .cos-avatar-img {
                 .cos-rounded-xxs();
+            }
+            .cos-avatar::before {
+                .cos-rounded-xs();
             }
         }
 

@@ -18,16 +18,13 @@
 @import (reference) 'tokens.less';
 
 .cosd-transport-ticket-list {
+    .cos-vcard-color-bg();
+    .cos-rounded-lg();
+
     &-content {
         overflow: hidden;
-        .cos-color-bg-dent();
-        .cos-rounded-lg();
         .cosd-transport-ticket {
-            .cos-rounded-none();
-        }
-        .cos-divider {
-            margin: var(--cos-space-none) var(--cos-space-sm);
-            height: 2px;
+            .cos-vcard-color-bg();
         }
     }
     &-group-animating {
@@ -36,14 +33,10 @@
     }
     &-fold {
         .cos-flex();
-        .cos-justify-between();
+        .cos-justify-center();
         .cos-items-center();
-        margin-bottom: -12px;
+        margin-top: -8px;
         -webkit-tap-highlight-color: transparent;
-        .cos-divider {
-            width: 40%;
-            background-color: var(--cos-color-border-tiny);
-        }
     }
 }
 

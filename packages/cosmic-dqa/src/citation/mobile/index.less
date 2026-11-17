@@ -88,7 +88,7 @@
         border-radius: 50%;
         .cos-space-p-none();
         font-size: var(--cos-text-caption);
-        font-weight: var(--cos-font-medium);
+        .cos-font-medium();
         .cos-text-center();
         white-space: nowrap;
         .cos-color-text-tiny();
@@ -132,6 +132,9 @@
         white-space: nowrap;
 
         &-citationId {
+            .cos-inline-flex();
+            .cos-items-center();
+
             // 下面有伪元素也需要设置传入色值，故无法使用行内样式注入，采用css变量方式注入
 
             /*cosmic-token-disable-next-line*/
@@ -148,6 +151,41 @@
             &:active {
                 .cos-opacity-60();
             }
+        }
+
+        &-logo {
+            width: 100%;
+            height: 100%;
+
+            &-wrapper {
+                .cos-space-mr-3xs();
+                .cos-color-bg();
+                .cos-rounded-full();
+                position: relative;
+                overflow: hidden;
+                width: calc(12px * var(--font-size-scale, 1));
+                height: calc(12px * var(--font-size-scale, 1));
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 2;
+                    border: 1px solid var(--cos-image-color-border);
+                    box-sizing: border-box;
+                    width: 200%;
+                    height: 200%;
+                    pointer-events: none;
+                    transform: scale(.5) translate(-.25px, -.25px);
+                    transform-origin: 0 0;
+                    .cos-rounded-xl();
+                }
+            }
+        }
+
+        &-icon {
+            .cos-color-text-tiny-active();
+            .cos-space-mr-3xs();
         }
 
         &-text {
@@ -168,6 +206,75 @@
             }
 
         }
+    }
+
+    &-aggregated-with-text {
+        width: auto;
+        .cos-space-ml-xxs();
+        .cos-space-mr-xxs();
+    }
+
+    &-aggregated-logo-list {
+        .cos-inline-flex();
+        .cos-items-center();
+        margin-right: 3px;
+    }
+
+    &-aggregated-logo-wrapper {
+        position: relative;
+        width: calc(12px * var(--font-size-scale, 1));
+        height: calc(12px * var(--font-size-scale, 1));
+
+        &-with-logo {
+            .cos-rounded-full();
+            overflow: hidden;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                border: 0.38px solid #dcdde0;
+                border-radius: inherit;
+                box-sizing: border-box;
+                opacity: 0.4;
+                pointer-events: none;
+            }
+        }
+
+        &:first-child {
+            z-index: 1;
+        }
+
+        & + & {
+            margin-left: calc(-6px * var(--font-size-scale, 1));
+        }
+    }
+
+    &-aggregated-logo {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    &-aggregated-logo-icon {
+        .cos-color-text-tiny-active();
+        transform: translateY(0.1px);
+    }
+
+    &-aggregated-text {
+        .cos-inline-flex();
+        .cos-items-center();
+        .cos-color-text-tiny-active();
+        .cos-text-caption();
+        .cos-font-medium();
+        .cos-color-bg-dent();
+        .cos-rounded-xxs();
+        .cos-leading-none();
+        margin: var(--cos-space-3xs) var(--cos-space-none);
+        padding: 2px 3px 2px 3px;
     }
     &-tooltip {
         .cos-color-text-inverse();

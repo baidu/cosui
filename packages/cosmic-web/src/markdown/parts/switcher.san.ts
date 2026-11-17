@@ -220,7 +220,6 @@ export default class Switcher extends Component {
         this.data.set('visible', false);
         const mdRoot = document.getElementById('mdRoot');
         if (business.val === 'cosmic' && attr.val !== 'cos') {
-            // 仅在Cosmic和整页焕新的非通用主题下，开启差异部分高亮
             this.data.set('isFilterBusiness', true);
         }
         else {

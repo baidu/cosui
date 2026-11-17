@@ -50,7 +50,9 @@ export default class QuestionGuide extends QuestionGuideBase {
                         >{{item.label}}：</div>
                         <div
                             s-for="option, optionIndex in item.options"
-                            class="cosd-question-guide-option"
+                            class="cosd-question-guide-option cos-swiper-item{{isSelected(item, optionIndex)
+                                ? ' cosd-question-guide-option-selected'
+                                : ''}}"
                         >
                             <a
                                 class="cosd-question-guide-option-content"

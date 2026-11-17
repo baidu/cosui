@@ -11,6 +11,7 @@ import MlBrief from './md/directive/ml-brief/preview.md';
 import MlCopy from './md/directive/ml-copy/preview.md';
 import MlSearch from './md/directive/ml-search/preview.md';
 import MlSearchMore from './md/directive/ml-search-more/preview.md';
+import MlIntent from './md/directive/ml-intent/preview.md';
 import MlTagLink from './md/directive/ml-tag-link/preview.md';
 import MlText from './md/directive/ml-text/preview.md';
 import MlCitation from './md/directive/ml-citation/preview.md';
@@ -39,6 +40,7 @@ export default class ComponentDoc extends Component {
             <doc-ml-copy />
             <doc-ml-search />
             <doc-ml-search-more />
+            <doc-ml-intent />
             <doc-ml-tag-link />
             <doc-ml-text />
             <doc-ml-citation />
@@ -66,6 +68,7 @@ export default class ComponentDoc extends Component {
         'doc-ml-copy': MlCopy,
         'doc-ml-search': MlSearch,
         'doc-ml-search-more': MlSearchMore,
+        'doc-ml-intent': MlIntent,
         'doc-ml-tag-link': MlTagLink,
         'doc-ml-text': MlText,
         'doc-ml-citation': MlCitation,

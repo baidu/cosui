@@ -1,7 +1,8 @@
-import marklangFn from "../src/server";
+import marklangFn from '../src/server';
 import mockData from './utils';
 
 describe('Markdown Class', () => {
+    // eslint-disable-next-line @typescript-eslint/init-declarations
     let marklang: any;
 
     beforeEach(() => {
@@ -15,7 +16,7 @@ describe('Markdown Class', () => {
 
     it('should render coreAnswer correctly', () => {
         const renderedHTML = marklang.render(mockData.markText);
-        expect(renderedHTML).toContain("<strong>核心答案</strong></mark>");
+        expect(renderedHTML).toContain('<strong>核心答案</strong></mark>');
         expect(renderedHTML).toContain('<mark class="flexible-marker flexible-marker-default">短答案</mark>');
         expect(renderedHTML).not.toContain('<mark class="flexible-marker flexible-marker-default">答案1</mark>');
         expect(renderedHTML).not.toContain('<mark class="flexible-marker flexible-marker-default">答案2</mark>');
@@ -23,7 +24,7 @@ describe('Markdown Class', () => {
 
     it('should render code correctly', () => {
         const renderedHTML = marklang.render(mockData.codeText);
-        expect(renderedHTML).toContain("<pre");
+        expect(renderedHTML).toContain('<pre');
     });
 
     it('should render img correctly', () => {
@@ -51,7 +52,7 @@ describe('Markdown Class', () => {
         it('should identify and preserve directive syntax in text', () => {
             const markdown = 'This is a :test in text.';
             const html = marklang.render(markdown);
-            
+
             // 验证指令语法被保留为文本
             expect(html).toContain(':test in text.');
             // 验证指令没有被转换为HTML标签
@@ -64,6 +65,13 @@ describe('Markdown Class', () => {
             // 验证指令没有被转换为HTML标签
             expect(html).toContain('<test');
             expect(html).toContain('</test>');
+        });
+
+        it('should handle directive without attributes', () => {
+            const markdown = ':::test\nContent\n:::';
+            const html = marklang.render(markdown);
+
+            expect(html).toContain('<test');
         });
     });
 });

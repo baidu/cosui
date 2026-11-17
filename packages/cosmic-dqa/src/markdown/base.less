@@ -135,10 +135,6 @@
     }
 
     // 插件样式
-    &-code-copy {
-        cursor: pointer;
-    }
-
     &-research,
     &-search-more {
         &:active {
@@ -153,6 +149,28 @@
             .cos-space-mt-3xs();
         }
     }
+
+    &-intent {
+        cursor: pointer;
+        text-decoration: underline;
+        text-decoration-thickness: 0.5px;
+        text-underline-offset: 5.5px;
+        .cos-font-medium();
+        .cos-color-text-link();
+        .cos-space-ml-3xs();
+        .cos-space-mr-3xs();
+
+        &-icon {
+            position: relative;
+            vertical-align: text-top;
+            margin-left: 1px;
+            font-size: 9px;
+            .cos-inline-block();
+            .cos-leading-none();
+            .cos-space-mt-3xs();
+        }
+    }
+
     &-icon-wrapper {
         cursor: pointer;
         margin: var(--cos-space-none) 2px 1px;
@@ -438,12 +456,11 @@
             width: fit-content;
             max-width: 100%;
             box-sizing: border-box;
-            &-header {
+            .cosd-markdown-table-header {
                 .cos-flex();
                 .cos-justify-between();
                 .cos-items-center();
-                .cos-color-bg-dent();
-                .cos-color-text();
+                .cos-vcard-color-bg();
                 padding: var(--cos-space-md) var(--cos-space-md) var(--cos-space-sm);
 
                 &-left {
@@ -457,9 +474,6 @@
                     .cos-flex();
                     .cos-icon {
                         .cos-space-ml-lg();
-                        &:active {
-                            .cos-opacity-20();
-                        }
                     }
                 }
             }
@@ -482,7 +496,7 @@
                             border-width: 0.7px;
                             .cos-color-text();
                             .cos-font-medium();
-                            .cos-color-bg();
+                            background: unset;
                             .cos-color-border-minor();
                             &:first-of-type {
                                 border-left: none;
@@ -496,7 +510,8 @@
                 tbody {
                     tr {
                         td {
-                            border-width: 0.7px;
+                            border-bottom: 0.7px solid var(--cos-color-border-minor);
+                            background: unset;
                         }
                         td:first-of-type {
                             border-left: none;
@@ -610,6 +625,14 @@
         // 飘红文本行内样式
         ml-text[type="highlight"] {
             .cos-color-text-em()
+        }
+
+        // 加粗并放大的文本
+        ml-text[type="emphasis"] {
+            display: inline-block;
+            .cos-font-bold();
+            font-size: var(--cos-text-headline-sm);
+            .cos-space-mt-xs();
         }
     }
 }

@@ -21,6 +21,7 @@ export interface Option {
     value: string;
     image?: string;
     caption?: string;
+    selected?: boolean;
 }
 export interface Item {
     // 选项类型

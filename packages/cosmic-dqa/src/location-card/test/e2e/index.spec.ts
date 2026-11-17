@@ -6,7 +6,7 @@ import {expect, test} from '@bgotink/playwright-coverage';
 
 const path = '/components/cosmic-dqa/location-card';
 
-test.describe('default location-list', () => {
+test.describe('default location-card', () => {
     test.beforeEach(async ({page}) => {
         await page.goto(`${path}/default`);
     });
@@ -31,7 +31,7 @@ test.describe('default location-list', () => {
         const tags = locationCards.nth(1)?.locator('.cos-tag');
         const count = await tags.count();
         expect(count).toBe(2);
-        const openingHours = locationCards.nth(2)?.locator('.cosd-location-list-hour').first();
+        const openingHours = locationCards.nth(2)?.locator('.cosd-location-card-details-item').first();
         expect(openingHours).not.toBeNull();
     });
 });

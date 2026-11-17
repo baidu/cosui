@@ -1,12 +1,12 @@
-import marklang from "../src/server";
-import {DirectiveInfo, HastTransformerParam} from '../src/types';
-import {Link, Root, Heading, Paragraph, Code} from 'mdast';
+import marklang from '../src/server';
+import {HastTransformerParam} from '../src/types';
+import {Link} from 'mdast';
 import mockData from './utils';
 import {describe, it, expect, jest} from '@jest/globals';
 
 describe('Markdown Class', () => {
     it('render: options directives return two root nodes', () => {
-        const errorDirectiveHandler = (node: DirectiveInfo) => {
+        const errorDirectiveHandler = () => {
             return '<span>one</span><span>two</span>';
         };
         expect(() => marklang({
@@ -28,8 +28,8 @@ describe('Markdown Class', () => {
         const citationList = marklang.dataToSource('citationList', mockData.citationList);
         const html = marklang({
             directives: {
-                'ml-citation': (node: DirectiveInfo) => {
-                    return ``;
+                'ml-citation': () => {
+                    return '';
                 }
             }
         }).render(mockData.directive + citationList);
@@ -38,7 +38,7 @@ describe('Markdown Class', () => {
 
     it('marklang options: directives return not string && render', () => {
 
-        const errorDirectiveHandler = (node: DirectiveInfo) => {
+        const errorDirectiveHandler = () => {
             return document.createElement('span');
         };
         expect(() => marklang({
@@ -64,7 +64,7 @@ describe('Markdown Class', () => {
         const html = marklang({
             transformers,
             directives: {
-                'ml-data': directiveMlDataMock
+                'ml-data': directiveMlDataMock as any
             }
         }).render(mockData.directive + citationList);
 
@@ -78,14 +78,14 @@ describe('Markdown Class', () => {
     it('marklang options: transformers', () => {
         const transformers = {
             mdast: {
-                link: ({ node }: {node: Link}) => {
+                link: ({node}: {node: Link}) => {
                     if (node.data?.hProperties?.type === 'link') {
                         node.url = 'https://www.baidu.com';
                     }
                 }
             },
             hast: {
-                a: ({ node }: HastTransformerParam) => {
+                a: ({node}: HastTransformerParam) => {
                     if (node.properties?.type === 'link') {
                         node.properties.className = ['link-a-class'];
                     }
@@ -103,16 +103,16 @@ describe('Markdown Class', () => {
     it('dataToAst: should parse markdown to AST', () => {
         const markdown = '# Hello World';
         const ast = marklang.dataToAst(markdown);
-        
+
         // Check that the result is a Root node
         expect(ast).toBeDefined();
-        expect((ast as Root).type).toBe('root');
-        
+        expect((ast).type).toBe('root');
+
         // Check that it contains a heading node
-        const children = (ast as Root).children;
+        const children = (ast).children;
         expect(children.length).toBeGreaterThan(0);
         expect(children[0].type).toBe('heading');
-        
+
         // Check heading properties
         const heading = children[0] as any;
         expect(heading.depth).toBe(1);
@@ -121,26 +121,45 @@ describe('Markdown Class', () => {
     });
 
     it('dataToAst: should handle complex markdown', () => {
-        const markdown = '# Heading\n\nParagraph with **bold** and *italic* text.\n\n```js\nconsole.log("code block");\n```';
+        const markdown = '# Heading\n\n'
+            + 'Paragraph with **bold** and *italic* text.\n\n'
+            + '```js\nconsole.log("code block");\n```';
         const ast = marklang.dataToAst(markdown);
-        
+
         // Check that the result is a Root node with multiple children
         expect(ast).toBeDefined();
-        expect((ast as Root).type).toBe('root');
-        
-        const children = (ast as Root).children;
+        expect((ast).type).toBe('root');
+
+        const children = (ast).children;
         expect(children.length).toBe(3); // heading, paragraph, and code block
-        
+
         // Check heading
         expect(children[0].type).toBe('heading');
-        
+
         // Check paragraph with formatting
         expect(children[1].type).toBe('paragraph');
-        
+
         // Check code block
         expect(children[2].type).toBe('code');
         const codeBlock = children[2] as any;
         expect(codeBlock.lang).toBe('js');
         expect(codeBlock.value).toBe('console.log("code block");');
+    });
+
+    it('dataToSource: should handle circular reference in JSON.stringify', () => {
+        // Create an object with circular reference
+        const circularObj: any = {name: 'test'};
+        circularObj.self = circularObj;
+
+        const result = marklang.dataToSource('circularData', circularObj);
+        // Should not throw and should return undefined when JSON.stringify fails
+        expect(result).toBeUndefined();
+    });
+
+    it('should sanitize javascript: links to prevent XSS', () => {
+        const html = marklang().render('[Click me](javascript:alert(1))');
+
+        expect(html).toContain('javascript:void(0)');
+        expect(html).not.toContain('javascript:alert(1)');
     });
 });

@@ -29,6 +29,7 @@ import mlShopAddress from '../ml-shop-address';
 import mlSearch from './ml-search';
 import mlSiteVcard from '../ml-site-vcard';
 import mlSearchMore from './ml-search-more';
+import mlIntent from '../ml-intent';
 import {getTransformers} from '../transformers';
 import marklang from 'marklang';
 import {ANIMATION_CONFIG, TypingSentenceManager} from '../typing-sentence';
@@ -55,7 +56,8 @@ export default class Markdown extends PcMarkdown {
                     'ml-tag-link': mlTagLink.ssr,
                     'ml-audio': mlAudio.ssr,
                     'ml-site-vcard': mlSiteVcard.ssr,
-                    'ml-search-more': mlSearchMore.ssr
+                    'ml-search-more': mlSearchMore.ssr,
+                    'ml-intent': mlIntent.ssr
                 },
                 transformers: getTransformers.bind(this)()
             }).render(this.getContent(content));
@@ -120,16 +122,28 @@ export default class Markdown extends PcMarkdown {
                 'ml-audio': mlAudio.csr.bind(this),
                 'ml-site-vcard': mlSiteVcard.csr.bind(this),
                 'ml-search-more': mlSearchMore.csr.bind(this),
+                'ml-intent': mlIntent.csr.bind(this),
                 ...directives
             },
             transformers: getTransformers.bind(this)()
         };
+        this.watch('table.fullscreen', async (newVal: string) => {
+            newVal && this.setFullscreenIcon();
+        });
+        this.watch('code.fullscreen', async (newVal: string) => {
+            newVal && this.setFullscreenIcon();
+        });
+        this.watch('table.download', async (newVal: string) => {
+            newVal && this.setDownloadIcon();
+        });
         // bug: PC 端 SSR 取不到 html 的值，所以暂时按照 querySelector 的方式判断
         // const html = this.data.get('html');
         const html = el.querySelector('.marklang');
         const marklangIns = marklang(marklangOptions);
         this.data.set('_marklangIns', marklangIns);
-        if (!html) {
+        // 由于结果页服务端渲染后会把\n替换为空格，所以代码块的逻辑需要重新渲染
+        const hasPreCode = html?.querySelector('pre');
+        if (!html || hasPreCode) {
             if (this.data.get('typing')) {
                 this.data.push('_typingList', content);
                 this.typingContent(el);
@@ -138,13 +152,74 @@ export default class Markdown extends PcMarkdown {
                 content && marklangIns.renderToElementAsync
                     ? await marklangIns.renderToElementAsync(this.getContent(content), el)
                     : marklangIns.renderToElement(this.getContent(content), el);
+                this.reconcileCollapsibleCode(el);
+                this.fire('render-complete');
             }
         }
         else {
             marklangIns.hydrate(el);
+            this.reconcileCollapsibleCode(el);
         }
         this.watch('content', (newVal: string) => {
             this.updateContent(newVal);
+        });
+    }
+    setFullscreenIcon() {
+        if (!this.el) {
+            return;
+        }
+        // table 与 code 共用本方法，但分别由 table.fullscreen / code.fullscreen 两个 watch 触发。
+        const tableFullscreen = this.data.get('table')?.fullscreen;
+        const codeFullscreen = this.data.get('code')?.fullscreen;
+        if (tableFullscreen) {
+            const tableWrapperList = this.el.querySelectorAll('.cosd-markdown-table');
+            tableWrapperList.forEach(tableWrapper => {
+                const rightBox = tableWrapper.querySelector('.cosd-markdown-table-header-right');
+                if (!rightBox || rightBox?.querySelector('.cos-icon-full-screen')) {
+                    return;
+                }
+                const i = document.createElement('i');
+                i.classList.add('cos-icon', 'cos-icon-full-screen');
+                rightBox.appendChild(i);
+            });
+        }
+        if (codeFullscreen) {
+            const codeBlockList = this.el.querySelectorAll('pre .code-header');
+            codeBlockList.forEach(codeHeader => {
+                // 原文/译文引用块（cosd-markdown-code-quote）由 语法 显式声明 fullscreen=false，
+                // 全局 code.fullscreen=true 不应覆盖它——否则引用块会误挂全屏按钮。语法 优先级更高。
+                if (codeHeader.closest('pre')?.classList.contains('cosd-markdown-code-quote')) {
+                    return;
+                }
+                const headerRight = codeHeader.querySelector('.code-header-right');
+                if (!headerRight || headerRight?.querySelector('.cos-icon-full-screen')) {
+                    return;
+                }
+                const fullscreenIcon = document.createElement('i');
+                fullscreenIcon.classList.add('cos-icon', 'cos-icon-full-screen');
+                headerRight.appendChild(fullscreenIcon);
+            });
+        }
+    }
+
+    setDownloadIcon() {
+        if (!this.el) {
+            return;
+        }
+
+        const tableWrapperList = this.el.querySelectorAll('.cosd-markdown-table');
+
+        tableWrapperList.forEach(tableWrapper => {
+            const rightBox = tableWrapper.querySelector('.cosd-markdown-table-header-right');
+
+            if (!rightBox || rightBox?.querySelector('.cos-icon-download')) {
+                return;
+            }
+
+            const i = document.createElement('i');
+
+            i.classList.add('cos-icon', 'cos-icon-download');
+            rightBox.appendChild(i);
         });
     }
 }
