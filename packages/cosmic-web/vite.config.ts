@@ -27,7 +27,7 @@ export default defineConfig((config => {
     process.env = {...process.env, ...loadEnv(config.mode, __dirname)};
     return {
         root: './src',
-        base: process.env.VITE_APP_BASE_URL || '/',
+        base: process.env.VITE_APP_BASE_URL || '/cosui/',
         define: {
             '__NAME__': JSON.stringify('Cosmic Design'),
             'process.env.ASSISTANT_HOST': JSON.stringify(process.env.VITE_ASSISTANT_HOST),
