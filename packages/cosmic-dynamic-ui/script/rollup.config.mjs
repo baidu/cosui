@@ -10,7 +10,7 @@ export default [
             file: 'dist/index.esm.js',
             format: 'es'
         },
-        ...commonProConfig
+        ...commonProConfig()
     },
     {
         output: {
@@ -18,7 +18,7 @@ export default [
             format: 'cjs',
             exports: 'named'
         },
-        ...commonProConfig
+        ...commonProConfig()
     },
     {
         output: {
@@ -29,6 +29,21 @@ export default [
                 'san': 'san'
             }
         },
-        ...commonProConfig
+        ...commonProConfig(),
+        input: 'src/umd.ts',
+        external: ['san']
+    },
+    {
+        ...commonProConfig(),
+        input: 'src/v2/index.ts',
+        // Script consumers only need San; Zod is bundled in the v2 UMD build.
+        external: ['san'],
+        output: {
+            file: 'dist/applet-context.umd.js',
+            format: 'umd',
+            name: 'CosuiAppletContext',
+            exports: 'named',
+            globals: {san: 'san'}
+        }
     }
 ];

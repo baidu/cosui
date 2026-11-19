@@ -7,6 +7,7 @@ import Img from './md/base/img/preview.md';
 import Latex from './md/base/latex/preview.md';
 import Link from './md/base/link/preview.md';
 import Table from './md/base/table/preview.md';
+import Diagram from './md/base/diagram/preview.md';
 import MlBrief from './md/directive/ml-brief/preview.md';
 import MlCopy from './md/directive/ml-copy/preview.md';
 import MlSearch from './md/directive/ml-search/preview.md';
@@ -36,6 +37,7 @@ export default class ComponentDoc extends Component {
             <doc-latex />
             <doc-link />
             <doc-table />
+            <doc-diagram />
             <doc-ml-brief />
             <doc-ml-copy />
             <doc-ml-search />
@@ -64,6 +66,7 @@ export default class ComponentDoc extends Component {
         'doc-latex': Latex,
         'doc-link': Link,
         'doc-table': Table,
+        'doc-diagram': Diagram,
         'doc-ml-brief': MlBrief,
         'doc-ml-copy': MlCopy,
         'doc-ml-search': MlSearch,

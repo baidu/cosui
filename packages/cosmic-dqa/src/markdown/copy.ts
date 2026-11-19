@@ -18,19 +18,31 @@
  * @returns {promise}
  */
 
+/**
+ * 兜底复制：把文本写进临时 textarea 再执行 execCommand('copy')。
+ * 作为 markdown 内复制能力的唯一实现，diagram 侧的 navigator.clipboard
+ * 降级分支也复用这里，避免两份同样的 textarea 流程各自演进。
+ */
+function execCommandCopy(text: string): boolean {
+    const textarea = document.createElement('textarea');
+    textarea.style.background = 'transparent';
+    textarea.setAttribute('readonly', 'readonly');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    textarea.setSelectionRange(0, text.length);
+    try {
+        return document.execCommand('copy', false);
+    }
+    finally {
+        document.body.removeChild(textarea);
+    }
+}
+
 function copyTextToClipboard(text: string) {
     return new Promise((resolve, reject) => {
-        let successful = false;
-        const textarea = document.createElement('textarea');
-        textarea.style.background = 'transparent';
-        textarea.setAttribute('readonly', 'readonly');
-        textarea.value = text;
-        document.body.appendChild(textarea);
-        textarea.select();
-        textarea.setSelectionRange(0, text.length);
         try {
-            successful = document.execCommand('copy', false);
-            if (successful) {
+            if (execCommandCopy(text)) {
                 resolve('复制成功');
             }
             else {
@@ -40,12 +52,10 @@ function copyTextToClipboard(text: string) {
         catch (err) {
             reject(err);
         }
-        finally {
-            document.body.removeChild(textarea);
-        }
     });
 }
 
 export {
-    copyTextToClipboard
+    copyTextToClipboard,
+    execCommandCopy
 };

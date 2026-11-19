@@ -75,12 +75,26 @@ function handleNotTyping(text: string, storeText: string, textIndex: number) {
     return {str: '', length: 0};
 }
 
-const findLastElement = (parent: HTMLElement) => {
-    let lastChild = null;
+// 判断元素是否脱离正文流（绝对/固定定位的覆盖层）。打字光标只应落在正文内容上；
+// 图表块(el-markdown-diagram)的子节点全是脱流层——包裹层 .cosd-diagram-wrapper
+// 与控件层 .cosd-diagram-controls 都是 position:absolute，且控件层是 attach 进来的最后一个子节点。
+// 若不跳过，findLastElement 会一路递归进控件层，把光标塞进图表工具栏最后一个按钮里，
+// 挤乱 flex 布局、把全屏按钮顶到左上角。跳过后该图表块无正文流子节点，退回把光标挂在块根上。
+const isOutOfFlowElement = (el: Element): boolean => {
+    const {position} = window.getComputedStyle(el);
+    return position === 'absolute' || position === 'fixed';
+};
+
+const findLastElement = (parent: HTMLElement): Node | null => {
+    let lastChild: ChildNode | null = null;
     for (let i = parent.childNodes.length - 1; i >= 0; i--) {
         const node = parent.childNodes[i];
-        if (node.nodeType === Node.TEXT_NODE && node.nodeValue && node.nodeValue.replace(/ /g, '') !== '\n'
-            || node.nodeType === Node.ELEMENT_NODE) {
+        const isValidText = node.nodeType === Node.TEXT_NODE
+            && !!node.nodeValue && node.nodeValue.replace(/ /g, '') !== '\n';
+        // 元素节点需排除脱流覆盖层，避免光标递归进图表控件层
+        const isContentElement = node.nodeType === Node.ELEMENT_NODE
+            && !isOutOfFlowElement(node as Element);
+        if (isValidText || isContentElement) {
             lastChild = node;
             break;
         }

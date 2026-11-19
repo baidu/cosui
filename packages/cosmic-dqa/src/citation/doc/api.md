@@ -2,26 +2,26 @@
 
 ### Props
 
-|名称|类型|默认值|是否必选|说明|覆盖平台|
-|---|---|---|---|---|---|
-|appearance|'' \| 'link' \|'tag' \| 'aggregated' |''|否|溯源展现类型|PC/Mobile|
-|citation-id|string||是|溯源角标ID|PC/Mobile|
-|disabled|boolean|false|否|是否禁止弹窗|PC/Mobile|
-|title|string||是|核心文本/标题|PC/Mobile|
-|abstract|string||否|摘要|PC|
-|thumbnail|string||否|图片|PC|
-|is-video|boolean|false|否|是否是视频类型|PC/Mobile|
-|source|object||否|来源|PC/Mobile|
-|source.logo|string \| string[]||否|来源图标，说明：当前数组类型仅在有 aggregated-text 值下生效|PC/Mobile|
-|source.name|string||否|来源名称|PC/Mobile|
-|source.icon|string||否|可信溯源兜底图标|PC/Mobile|
-|source.type|string||否|可信溯源类型|PC/Mobile|
-|source.tag|Tag||否|可信溯源标签|PC/Mobile|
-|link-info|[LinkInfo](/components/cosmic/link)|{}|否|跳转信息|PC/Mobile|
-|get-popup-container|() => HTMLElement|document.body|否|气泡挂载的 DOM 节点，气泡将被限定在这个节点范围内，该节点需要设置 position: relative|PC/Mobile|
-|tooltip-panel-clickable|boolean|false|否|是否允许点击弹窗整体跳转|PC|
-|aggregated-list|AggregatedItem[]||否|聚合溯源面板数据列表|PC|
-|aggregated-text|string||否|聚合溯源展示文案|Mobile|
+|名称|类型|默认值|是否必选|说明| 覆盖平台      |
+|---|---|---|---|---|-----------|
+|appearance|'' \| 'link' \|'tag' \| 'aggregated' |''|否|溯源展现类型| PC/Mobile |
+|citation-id|string||是|溯源角标ID| PC/Mobile |
+|disabled|boolean|false|否|是否禁止弹窗| PC/Mobile |
+|title|string||是|核心文本/标题| PC/Mobile |
+|abstract|string||否|摘要| PC        |
+|thumbnail|string||否|图片| PC        |
+|is-video|boolean|false|否|是否是视频类型| PC/Mobile |
+|source|object||否|来源| PC/Mobile |
+|source.logo|string \| string[]||否|来源图标，说明：当前数组类型仅在有 aggregated-text 值下生效| PC/Mobile |
+|source.name|string||否|来源名称| PC/Mobile |
+|source.icon|string||否|可信溯源兜底图标| PC/Mobile |
+|source.type|string||否|可信溯源类型| PC/Mobile |
+|source.tag|Tag||否|可信溯源标签| PC/Mobile |
+|link-info|[LinkInfo](/components/cosmic/link)|{}|否|跳转信息| PC/Mobile |
+|get-popup-container|() => HTMLElement|document.body|否|气泡挂载的 DOM 节点，气泡将被限定在这个节点范围内，该节点需要设置 position: relative| PC/Mobile |
+|tooltip-panel-clickable|boolean|false|否|是否允许点击弹窗整体跳转| PC        |
+|aggregated-list|AggregatedItem[]||否|聚合溯源面板数据列表| PC        |
+|aggregated-text|string||否|聚合溯源展示文案| PC/Mobile |
 
 #### Tag
 |名称|类型|默认值|是否必选|说明|覆盖平台|

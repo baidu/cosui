@@ -104,6 +104,12 @@ export default class LocationCard extends Component<LocationCardData> {
                         {{caption}}
                     </span>
                 </div>
+                <div
+                    s-if="source"
+                    class="cosd-location-card-line cos-text-body cos-space-mt-xs cosd-location-card-source"
+                >
+                    {{source}}
+                </div>
             </div>
         </component>
     `;
@@ -165,6 +171,7 @@ export default class LocationCard extends Component<LocationCardData> {
             openingHours: '',
             caption: '',
             tags: [],
+            source: '',
             appearance: 'card'
         };
     }

@@ -15,15 +15,50 @@
  */
 
 import {MdastNode, HastNode} from './interface';
+import {
+    CLASS_NAME_DIAGRAM,
+    CLASS_NAME_DIAGRAM_BODY,
+    CLASS_NAME_DIAGRAM_CODE_VIEW,
+    CLASS_NAME_DIAGRAM_HEADER,
+    CLASS_NAME_DIAGRAM_MAIN,
+    CLASS_NAME_DIAGRAM_VIEW,
+    CLASS_NAME_DIAGRAM_WRAPPER,
+    DiagramLang,
+    DiagramLangAlias,
+    DiagramViewMode
+} from './diagram/utils/const';
+import {buildDiagramHast} from './diagram/utils/diagram-hast';
+import type {DiagramHastNode} from './diagram/utils/diagram-hast';
+import {getDiagramTypeName} from './diagram/utils/diagram-type';
+
+// 图表代码块语言（含中文别名）。服务端命中这些语言时直接占位成图表盒子，
+// 避免 SSR 首屏把图表画成高亮代码块、客户端重渲染再替换成图表造成闪烁。
+const DIAGRAM_LANGS = new Set<string>([
+    DiagramLang.mermaid,
+    DiagramLang.markmap,
+    DiagramLang.mindmap,
+    ...Object.keys(DiagramLangAlias)
+]);
+
+// canonical 语言 → 占位盒子的容器类（决定首屏预留宽高比）
+const DIAGRAM_CONTAINER_CLASS: Record<string, string> = {
+    [DiagramLang.mermaid]: 'mermaid-container',
+    [DiagramLang.mindmap]: 'mindmap-container',
+    [DiagramLang.markmap]: 'markmap-container'
+};
+
+// 代码块语言 → 渲染器 canonical 语言（供 data-lang 派发）。
+function toCanonicalDiagramLang(lang: string): string {
+    if (lang === DiagramLang.mermaid || lang === DiagramLang.markmap || lang === DiagramLang.mindmap) {
+        return lang;
+    }
+    return (DiagramLangAlias as Record<string, string>)[lang] || lang;
+}
 
 // 折叠阈值：折叠态锁定的纯内容区（.code-right）高度 448px = 28px 行高 × 16 行，不含 wrapper 的上下 padding。
 // 超过才折叠。每次展开步进见 pc/index.ts（448 * 2）。
 // 与 pc/index.ts 运行时测高逻辑及 code.less 的 max-height 保持一致。
 export const CODE_FOLD_MAX_HEIGHT = 448;
-
-// 原文引用块的 fence 语言标签：策略下发的原文引用以 ```原文/```译文 标注 info string。
-// 这类块语义是「引用」而非普通代码
-export const QUOTE_LANGS = new Set(['原文', '译文']);
 
 export function getLanguage(node: HastNode) {
     const list = node.properties?.className;
@@ -109,6 +144,52 @@ function createElement(
     } as HastNode;
 }
 
+/**
+ * 把图表代码块（pre > code）包成 el-markdown-diagram 占位盒子（图表视图为空、代码视图隐藏）。
+ * 仅服务端调用：让 SSR 首屏直接呈现图表盒子而非高亮代码块。
+ * 能力检测（isMermaidSupported）与真实 SVG 渲染都交给客户端重渲染，这里只产占位结构。
+ * 盒子宽高比由各端 CSS 决定（diagram/index.pc.less / index.mobile.less），首屏与客户端重渲染一致。
+ */
+/** 递归收集 hast 节点下的纯文本（用于从占位 pre 取出图表源码以解析子类型） */
+function collectHastText(node: HastNode): string {
+    if (!node) {
+        return '';
+    }
+    if (node.type === 'text') {
+        return node.value || '';
+    }
+    return (node.children || []).map(child => collectHastText(child)).join('');
+}
+
+function buildDiagramPlaceholder(
+    lang: string,
+    originalPre: HastNode
+): HastNode {
+    const canonical = toCanonicalDiagramLang(lang);
+    const containerClass = DIAGRAM_CONTAINER_CLASS[canonical] ?? DIAGRAM_CONTAINER_CLASS[DiagramLang.markmap];
+
+    return buildDiagramHast({
+        rootClassName: [CLASS_NAME_DIAGRAM],
+        wrapperClassName: [CLASS_NAME_DIAGRAM_WRAPPER],
+        viewClassName: [CLASS_NAME_DIAGRAM_VIEW],
+        headerClassName: [CLASS_NAME_DIAGRAM_HEADER],
+        bodyClassName: [CLASS_NAME_DIAGRAM_BODY],
+        mainClassName: [CLASS_NAME_DIAGRAM_MAIN, containerClass],
+        codeViewClassName: [CLASS_NAME_DIAGRAM_CODE_VIEW],
+        headerText: lang,
+        lang: canonical,
+        // 子类型中文名：SSR 占位虽会被客户端整体替换，但首屏扫描（如业务打点）可能先读到这份，
+        // 故一并写上 data-type；体积仅一个短中文串，远小于 data-raw。
+        type: getDiagramTypeName({lang: canonical, raw: collectHastText(originalPre)}),
+        viewMode: DiagramViewMode.diagram,
+        // data-raw 不写：代码已在隐藏的代码视图 pre 里存了一份，客户端重渲染会以源
+        // markdown 重新生成正确的 data-raw，SSR 这份 host 会被整体替换、从不被读取，
+        // 再塞一份 raw 纯属 HTML 体积浪费。
+        codeViewHidden: true,
+        codeNode: originalPre as DiagramHastNode
+    }) as HastNode;
+}
+
 export function getTransformers() {
     return {
         mdast: {
@@ -167,7 +248,7 @@ export function getTransformers() {
             /**
              * 代码块增加头部：语言+复制按钮+放大按钮
              */
-            pre: ({node}: {node: HastNode}) => {
+            pre: ({node, index, parent}: {node: HastNode, index?: number, parent?: HastNode}) => {
                 if (!node.children?.length) {
                     return node;
                 }
@@ -184,13 +265,30 @@ export function getTransformers() {
                 const codeNode = node.children[codeIndex];
                 const lang = getLanguage(codeNode);
 
-                // 原文/译文块标记为引用
-                const isQuote = QUOTE_LANGS.has(lang);
+                // 服务端：图表类型代码块直接占位成 el-markdown-diagram 盒子，避免 SSR 首屏
+                // 把图表画成高亮代码块、客户端重渲染再替换造成「先 pre code 再闪成图表」。
+                // 占位结构仍含隐藏的代码视图 pre，使客户端 hasPreCode 命中重渲染路径，
+                // 由带 diagram 插件的客户端重渲染补齐真实 SVG；首屏不再出现代码块形态。
+                // 客户端（typeof window !== 'undefined'）此处只会遇到已被 rehype 占位后、
+                // 代码视图内的嵌套 pre，不应再次占位，故仅服务端生效。
+                const isServer = typeof window === 'undefined';
+                // 添加 diagram 开关门控：未启用 diagram 的业务不应转换图表代码块为占位，
+                // 否则会导致：1) SSR 首屏被替换成空占位盒子；2) 客户端无法渲染，翻回代码块（闪烁）；
+                // 3) 纯 SSR 场景丢失代码块内容。门控确保回归安全。
+                // @ts-ignore this is from San component context
+                const diagramEnabled = this.data.get('diagram');
+                if (isServer && DIAGRAM_LANGS.has(lang) && diagramEnabled && parent?.children && index !== undefined) {
+                    parent.children[index] = buildDiagramPlaceholder(lang, node);
+                    return;
+                }
 
                 // 代码围栏 language 后面的配置项（如 ```java {lineNumbers=false}）。
                 // 围栏配置优先级更高：围栏显式设置时以围栏为准，否则回退到全局 code 配置，最后取默认值。
                 const meta = parseCodeMeta(codeNode.data?.meta);
-                const resolveFlag = (key: 'lineNumbers' | 'fullscreen' | 'foldable', defaultValue: boolean) => {
+                const resolveFlag = (
+                    key: 'lineNumbers' | 'fullscreen' | 'foldable' | 'scrollable' | 'wrap',
+                    defaultValue: boolean
+                ) => {
                     if (typeof meta[key] === 'boolean') {
                         return meta[key] as boolean;
                     }
@@ -200,8 +298,14 @@ export function getTransformers() {
                     return defaultValue;
                 };
                 const lineNumbers = resolveFlag('lineNumbers', true);
+                // 无行号即引用块
+                const isQuote = !lineNumbers;
                 const fullscreen = resolveFlag('fullscreen', false);
-                const foldable = resolveFlag('foldable', false);
+                const scrollable = resolveFlag('scrollable', false);
+                // wrap 仅控制无行号纯文本；有行号时保持现有不换行行为，避免行号与代码行错位。
+                const wrap = resolveFlag('wrap', true);
+                // scrollable 与 foldable 互斥，scrollable 优先：滚动块自身定高，不再挂折叠
+                const foldable = !scrollable && resolveFlag('foldable', false);
 
                 // 添加行号
                 const lineNumberNodes: HastNode[] = [];
@@ -246,7 +350,7 @@ export function getTransformers() {
                 node.children[codeIndex] = createElement('div', ['code-wrapper'], wrapperChildren);
                 node.children.unshift(headerNode);
 
-                // 原文/译文引用块打标记类，供业务层区分「引用」与「代码」日志。
+                // 引用块（无行号纯文本，如原文/译文/关系图）打标记类，供业务层区分「引用」与「代码」日志。
                 if (isQuote) {
                     const existingClass = (node.properties?.className as string[]) || [];
                     node.properties = {
@@ -255,12 +359,27 @@ export function getTransformers() {
                     };
                 }
 
-                // 无行号场景（如原文引用纯文本），超长单行自动换行而非横向滚动
-                if (!lineNumbers) {
+                // 定高滚动块标记类，样式见 pc/index.less。由围栏/全局 code 的 scrollable 决定，与语言无关。
+                if (scrollable) {
                     const existingClass = (node.properties?.className as string[]) || [];
                     node.properties = {
                         ...(node.properties || {}),
-                        className: [...existingClass, 'cosd-markdown-code-plain']
+                        className: [...existingClass, 'cosd-markdown-code-scrollable']
+                    };
+                }
+
+                // 无行号场景（如原文引用纯文本）统一使用 plain 样式；
+                // wrap=false 时额外挂 nowrap，仅覆盖 plain 的自动换行规则。
+                if (!lineNumbers) {
+                    const existingClass = (node.properties?.className as string[]) || [];
+                    const plainClass = [
+                        ...existingClass,
+                        'cosd-markdown-code-plain',
+                        ...(wrap ? [] : ['cosd-markdown-code-nowrap'])
+                    ];
+                    node.properties = {
+                        ...(node.properties || {}),
+                        className: plainClass
                     };
                 }
 

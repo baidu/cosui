@@ -32,6 +32,35 @@ export interface Code {
     fullscreen?: boolean;
     lineNumbers?: boolean;
     foldable?: boolean;
+    /** 无行号纯文本是否自动换行，默认 true；lineNumbers 为 true 时不生效 */
+    wrap?: boolean;
+    /** 定高滚动展示（内容超出容器宽度折行，整块纵向滚动）。与 foldable 互斥，优先级更高。PC 与 mobile 均支持 */
+    scrollable?: boolean;
+}
+
+/**
+ * 图表渲染配置（扁平开关）。传入该对象即开启 diagram，
+ * 各字段控制内置基础控件是否展示。
+ * 初始视图固定为图表；复杂交互（复位、置灰、全屏页自绘控件）
+ * 由业务通过事件 + 命令式方法自行实现。
+ */
+export interface DiagramConfig {
+    /** 展示 图/源码 切换按钮 */
+    mode?: boolean;
+    /** 复制按钮 */
+    copy?: boolean;
+    /** 下载按钮 */
+    download?: boolean;
+    /** 全屏按钮 */
+    fullscreen?: boolean;
+    /** 横竖屏切换按钮（移动端） */
+    landscape?: boolean;
+    /** 放大按钮 */
+    'zoom-in'?: boolean;
+    /** 缩小按钮 */
+    'zoom-out'?: boolean;
+    /** 复位 / 自适应按钮 */
+    reset?: boolean;
 }
 export interface MarkdownData {
     /**
@@ -49,6 +78,12 @@ export interface MarkdownData {
      * 代码块的配置
      */
     code?: Code;
+    /**
+     * 图表渲染配置：传入配置对象即开启（命中 mermaid / markmap / mindmap 代码块时
+     * 渲染为可交互图表）；不传 / null / false 则关闭。各字段控制内置基础控件的展示。
+     * @default undefined
+     */
+    diagram?: DiagramConfig | boolean;
 };
 
 export interface Config {

@@ -69,6 +69,9 @@ import CompanyCardImg from './assets/components/cosmic-dqa/company-card.png';
 import CompanyGraphImg from './assets/components/cosmic-dqa/company-graph.png';
 import CopyableTextImg from './assets/components/cosmic-dqa/copyable-text.png';
 import DocumentScrollImg from './assets/components/cosmic-dqa/document-scroll.png';
+import EntityCardImg from './assets/components/cosmic-dqa/entity-card.png';
+import EntityListImg from './assets/components/cosmic-dqa/entity-list.png';
+import FilmCardImg from './assets/components/cosmic-dqa/film-card.png';
 import GeneratingViewImg from './assets/components/cosmic-dqa/generating-view.png';
 import LocationCardImg from './assets/components/cosmic-dqa/location-card.png';
 import LocationListImg from './assets/components/cosmic-dqa/location-list.png';
@@ -165,6 +168,9 @@ export default [
     {name: '/components/cosmic-dqa/company-graph', src: CompanyGraphImg},
     {name: '/components/cosmic-dqa/copyable-text', src: CopyableTextImg},
     {name: '/components/cosmic-dqa/document-scroll', src: DocumentScrollImg},
+    {name: '/components/cosmic-dqa/entity-card', src: EntityCardImg},
+    {name: '/components/cosmic-dqa/entity-list', src: EntityListImg},
+    {name: '/components/cosmic-dqa/film-card', src: FilmCardImg},
     {name: '/components/cosmic-dqa/generating-view', src: GeneratingViewImg},
     {name: '/components/cosmic-dqa/location-card', src: LocationCardImg},
     {name: '/components/cosmic-dqa/location-list', src: LocationListImg},

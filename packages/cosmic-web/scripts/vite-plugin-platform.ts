@@ -15,7 +15,8 @@ const setPlatform = (platform, code) => code.replace(
         return args[0];
     }
 );
-const idPattern = /import \{?([^\s}]+)\}? from ('|")@cosui\/(?!cosmic-dynamic-ui\b)(cosmic([\w-]+)?)\/?(\S*)('|");/g;
+const idPattern
+    = /import \{?([^\s}]+)\}? from ('|")@cosui\/(?!cosmic-(?:dynamic-ui|catalog)\b)(cosmic([\w-]+)?)\/?(\S*)('|");/g;
 const replacePCComponentsId = code => code.replace(
     idPattern,
     (match: string, p1: string, p2: string, p3: string) => {
@@ -166,7 +167,7 @@ export default function () {
                 bridge += 'let __pcRenderHtml = \'\';\n';
                 bridge += 'let __mobileRenderHtml = \'\';\n';
 
-                // 过滤 cosmic-chat 等无 ssr 产物的组件库
+                // 过滤 cosmic-xxx 中 等无 ssr 产物的组件库
                 if (isE2e
                     || process.env.RENDER_TYPE !== 'ssr'
                     || !ssrComponents.some(cmp => id.includes(cmp))

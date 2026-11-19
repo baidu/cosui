@@ -1,0 +1,99 @@
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-diagram {
+    &-controls {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    &-action-controls {
+        position: absolute;
+        top: 8px;
+        right: 3px;
+        .cos-flex();
+        .cos-flex-row();
+        pointer-events: auto;
+    }
+
+    &-control-btn {
+        position: relative;
+        .cos-flex();
+        .cos-justify-center();
+        .cos-items-center();
+        overflow: visible !important;
+        width: 28px;
+        height: 28px;
+        font-size: var(--cos-text-subtitle-sm);
+        // cosmic-token-disable-next-line
+        color: #333;
+        background: none !important;
+        outline: none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+
+        .cos-icon {
+            font-size: var(--cos-text-subtitle);
+        }
+
+        &.@{prefix}-diagram-control-btn-disabled {
+            cursor: not-allowed;
+            // cosmic-token-disable-next-line
+            color: #c9cdd4;
+            // cosmic-token-disable-next-line
+            background: #f7f8fa;
+        }
+    }
+
+    &-action-control-group {
+        .cos-flex();
+        .cos-flex-row();
+        .cos-items-center();
+
+        &:last-child {
+            .cos-space-mr-none();
+        }
+
+        .@{prefix}-diagram-control-btn {
+            position: relative;
+            margin-right: 4px;
+        }
+    }
+
+    &-viewport-controls {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        .cos-flex();
+        justify-content: flex-end;
+        .cos-items-flex-end();
+        .cos-flex-col();
+        pointer-events: auto;
+
+        .@{prefix}-diagram-control-btn {
+            padding: 8px !important;
+            width: 34px !important;
+            height: 32px !important;
+            font-size: var(--cos-text-headline-sm) !important;
+        }
+    }
+
+    &-viewport-control-group {
+        .cos-flex();
+        margin-bottom: 8px;
+        .cos-rounded-xs();
+        .cos-color-bg();
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+        .cos-flex-col();
+
+        &:last-child {
+            .cos-space-mb-none();
+
+            .cos-icon {
+                font-size: var(--cos-text-headline-sm);
+            }
+        }
+    }
+}

@@ -9,7 +9,7 @@
     "prebuild": "cd ../../ && pnpm build && pnpm build",
     "gen": "tsx ./scripts/screenshot.ts",
     "genall": "tsx ./scripts/screenshot.ts all",
-    "build": "NODE_ENV_TYPE=production vite build",
+    "build": "tsx ./scripts/sync-catalog.ts && NODE_OPTIONS='--max-old-space-size=8192' NODE_ENV_TYPE=production vite build",
     "dev:ssr": "RENDER_TYPE=ssr vite",
     "dev:cjs": "cd ../../ && NODE_ENV=production node ./scripts/build-cjs.mjs -w",
     "build:cjs": "cd ../../ && NODE_ENV=production node --max-old-space-size=8192 ./scripts/build-cjs.mjs",
@@ -47,7 +47,8 @@
     "@cosui/cosmic-medical": "workspace:~",
     "@cosui/cosmic-shop": "workspace:~",
     "@cosui/cosmic-dynamic-ui": "workspace:~",
-    "@cosui/icon": "^1.0.5",
+    "@cosui/cosmic-catalog": "workspace:~",
+    "@cosui/icon": "^1.0.4",
     "@codemirror/basic-setup": "^0.20.0",
     "@codemirror/lang-markdown": "^6.2.2",
     "@codemirror/state": "^6.2.1",
@@ -72,6 +73,7 @@
     "san-ssr": "3.14.3",
     "sharp": "^0.33.5",
     "unified": "^11.0.3",
-    "versions-compare": "~1.0.5"
+    "versions-compare": "~1.0.5",
+    "zod": "^4.6.7"
   }
 }

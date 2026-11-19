@@ -29,7 +29,7 @@ export interface ButtonProps {
     /**
      * 按钮风格
      */
-    appearance?: 'primary' | 'secondary' | 'text' | 'text-primary' | 'icon';
+    appearance?: 'primary' | 'secondary' | 'text' | 'text-primary' | 'icon' | 'plain';
 
     /**
      * 按钮是否处在活跃状态如：click、touch、mouse 等

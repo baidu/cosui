@@ -103,6 +103,7 @@ export default class DefaultDemo extends Component {
                         bgColor: 'var(--cos-color-bg-alive-light)'
                     }
                 ],
+                source: '携程旅行',
                 appearance: 'filled'
             }
         }

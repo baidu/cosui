@@ -102,7 +102,7 @@ export const propsCompatible = {
         size(props: PropsConfig) {
             if (props.size) {
                 props.class = props.class || '';
-                props.class += ' cos-text-' + props.size;
+                props.class += ` cos-text-${props.size}`;
                 delete props.size;
             }
         }
@@ -117,7 +117,7 @@ export const propsCompatible = {
             props.class += col;
 
             if (props.span) {
-                props.class += col + '-' + props.span;
+                props.class += `${col}-${props.span}`;
                 delete props.span;
             }
             else {
@@ -135,19 +135,19 @@ export const propsCompatible = {
             props.class += row;
 
             if (props.columns) {
-                props.class += ' cos-row-col-' + props.columns;
+                props.class += ` cos-row-col-${props.columns}`;
                 delete props.columns;
             }
 
             if (props.gutter) {
                 props.style = props.style || {};
                 props.class += ' cos-gutter';
-                props.style['--cos-grid-gutter'] = props.gutter + 'px';
+                props.style['--cos-grid-gutter'] = `${props.gutter}px`;
                 delete props.gutter;
             }
 
             if (props.align) {
-                props.class += ' cos-items-' + props.align;
+                props.class += ` cos-items-${props.align}`;
                 delete props.align;
             }
             if (props.justify) {

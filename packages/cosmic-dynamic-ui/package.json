@@ -7,7 +7,7 @@
   "browser": "./dist/index.umd.js",
   "scripts": {
     "dev": "rollup -c ./script/rollup.config.dev.mjs --watch",
-    "build": "rm -rf dist && rollup -c ./script/rollup.config.mjs",
+    "build": "rm -rf dist && tsc --declaration --emitDeclarationOnly --outDir dist/types --rootDir src && rollup -c ./script/rollup.config.mjs",
     "test": "jest --config ./script/jest.config.cjs"
   },
   "files": [
@@ -16,7 +16,8 @@
     "README.md"
   ],
   "peerDependencies": {
-    "san": "^3.14.1"
+    "san": "^3.14.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@babel/core": "^7.24.5",
@@ -39,8 +40,13 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^1.1.1",
     "ts-jest": "^29.1.2",
-    "tslib": "^2.6.3"
+    "tslib": "^2.6.3",
+    "ajv": "^8.14.0",
+    "typescript": "~5.9.3",
+    "acorn": "^8.11.3",
+    "zod": "^4.6.7"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "types": "dist/types/index.d.ts"
 }

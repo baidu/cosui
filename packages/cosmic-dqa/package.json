@@ -37,7 +37,11 @@
         "@cosui/cosmic-card": "workspace:~",
         "echarts": "^5.5.0",
         "marklang": "workspace:~",
-        "san": "^3.14.1"
+        "markmap-lib": "^0.18.12",
+        "markmap-view": "^0.18.12",
+        "mermaid": "^11.16.0",
+        "san": "^3.14.1",
+        "svg-pan-zoom": "^3.6.2"
     },
     "types": "distTypes"
 }

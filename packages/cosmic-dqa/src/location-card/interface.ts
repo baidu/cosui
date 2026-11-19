@@ -67,6 +67,10 @@ export interface LocationCardProps {
      * 标签列表
      */
     tags?: TagItem[] | string[];
+    /**
+     * 来源，如“携程旅行”
+     */
+    source?: string;
 }
 
 export interface TagItem {

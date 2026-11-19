@@ -1,6 +1,6 @@
 ## 概述
 
-**Cosmic Dynamic UI** 是上述 [JSON 协议](/protocol/json/content/index) 的标准参考实现。它是一个面向 AI 生成场景的 **JSON-to-UI 渲染引擎**。
+**Cosmic Dynamic UI** 是上述 [v1 JSON 协议](/protocol/json/v1/content) 的标准参考实现。它是一个面向 AI 生成场景的 **JSON-to-UI 渲染引擎**。
 
 ## 核心特性
 *   **完备的协议解析**：完整支持协议元语，内置 `if`/`for` 逻辑控制及复杂的插值表达式引擎，实现灵活的数据绑定与运算。

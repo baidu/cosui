@@ -20,6 +20,7 @@ export enum Type {
     V1 = 'vip-1',
     V2 = 'vip-2',
     V3 = 'vip-3',
+    V4 = 'vip-4',
     LIVE = 'live'
 }
 

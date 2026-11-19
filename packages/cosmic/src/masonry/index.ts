@@ -17,7 +17,7 @@
  */
 
 import {Component} from 'san';
-import type {MasonryData} from './interface';
+import type {MasonryData, MasonryRenderItem} from './interface';
 
 export default class Masonry extends Component<MasonryData> {
 
@@ -54,6 +54,12 @@ export default class Masonry extends Component<MasonryData> {
         _gutter(this: Masonry) {
             const gutter = this.data.get('gutter');
             return Array.isArray(gutter) ? gutter : [gutter, gutter];
+        },
+        // columnCount 为外部可设数据，接口无 >=2 约束，做兜底：
+        // 非正整数（0 / 负数 / 小数 / NaN）时回退为 2，避免空列数组导致 Math.max(...[]) 返回 -Infinity
+        _columnCount(this: Masonry) {
+            const columnCount = this.data.get('columnCount');
+            return Number.isInteger(columnCount) && columnCount >= 2 ? columnCount : 2;
         }
     };
 
@@ -65,6 +71,7 @@ export default class Masonry extends Component<MasonryData> {
             gutter: 0,
             columnCount: 2,
             containerWidth: 0,
+            rowAlign: 'start',
             _renderItems: [],
             _containerHeight: 0
         };
@@ -85,7 +92,7 @@ export default class Masonry extends Component<MasonryData> {
         }
 
         // 数据变化统一走调度
-        ['items', 'gutter', 'columnCount', 'containerWidth'].forEach(key => {
+        ['items', 'gutter', 'columnCount', 'containerWidth', 'rowAlign'].forEach(key => {
             this.watch(key, () => this.scheduleLayout());
         });
     }
@@ -117,15 +124,15 @@ export default class Masonry extends Component<MasonryData> {
 
     calcLayout(width: number) {
         const items = this.data.get('items') || [];
-        const columnCount = this.data.get('columnCount');
+        const columnCount = this.data.get('_columnCount');
         const gutter: number[] = this.data.get('_gutter');
         // 获取每列宽度，要减去水平间距
         const columnWidth = (width - gutter[0] * (columnCount - 1)) / columnCount;
         // 内部维护的布局的每列高度，用于放置元素时判断高度最小的列
-        const colHeights = new Array(columnCount).fill(0);
+        const colHeights: number[] = new Array(columnCount).fill(0);
         // 维护一个元素数量的数组，用于计算元素起始下标
-        const colCounts = new Array(columnCount).fill(0);
-        const result = items.map(item => {
+        const colCounts: number[] = new Array(columnCount).fill(0);
+        const result: MasonryRenderItem[] = items.map(item => {
             // 计算元素的宽高比
             const ratio = Number(item.height / (item.width || columnWidth));
             // 根据宽高比和列宽计算元素高度
@@ -161,9 +168,35 @@ export default class Masonry extends Component<MasonryData> {
                 _rowIndex: indexInColumn
             };
         });
+        // 瀑布流计算出的容器高度（最高列去掉末尾多加的垂直间距）
+        const containerHeight = Math.max(...colHeights) - gutter[1];
+        // rowAlign 为 justify 时，将各列剩余空间平摊给该列每张图片，使所有列底部对齐到最高列
+        if (this.data.get('rowAlign') === 'justify') {
+            // 计算每列每张图片需要额外分摊的高度
+            const extraPerColumn = colHeights.map((colHeight, column) => {
+                if (colCounts[column] <= 0) {
+                    return 0;
+                }
+                // 该列当前底部位置（去掉末尾多加的垂直间距）
+                const columnBottom = colHeight - gutter[1];
+                const delta = containerHeight - columnBottom;
+                return delta > 0 ? delta / colCounts[column] : 0;
+            });
+            result.forEach(item => {
+                const extra = extraPerColumn[item._columnIndex];
+                if (extra <= 0) {
+                    return;
+                }
+                // 该列中排在前面的图片都增高，导致当前图片整体下移
+                const top = parseFloat(item._style.top) + item._rowIndex * extra;
+                const height = parseFloat(item._style.height) + extra;
+                item._style.top = `${top}px`;
+                item._style.height = `${height}px`;
+                item._position.top = top;
+            });
+        }
         // 更新渲染的元素布局信息
-        const _renderItems = this.data.get('_renderItems') || [];
-        this.data.splice('_renderItems', [0, _renderItems.length, ...result]);
-        this.data.set('_containerHeight', Math.max(...colHeights) - gutter[1]);
+        this.data.set('_renderItems', result);
+        this.data.set('_containerHeight', containerHeight);
     }
 }

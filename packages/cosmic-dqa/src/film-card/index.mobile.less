@@ -1,0 +1,196 @@
+/*
+ * Copyright (c) Baidu, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-film-card {
+    position: relative;
+    .cos-flex();
+    overflow: hidden;
+    .cos-rounded-md();
+    .cos-space-pt-xxs();
+    .cos-space-pb-xxs();
+    .cos-space-pl-xs();
+    .cos-space-pr-xs();
+    .cos-color-bg-dent();
+
+    &-link {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    // 不用 aspect-ratio：iOS WebKit 中 flex 子项会按宽高比定高，不再随右文区拉伸
+    &-thumbnail {
+        .cos-flex-none();
+        .cos-space-mt-3xs();
+        .cos-space-mr-xs();
+        .cos-space-mb-3xs();
+        min-height: calc(108px * var(--font-size-scale, 1));
+        &.cos-col-3 {
+            width: calc(89px * var(--font-size-scale, 1));
+            max-width: calc(25% * var(--font-size-scale, 1));
+        }
+        .cos-image {
+            .cos-rounded-sm();
+            height: 100%;
+            &::before {
+                .cos-rounded-xl();
+            }
+        }
+    }
+
+    &-content {
+        .cos-flex();
+        .cos-flex-1();
+        .cos-flex-col();
+        .cos-justify-center();
+        min-width: 0;
+    }
+
+    &-title {
+        .cos-text-subtitle();
+        .cos-font-medium();
+        .cos-line-clamp-1();
+        .cos-color-text();
+    }
+
+    &-score,
+    &-credit,
+    &-meta,
+    &-source {
+        .cos-space-mt-3xs();
+        .cos-text-subtitle-sm();
+    }
+
+    &-score,
+    &-source {
+        .cos-line-clamp-1();
+    }
+
+    &-score {
+        .cos-font-medium();
+        .cos-color-text-alive();
+    }
+
+    &-score-source {
+        .cos-space-mr-xxs();
+    }
+
+    &-score-value {
+        .cos-font-number-medium();
+    }
+
+    &-credit {
+        .cos-flex();
+        overflow: hidden;
+        .cos-color-text-tiny();
+        &-item {
+            .cos-shrink-0();
+            .cos-space-mr-xs();
+            white-space: nowrap;
+            &:last-child {
+                flex: 1;
+                .cos-space-mr-none();
+                min-width: 0;
+                .cos-line-clamp-1();
+            }
+        }
+    }
+
+    &-meta,
+    &-source {
+        .cos-color-text-minor();
+    }
+
+    // 评分、主创只在成为末行时才需要留出
+    &-meta,
+    &-source,
+    &-score:last-child,
+    &-credit:last-child {
+        max-width: calc(100% - 2 * var(--cos-text-body) - 29px - var(--cos-space-xs));
+    }
+
+    // 各格不限宽，整行只在末尾省略一次
+    &-meta {
+        .cos-line-clamp-1();
+        &-item {
+            .cos-inline();
+            & + & {
+                .cos-space-ml-xs();
+            }
+        }
+        &-text + &-text {
+            .cos-space-ml-3xs();
+        }
+    }
+
+    // z-index 高于整卡链接层，点击按钮不触发整卡跳转
+    &-action {
+        position: absolute;
+        right: var(--cos-space-xs);
+        bottom: var(--cos-space-xs);
+        z-index: 2;
+        .cos-flex();
+        .cos-items-center();
+        &-btn {
+            .cos-rounded-full();
+            // cos-button 默认 width: 100%
+            width: auto;
+            font-size: var(--cos-text-body);
+            .cos-font-medium();
+            .cos-color-text-on-primary-light();
+            .cos-color-bg();
+            // 覆盖 cos-button sm 的内边距（PC 为 8.5px），使两端一致
+            &.cos-button.cos-sm {
+                padding: 8px 14.5px;
+            }
+            &.cos-active {
+                .cos-opacity-20();
+            }
+        }
+    }
+
+    &:active {
+        > .@{prefix}-film-card-thumbnail,
+        > .@{prefix}-film-card-content,
+        > .@{prefix}-film-card-action {
+            .cos-opacity-20();
+        }
+    }
+    // 按下播放按钮时卡片内容不变；不支持 :has 的内核会忽略此规则
+    &:has(.@{prefix}-film-card-action:active) {
+        > .@{prefix}-film-card-thumbnail,
+        > .@{prefix}-film-card-content,
+        > .@{prefix}-film-card-action {
+            .cos-opacity-100();
+        }
+    }
+}
+
+// 避免卡片底色与封面在安卓暗黑模式下被内核再映射
+@media (prefers-color-scheme: dark) {
+    @{t7-kernel-selectors},
+    @{agent-android-dark-selectors} {
+        .@{prefix}-film-card {
+            color-scheme: dark;
+        }
+    }
+}

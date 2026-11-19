@@ -1,0 +1,143 @@
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+// 图表根节点：el-markdown-diagram 指令标签上的 cosd-diagram 类
+.@{prefix}-diagram {
+    position: relative;
+    .cos-block();
+    // 高度 0 + padding-bottom 撑高宽比：默认 1:1（移动端），PC 在 diagram/index.pc.less 覆盖为 16:9
+    padding-bottom: 100%;
+    width: 100%;
+    height: 0;
+
+    // 流式渲染时复用的缓存 host 覆盖态
+    &&-overlay {
+        position: absolute;
+        z-index: 1;
+    }
+
+    &-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        .cos-rounded-sm();
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    &-header {
+        .cos-flex();
+        .cos-justify-between();
+        .cos-items-center();
+        border-bottom: .5px solid var(--cos-color-border-minor-active);
+        border-radius: var(--cos-rounded-sm) var(--cos-rounded-sm) var(--cos-rounded-none) var(--cos-rounded-none);
+        padding: 14px var(--cos-space-sm) var(--cos-space-sm);
+        font-size: var(--cos-text-body-lg) !important;
+        font-family: monospace;
+        .cos-color-text-minor();
+        .cos-leading-none();
+    }
+
+    &-body {
+        overflow: hidden;
+        border-radius: var(--cos-rounded-none) var(--cos-rounded-none) 11px 11px;
+        height: 100%;
+        .cos-flex-1();
+    }
+
+    &-diagram-view,
+    &-code-view {
+        .cos-flex();
+        height: 100%;
+        // cosmic-token-disable-next-line
+        background: rgba(247, 248, 252, 1);
+        .cos-flex-1();
+        .cos-flex-col();
+    }
+
+    &-main {
+        height: 100%;
+        cursor: default;
+        box-sizing: border-box;
+
+        &:active {
+            cursor: default;
+        }
+
+        > svg {
+            .cos-block();
+            width: 100%;
+            max-width: 100% !important;
+            height: 100%;
+            max-height: 100% !important;
+            // 钉死端上字号放大：iOS 特大档会给 body 加 -webkit-text-size-adjust:121%，
+            // 它会按比例放大 SVG <text> 的渲染尺寸，而节点标签的 translate(0,-bbox.height/2)、
+            // y 基线是渲染时按 100% 量出的固定值 → 放大后基线下移、整体文字偏移。
+            // 图表文字本就不应随端上字号档位变化，这里统一锁 100%，使布局测量与显示一致。
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        .markmap {
+            font: 400 16px / 20px sans-serif;
+            .cos-color-text();
+        }
+
+        &[data-renderstatus="complete"] {
+            cursor: grab !important;
+
+            &:active {
+                cursor: grabbing !important;
+            }
+        }
+    }
+}
+
+// 代码视图：覆盖 marklang 生成的代码块结构（pre / .code-header / .code-wrapper 等非 cosd 类）。
+// 挂在根类下保证特异性压过 markdown 自身的 .cosd-markdown .marklang pre 系列规则
+// （如 .code-header-right 的 display），与原 el-markdown-diagram 前缀的覆盖关系一致。
+.@{prefix}-diagram .@{prefix}-diagram-code-view pre {
+    .cos-flex();
+    .cos-space-m-none();
+    border: none !important;
+    .cos-rounded-none() !important;
+    height: 100%;
+    .cos-flex-col();
+    .cos-flex-1();
+
+    .code-header .code-header-right {
+        .cos-hidden();
+    }
+
+    .code-wrapper {
+        .cos-flex-1();
+        overflow: auto;
+        background: none !important;
+
+        .code-left .code-number {
+            position: relative;
+
+            &:after {
+                position: absolute;
+                top: 0;
+                right: -10px;
+                bottom: 0;
+                .cos-block();
+                width: .7px;
+                background: var(--cos-color-border-minor);
+                content: '\20';
+            }
+
+            &:last-child:after {
+                bottom: 10px;
+            }
+        }
+
+        .code-right {
+            .cos-flex-1();
+            overflow: visible;
+        }
+    }
+}

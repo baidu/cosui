@@ -76,6 +76,9 @@
             }
 
             &.@{prefix}-markdown-code-collapsible {
+                // 折叠态展开按钮绝对定位的参照
+                position: relative;
+
                 .code-wrapper {
                     overflow-x: auto;
                     overflow-y: hidden;
@@ -95,7 +98,6 @@
 
             .@{prefix}-code-fold {
                 position: relative;
-                .cos-space-mb-3xs();
                 // 移动端点击时抑制浏览器默认的点击高亮色块
                 -webkit-tap-highlight-color: transparent;
                 // cosmic-token-disable-next-line
@@ -105,10 +107,17 @@
                 border-bottom-right-radius: var(--cos-rounded-sm);
             }
 
+            &.@{prefix}-markdown-code-collapsible:not(.@{prefix}-markdown-code-expanded) .@{prefix}-code-fold {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+
             .@{prefix}-code-fold-mask {
                 position: absolute;
                 right: 0;
-                bottom: calc(var(--cos-space-3xs) * -1);
+                bottom: 0;
                 left: 0;
                 z-index: 0;
                 width: 100%;
@@ -117,13 +126,8 @@
                 // 底部两角圆角与 pre 收口对齐（--cos-rounded-sm = 9px），避免蒙层方角越过 pre 圆角外
                 border-bottom-left-radius: var(--cos-rounded-sm);
                 border-bottom-right-radius: var(--cos-rounded-sm);
-                // 亮色渐变 copy 自 cosmic fold-switch/base.less（.cos-fold-switch-mask）
                 // cosmic-token-disable-next-line
-                background: linear-gradient(
-                    rgba(255, 255, 255, 0) 0%,
-                    rgba(255, 255, 255, 0.93) 50%,
-                    var(--cos-color-bg) 70%
-                );
+                background: linear-gradient(#fbfbfd00 0, #fbfbfded 50%, #fbfbfd 70%);
             }
 
             // 完全展开态：蒙层直接隐藏，避免在展开的正文尾部留一段淡出遮挡
@@ -182,6 +186,13 @@
                 code {
                     white-space: pre-wrap;
                     word-break: break-word;
+                }
+            }
+
+            // 无行号纯文本场景关闭自动换行，超宽内容通过横向滚动查看
+            &.@{prefix}-markdown-code-nowrap {
+                code {
+                    white-space: pre;
                 }
             }
         }

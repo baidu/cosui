@@ -26,6 +26,7 @@ export default class TypingDemo extends Component {
                 s-if="showMarkdown"
                 s-ref="markdown"
                 typing="{{typing}}"
+                diagram="{{diagram}}"
                 on-typing-finished="handleTypingFinished"
                 normalizeContent="{{normalizeContent}}"
                 config="{{config}}"
@@ -70,6 +71,19 @@ export default class TypingDemo extends Component {
                 cursor: true,
                 mode: 'all'
             },
+            diagram: {
+                mode: true,
+                copy: true,
+                download: true,
+                'zoom-in': true,
+                'zoom-out': true,
+                reset: true
+            },
+            // 第一个 mermaid（完整块，先渲染完成）
+            mermaid1: '\n## 图表流式验证\n第一个图表：\n```mermaid\nflowchart TD\n  A[开始] --> B{判断}\n  B -->|是| C[执行]\n  B -->|否| D[结束]\n```\n\n',
+            // 第二个 mermaid 分两段流式追加：验证渲染它时第一个是否闪动
+            mermaid2a: '第二个图表：\n```mermaid\nsequenceDiagram\n  participant U as 用户\n',
+            mermaid2b: '  participant S as 服务\n  U->>S: 请求\n  S-->>U: 响应\n```\n\n',
             hasSetCitation: false,
             text1: '## ==*',
             text2: '*短答案**==^1^\n测试测试:ml-',
@@ -101,6 +115,8 @@ export default class TypingDemo extends Component {
                 // mock 异步返回数据
                 const markdown = this.ref('markdown');
                 markdown.appendContent(this.data.get('text1'));
+                // 先追加第一个 mermaid（完整块），使其先渲染完成
+                markdown.appendContent(this.data.get('mermaid1'));
                 setTimeout(() => {
                     markdown.appendContent(this.data.get('text2'));
                     setTimeout(() => {
@@ -108,6 +124,11 @@ export default class TypingDemo extends Component {
                         setTimeout(() => {
                             markdown.appendContent(this.data.get('text4'));
                             markdown.appendContent(this.data.get('table'));
+                            // 分两段流式追加第二个 mermaid：验证渲染它时第一个图表是否闪动
+                            markdown.appendContent(this.data.get('mermaid2a'));
+                            setTimeout(() => {
+                                markdown.appendContent(this.data.get('mermaid2b'));
+                            }, 1200);
                             setTimeout(() => {
                                 markdown.appendContent(this.data.get('text5'));
                                 markdown.appendContent(this.data.get('text6'));

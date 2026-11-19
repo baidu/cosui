@@ -8,6 +8,7 @@
 |column-count|number|2|否|瀑布流列数|PC/Mobile|
 |gutter|number \| [number, number]|2|否|间距，可以是固定值或水平垂直间距配置|PC/Mobile|
 |container-width|number|0|是|图片容器宽度|PC/Mobile|
+|row-align|'start' \| 'justify'|'start'|否|列内元素的对齐方式。'start'：各列元素保持自然高度、列底部参差不齐；'justify'：将各列剩余空间平摊给该列每张图片，使所有列顶部对齐，且底部对齐到最高列|PC/Mobile|
 
 #### MasonryItem
 

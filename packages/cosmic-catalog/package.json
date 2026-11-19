@@ -1,0 +1,64 @@
+{
+  "name": "@cosui/cosmic-catalog",
+  "version": "1.0.0",
+  "description": "COSUI component Catalog definitions and JSON Schema artifact",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.js",
+  "browser": "./dist/index.esm.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc --declaration --emitDeclarationOnly --outDir dist/types --rootDir src && rollup -c script/rollup.config.mjs && node script/export-catalog.cjs",
+    "dev": "rollup -c script/rollup.config.mjs --watch",
+    "test": "node --test test/*.spec.cjs"
+  },
+  "dependencies": {
+    "@cosui/cosmic-dynamic-ui": "workspace:~"
+  },
+  "peerDependencies": {
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@typescript-eslint/parser": "^7.9.0",
+    "ajv": "^8.14.0",
+    "rollup": "4.17.2",
+    "tslib": "^2.6.3",
+    "typescript": "~5.9.3",
+    "zod": "^4.6.7",
+    "san": "^3.14.1"
+  },
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js"
+    },
+    "./package.json": "./package.json",
+    "./dist/*": "./dist/*",
+    "./catalog.json": "./dist/catalog.json",
+    "./catalog.*.json": "./dist/catalog.*.json",
+    "./*": {
+      "types": "./dist/types/index.*.d.ts",
+      "import": "./dist/index.*.esm.js",
+      "require": "./dist/index.*.cjs.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "dist/*": [
+        "dist/*"
+      ],
+      "*": [
+        "dist/types/index.*.d.ts"
+      ]
+    }
+  }
+}

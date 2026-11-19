@@ -14,6 +14,7 @@
 |opening-hours|string|-|否|营业时间，如“08:00-12:00,13:00-17:00”|PC/Mobile|
 |caption|string|-|否|地点说明|PC/Mobile|
 |tags|Array&lt;TagItem\|string&gt;|[]|否|标签列表，支持对象类型和string类型。string为简写形式，展示为灰色、边框型标签|PC/Mobile|
+|source|string|-|否|来源，如“携程旅行”，展示在卡片最后一行|PC/Mobile|
 |appearance|'filled'\|'card'|'card'|否|组件外观，传入 filled 时为包卡带背景色样式|PC/Mobile|
 
 #### TagItem
@@ -40,6 +41,7 @@
 |   |   |-- cosd-location-card-address
 |   |   |-- cosd-location-card-details
 |   |   |   |-- cosd-location-details-item
+|   |   |-- cosd-location-card-source
 ```
 
 |名称|说明|覆盖平台|
@@ -54,3 +56,4 @@
 |cosd-location-card-cost|人均消费|PC/Mobile|
 |cosd-location-card-address|地址|PC/Mobile|
 |cosd-location-card-details|地点详细信息|PC/Mobile|
+|cosd-location-card-source|来源|PC/Mobile|

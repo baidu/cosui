@@ -6,7 +6,7 @@
 
 import path from 'path';
 import fs from 'fs';
-import ts from 'typescript';
+import {createRequire} from 'module';
 
 // lint-staged 传入的原始参数：文件列表
 const argv = process.argv.slice(2);
@@ -40,7 +40,7 @@ function findNearestTsconfig(startDir) {
 /**
  * 加载并解析 tsconfig 配置
  */
-function loadParsedConfig(tsconfigPath) {
+function loadParsedConfig(tsconfigPath, ts) {
     // 格式化报错信息
     const formatHost = {
         getCanonicalFileName: f => (ts.sys.useCaseSensitiveFileNames ? f : f.toLowerCase()),
@@ -73,7 +73,10 @@ for (const f of files) {
 
 let hadError = false;
 for (const [tsconfigPath, fileSet] of groups) {
-    const {parsed, formatHost} = loadParsedConfig(tsconfigPath);
+    // Resolve from each package, falling back to ancestor node_modules when needed.
+    const ts = createRequire(tsconfigPath)('typescript');
+    console.log(`[tsc-staged] Checking ${path.relative(process.cwd(), tsconfigPath)} (TypeScript ${ts.version})`);
+    const {parsed, formatHost} = loadParsedConfig(tsconfigPath, ts);
     const filesArr = [...fileSet];
     const program = ts.createProgram(parsed.fileNames, parsed.options);
     const diags = ts

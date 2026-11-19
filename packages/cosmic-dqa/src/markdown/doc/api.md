@@ -8,9 +8,10 @@
 | normalizeContent | (content: string) => string | null |可选| content 语法规范化处理函数 |PC/Mobile |
 | config  | {[directiveName: string]: any} | null |可选| 自定义指令对应的配置项 |PC/Mobile|
 | table  | {copy?: boolean, fullscreen?: boolean, download?: boolean} | null |可选| 表格表头的配置项       |PC/Mobile|
-| code  | {fullscreen?: boolean, lineNumbers?: boolean, foldable?: boolean} | null |可选| 代码块全局配置项。`lineNumbers`：是否显示行号，默认 true；`foldable`：超过展示高度显示展开/收起，默认 false。单个代码块可用语法配置 覆盖，见code示例 |PC/Mobile|
+| code  | {fullscreen?: boolean, lineNumbers?: boolean, foldable?: boolean, wrap?: boolean, scrollable?: boolean} | null |可选| 代码块全局配置项。`lineNumbers`：是否显示行号，默认 true；`foldable`：超过展示高度显示展开/收起，默认 false；`wrap`：无行号纯文本是否自动换行，默认为 true，`lineNumbers` 为 true 时不生效；`scrollable`：固定容器滚动展示，默认 false。单个代码块可用语法配置覆盖，见 code 示例 |PC/Mobile|
 | typing  | Typing  |   - |可选| 是否展示打字机效果        |PC/Mobile |
 | autolink  | boolean  |   - |可选| 是否将文本中的链接文本渲染为可跳转的链接       |PC/Mobile |
+| diagram  | {mode?: boolean, copy?: boolean, download?: boolean, fullscreen?: boolean, landscape?: boolean, zoom-in?: boolean, zoom-out?: boolean, reset?: boolean} \| boolean | - |可选| 图表渲染配置。传入配置对象即开启（命中 mermaid / markmap / mindmap 代码块，或中文别名 流程图 / 时序图 / 甘特图 / 思维导图 代码块时渲染为可交互图表）；不传 / `null` / `false` 则关闭，初始视图固定为图表。各字段控制内置基础控件的展示：`mode` 图 / 源码 切换按钮；`copy` 复制按钮；`download` 下载按钮；`fullscreen` 全屏按钮；`landscape` 横竖屏切换按钮（移动端）；`zoom-in` 放大按钮；`zoom-out` 缩小按钮；`reset` 复位 / 自适应按钮 |PC/Mobile|
 
 #### Typing
 | 名称          | 类型     | 默认值 | 是否必选| 说明                   |	覆盖平台|
@@ -24,7 +25,7 @@
 |事件|参数|说明|覆盖平台|
 |---|---|---|---|
 | poi-ready | {invokeParams: InvokeParams} | 参考 poi 和 shop-address |Mobile|
-| click | {event: Event, directive: string, from: 'link' \| 'table' \| 'code' \| 'img', action: Action, data: any} | 点击 |PC/Mobile|
+| click | {event: Event, directive: string, from: 'link' \| 'table' \| 'code' \| 'img' \| 'diagram', action: Action, data: any} | 点击 |PC/Mobile|
 | toggle | {status: 'folded' \| 'unfoled', event: Event} | 展开收起切换点击 |Mobile|
 | typing-start | {height: number} | 打字开始事件（ height 为打印新增部分文本需要的高度） |PC/Mobile|
 | typing-finished |  | 打字结束事件 |PC/Mobile|
@@ -40,11 +41,15 @@
 | volume | ml-video |视频开启音量 |
 | seeked | ml-video |拖动视频进度条 |
 | preview | img |点击图片，展示大图查看器|
-| copy | table/code | 复制文字 |
-| fullscreen | table/code | 表格/代码块放大 |
-| download | table | 下载表格 |
+| copy | table/code/diagram | 复制文字 |
+| fullscreen | table/code/diagram | 表格/代码块/图表放大 |
+| download | table/diagram | 下载表格/图表 |
 | fold | code | 代码块收起（`foldable=true` 时触发） |
 | unfold | code | 代码块完全展开（`foldable=true` 时触发） |
+| mode-change | diagram | 图 / 源码 视图切换 |
+| landscape | diagram | 横竖屏切换（移动端） |
+| zoom | diagram | 图表放大 / 缩小 |
+| reset | diagram | 图表复位 / 自适应 |
 
 ### Methods
 |事件|参数|说明|覆盖平台|
@@ -54,6 +59,7 @@
 | finish |  | 完成内容渲染和打字动效，同时隐藏光标 |PC/Mobile|
 | getComponentsByDirective | directive: string | 获取指令对应的的组件实例数组 |PC/Mobile|
 | getDirectives | - | 获取指令对应的的组件实例数组，若无组件，也可获得指令的个数 |PC/Mobile|
+| resetDiagram | - | 复位 / 自适应本组件内所有图表 |PC/Mobile|
 
 
 ### Parts

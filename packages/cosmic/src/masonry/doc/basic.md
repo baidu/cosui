@@ -33,12 +33,22 @@ export default class Default extends Component {
                     >
                     </cos-select>
                 </div>
+                <div class="cos-flex cos-items-center cos-space-mb-sm cos-justify-between">
+                    <label>列内元素对齐方式 rowAlign: </label>
+                    <cos-select
+                        options="{{rowAlignOptions}}"
+                        value="{{rowAlign}}"
+                        on-change="handleRowAlignChange"
+                    >
+                    </cos-select>
+                </div>
             </div>
             <cos-masonry
                 items="{{items}}"
                 column-count="{{columnCount}}"
                 gutter="{{gutter}}"
                 container-width="{{containerWidth}}"
+                row-align="{{rowAlign}}"
             >
                 <div
                     data-test-id="masonry-item"
@@ -176,6 +186,17 @@ export default class Default extends Component {
                     value: '7',
                     label: '7'
                 },
+            ],
+            rowAlign: 'start',
+            rowAlignOptions: [
+                {
+                    value: 'start',
+                    label: 'start'
+                },
+                {
+                    value: 'justify',
+                    label: 'justify'
+                },
             ]
         };
     }
@@ -185,6 +206,10 @@ export default class Default extends Component {
 
     handleGutterChange(val) {
         this.data.set('gutter', Number(val.value));
+    }
+
+    handleRowAlignChange(val) {
+        this.data.set('rowAlign', val.value);
     }
 
 }

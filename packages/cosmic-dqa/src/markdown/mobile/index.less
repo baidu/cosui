@@ -18,6 +18,7 @@
  */
 
 @import '../base.less';
+@import '../diagram/index.mobile.less';
 
 .@{prefix}-markdown {
     @{markdownsdk} {
@@ -27,6 +28,19 @@
 
         pre code::-webkit-scrollbar {
             .cos-hidden();
+        }
+    }
+
+    // 定高滚动块（scrollable）：整块定高、内容区纵向滚动。
+    @{markdownsdk} pre.@{prefix}-markdown-code-scrollable {
+        .code-right {
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 448px;
+            // mobile 隐藏滚动条，走原生触摸滚动
+            &::-webkit-scrollbar {
+                .cos-hidden();
+            }
         }
     }
 }

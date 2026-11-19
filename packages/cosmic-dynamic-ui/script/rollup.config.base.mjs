@@ -9,14 +9,14 @@ import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 
 const extensions = ['.js', '.ts'];
-export const commonPlugin = [
+// Module consumers share their installed peers, including Zod subpath imports.
+export const external = ['san', /^zod(?:\/|$)/];
+export const commonPlugin = (watch = false) => [
     resolve({
         extensions,
     }),
-    typescript({
-        tsconfig: './tsconfig.json',
-        declaration: false
-    }),
+    // Production type checking runs through tsc; avoid TypeScript watch handles in one-shot builds.
+    ...(watch ? [typescript({tsconfig: './tsconfig.json', declaration: false})] : []),
     commonjs(),
     babel({
         extensions: extensions,
@@ -36,10 +36,10 @@ export const commonPlugin = [
     })
 ];
 
-export const commonProConfig = {
+export const commonProConfig = () => ({
     input: 'src/index.ts',
     plugins: [
-        ...commonPlugin,
+        ...commonPlugin(),
         terser({
             output: {
                 comments: false
@@ -49,7 +49,5 @@ export const commonProConfig = {
             }
         })
     ],
-    external: [
-        'san'
-    ]
-}
+    external
+});

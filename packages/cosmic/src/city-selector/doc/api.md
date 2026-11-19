@@ -9,6 +9,7 @@
 | placeholder    | string         | ‘搜索国内外城市/区域名称’        | 可选   | 输入框 placeholder                              | PC/Mobile |
 | active-tab      | number         | 0                            | 可选   | 当前选中的 tab；仅有多个 tab 时生效                       | PC/Mobile |
 | tabs           | string[]       | ['国内', '国际/中国港澳台']     | 可选   | tab 头部名字                       | PC/Mobile |
+| locate-fail-hint | string         | PC: '定位失败,请打开浏览器的定位服务功能'；Mobile: '定位失败，请进入系统【设置】-【定位服务】中打开开关' | 可选   | 定位失败toast文案                                  | PC/Mobile |
 | hot-title       | string         | '热门城市'                     | 可选   | 热门城市对应的标题                                    | PC/Mobile |
 | native-cities   | City[]         | []                           | 可选   | 国内城市列表，为空时不展示，数据结构可参考[例子](https://psstatic.cdn.bcebos.com/basics/cosmic/citylist_1734861547000.json) ，仅供参考，不保证具体数据可靠性                              | PC/Mobile |
 | foreign-cities  | City[]         | []                           | 可选   | 国际城市列表，为空时不展示，数据结构可参考[例子](https://psstatic.cdn.bcebos.com/basics/cosmic/foreignlist_1734878215000.json)，仅供参考，不保证具体数据可靠性                                   | PC/Mobile |

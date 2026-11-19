@@ -129,6 +129,24 @@ export default [
                         key: '/components/cosmic-dqa/document-scroll'
                     },
                     {
+                        name: 'EntityCard',
+                        text: '实体卡片',
+                        path: 'entity-card',
+                        key: '/components/cosmic-dqa/entity-card'
+                    },
+                    {
+                        name: 'EntityList',
+                        text: '实体列表',
+                        path: 'entity-list',
+                        key: '/components/cosmic-dqa/entity-list'
+                    },
+                    {
+                        name: 'FilmCard',
+                        text: '影视卡',
+                        path: 'film-card',
+                        key: '/components/cosmic-dqa/film-card'
+                    },
+                    {
                         name: 'GreetingCard',
                         text: '打招呼卡片',
                         path: 'greeting-card',
@@ -177,6 +195,12 @@ export default [
                         key: '/components/cosmic-dqa/official-card'
                     },
                     {
+                        name: 'ProductCard',
+                        text: '产品信息卡',
+                        path: 'product-card',
+                        key: '/components/cosmic-dqa/product-card'
+                    },
+                    {
                         name: 'RoutePlanner',
                         text: '路线规划',
                         key: '/components/cosmic-dqa/route-planner',
@@ -187,12 +211,6 @@ export default [
                         text: '搜索头部',
                         key: '/components/cosmic-dqa/search-header',
                         path: 'search-header'
-                    },
-                    {
-                        name: 'ProductCard',
-                        text: '产品信息卡',
-                        path: 'product-card',
-                        key: '/components/cosmic-dqa/product-card'
                     },
                     {
                         name: 'SiteVcard',

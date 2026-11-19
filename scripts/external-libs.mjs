@@ -1,6 +1,10 @@
 export const externalLibsExcludeInServer = [
     'versions-compare',
     'lottie-web',
+    'mermaid',
+    'svg-pan-zoom',
+    'markmap-lib',
+    'markmap-view'
 ];
 
 export const externalLibs = [
@@ -21,10 +25,9 @@ export const COSMIC_PACKAGE_EXTERNAL_CONFIG = {
         external: [/@cosui\/cosmic\//],
         depComponentReg: [/(@cosui\/cosmic)\/(\S+)/]
     }
-}
+};
 
-export const COSMIC_EXTERNAL_PC_PATH_REG = /(cosmic|cosmic-card)\/pc/
-
+export const COSMIC_EXTERNAL_PC_PATH_REG = /(cosmic|cosmic-card)\/pc/;
 
 /**
  *  解析为 external 的 cosmic 包依赖的 包名和组件名
@@ -40,7 +43,8 @@ export const COSMIC_EXTERNAL_PC_PATH_REG = /(cosmic|cosmic-card)\/pc/
  */
 export function parseExternalPath(packageName, path) {
     const finalPackageName = packageName.replace('@cosui/', '');
-    const externalCosmicPackage = COSMIC_PACKAGE_EXTERNAL_CONFIG[finalPackageName] ||  COSMIC_PACKAGE_EXTERNAL_CONFIG.default;
+    const externalCosmicPackage
+        = COSMIC_PACKAGE_EXTERNAL_CONFIG[finalPackageName] || COSMIC_PACKAGE_EXTERNAL_CONFIG.default;
 
     for (const cosmicReg of externalCosmicPackage.depComponentReg) {
         const temp = path.match(cosmicReg);
