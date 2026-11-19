@@ -1,6 +1,6 @@
 {
   "name": "marklang",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "markdown渲染SDK",
   "main": "./lib/node.js",
   "module": "./lib/browser.js",
