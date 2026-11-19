@@ -54,6 +54,8 @@ jobs:
               run: pnpm build
 
             - name: Build site
+              env:
+                VITE_APP_BASE_URL: /cosui
               run: pnpm build:site
 
             - name: Setup GitHub Pages for SPA routing
