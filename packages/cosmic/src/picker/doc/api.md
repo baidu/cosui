@@ -35,4 +35,4 @@
 
 |事件|参数|说明|覆盖平台|
 |---|---|---|---|
-|change|{coulumnIndex: number, index: number}|列表项选中发生改变时触发|PC/Mobile|
+|change|{columnIndex: number, index: number}|列表项选中发生改变时触发|PC/Mobile|

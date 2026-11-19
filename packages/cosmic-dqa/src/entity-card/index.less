@@ -1,0 +1,69 @@
+/**
+ * @file EntityCard 双端实体卡片布局
+ */
+
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-entity-card {
+    .cos-flex();
+    .cos-items-start();
+
+    &-thumbnail {
+        overflow: hidden;
+        .cos-shrink-0();
+        .cos-space-mr-xs();
+        .cos-rounded-sm();
+        width: 121px;
+    }
+
+    &-body {
+        .cos-flex-1();
+        margin-top: calc(-1 * var(--cos-space-xxs));
+        min-width: 0;
+
+        .@{prefix}-markdown {
+            &-content {
+                .cos-space-m-none();
+            }
+        }
+
+        .marklang {
+            .marklang-paragraph {
+                .cos-space-m-none();
+            }
+        }
+    }
+
+    &-title {
+        .cos-text-subtitle();
+        .cos-font-medium();
+        .cos-leading-none();
+        .cos-color-text();
+
+        .marklang {
+            .marklang-paragraph {
+                .cos-font-medium();
+            }
+
+            ol li {
+                .cos-space-mt-none();
+                .cos-space-mb-none();
+
+                &::before {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &-content {
+        .cos-text-body-lg-higher();
+        .cos-color-text();
+        .cos-space-mt-3xs();
+
+        .marklang {
+            overflow-wrap: break-word;
+        }
+    }
+}

@@ -7,6 +7,8 @@
 const path = require('path');
 
 module.exports = {
+    // Catalog integration tests use the same runtime instance as the source under test.
+    moduleNameMapper: {'^@cosui/cosmic-dynamic-ui$': '<rootDir>/src'},
     // All imported modules in your tests should be mocked automatically
     // automock: false,
 

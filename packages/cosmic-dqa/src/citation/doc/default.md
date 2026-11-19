@@ -54,9 +54,33 @@ export default class DefaultDemo extends Component {
                 <span s-for="item, index in citationList">
                     <cosd-citation
                         appearance="aggregated"
+                        getPopupContainer="{{getPopupContainer}}"
+                        aggregatedList="{{citationList}}"
                         on-click="handleClick"
                     />
                 </span>
+                可知文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本
+            </p>
+            <p>这是一个无 logo 的tag样式聚合溯源，样式长这样：观点3
+                <cosd-citation
+                    appearance="aggregated"
+                    getPopupContainer="{{getPopupContainer}}"
+                    aggregatedList="{{citationList}}"
+                    aggregatedText="官网"
+                    source="{{aggregatedTagSource}}"
+                    on-click="handleClick"
+                />
+                可知文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本
+            </p>
+            <p>这是一个带 logo 的tag样式聚合溯源，样式长这样：观点3
+                <cosd-citation
+                    appearance="aggregated"
+                    getPopupContainer="{{getPopupContainer}}"
+                    aggregatedList="{{citationList}}"
+                    aggregatedText="官网"
+                    source="{{citationList[0].source}}"
+                    on-click="handleClick"
+                />
                 可知文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本这是段落文本段落文本
             </p>
             <p>这是一个可信溯源，样式长这样：根据
@@ -133,7 +157,12 @@ export default class DefaultDemo extends Component {
                     "https://b.bdstatic.com/searchbox/mappconsole/image/20181011/1539228343428692.jpg",
                     "https://pic.rmb.bdstatic.com/4e2b27aa1d53f5673d277d8c29498193.jpeg"
                 ]
-            }
+            },
+            aggregatedTagSource: {
+                tag: {
+                    colorVars: '--cosd-citation-tag-color: var(--cos-color-text-on-primary-light); --cosd-citation-tag-bg-color: var(--cos-color-bg-primary-light)'
+                }
+            },
         }
     }
     handleClick(e, data) {

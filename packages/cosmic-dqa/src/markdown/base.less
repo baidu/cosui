@@ -84,7 +84,7 @@
     &-content {
         margin-top: -12px;
         margin-bottom: -12px;
-        flex: auto;
+        .cos-flex-auto();
         min-width: 0;
         transition: height 320ms ease;
         &-typingall {
@@ -629,7 +629,7 @@
 
         // 加粗并放大的文本
         ml-text[type="emphasis"] {
-            display: inline-block;
+            .cos-inline-block();
             .cos-font-bold();
             font-size: var(--cos-text-headline-sm);
             .cos-space-mt-xs();

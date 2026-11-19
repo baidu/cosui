@@ -35,56 +35,61 @@ export default class HotelCard extends Component<HotelCardData> {
                     class="cos-image-fit-cover cos-image-position-center cos-image-1-1"
                 />
             </div>
-            <div class="cos-col-9 cosd-hotel-card-content">
-                <div class="cosd-hotel-card-title cos-text-subtitle">
-                    {{title}}
-                </div>
-                <div s-if="tags.length" class="cosd-hotel-card-line cosd-hotel-card-tags">
-                    <cos-tag
-                        s-for="tag in _tags"
-                        appearance="filled"
-                        style="{{{
-                            color: tag.color || 'var(--cos-color-text-tiny-active)',
-                            'background-color': tag.bgColor || 'var(--cos-tag-color-bg)'
-                        }}}"
-                    >
-                        <cos-icon
-                            s-if="{{tag.icon}}"
-                            name="{{tag.icon}}"
-                            class="cosd-location-card-tags-icon"
+            <div class="cos-col-8 cosd-hotel-card-content">
+                <div>
+                    <div class="cosd-hotel-card-title cos-text-subtitle">
+                        {{title}}
+                    </div>
+                    <div s-if="tags.length" class="cosd-hotel-card-line cosd-hotel-card-tags">
+                        <cos-tag
+                            s-for="tag in _tags"
+                            appearance="filled"
                             style="{{{
-                                'background-color': tag.iconBgColor || 'var(--cos-tag-color-bg)'
+                                color: tag.color || 'var(--cos-color-text-tiny-active)',
+                                'background-color': tag.bgColor || 'var(--cos-tag-color-bg)'
                             }}}"
+                        >
+                            <cos-icon
+                                s-if="{{tag.icon}}"
+                                name="{{tag.icon}}"
+                                class="cosd-location-card-tags-icon"
+                                style="{{{
+                                    'background-color': tag.iconBgColor || 'var(--cos-tag-color-bg)'
+                                }}}"
+                            />
+                            {{tag.text}}
+                        </cos-tag>
+                    </div>
+                    <div class="cosd-hotel-card-line cos-text-body cos-space-mt-xs">
+                        <cos-score
+                            s-if="score"
+                            s-bind="score"
+                            class="cosd-hotel-card-score"
                         />
-                        {{tag.text}}
-                    </cos-tag>
-                </div>
-                <div class="cosd-hotel-card-line cos-text-body cos-space-mt-xs">
-                    <cos-score
-                        s-if="score"
-                        s-bind="score"
-                        class="cosd-hotel-card-score"
-                    />
-                    <div class="cos-space-ml-xs cos-line-clamp-1">
-                        <span s-if="distance" class="cosd-hotel-card-range">
-                            {{distance}}
-                        </span>
-                        <span s-if="district" class="cosd-hotel-card-district">
-                            {{district}}
-                        </span>
+                        <div class="cos-space-ml-xs cos-line-clamp-1">
+                            <span s-if="distance" class="cosd-hotel-card-range">
+                                {{distance}}
+                            </span>
+                            <span s-if="district" class="cosd-hotel-card-district">
+                                {{district}}
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <div
-                    s-if="price"
-                    class="cosd-hotel-card-line cosd-hotel-card-price"
-                >
-                    <cos-price size="md" s-bind="price"/>
-                </div>
-                <div
-                    s-if="source"
-                    class="cosd-hotel-card-line cos-text-body cos-space-mt-xs cosd-hotel-card-source cos-space-mb-none"
-                >
-                    {{source}}
+                <div>
+                    <div
+                        s-if="price"
+                        class="cosd-hotel-card-line cosd-hotel-card-price"
+                    >
+                        <cos-price size="md" s-bind="price"/>
+                    </div>
+                    <div
+                        s-if="source"
+                        class="cosd-hotel-card-line cos-text-body cos-space-mt-xs
+                            cosd-hotel-card-source cos-space-mb-none"
+                    >
+                        {{source}}
+                    </div>
                 </div>
             </div>
         </component>

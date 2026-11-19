@@ -36,9 +36,34 @@
             }
         }
     }
-    &-line,
-    &-subtle,
-    &-outline {
+    &-subtle {
+        .@{prefix}-more-link {
+            &-container {
+                flex: 0 0 auto;
+                transition: background-color var(--cos-transition-duration-moderate) var(--cos-transition-easing-accelerate);
+                &:hover {
+                    transition: background-color var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+
+                    .@{prefix}-more-link {
+                        &-text, &-icon {
+                            color: var(--cos-color-text-link);
+                        }
+                    }
+                }
+                &:active {
+                    .cos-opacity-50();
+                    transition: opacity var(--cos-transition-duration-moderatest) var(--cos-transition-easing-decelerate);
+                }
+            }
+            &-text, &-icon {
+                line-height: var(--cos-text-body);
+            }
+
+        }
+    }
+
+    &-outline,
+    &-line {
         .@{prefix}-more-link {
             &-container {
                 flex: 0 0 auto;

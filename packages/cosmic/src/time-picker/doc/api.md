@@ -5,7 +5,7 @@
 |名称|类型|默认值|是否必选|说明|覆盖平台|
 |---|---|---|---|---|---|
 |value|Date \| Date[]|-|否|选择值, 值类型为 JavaScript 原生 Date 对象或 Date 对象数组|PC/Mobile|
-|title|string|'选择日期'|否|日历选择器标题，mobile drawer 弹层使用|Mobile|
+|title|string|'时间选择器'|否|日历选择器标题，mobile drawer 弹层使用|Mobile|
 |format|'HH-mm-ss' \| 'HH-mm' \| 'HH'|'HH-mm-ss'|否|选择日期组合格式|PC/Mobile|
 
 

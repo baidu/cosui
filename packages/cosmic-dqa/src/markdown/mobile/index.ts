@@ -33,9 +33,14 @@ import mlIntent from '../ml-intent';
 import {getTransformers} from '../transformers';
 import marklang from 'marklang';
 import {ANIMATION_CONFIG, TypingSentenceManager} from '../typing-sentence';
+import {initDiagram, getDiagramDirectives, awaitDiagramRender, syncDiagramControls} from '../diagram/integration';
+import DiagramControls from '../diagram/components/diagram-controls/mobile';
 
 export default class Markdown extends PcMarkdown {
     static template = PcMarkdown.template;
+
+    // 代码块复制沿用全局 Toast（PC 为内联反馈）；定高滚动(scrollable)仅 PC 有样式，mobile 不接入
+    inlineCopyFeedback = false;
 
     inited() {
         const content = this.data.get('content');
@@ -78,6 +83,12 @@ export default class Markdown extends PcMarkdown {
                 feature: /```(\w*)\n([\s\S]*?)\n```/,
                 load: () => [import('marklang/plugins/rehype-highlight')]
             });
+        }
+
+        // 命中图表开关时接入 diagram 能力：注册 mermaid/markmap/mindmap 插件
+        // + 缓存配置 + 绑定事件
+        if (this.data.get('diagram')) {
+            initDiagram(this, marklang, DiagramControls);
         }
 
         this._tempRootOfSentenceMode = document.createElement('div');
@@ -123,7 +134,8 @@ export default class Markdown extends PcMarkdown {
                 'ml-site-vcard': mlSiteVcard.csr.bind(this),
                 'ml-search-more': mlSearchMore.csr.bind(this),
                 'ml-intent': mlIntent.csr.bind(this),
-                ...directives
+                ...directives,
+                ...(this.data.get('diagram') ? getDiagramDirectives() : {})
             },
             transformers: getTransformers.bind(this)()
         };
@@ -135,6 +147,12 @@ export default class Markdown extends PcMarkdown {
         });
         this.watch('table.download', async (newVal: string) => {
             newVal && this.setDownloadIcon();
+        });
+        // 图表工具栏开关变化时响应式同步控件（对齐 table/code）：如全屏按钮依赖端模板，
+        // 业务异步校验后置 diagram.fullscreen=false 即可运行时移除按钮，
+        // 避免点击无响应。
+        this.watch('diagram', () => {
+            this.data.get('diagram') && syncDiagramControls(this);
         });
         // bug: PC 端 SSR 取不到 html 的值，所以暂时按照 querySelector 的方式判断
         // const html = this.data.get('html');
@@ -153,6 +171,9 @@ export default class Markdown extends PcMarkdown {
                     ? await marklangIns.renderToElementAsync(this.getContent(content), el)
                     : marklangIns.renderToElement(this.getContent(content), el);
                 this.reconcileCollapsibleCode(el);
+                if (this.data.get('diagram')) {
+                    await awaitDiagramRender(this.el);
+                }
                 this.fire('render-complete');
             }
         }

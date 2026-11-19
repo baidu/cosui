@@ -74,7 +74,8 @@ export default class BaseDemo extends Component {
             + '**面板整体可点击跳转的溯源**\n这是段落文本:ml-citation{ref="3" data="citationList"}\n<br>'
             + '**可信溯源**\n根据:ml-citation{ref="1,2" appearance="link" data="citationList"}可知，猫可以通过飞机进行托运，但需要满足一定的条件和准备相应的材料\n<br>'
             + '**可信标签溯源**\n根据:ml-citation{ref="1,2,3" appearance="tag" data="citationList"}可知，猫可以通过飞机进行托运，但需要满足一定的条件和准备相应的材料\n<br>'
-            + '**聚合溯源**\n综合:ml-citation{ref="1,2,3" appearance="aggregated" data="citationList"}来看，北京有很多值得游玩的景点\n'
+            + '**聚合溯源**\n综合:ml-citation{ref="1,2,3" appearance="aggregated" data="citationList"}来看，北京有很多值得游玩的景点\n<br>'
+            + '**tag样式的聚合溯源**\n根据:ml-citation{ref="1,2,3" appearance="aggregated" aggregatedText="官网" tagName="官网" tagColor="--cos-color-text-on-primary-light" tagBgColor="--cos-color-bg-primary-light" logo="" icon="" data="citationList"}可知，猫可以通过飞机进行托运，但需要满足一定的条件和准备相应的材料\n'
         };
     }
     attached() {

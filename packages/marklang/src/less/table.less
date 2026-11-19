@@ -25,7 +25,7 @@
         border-spacing: 0;
         border-collapse: separate;
         box-sizing: border-box;
-        word-break: keep-all;
+        word-break: break-word;
 
         td[rowspan] {
             vertical-align: middle;
@@ -37,6 +37,10 @@
             tr {
                 overflow: hidden;
                 color: #848691;
+
+                th:first-of-type {
+                    border-left: 1px solid #edeef0;
+                }
             }
 
             th {
@@ -61,12 +65,6 @@
 
                 th:last-of-type {
                     border-top-right-radius: 9px;
-                }
-            }
-
-            tr {
-                th:first-of-type {
-                    border-left: 1px solid #edeef0;
                 }
             }
         }

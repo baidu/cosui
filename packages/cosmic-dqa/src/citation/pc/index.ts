@@ -63,11 +63,30 @@ export default class Citation extends Component<CitationProps> implements Citati
                 on-toggle="handleToggle"
             >
                 <span
+                    s-if="!aggregatedText"
                     class="cosd-citation cosd-citation-aggregated cos-link"
+                    on-click="handleClick($event, 'citationAggregatedTag')"
                 >
                     <span class="cosd-citation-aggregated-citationId">
                         <cos-icon name="source-trace" class="cosd-citation-aggregated-icon" />
                     </span>
+                </span>
+                <span
+                    s-else
+                    class="cosd-citation-tag-citationId"
+                    style="{{source.tag ? source.tag.colorVars || '' : ''}}"
+                    on-click="handleClick($event, 'citationAggregatedTag')"
+                >
+                    <span s-if="source && source.logo" class="cosd-citation-tag-logo-wrapper">
+                        <img src="{{source.logo}}" class="cosd-citation-tag-logo">
+                    </span>
+                    <!-- 兜底图标 -->
+                    <cos-icon
+                        s-if="source && !source.logo && source.icon"
+                        name="{{source.icon}}"
+                        class="cosd-citation-tag-icon"
+                    />
+                    <span class="cosd-citation-link-text">{{aggregatedText}}</span>
                 </span>
                 <div
                     slot="content"
@@ -190,7 +209,8 @@ export default class Citation extends Component<CitationProps> implements Citati
             abstract: '',
             disabled: false,
             tooltipPanelClickable: false,
-            aggregatedList: []
+            aggregatedList: [],
+            aggregatedText: ''
         };
     }
 

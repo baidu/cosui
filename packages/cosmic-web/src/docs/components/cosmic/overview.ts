@@ -6,8 +6,7 @@ const ComponentKey = [
     'components/cosmic',
     'components/cosmic-card',
     'components/cosmic-dqa',
-    'components/cosmic-shop',
-    'components/cosmic-chat'
+    'components/cosmic-shop'
 ];
 
 export default class Doc extends Component {

@@ -1,0 +1,49 @@
+// 图表工具栏 PC 独有样式
+@import 'variable.less';
+@import (reference) 'tokens.less';
+
+.@{prefix}-diagram {
+    &-control-btn-tooltip {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        .cos-hidden();
+        .cos-items-center();
+        .cos-rounded-md();
+        padding: var(--cos-space-sm) var(--cos-space-md);
+        font-size: var(--cos-text-body);
+        font-family: var(--cos-font-family);
+        .cos-font-regular();
+        white-space: nowrap;
+        .cos-color-text();
+        .cos-color-bg();
+        box-shadow: 0 6px 21px 0 rgba(0, 3, 17, 0.12);
+        transform: translate(-50%, 100%);
+        font-style: normal;
+        line-height: var(--cos-text-body);
+    }
+
+    &-control-btn {
+        &:not(.@{prefix}-diagram-control-btn-disabled):hover {
+            .cos-color-text-on-primary-light();
+            .cos-opacity-100();
+
+            .@{prefix}-diagram-control-btn-tooltip {
+                .cos-flex();
+                .cos-color-text();
+            }
+        }
+
+        &.@{prefix}-diagram-control-btn-disabled {
+            cursor: not-allowed;
+        }
+    }
+
+    &-viewport-control-group {
+        .@{prefix}-diagram-control-btn-tooltip {
+            top: 50%;
+            left: -10px;
+            transform: translate(-100%, -50%);
+        }
+    }
+}

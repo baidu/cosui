@@ -43,7 +43,7 @@
 |---|---|---|---|---|---|
 |lat|number|-|是|行政区域纬度|PC/Mobile|
 |lng|number|-|是|行政区域经度|PC/Mobile|
-|level|number|-|是|行政区域邮编|PC/Mobile|
+|level|number|-|是|行政区域级别（0：全国，1：省份，2：市，3：区/县，4：镇/乡/街道）|PC/Mobile|
 |name|string|-|是|行政区域名称|PC/Mobile|
 |code|number|-|是|行政区域邮编|PC/Mobile|
 |districts|District[]|-|否|行政区子区域|PC/Mobile|

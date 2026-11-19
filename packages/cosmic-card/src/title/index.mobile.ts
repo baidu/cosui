@@ -27,8 +27,8 @@ export default class Title extends Component<TitleData> {
 
     static template = `
         <h3 class="cosc-title{{
-            _linkHref ? ' cos-link' : ''}}
-        ">
+            _linkHref ? ' cos-link' : ''}}"
+        >
             <!-- 用 span 不用 div 的原因：业务方直接从根节点上添加 cos-line-clamp-x 能正常截断 -->
             <component
                 class="cosc-title-a{{

@@ -18,7 +18,7 @@
 |address|string|-|否|地址|PC/Mobile|
 |category|string|-|否|品类，如“美食”|PC/Mobile|
 |averageCost|string|-|否|人均消费|PC/Mobile|
-|openingHours|number|-|否|营业时间，如“08:00-12:00,13:00-17:00”|PC/Mobile|
+|openingHours|string|-|否|营业时间，如“08:00-12:00,13:00-17:00”|PC/Mobile|
 |tags|Array&lt;TagItem\|string&gt;|[]|否|标签列表，支持对象类型和string类型。string为简写形式，展示为灰色、边框型标签|PC/Mobile|
 
 #### RouteItem

@@ -18,6 +18,7 @@
 
 @import (reference) "tokens.less";
 @import '../base.less';
+@import '../diagram/index.pc.less';
 
 .@{prefix}-markdown {
     &-clone {
@@ -99,8 +100,108 @@
         }
     }
     .code-header {
+        position: relative;
         .cos-icon {
             cursor: pointer;
+        }
+        .cos-icon-copy:hover {
+            .cos-color-text-primary();
+        }
+        .cos-icon-check-circle-fill {
+            cursor: default;
+            .cos-opacity-20();
+        }
+    }
+
+    @{markdownsdk} pre.@{prefix}-markdown-code-scrollable {
+        .cos-flex();
+        .cos-flex-col();
+        max-height: 509px;
+
+        .code-header {
+            .cos-shrink-0();
+            &-left {
+                font-size: var(--cos-text-body-lg-higher);
+            }
+        }
+
+        .code-wrapper {
+            overflow-x: hidden;
+            overflow-y: auto;
+            min-height: 0;
+            .cos-space-pt-none();
+            .cos-space-pb-none();
+            scrollbar-width: thin;
+            scrollbar-color: var(--cos-color-border-tiny-active) transparent;
+            &::-webkit-scrollbar {
+                width: 3px;
+            }
+            &::-webkit-scrollbar-thumb {
+                // cosmic-token-disable-next-line
+                border-radius: 4px;
+                min-height: 180px;
+                background: var(--cos-color-border-tiny-active);
+            }
+        }
+
+        // 宽度跟随容器，超出容器宽度折行
+        .code-right {
+            overflow-x: visible;
+            .cos-space-pt-none();
+            .cos-space-pb-none();
+        }
+        code {
+            overflow: visible;
+            .cos-text-body-lg-higher();
+            .cos-space-pt-md();
+            .cos-space-pb-md();
+
+            &::before,
+            &::after {
+                content: '';
+                width: 0;
+                height: 0;
+                .cos-block();
+            }
+            &::before {
+                margin-top: calc((var(--cos-text-body-lg-higher) - var(--cos-leading-body-lg-higher)) / 2);
+            }
+            &::after {
+                margin-bottom: calc((var(--cos-text-body-lg-higher) - var(--cos-leading-body-lg-higher)) / 2);
+            }
+        }
+    }
+
+    // 复制成功冒泡
+    &-code-copy-tip {
+        position: absolute;
+        top: 46px;
+        right: 2px;
+        z-index: 902;
+        font-size: var(--cos-text-body-lg);
+        white-space: nowrap;
+        // cosmic-token-disable-next-line
+        box-shadow: 0 6px 21px 0 rgba(30, 31, 36, 0.2);
+        line-height: 40px;
+        pointer-events: none;
+        .cos-space-pl-sm();
+        .cos-space-pr-sm();
+        .cos-color-text();
+        .cos-rounded-md();
+        .cos-color-bg();
+
+        &::before {
+            position: absolute;
+            top: 0;
+            right: 15px;
+            z-index: -1;
+            // cosmic-token-disable-next-line
+            border-radius: 2px 0 0 0;
+            width: 8.49px;
+            height: 8.49px;
+            background: var(--cos-color-bg);
+            content: '';
+            transform: translateY(-50%) rotate(45deg);
         }
     }
 

@@ -2,7 +2,7 @@
  * @file rollup.config.mjs
  */
 
-import {commonPlugin} from './rollup.config.base.mjs';
+import {commonPlugin, external} from './rollup.config.base.mjs';
 
 export default [
     {
@@ -12,7 +12,7 @@ export default [
             format: 'es'
         },
         plugins: [
-            ...commonPlugin
+            ...commonPlugin(true)
         ],
         watch: {
             // 监听 src 文件夹下的所有文件
@@ -29,8 +29,6 @@ export default [
             // 每次重新编译时，不清除控制台输出
             clearScreen: false
         },
-        external: [
-            'san'
-        ]
+        external
     }
 ];

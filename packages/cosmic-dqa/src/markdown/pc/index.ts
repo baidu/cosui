@@ -37,6 +37,12 @@ import {copyTextToClipboard} from '../copy';
 import {handleNotTyping, findLastElement} from '../typing';
 import {ANIMATION_CONFIG, TypingSentenceManager} from '../typing-sentence';
 import marklang from 'marklang';
+import {
+    initDiagram, getDiagramDirectives, awaitDiagramRender, syncDiagramControls,
+    resetDiagram, destroyDiagramRender
+} from '../diagram/integration';
+import DiagramControls from '../diagram/components/diagram-controls/pc';
+import {isCopyDoneIcon, showCodeCopyFeedback, clearAllCodeCopyFeedback} from './copy-code';
 
 export default class Markdown extends Component<MarkdownData> {
 
@@ -89,6 +95,9 @@ export default class Markdown extends Component<MarkdownData> {
     // 打字机每包会重建 DOM，reconcile 后据此恢复，避免用户展开后打完字又缩回折叠态。
     _codeFoldState: Array<{expanded: boolean, maxHeight: string}> = [];
 
+    // 代码块（含引用块）复制成功走按钮内联反馈，mobile 继承本类并覆盖为 false 以保留全局 Toast。
+    inlineCopyFeedback = true;
+
     inited() {
         const content = this.data.get('content');
         this.data.set('_showContent', content);
@@ -140,7 +149,8 @@ export default class Markdown extends Component<MarkdownData> {
             _typingEndText: '',
             _isStop: false,
             _directives: {},
-            _prevMediaText: ''
+            _prevMediaText: '',
+            diagram: false
         };
     }
     detached() {
@@ -152,6 +162,11 @@ export default class Markdown extends Component<MarkdownData> {
         this._typingSentenceManager?.clearTimer();
         this._tempRootOfSentenceMode = null;
         this._typingSentenceManager = null;
+        // 复制反馈的定时器不随 San 卸载回收，需显式清掉
+        clearAllCodeCopyFeedback(this.el);
+        // 图表资源（ResizeObserver / pan-zoom / markmap 实例 / 命令式控件）挂在 DOM 与
+        // 模块级 WeakMap 上，不随 San 卸载自动回收，需显式释放。mobile 继承此方法。
+        this.data.get('diagram') && destroyDiagramRender(this.el);
     }
 
     destroyComponents() {
@@ -199,6 +214,12 @@ export default class Markdown extends Component<MarkdownData> {
             });
         }
 
+        // 命中图表开关时接入 diagram 能力：注册 mermaid/markmap/mindmap 插件
+        // + 缓存配置 + 绑定事件
+        if (this.data.get('diagram')) {
+            initDiagram(this, marklang, DiagramControls);
+        }
+
         this._tempRootOfSentenceMode = document.createElement('div');
         const sentenceMode = this.data.get('isTypingSentenceMode');
 
@@ -243,7 +264,8 @@ export default class Markdown extends Component<MarkdownData> {
                 'ml-site-vcard': mlSiteVcard.csr.bind(this),
                 'ml-search-more': mlSearchMore.csr.bind(this),
                 'ml-intent': mlIntent.csr.bind(this),
-                ...directives
+                ...directives,
+                ...(this.data.get('diagram') ? getDiagramDirectives() : {})
             },
             transformers: getTransformers.bind(this)()
         };
@@ -264,6 +286,9 @@ export default class Markdown extends Component<MarkdownData> {
                     ? await marklangIns.renderToElementAsync(this.getContent(content), el)
                     : marklangIns.renderToElement(this.getContent(content), el);
                 this.reconcileCollapsibleCode(el);
+                if (this.data.get('diagram')) {
+                    await awaitDiagramRender(this.el);
+                }
                 this.fire('render-complete');
             }
         }
@@ -273,6 +298,11 @@ export default class Markdown extends Component<MarkdownData> {
         }
         this.watch('content', (newVal: string) => {
             this.updateContent(newVal);
+        });
+        // 图表工具栏开关变化时响应式同步控件：业务按运行时条件（如端模板可用性）置
+        // diagram.fullscreen 等开关后即时增删按钮，避免按钮存在但点击无响应。
+        this.watch('diagram', () => {
+            this.data.get('diagram') && syncDiagramControls(this);
         });
     }
     getContent(content: string) {
@@ -840,6 +870,13 @@ export default class Markdown extends Component<MarkdownData> {
             return;
         }
 
+        // 已复制态的对号图标忽略：按 cos-icon- 前缀解析出的 action 会变成
+        // check-circle-fill，抛给业务会污染打点
+        if (isCopyDoneIcon(target)) {
+            event.stopPropagation();
+            return;
+        }
+
         let action = Array.from(target.classList)
             .find(item => item.startsWith('cos-icon-'))?.replace('cos-icon-', '') || '';
         if (action === 'full-screen') {
@@ -849,7 +886,9 @@ export default class Markdown extends Component<MarkdownData> {
 
         if (action === 'copy') {
             const codeDom = preDom?.querySelector('code');
-            codeDom && this.copyText(codeDom.innerText, event);
+            codeDom && this.copyText(codeDom.innerText, event, this.inlineCopyFeedback ? {
+                onSuccess: () => showCodeCopyFeedback(preDom, target)
+            } : undefined);
         }
         this.fire('click', {
             event,
@@ -897,17 +936,26 @@ export default class Markdown extends Component<MarkdownData> {
         }
     }
 
-    copyText(text: string, event?: Event) {
+    /**
+     * 复制文本并反馈。默认成功时弹全局 Toast，传入 onSuccess 则交由调用方反馈。
+     * 两种方式都保持原有的 click(copy) 事件。
+     */
+    copyText(text: string, event?: Event, options?: {onSuccess?: () => void}) {
+        // 用 then 的双参形式而非 .catch：避免 onSuccess 内部抛错被误判成复制失败
         copyTextToClipboard(text).then(() => {
             this.fire('click', {
                 action: 'copy',
                 event
             });
+            if (options?.onSuccess) {
+                options.onSuccess();
+                return;
+            }
             Toast.show({
                 message: '复制成功',
                 size: 'md'
             });
-        }).catch(() => {
+        }, () => {
             this.fire('click', {
                 action: 'copy',
                 event
@@ -1051,5 +1099,12 @@ export default class Markdown extends Component<MarkdownData> {
         context.appendChild(icon);
         switchDom.appendChild(context);
         return switchDom;
+    }
+
+    /* ---- 图表命令式方法：供业务（如全屏落地页）自绘控件驱动本实例内的图表 ---- */
+
+    /** 复位 / 自适应本组件内所有图表 */
+    resetDiagram(): void {
+        this.el && resetDiagram(this.el);
     }
 }

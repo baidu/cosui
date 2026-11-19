@@ -32,7 +32,7 @@ export interface OverlayItem {
 
     /**
      * 展现文字，type 为 text/tag 时支持
-     * @default '''
+     * @default ''
      */
     text?: string;
 
