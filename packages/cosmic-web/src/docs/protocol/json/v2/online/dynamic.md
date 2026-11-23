@@ -96,6 +96,7 @@ import TransportTicket from '@cosui/cosmic-dqa/transport-ticket';
 
 import {AppletContext} from '@cosui/cosmic-dynamic-ui';
 import {CATALOG} from '@cosui/cosmic-catalog';
+import {repairJson} from './json-fix.ts';
 
 const COMPONENTS = {
     Accordion,
@@ -253,8 +254,8 @@ const editorMessage = {
             {
                 id: 'root',
                 type: 'Flex',
-                props: {direction: 'row', align: 'center', gap: 8},
-                children: ['title', 'score']
+                props: {direction: 'column', align: 'center', gap: 8},
+                children: ['title', 'score', 'open-url']
             },
             {
                 id: 'title',
@@ -265,6 +266,23 @@ const editorMessage = {
                 id: 'score',
                 type: 'Score',
                 props: {value: 4.5, max: 5, score: true}
+            },
+            {
+                id: 'open-url',
+                type: 'Button',
+                props: {appearance: 'secondary', size: 'sm'},
+                children: ['button-text'],
+                events: {
+                    click: [{
+                        action: 'openUrl',
+                        args: {url: 'https://www.baidu.com'}
+                    }]
+                }
+            },
+            {
+                id: 'button-text',
+                type: 'Text',
+                props: {value: '点击 Open'}
             }
         ]
     }
@@ -292,6 +310,10 @@ export default class V2OnlineDemo extends san.Component {
                     <cos-switcher checked="{{autofix}}" size="sm" on-change="changeAutofix"/>
                     <span class="cos-space-ml-xs">autofix</span>
                 </span>
+                <span class="cos-flex cos-items-center">
+                    <cos-switcher checked="{{jsonFix}}" size="sm" on-change="changeJsonFix"/>
+                    <span class="cos-space-ml-xs">json fix</span>
+                </span>
                 <cos-button appearance="primary" on-click="resetAndCreate">
                     清空并创建示例
                 </cos-button>
@@ -310,6 +332,7 @@ export default class V2OnlineDemo extends san.Component {
         return {
             value: JSON.stringify(editorMessage, null, 4),
             autofix: true,
+            jsonFix: true,
             action: '',
             error: ''
         };
@@ -327,6 +350,11 @@ export default class V2OnlineDemo extends san.Component {
         }
     }
 
+    changeJsonFix({checked}) {
+        // json fix 只影响输入文本的解析，下一次创建/追加时生效。
+        this.data.set('jsonFix', checked);
+    }
+
     parseMessage() {
         const value = this.data.get('value');
         if (!value) {
@@ -334,11 +362,13 @@ export default class V2OnlineDemo extends san.Component {
             return null;
         }
 
+        const jsonFix = this.data.get('jsonFix');
         try {
-            return JSON.parse(value);
+            return JSON.parse(jsonFix ? repairJson(value) : value);
         }
         catch (error) {
-            this.data.set('error', 'JSON 格式错误：' + error.message);
+            this.data.set('error', (jsonFix ? 'JSON 格式错误（json fix 后仍无法解析）：' : 'JSON 格式错误：')
+                + error.message);
             return null;
         }
     }
@@ -395,7 +425,8 @@ export default class V2OnlineDemo extends san.Component {
                 components: COMPONENTS,
                 autofix: this.data.get('autofix'),
                 actions: {
-                    sendPrompt: ({args}) => this.data.set('action', args.prompt)
+                    sendPrompt: ({args}) => this.data.set('action', args.prompt),
+                    openUrl: ({args}) => console.log('openUrl:', args.url)
                 },
                 onAppletCreated: applet => applet.setRoot(this.ref('root')),
                 onError: error => this.data.set('error', error.message)

@@ -177,6 +177,17 @@ export function autofixMessage(message: unknown, catalog: RuntimeCatalog, store:
         }
         delete message.components;
     }
+    if (applet && !hasOwn(applet, 'delete') && !hasOwn(applet, 'components') && isObject(applet.data)) {
+        const misplaced = applet.data.components;
+        // Only fill an absent protocol field; an existing value (including null or []) wins.
+        if (Array.isArray(misplaced) && misplaced.length > 0 && misplaced.every(node =>
+            isObject(node) && typeof node.id === 'string' && node.id.trim().length > 0
+                && typeof node.type === 'string' && node.type.trim().length > 0)) {
+            applet.components = misplaced;
+            delete applet.data.components;
+            fixes.push('applet: moved components from data');
+        }
+    }
     const incoming: Array<Record<string, unknown>> = [];
     const repairBindings = (value: unknown, label: string): unknown => {
         if (typeof value === 'string') {
@@ -292,7 +303,22 @@ export function autofixMessage(message: unknown, catalog: RuntimeCatalog, store:
             }
         }
         if (Array.isArray(node.children)) {
-            node.children.forEach(visit);
+            const seen = new Set<string>();
+            const children = node.children.filter(child => {
+                if (typeof child !== 'string') {
+                    return true;
+                }
+                if (seen.has(child)) {
+                    return false;
+                }
+                seen.add(child);
+                return true;
+            });
+            if (children.length !== node.children.length) {
+                node.children = children;
+                note('removed duplicate child references');
+            }
+            children.forEach(visit);
         }
     };
     const nodes = applet ? applet.components : message.updates;

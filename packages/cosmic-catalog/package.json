@@ -1,6 +1,6 @@
 {
   "name": "@cosui/cosmic-catalog",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "COSUI component Catalog definitions and JSON Schema artifact",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",

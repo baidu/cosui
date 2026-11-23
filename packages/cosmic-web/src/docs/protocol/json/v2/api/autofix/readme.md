@@ -24,4 +24,8 @@ const result = appletContext.processMessage(message);
 
 validateMessage 只校验，不修改 Applet；processMessage 在修复和校验通过后处理 Message。两者都会在 fixes 中返回本次修复记录。存在 Applet 前，也可以通过 config 修改 autofix 配置。
 
+## 其他
+
+若要修复 JSON String 错误，可自行使用修复工具，或参考 [在线体验](protocol/json/v2/online) 自行实现建议修复工具，提升合规率
+
 ## 示例效果
