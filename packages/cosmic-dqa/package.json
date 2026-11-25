@@ -12,6 +12,15 @@
         "./pc/tokens.css": "./dist/pc/tokens.css",
         "./pc/*": "./dist/pc/*/index.js",
         "./*": "./dist/mobile/*/index.js",
+        "./types/*/interface": {
+            "types": "./types/*/interface.ts"
+        },
+        "./types/*/index": {
+            "types": "./types/*/index.d.ts"
+        },
+        "./types/*": {
+            "types": "./types/*/index.d.ts"
+        },
         "./mobile/tokens": "./src/token/mobile/tokens.less",
         "./pc/tokens": "./src/token/pc/tokens.less"
     },
